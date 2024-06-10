@@ -8,6 +8,7 @@ export async function getEnrollments() {
         createReadStream('server/mocks/enrollments/enrollments.csv')
             .pipe(parse({ columns: true }))
             .on('data', (data) => {
+                data.date = data.date.replace(/\//g, '-');
                 data.enrollments = Number(data.enrollments);
                 results.push(data);
             })
