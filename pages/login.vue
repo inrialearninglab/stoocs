@@ -25,7 +25,7 @@ import { Button } from '~/components/ui/button';
         </CardContent>
 
         <CardFooter>
-            <Button type="submit" class="w-full">Login</Button>
+            <Button type="submit" class="w-full">Connexion</Button>
         </CardFooter>
     </Card>
 </template>
