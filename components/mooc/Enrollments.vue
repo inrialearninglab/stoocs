@@ -22,7 +22,7 @@ interface EnrollmentData {
 
 const filteredData = computed(() => {
     const data: EnrollmentData[] = [];
-    if (!moocStore.mooc) return [];
+    if (!moocStore.mooc || !moocStore.mooc.enrollments) return [];
 
     moocStore.mooc.enrollments.forEach((enrollment) => {
         const enrollmentDate = parseDate(enrollment.date).toDate(getLocalTimeZone());
@@ -48,8 +48,11 @@ const filteredData = computed(() => {
 </script>
 
 <template>
-    <div class="flex flex-col gap-2">
-        <div class="flex gap-2 items-center">
+    <div class="flex flex-col">
+        <h2>Inscription</h2>
+        <small class="text-sm text-muted-foreground">Ce graphique montre le nombre de nouvelle inscription par jour</small>
+
+        <div class="flex gap-2 items-center mt-2">
             <Label>A partir du</Label>
             <DatePicker size="sm" v-model="startDate" />
         </div>
