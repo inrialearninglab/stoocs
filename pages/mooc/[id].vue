@@ -9,12 +9,12 @@ const title = 'Reproducible Research II: Practices and tools for managing comput
 </script>
 
 <template>
-    <div class="flex flex-col gap-5">
+    <div class="flex flex-col gap-12">
         <h1 class="text-center">{{ title }}</h1>
 
-        <p class="text-2xl font-semibold text-center border border-muted w-fit p-4 mx-auto rounded-lg">
+        <h2 class="text-center border border-muted w-fit p-4 mx-auto rounded-lg">
             {{ moocStore.totalEnrollments }} Inscrits
-        </p>
+        </h2>
 
         <div class="flex flex-wrap gap-3 mx-auto">
             <ProgressCard

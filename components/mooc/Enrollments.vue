@@ -9,6 +9,8 @@ import {
     parseDate,
     today
 } from '@internationalized/date';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs'
+import { formatDate, getParsedDate } from '~/utils/date.utils';
 
 const moocStore = useMooc();
 moocStore.fetchMooc();
@@ -20,48 +22,111 @@ interface EnrollmentData {
     'Inscriptions': number;
 }
 
-const filteredData = computed(() => {
+// const filteredData = computed(() => {
+//     const data: EnrollmentData[] = [];
+//     if (!moocStore.mooc || !moocStore.mooc.enrollments) return [];
+//
+//     moocStore.mooc.enrollments.forEach((enrollment) => {
+//         const enrollmentDate = getParsedDate(enrollment.date);
+//         const startDateDate = startDate.value.toDate(getLocalTimeZone());
+//
+//         if (enrollmentDate >= startDateDate) {
+//             data.push({
+//                 'Date': formatDate(enrollmentDate),
+//                 'Inscriptions': enrollment.enrollments
+//             });
+//         }
+//     });
+//
+//     return data;
+// });
+
+function getFilteredData(mode: 'day' | 'total') {
     const data: EnrollmentData[] = [];
     if (!moocStore.mooc || !moocStore.mooc.enrollments) return [];
+    let enrollments = 0;
 
     moocStore.mooc.enrollments.forEach((enrollment) => {
-        const enrollmentDate = parseDate(enrollment.date).toDate(getLocalTimeZone());
+        const enrollmentDate = getParsedDate(enrollment.date);
         const startDateDate = startDate.value.toDate(getLocalTimeZone());
 
-        const df = new DateFormatter('fr-FR', {
-            dateStyle: 'long',
-        });
-        const formattedDate = df.format(enrollmentDate);
 
-        if (enrollmentDate >= startDateDate) {
+        if (mode === 'day') {
+            if (enrollmentDate < startDateDate) return;
+
             data.push({
-                'Date': formattedDate,
+                'Date': formatDate(enrollmentDate),
                 'Inscriptions': enrollment.enrollments
+            });
+        } else if (mode === 'total') {
+            if (enrollmentDate < startDateDate) {
+                return enrollments += enrollment.enrollments;
+            }
+
+            enrollments += enrollment.enrollments;
+            data.push({
+                'Date': formatDate(enrollmentDate),
+                'Inscriptions': enrollments
             });
         }
     });
 
     return data;
-});
+}
 
 
 </script>
 
 <template>
-    <div class="flex flex-col">
-        <h2>Inscription</h2>
-        <small class="text-sm text-muted-foreground">Ce graphique montre le nombre de nouvelle inscription par jour</small>
+    <Tabs default-value="day">
+       <TabsList class="grid w-full grid-cols-2">
+           <TabsTrigger value="day">Par jour</TabsTrigger>
+           <TabsTrigger value="total">Total</TabsTrigger>
+       </TabsList>
 
-        <div class="flex gap-2 items-center mt-2">
-            <Label>A partir du</Label>
-            <DatePicker size="sm" v-model="startDate" />
-        </div>
+        <TabsContent value="day">
+            <Card>
+                <CardHeader class="pb-3">
+                    <CardTitle>Inscriptions</CardTitle>
+                    <CardDescription>Ce graphique montre le nombre de nouvelle inscription par jour</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div class="flex gap-2 items-center mt-2">
+                        <Label>A partir du</Label>
+                        <DatePicker size="sm" v-model="startDate" />
+                    </div>
 
-        <LineChart
-            v-if="moocStore.mooc"
-            :data="filteredData"
-            index="Date"
-            :categories="['Inscriptions']"
-        />
-    </div>
+                    <LineChart
+                        v-if="moocStore.mooc"
+                        :data="getFilteredData('day')"
+                        index="Date"
+                        :categories="['Inscriptions']"
+                    />
+                </CardContent>
+            </Card>
+        </TabsContent>
+
+        <TabsContent value="total">
+            <Card>
+                <CardHeader  class="pb-3">
+                    <CardTitle>Inscriptions</CardTitle>
+                    <CardDescription>Ce graphique montre le nombre total d'inscription</CardDescription>
+                </CardHeader>
+
+                <CardContent>
+                    <div class="flex gap-2 items-center mt-2">
+                        <Label>A partir du</Label>
+                        <DatePicker size="sm" v-model="startDate" />
+                    </div>
+
+                    <AreaChart
+                        v-if="moocStore.mooc"
+                        :data="getFilteredData('total')"
+                        index="Date"
+                        :categories="['Inscriptions']"
+                    />
+                </CardContent>
+            </Card>
+        </TabsContent>
+    </Tabs>
 </template>

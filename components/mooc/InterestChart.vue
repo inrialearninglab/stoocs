@@ -65,15 +65,19 @@ function calculateParticipationPercentage(gradeReport: GradeReport) {
 </script>
 
 <template>
-    <div class="flex flex-col">
-        <h2>Participation</h2>
-        <small class="text-sm text-muted-foreground">Ce graphique montre le pourcentage d'utilisateurs (actifs sur les questions) ayant répondu à chaque question</small>
-        <BarChart
-            :rounded-corners="4"
-            :data="data"
-            index="name"
-            :categories="['participation']"
-            :y-formatter="(value) => `${value}%`"
-        />
-    </div>
+    <Card>
+        <CardHeader>
+            <CardTitle>Participation</CardTitle>
+            <CardDescription>Ce graphique montre le pourcentage d'utilisateurs (actifs sur les questions) ayant répondu à chaque question</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <BarChart
+                :rounded-corners="4"
+                :data="data"
+                index="name"
+                :categories="['participation']"
+                :y-formatter="(value) => `${value}%`"
+            />
+        </CardContent>
+    </Card>
 </template>
