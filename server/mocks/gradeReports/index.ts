@@ -27,7 +27,8 @@ export async function getReport(): Promise<GradeReport> {
                 
                 questions.forEach((question) => {
                     reportLine.questions.push({
-                        [question]: Number(data[question])
+                        label: question,
+                        score: Number(data[question])
                     });
                 });
                 

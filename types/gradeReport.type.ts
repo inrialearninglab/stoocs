@@ -9,7 +9,8 @@ export interface ReportLine {
     certificateEligible: string;
     certificateDelivered: string;
     questions: {
-        [label: string]: number;
+        label: string;
+        score: number;
     }[];
     problemGradeReport: ProblemGradeReportLine[];
 }
@@ -17,5 +18,5 @@ export interface ReportLine {
 export interface ProblemGradeReportLine {
     label: string;
     score?: number;
-    possible?: number
+    possible?: number;
 }

@@ -4,5 +4,6 @@
             <ProgressCard title="Actifs" description="Utilisateur ayant répondu à au moins une question" :percentage="20" />
         </div>
         <MoocEnrollments />
+        <MoocInterestChart />
     </div>
 </template>
