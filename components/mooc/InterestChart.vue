@@ -6,8 +6,6 @@ import type { GradeReport } from '~/types';
 
 const moocStore = useMooc();
 
-if (!moocStore.mooc) moocStore.fetchMooc();
-
 const data = computed(() => {
     if (!moocStore.mooc || !moocStore.mooc.gradeReport) return [];
 
@@ -39,8 +37,12 @@ function calculateParticipationPercentage(gradeReport: GradeReport) {
         let isActive = false;
         reportLine.questions.forEach(question => {
             if (!questionStats[question.label]) {
-                questionStats[question.label] = { total: 1, scoreCount: question.score > 0 ? 1 : 0 };
-                questionStats[question.label] = { total: 1, scoreCount: question.score > 0 ? 1 : 0 };
+                if (question.score > 0) {
+                    questionStats[question.label] = { total: 1, scoreCount: 1 };
+                    isActive = true;
+                } else {
+                    questionStats[question.label] = { total: 1, scoreCount: 0 };
+                }
             } else {
                 questionStats[question.label].total += 1;
                 if (question.score > 0) {
@@ -66,9 +68,9 @@ function calculateParticipationPercentage(gradeReport: GradeReport) {
 
 <template>
     <Card>
-        <CardHeader>
+        <CardHeader class="pb-3">
             <CardTitle>Participation</CardTitle>
-            <CardDescription>Ce graphique montre le pourcentage d'utilisateurs (actifs sur les questions) ayant répondu à chaque question</CardDescription>
+            <CardDescription>Pourcentage d'utilisateurs actifs ayant répondu à chaque question. Dans ce cas un utilisateur est considéré comme actif si il a obtenu un score supérieur à 0 dans au moins un exercice</CardDescription>
         </CardHeader>
         <CardContent>
             <BarChart

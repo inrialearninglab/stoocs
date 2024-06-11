@@ -35,5 +35,7 @@ const title = 'Reproducible Research II: Practices and tools for managing comput
         <MoocEnrollments />
 
         <MoocInterestChart />
+
+        <MoocScoreChart />
     </div>
 </template>

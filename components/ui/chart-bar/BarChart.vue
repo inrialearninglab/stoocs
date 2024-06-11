@@ -23,6 +23,7 @@ const props = withDefaults(defineProps<BaseChartProps<T> & {
    * @default 0
    */
   roundedCorners?: number
+  color?: any
 }>(), {
   type: 'grouped',
   margin: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
@@ -73,7 +74,7 @@ const selectorsBar = computed(() => props.type === 'grouped' ? GroupedBar.select
       <VisBarComponent
         :x="(d: Data, i: number) => i"
         :y="categories.map(category => (d: Data) => d[category]) "
-        :color="colors"
+        :color="color ?? colors"
         :rounded-corners="roundedCorners"
         :bar-padding="0.05"
         :attributes="{

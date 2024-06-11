@@ -88,7 +88,7 @@ function getFilteredData(mode: 'day' | 'total') {
             <Card>
                 <CardHeader class="pb-3">
                     <CardTitle>Inscriptions</CardTitle>
-                    <CardDescription>Ce graphique montre le nombre de nouvelle inscription par jour</CardDescription>
+                    <CardDescription>Nombre de nouvelle inscription par jour</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div class="flex gap-2 items-center mt-2">
@@ -110,7 +110,7 @@ function getFilteredData(mode: 'day' | 'total') {
             <Card>
                 <CardHeader  class="pb-3">
                     <CardTitle>Inscriptions</CardTitle>
-                    <CardDescription>Ce graphique montre le nombre total d'inscription</CardDescription>
+                    <CardDescription>Nombre total d'inscription</CardDescription>
                 </CardHeader>
 
                 <CardContent>
