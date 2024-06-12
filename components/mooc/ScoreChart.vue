@@ -2,6 +2,7 @@
 import { BarChart } from '~/components/ui/chart-bar';
 import { useMooc } from '~/stores/mooc.store';
 import type { GradeReport } from '~/types';
+import Papa from 'papaparse';
 
 const moocStore = useMooc();
 
@@ -22,6 +23,12 @@ const data = computed(() => {
     }
 
     return data;
+})
+
+const problems = computed(() => {
+    if (!moocStore.mooc || !moocStore.mooc.gradeReport) return [];
+
+    return data.value.filter((d) => d.average < 75).sort((a, b) => a.average - b.average);
 })
 
 function calculateProblemAverage(gradeReport: GradeReport) {
@@ -62,6 +69,20 @@ const color = (d: any) => {
     else return '#10B981';
 }
 
+async function exportTableToCSV() {
+    const data = problems.value;
+    const csv = Papa.unparse(data);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'problem-report.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 </script>
 
 <template>
@@ -70,7 +91,7 @@ const color = (d: any) => {
             <CardTitle>Score</CardTitle>
             <CardDescription>Pourcentage de réussite moyen par question.Dans ce cas la moyenne ne prends en compte que les gens ayant répondu aux questions</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent class="flex flex-col gap-5">
             <BarChart
                :rounded-corners="4"
                :data="data"
@@ -79,6 +100,28 @@ const color = (d: any) => {
                :color="color"
                :y-formatter="(tick, i) => tick + '%'"
             />
+
+            <Separator />
+
+
+            <div id="problem-table" class="flex flex-col gap-2">
+                <h3>Rapport de problème</h3>
+                <div class="rounded border">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Exercice</TableHead>
+                                <TableHead>Moyenne</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableRow v-for="problem in problems">
+                            <TableCell>{{ problem.name }}</TableCell>
+                            <TableCell>{{ problem.average }}%</TableCell>
+                        </TableRow>
+                    </Table>
+                </div>
+            </div>
+            <Button @click="exportTableToCSV" variant="outline">Export CSV</Button>
         </CardContent>
     </Card>
 </template>
