@@ -22,25 +22,6 @@ interface EnrollmentData {
     'Inscriptions': number;
 }
 
-// const filteredData = computed(() => {
-//     const data: EnrollmentData[] = [];
-//     if (!moocStore.mooc || !moocStore.mooc.enrollments) return [];
-//
-//     moocStore.mooc.enrollments.forEach((enrollment) => {
-//         const enrollmentDate = getParsedDate(enrollment.date);
-//         const startDateDate = startDate.value.toDate(getLocalTimeZone());
-//
-//         if (enrollmentDate >= startDateDate) {
-//             data.push({
-//                 'Date': formatDate(enrollmentDate),
-//                 'Inscriptions': enrollment.enrollments
-//             });
-//         }
-//     });
-//
-//     return data;
-// });
-
 function getFilteredData(mode: 'day' | 'total') {
     const data: EnrollmentData[] = [];
     if (!moocStore.mooc || !moocStore.mooc.enrollments) return [];
@@ -97,7 +78,6 @@ function getFilteredData(mode: 'day' | 'total') {
                     </div>
 
                     <LineChart
-                        v-if="moocStore.mooc"
                         :data="getFilteredData('day')"
                         index="Date"
                         :categories="['Inscriptions']"
@@ -120,7 +100,6 @@ function getFilteredData(mode: 'day' | 'total') {
                     </div>
 
                     <AreaChart
-                        v-if="moocStore.mooc"
                         :data="getFilteredData('total')"
                         index="Date"
                         :categories="['Inscriptions']"

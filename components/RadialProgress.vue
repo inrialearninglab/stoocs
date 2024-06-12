@@ -22,7 +22,7 @@ watch(() => props.percentage, (newPercentage) => {
 </script>
 
 <template>
-    <svg class="progress max-w-32" viewBox="0 0 100 100">
+    <svg class="progress" viewBox="0 0 100 100">
         <circle class="progress-background stroke-secondary" cx="50" cy="50" r="45"></circle>
         <circle
             class="progress-bar"

@@ -18,17 +18,15 @@ const title = 'Reproducible Research II: Practices and tools for managing comput
 
         <div class="flex flex-wrap gap-3 mx-auto">
             <ProgressCard
-                v-if="moocStore.totalEnrollments && moocStore.totalActive"
                 title="Actifs"
                 description="Utilisateur ayant charger au moins une page de quiz"
-                :percentage="Math.round(moocStore.totalActive / moocStore.totalEnrollments * 100)"
+                :percentage="moocStore.totalEnrollments && moocStore.totalActive ? Math.round(moocStore.totalActive / moocStore.totalEnrollments * 100) : undefined"
             />
 
             <ProgressCard
-                v-if="moocStore.totalActive && moocStore.totalEligible"
                 title="Eligibles"
                 description="Utilisateurs actifs éligibles pour le certificat"
-                :percentage="Math.round(moocStore.totalEligible / moocStore.totalActive * 100)"
+                :percentage="moocStore.totalEligible && moocStore.totalActive ? Math.round(moocStore.totalEligible / moocStore.totalActive * 100) : undefined"
             />
         </div>
 
