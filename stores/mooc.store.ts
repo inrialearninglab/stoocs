@@ -27,6 +27,7 @@ export const useMooc = defineStore('mooc', {
                 if (line.problemGradeReport.some(item => item.possible)) activeUsers++;
             }
             
+            console.log('activeUsers', activeUsers);
             return activeUsers;
         },
         

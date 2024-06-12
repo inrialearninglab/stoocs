@@ -27,35 +27,30 @@ const data = computed(() => {
 function calculateProblemAverage(gradeReport: GradeReport) {
     const problemStats:{ [key: string]: { total: number, totalScore: number, possible: number }} = {};
 
-    let activeUsers = 0;
     gradeReport.report.forEach((reportLine) =>  {
-        let isActive = false;
-
         reportLine.problemGradeReport.forEach((problem) => {
             if (!problemStats[problem.label]) {
                 if (problem.possible && problem.possible > 0) {
                     if (!problem.score) problem.score = 0;
                     problemStats[problem.label] = { total: 1, totalScore: problem.score, possible: problem.possible }
-                    isActive = true;
-                } else {
-                    // problemStats[problem.label] = 0;
                 }
             } else if(problem.possible && problem.possible > 0) {
                 if(!problem.score) problem.score = 0;
 
                 problemStats[problem.label].total ++;
                 problemStats[problem.label].totalScore += problem.score;
-                isActive = true;
             }
         })
-
-        if (isActive) activeUsers ++;
     });
 
     const problemAverages: { [key: string]: number } = {};
-    Object.keys(problemStats).forEach((problemLabel) => {
-        const stats = problemStats[problemLabel];
-        problemAverages[problemLabel] = stats.totalScore / stats.total / stats.possible * 100;
+    Object.keys(problemStats).forEach((label) => {
+        const stats = problemStats[label];
+        // Calculate the average percentage of the maximum possible score
+        console.log(`${label}: ${stats.total}`)
+        console.log('stats', stats)
+        console.log('-------------------');
+        problemAverages[label] = (stats.totalScore / (stats.total * stats.possible)) * 100;
     });
 
     return problemAverages;

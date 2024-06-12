@@ -48,6 +48,7 @@ export async function getReport(): Promise<GradeReport> {
             .on('error', (error) => reject(error))
     })
     
+    const printedCols = [];
     // Read the problem grade report
     await new Promise((resolve, reject) => {
         createReadStream('server/mocks/gradeReports/ProblemGradeReport.csv')
@@ -59,12 +60,13 @@ export async function getReport(): Promise<GradeReport> {
                 delete data['Username']
                 delete data['Final Grade']
                 
-                const lines = Object.keys(data);
+                const cols = Object.keys(data);
                 
-                for (let i = 0; i < lines.length; i += 2) {
-                    const score = data[lines[i]];
-                    const possible = data[lines[i + 1]];
-                    const label = lines[i];
+                for (let i = 0; i < cols.length; i += 2) {
+                    const score = data[cols[i]];
+                    const possible = data[cols[i + 1]];
+                    const label = cols[i];
+                    
                     
                     // in the label i have to remove the parenthesis at the end
                     const labelArray = label.split(' ');
@@ -94,12 +96,7 @@ export async function getReport(): Promise<GradeReport> {
 }
 
 function getResultValue(value: string): number | undefined {
-    switch(value) {
-        case 'N/A':
-            return undefined
-        case '1':
-            return 0
-        default:
-            return Number(value)
-    }
+    if (value === 'N/A') return undefined;
+    if (value.endsWith('.0')) return Number(value)
+    return 0
 }
