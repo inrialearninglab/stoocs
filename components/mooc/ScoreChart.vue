@@ -3,6 +3,7 @@ import { BarChart } from '~/components/ui/chart-bar';
 import { useMooc } from '~/stores/mooc.store';
 import type { GradeReport } from '~/types';
 import Papa from 'papaparse';
+import { Eye, EyeOff } from 'lucide-vue-next';
 
 const moocStore = useMooc();
 
@@ -28,7 +29,8 @@ const data = computed(() => {
 const problems = computed(() => {
     if (!moocStore.mooc || !moocStore.mooc.gradeReport) return [];
 
-    return data.value.filter((d) => d.average < 75).sort((a, b) => a.average - b.average);
+    const res = data.value.filter((d) => d.average < 75).sort((a, b) => a.average - b.average);
+    return res.map((d) => ({ name: d.name, average: d.average }));
 })
 
 function calculateProblemAverage(gradeReport: GradeReport) {
@@ -66,7 +68,6 @@ const color = (d: any) => {
 }
 
 async function exportTableToCSV() {
-    const data = problems.value;
     const csv = Papa.unparse(data);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
@@ -78,6 +79,8 @@ async function exportTableToCSV() {
     link.click();
     document.body.removeChild(link);
 }
+
+const isTableVisible = ref(false);
 
 </script>
 
@@ -100,24 +103,27 @@ async function exportTableToCSV() {
             <Separator />
 
 
-            <div id="problem-table" class="flex flex-col gap-2">
-                <h3>Rapport de problème</h3>
-                <div class="rounded border">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Exercice</TableHead>
-                                <TableHead>Moyenne</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableRow v-for="problem in problems">
-                            <TableCell>{{ problem.name }}</TableCell>
-                            <TableCell>{{ problem.average }}%</TableCell>
-                        </TableRow>
-                    </Table>
+            <div id="problem-table" class="flex flex-col gap-2 rounded border">
+                <div class="p-3 border-b flex justify-between">
+                    <h3>Rapport de problème</h3>
+                    <Button @click="isTableVisible = !isTableVisible" variant="outline" size="icon">
+                        <component :is="isTableVisible ? EyeOff : Eye" />
+                    </Button>
                 </div>
+                <Table v-if="isTableVisible">
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Exercice</TableHead>
+                            <TableHead>Moyenne</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableRow v-for="problem in problems">
+                        <TableCell>{{ problem.name }}</TableCell>
+                        <TableCell>{{ problem.average }}%</TableCell>
+                    </TableRow>
+                </Table>
+                <Button @click="exportTableToCSV" variant="outline" class="m-3">Export CSV</Button>
             </div>
-            <Button @click="exportTableToCSV" variant="outline">Export CSV</Button>
         </CardContent>
     </Card>
 </template>
