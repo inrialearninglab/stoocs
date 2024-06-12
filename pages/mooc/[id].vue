@@ -18,8 +18,14 @@ const title = 'Reproducible Research II: Practices and tools for managing comput
 
         <div class="flex flex-wrap gap-3 mx-auto">
             <ProgressCard
+                title="Curieux"
+                description="Utilisateurs ayant chargé au moins une page de quiz"
+                :percentage="moocStore.totalEnrollments && moocStore.totalCurious ? Math.round(moocStore.totalCurious / moocStore.totalEnrollments * 100) : undefined"
+            />
+
+            <ProgressCard
                 title="Actifs"
-                description="Utilisateur ayant charger au moins une page de quiz"
+                description="Utilisateur ayant soumis au moins une réponse à un quiz"
                 :percentage="moocStore.totalEnrollments && moocStore.totalActive ? Math.round(moocStore.totalActive / moocStore.totalEnrollments * 100) : undefined"
             />
 

@@ -27,8 +27,18 @@ export const useMooc = defineStore('mooc', {
                 if (line.problemGradeReport.some(item => item.possible)) activeUsers++;
             }
             
-            console.log('activeUsers', activeUsers);
             return activeUsers;
+        },
+        
+        totalCurious(): number | undefined {
+            if (!this.mooc || !this.mooc.gradeReport) return undefined;
+            
+            let curiousUsers = 0;
+            for (const line of this.mooc.gradeReport.report) {
+                if (line.problemGradeReport.some(item => item.possible !== undefined)) curiousUsers++;
+            }
+            
+            return curiousUsers;
         },
         
         totalEligible(): number | undefined {

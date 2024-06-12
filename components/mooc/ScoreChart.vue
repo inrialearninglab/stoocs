@@ -53,10 +53,6 @@ function calculateProblemAverage(gradeReport: GradeReport) {
     const problemAverages: { [key: string]: number } = {};
     Object.keys(problemStats).forEach((label) => {
         const stats = problemStats[label];
-        // Calculate the average percentage of the maximum possible score
-        console.log(`${label}: ${stats.total}`)
-        console.log('stats', stats)
-        console.log('-------------------');
         problemAverages[label] = (stats.totalScore / (stats.total * stats.possible)) * 100;
     });
 
