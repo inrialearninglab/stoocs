@@ -23,7 +23,7 @@ const data = computed(() => {
         })
     }
 
-    return data;
+    return data.sort((a, b) => a.name > b.name ? 1 : -1);
 })
 
 const problems = computed(() => {
