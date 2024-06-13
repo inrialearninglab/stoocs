@@ -16,9 +16,9 @@ datasource db {
 model Mooc {
     id          String        @id @default(cuid())
     title       String
-    description String
-    theme       String
-    target      String
+    description String?
+    theme       String?
+    target      String?
     sessions    MoocSession[]
 }
 
@@ -38,8 +38,8 @@ model TeamMember {
 
 model MoocSession {
     id                 String        @id @default(cuid())
-    enrollmentsDetails Json
-    totalEnrollments   Int
+    enrollmentsDetails Json?
+    totalEnrollments   Int           @default(0)
     gradeReports       GradeReport[]
     authors            Author[]
     teamMembers        TeamMember[]
