@@ -8,6 +8,10 @@ generator client {
     provider = "prisma-client-js"
 }
 
+generator zod {
+    provider = "prisma-zod-generator"
+}
+
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
@@ -38,6 +42,7 @@ model TeamMember {
 
 model MoocSession {
     id                 String        @id @default(cuid())
+    sessionName        String
     enrollmentsDetails Json?
     totalEnrollments   Int           @default(0)
     gradeReports       GradeReport[]
@@ -45,8 +50,8 @@ model MoocSession {
     teamMembers        TeamMember[]
     platform           Platform      @relation(fields: [platformID], references: [id])
     platformID         String
-    type               SessionType   @relation(fields: [typeID], references: [id])
-    typeID             String
+    type               SessionType?  @relation(fields: [typeID], references: [id])
+    typeID             String?
     mooc               Mooc          @relation(fields: [moocID], references: [id])
     moocID             String
 }

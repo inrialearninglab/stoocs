@@ -27,13 +27,15 @@
     "papaparse": "^5.4.1",
     "pinia": "^2.1.7",
     "prisma": "^5.15.0",
+    "prisma-zod-generator": "^0.8.13",
     "radix-vue": "^1.8.3",
     "shadcn-nuxt": "latest",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",
     "vue": "^3.4.27",
-    "vue-router": "^4.3.2"
+    "vue-router": "^4.3.2",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@nuxtjs/color-mode": "^3.4.1",
