@@ -9,7 +9,7 @@ const Schema: z.ZodType<Prisma.GradeReportProblemLineCreateInput> = z
     label: z.string(),
     score: z.number().optional().nullable(),
     possible: z.number().optional().nullable(),
-    GradeReportLine: z.lazy(
+    gradeReportLine: z.lazy(
       () =>
         GradeReportLineCreateNestedOneWithoutGradeReportProblemLinesInputObjectSchema,
     ),

@@ -14,7 +14,7 @@ const Schema: z.ZodType<Prisma.GradeReportCreateInput> = z
           GradeReportLineCreateNestedManyWithoutGradeReportInputObjectSchema,
       )
       .optional(),
-    MoocSession: z.lazy(
+    moocSession: z.lazy(
       () => MoocSessionCreateNestedOneWithoutGradeReportsInputObjectSchema,
     ),
   })

@@ -8,7 +8,7 @@ const Schema: z.ZodType<Prisma.GradeReportQuestionLineCreateInput> = z
     userID: z.number(),
     label: z.string(),
     score: z.number(),
-    GradeReportLine: z.lazy(
+    gradeReportLine: z.lazy(
       () =>
         GradeReportLineCreateNestedOneWithoutGradeReportQuestionLinesInputObjectSchema,
     ),

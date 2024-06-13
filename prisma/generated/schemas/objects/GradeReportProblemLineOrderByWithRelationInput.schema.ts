@@ -23,7 +23,7 @@ const Schema: z.ZodType<Prisma.GradeReportProblemLineOrderByWithRelationInput> =
         ])
         .optional(),
       lineID: z.lazy(() => SortOrderSchema).optional(),
-      GradeReportLine: z
+      gradeReportLine: z
         .lazy(() => GradeReportLineOrderByWithRelationInputObjectSchema)
         .optional(),
     })

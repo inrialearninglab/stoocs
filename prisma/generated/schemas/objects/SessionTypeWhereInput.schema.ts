@@ -28,7 +28,7 @@ const Schema: z.ZodType<Prisma.SessionTypeWhereInput> = z
     type: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    MoocSession: z
+    moocSession: z
       .lazy(() => MoocSessionListRelationFilterObjectSchema)
       .optional(),
   })

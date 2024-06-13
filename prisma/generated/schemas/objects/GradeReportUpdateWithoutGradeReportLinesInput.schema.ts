@@ -20,7 +20,7 @@ const Schema: z.ZodType<Prisma.GradeReportUpdateWithoutGradeReportLinesInput> =
           z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
-      MoocSession: z
+      moocSession: z
         .lazy(
           () =>
             MoocSessionUpdateOneRequiredWithoutGradeReportsNestedInputObjectSchema,

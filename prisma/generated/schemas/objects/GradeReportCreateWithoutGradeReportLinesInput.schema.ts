@@ -8,7 +8,7 @@ const Schema: z.ZodType<Prisma.GradeReportCreateWithoutGradeReportLinesInput> =
     .object({
       id: z.string().optional(),
       date: z.coerce.date().optional(),
-      MoocSession: z.lazy(
+      moocSession: z.lazy(
         () => MoocSessionCreateNestedOneWithoutGradeReportsInputObjectSchema,
       ),
     })

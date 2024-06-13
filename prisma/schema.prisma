@@ -60,14 +60,14 @@ model MoocSession {
 model SessionType {
     id          String        @id @default(cuid())
     type        String
-    MoocSession MoocSession[]
+    moocSession MoocSession[]
 }
 
 model GradeReport {
     id               String            @id @default(cuid())
     date             DateTime          @default(now())
     gradeReportLines GradeReportLine[]
-    MoocSession      MoocSession       @relation(fields: [moocSessionId], references: [id])
+    moocSession      MoocSession       @relation(fields: [moocSessionId], references: [id])
     moocSessionId    String
 }
 
@@ -78,7 +78,7 @@ model GradeReportLine {
     certificateDelivered     String
     gradeReportQuestionLines GradeReportQuestionLine[]
     gradeReportProblemLines  GradeReportProblemLine[]
-    GradeReport              GradeReport               @relation(fields: [gradeReportID], references: [id])
+    gradeReport              GradeReport               @relation(fields: [gradeReportID], references: [id])
     gradeReportID            String
 }
 
@@ -86,7 +86,7 @@ model GradeReportQuestionLine {
     userID          Int
     label           String
     score           Int
-    GradeReportLine GradeReportLine @relation(fields: [lineID], references: [userID])
+    gradeReportLine GradeReportLine @relation(fields: [lineID], references: [userID])
     lineID          Int
 
     @@id([userID, label])
@@ -97,7 +97,7 @@ model GradeReportProblemLine {
     label           String
     score           Int?
     possible        Int?
-    GradeReportLine GradeReportLine @relation(fields: [lineID], references: [userID])
+    gradeReportLine GradeReportLine @relation(fields: [lineID], references: [userID])
     lineID          Int
 
     @@id([userID, label])

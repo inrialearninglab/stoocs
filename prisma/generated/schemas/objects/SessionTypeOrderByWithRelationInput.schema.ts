@@ -8,7 +8,7 @@ const Schema: z.ZodType<Prisma.SessionTypeOrderByWithRelationInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
     type: z.lazy(() => SortOrderSchema).optional(),
-    MoocSession: z
+    moocSession: z
       .lazy(() => MoocSessionOrderByRelationAggregateInputObjectSchema)
       .optional(),
   })

@@ -18,7 +18,7 @@ const Schema: z.ZodType<Prisma.SessionTypeUncheckedUpdateInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
-    MoocSession: z
+    moocSession: z
       .lazy(
         () => MoocSessionUncheckedUpdateManyWithoutTypeNestedInputObjectSchema,
       )

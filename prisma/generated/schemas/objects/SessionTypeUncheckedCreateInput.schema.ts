@@ -7,7 +7,7 @@ const Schema: z.ZodType<Prisma.SessionTypeUncheckedCreateInput> = z
   .object({
     id: z.string().optional(),
     type: z.string(),
-    MoocSession: z
+    moocSession: z
       .lazy(
         () => MoocSessionUncheckedCreateNestedManyWithoutTypeInputObjectSchema,
       )

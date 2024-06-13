@@ -42,7 +42,7 @@ const Schema: z.ZodType<Prisma.GradeReportProblemLineWhereInput> = z
     lineID: z
       .union([z.lazy(() => IntFilterObjectSchema), z.number()])
       .optional(),
-    GradeReportLine: z
+    gradeReportLine: z
       .union([
         z.lazy(() => GradeReportLineRelationFilterObjectSchema),
         z.lazy(() => GradeReportLineWhereInputObjectSchema),

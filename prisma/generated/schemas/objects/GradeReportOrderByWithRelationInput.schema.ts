@@ -13,7 +13,7 @@ const Schema: z.ZodType<Prisma.GradeReportOrderByWithRelationInput> = z
     gradeReportLines: z
       .lazy(() => GradeReportLineOrderByRelationAggregateInputObjectSchema)
       .optional(),
-    MoocSession: z
+    moocSession: z
       .lazy(() => MoocSessionOrderByWithRelationInputObjectSchema)
       .optional(),
   })

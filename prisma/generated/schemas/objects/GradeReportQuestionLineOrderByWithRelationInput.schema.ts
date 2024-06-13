@@ -11,7 +11,7 @@ const Schema: z.ZodType<Prisma.GradeReportQuestionLineOrderByWithRelationInput> 
       label: z.lazy(() => SortOrderSchema).optional(),
       score: z.lazy(() => SortOrderSchema).optional(),
       lineID: z.lazy(() => SortOrderSchema).optional(),
-      GradeReportLine: z
+      gradeReportLine: z
         .lazy(() => GradeReportLineOrderByWithRelationInputObjectSchema)
         .optional(),
     })

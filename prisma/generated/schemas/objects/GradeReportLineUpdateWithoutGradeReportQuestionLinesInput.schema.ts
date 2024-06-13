@@ -39,7 +39,7 @@ const Schema: z.ZodType<Prisma.GradeReportLineUpdateWithoutGradeReportQuestionLi
             GradeReportProblemLineUpdateManyWithoutGradeReportLineNestedInputObjectSchema,
         )
         .optional(),
-      GradeReport: z
+      gradeReport: z
         .lazy(
           () =>
             GradeReportUpdateOneRequiredWithoutGradeReportLinesNestedInputObjectSchema,

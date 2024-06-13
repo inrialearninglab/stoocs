@@ -37,7 +37,7 @@ const Schema: z.ZodType<Prisma.GradeReportWhereInput> = z
     gradeReportLines: z
       .lazy(() => GradeReportLineListRelationFilterObjectSchema)
       .optional(),
-    MoocSession: z
+    moocSession: z
       .union([
         z.lazy(() => MoocSessionRelationFilterObjectSchema),
         z.lazy(() => MoocSessionWhereInputObjectSchema),
