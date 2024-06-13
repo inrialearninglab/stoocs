@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Mooc {
+    id          String        @id @default(cuid())
+    title       String
+    description String
+    theme       String
+    target      String
+    sessions    MoocSession[]
+}
+
+model Author {
+    id        String        @id @default(cuid())
+    firstname String
+    lastName  String
+    sessions  MoocSession[]
+}
+
+model TeamMember {
+    id        String        @id @default(cuid())
+    firstname String
+    lastName  String
+    sessions  MoocSession[]
+}
+
+model MoocSession {
+    id                 String        @id @default(cuid())
+    enrollmentsDetails Json
+    totalEnrollments   Int
+    gradeReports       GradeReport[]
+    authors            Author[]
+    teamMembers        TeamMember[]
+    platform           Platform      @relation(fields: [platformID], references: [id])
+    platformID         String
+    type               SessionType   @relation(fields: [typeID], references: [id])
+    typeID             String
+    mooc               Mooc          @relation(fields: [moocID], references: [id])
+    moocID             String
+}
+
+model SessionType {
+    id          String        @id @default(cuid())
+    type        String
+    MoocSession MoocSession[]
+}
+
+model Platform {
+    id          String        @id @default(cuid())
+    name        String
+    MoocSession MoocSession[]
+}
+
+model GradeReport {
+    id               String            @id @default(cuid())
+    date             DateTime          @default(now())
+    gradeReportLines GradeReportLine[]
+    MoocSession      MoocSession       @relation(fields: [moocSessionId], references: [id])
+    moocSessionId    String
+}
+
+model GradeReportLine {
+    userID                   Int                       @id
+    grade                    Int
+    certificateEligible      String
+    certificateDelivered     String
+    gradeReportQuestionLines GradeReportQuestionLine[]
+    gradeReportProblemLines  GradeReportProblemLine[]
+    GradeReport              GradeReport               @relation(fields: [gradeReportID], references: [id])
+    gradeReportID            String
+}
+
+model GradeReportQuestionLine {
+    userID          Int
+    label           String
+    score           Int
+    GradeReportLine GradeReportLine @relation(fields: [lineID], references: [userID])
+    lineID          Int
+
+    @@id([userID, label])
+}
+
+model GradeReportProblemLine {
+    userID          Int
+    label           String
+    score           Int?
+    possible        Int?
+    GradeReportLine GradeReportLine @relation(fields: [lineID], references: [userID])
+    lineID          Int
+
+    @@id([userID, label])
+}
