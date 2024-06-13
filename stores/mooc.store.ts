@@ -2,6 +2,7 @@ import type { Mooc } from '~/types';
 import { defineStore } from 'pinia';
 import { fetchEnrollments } from '~/services/enrollments.service';
 import { fetchGradeReport } from '~/services/gradeReport.service';
+import { isUserActive, isUserCurious } from '~/utils';
 
 interface MoocState {
     mooc: Mooc | null;
@@ -22,23 +23,13 @@ export const useMooc = defineStore('mooc', {
         totalActive(): number | undefined {
             if (!this.mooc || !this.mooc.gradeReport) return undefined;
             
-            let activeUsers = 0;
-            for (const line of this.mooc.gradeReport.report) {
-                if (line.problemGradeReport.some(item => item.possible)) activeUsers++;
-            }
-            
-            return activeUsers;
+            return this.mooc.gradeReport.report.filter(isUserActive).length;
         },
         
         totalCurious(): number | undefined {
             if (!this.mooc || !this.mooc.gradeReport) return undefined;
             
-            let curiousUsers = 0;
-            for (const line of this.mooc.gradeReport.report) {
-                if (line.problemGradeReport.some(item => item.possible !== undefined)) curiousUsers++;
-            }
-            
-            return curiousUsers;
+            return this.mooc.gradeReport.report.filter(isUserCurious).length;
         },
         
         totalEligible(): number | undefined {

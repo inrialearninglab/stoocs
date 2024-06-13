@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
 import { useMooc } from '~/stores/mooc.store';
-import type { GradeReport } from '~/types';
 import Papa from 'papaparse';
 import { Eye, EyeOff } from 'lucide-vue-next';
+import { calculateProblemAverage } from '~/utils';
 
 const moocStore = useMooc();
 
@@ -32,34 +32,6 @@ const problems = computed(() => {
     const res = data.value.filter((d) => d.average < 75).sort((a, b) => a.average - b.average);
     return res.map((d) => ({ name: d.name, average: d.average }));
 })
-
-function calculateProblemAverage(gradeReport: GradeReport) {
-    const problemStats:{ [key: string]: { total: number, totalScore: number, possible: number }} = {};
-
-    gradeReport.report.forEach((reportLine) =>  {
-        reportLine.problemGradeReport.forEach((problem) => {
-            if (!problemStats[problem.label]) {
-                if (problem.possible && problem.possible > 0) {
-                    if (!problem.score) problem.score = 0;
-                    problemStats[problem.label] = { total: 1, totalScore: problem.score, possible: problem.possible }
-                }
-            } else if(problem.possible && problem.possible > 0) {
-                if(!problem.score) problem.score = 0;
-
-                problemStats[problem.label].total ++;
-                problemStats[problem.label].totalScore += problem.score;
-            }
-        })
-    });
-
-    const problemAverages: { [key: string]: number } = {};
-    Object.keys(problemStats).forEach((label) => {
-        const stats = problemStats[label];
-        problemAverages[label] = (stats.totalScore / (stats.total * stats.possible)) * 100;
-    });
-
-    return problemAverages;
-}
 
 const color = (d: any) => {
     if (d.average < 50) return '#EF4444';
@@ -119,7 +91,7 @@ const isTableVisible = ref(false);
                     </TableHeader>
                     <TableRow v-for="problem in problems">
                         <TableCell>{{ problem.name }}</TableCell>
-                        <TableCell>{{ problem.average }}%</TableCell>
+                        <TableCell>{{ problem.average.toFixed(2) }}%</TableCell>
                     </TableRow>
                 </Table>
                 <Button @click="exportTableToCSV" variant="outline" class="m-3">Export CSV</Button>

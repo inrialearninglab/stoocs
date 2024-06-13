@@ -29,40 +29,6 @@ const data = computed(() => {
 
     return data;
 })
-function calculateParticipationPercentage(gradeReport: GradeReport) {
-    const questionStats: { [key: string]: { total: number, scoreCount: number } } = {};
-
-    let activeUsers = 0;
-    gradeReport.report.forEach(reportLine => {
-        let isActive = false;
-        reportLine.questions.forEach(question => {
-            if (!questionStats[question.label]) {
-                if (question.score > 0) {
-                    questionStats[question.label] = { total: 1, scoreCount: 1 };
-                    isActive = true;
-                } else {
-                    questionStats[question.label] = { total: 1, scoreCount: 0 };
-                }
-            } else {
-                questionStats[question.label].total += 1;
-                if (question.score > 0) {
-                    questionStats[question.label].scoreCount += 1;
-                    isActive = true;
-                }
-            }
-        });
-        if (isActive) activeUsers ++;
-    });
-
-    const participationPercentages: { [key: string]: number } = {};
-
-    Object.keys(questionStats).forEach(questionLabel => {
-        const stats = questionStats[questionLabel];
-        participationPercentages[questionLabel] = (stats.scoreCount / activeUsers) * 100;
-    });
-
-    return participationPercentages;
-}
 
 </script>
 
