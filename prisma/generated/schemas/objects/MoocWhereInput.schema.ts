@@ -26,6 +26,9 @@ const Schema: z.ZodType<Prisma.MoocWhereInput> = z
     id: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
+    organization: z
+      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
+      .optional(),
     title: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),

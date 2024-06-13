@@ -7,7 +7,7 @@ const Schema: z.ZodType<Prisma.TeamMemberUncheckedCreateWithoutSessionsInput> =
     .object({
       id: z.string().optional(),
       firstname: z.string(),
-      lastName: z.string(),
+      lastname: z.string(),
     })
     .strict();
 

@@ -28,7 +28,7 @@ const Schema: z.ZodType<Prisma.TeamMemberWhereInput> = z
     firstname: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    lastName: z
+    lastname: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
     sessions: z

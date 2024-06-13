@@ -31,7 +31,7 @@ const Schema: z.ZodType<Prisma.TeamMemberScalarWhereWithAggregatesInput> = z
     firstname: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
-    lastName: z
+    lastname: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
   })

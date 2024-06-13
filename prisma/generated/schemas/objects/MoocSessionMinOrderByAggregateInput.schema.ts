@@ -8,7 +8,8 @@ const Schema: z.ZodType<Prisma.MoocSessionMinOrderByAggregateInput> = z
     id: z.lazy(() => SortOrderSchema).optional(),
     sessionName: z.lazy(() => SortOrderSchema).optional(),
     totalEnrollments: z.lazy(() => SortOrderSchema).optional(),
-    platformID: z.lazy(() => SortOrderSchema).optional(),
+    startDate: z.lazy(() => SortOrderSchema).optional(),
+    ended: z.lazy(() => SortOrderSchema).optional(),
     typeID: z.lazy(() => SortOrderSchema).optional(),
     moocID: z.lazy(() => SortOrderSchema).optional(),
   })

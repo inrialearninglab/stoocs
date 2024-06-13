@@ -18,7 +18,7 @@ const Schema: z.ZodType<Prisma.TeamMemberUncheckedUpdateManyWithoutTeamMembersIn
           z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
-      lastName: z
+      lastname: z
         .union([
           z.string(),
           z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),

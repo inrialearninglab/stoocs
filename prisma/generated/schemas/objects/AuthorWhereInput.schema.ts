@@ -28,7 +28,7 @@ const Schema: z.ZodType<Prisma.AuthorWhereInput> = z
     firstname: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    lastName: z
+    lastname: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
     sessions: z

@@ -12,6 +12,12 @@ const Schema: z.ZodType<Prisma.MoocUncheckedUpdateManyInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
+    organization: z
+      .union([
+        z.string(),
+        z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
     title: z
       .union([
         z.string(),

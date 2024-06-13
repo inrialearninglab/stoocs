@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
+import { NullableDateTimeFieldUpdateOperationsInputObjectSchema } from './NullableDateTimeFieldUpdateOperationsInput.schema';
+import { BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -38,10 +40,17 @@ const Schema: z.ZodType<Prisma.MoocSessionUncheckedUpdateManyWithoutMoocSessionI
           z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
-      platformID: z
+      startDate: z
         .union([
-          z.string(),
-          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+          z.coerce.date(),
+          z.lazy(() => NullableDateTimeFieldUpdateOperationsInputObjectSchema),
+        ])
+        .optional()
+        .nullable(),
+      ended: z
+        .union([
+          z.boolean(),
+          z.lazy(() => BoolFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
       moocID: z

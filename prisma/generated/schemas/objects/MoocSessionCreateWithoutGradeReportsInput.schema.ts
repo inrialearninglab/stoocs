@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { AuthorCreateNestedManyWithoutSessionsInputObjectSchema } from './AuthorCreateNestedManyWithoutSessionsInput.schema';
 import { TeamMemberCreateNestedManyWithoutSessionsInputObjectSchema } from './TeamMemberCreateNestedManyWithoutSessionsInput.schema';
-import { PlatformCreateNestedOneWithoutMoocSessionInputObjectSchema } from './PlatformCreateNestedOneWithoutMoocSessionInput.schema';
 import { SessionTypeCreateNestedOneWithoutMoocSessionInputObjectSchema } from './SessionTypeCreateNestedOneWithoutMoocSessionInput.schema';
 import { MoocCreateNestedOneWithoutSessionsInputObjectSchema } from './MoocCreateNestedOneWithoutSessionsInput.schema';
 
@@ -25,15 +24,14 @@ const Schema: z.ZodType<Prisma.MoocSessionCreateWithoutGradeReportsInput> = z
       .union([z.lazy(() => NullableJsonNullValueInputSchema), jsonSchema])
       .optional(),
     totalEnrollments: z.number().optional(),
+    startDate: z.coerce.date().optional().nullable(),
+    ended: z.boolean().optional(),
     authors: z
       .lazy(() => AuthorCreateNestedManyWithoutSessionsInputObjectSchema)
       .optional(),
     teamMembers: z
       .lazy(() => TeamMemberCreateNestedManyWithoutSessionsInputObjectSchema)
       .optional(),
-    platform: z.lazy(
-      () => PlatformCreateNestedOneWithoutMoocSessionInputObjectSchema,
-    ),
     type: z
       .lazy(() => SessionTypeCreateNestedOneWithoutMoocSessionInputObjectSchema)
       .optional(),

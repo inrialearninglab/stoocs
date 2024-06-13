@@ -23,7 +23,8 @@ const Schema: z.ZodType<Prisma.MoocSessionUncheckedCreateWithoutMoocInput> = z
       .union([z.lazy(() => NullableJsonNullValueInputSchema), jsonSchema])
       .optional(),
     totalEnrollments: z.number().optional(),
-    platformID: z.string(),
+    startDate: z.coerce.date().optional().nullable(),
+    ended: z.boolean().optional(),
     typeID: z.string().optional().nullable(),
     gradeReports: z
       .lazy(

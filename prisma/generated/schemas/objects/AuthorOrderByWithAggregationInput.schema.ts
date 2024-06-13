@@ -10,7 +10,7 @@ const Schema: z.ZodType<Prisma.AuthorOrderByWithAggregationInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
     firstname: z.lazy(() => SortOrderSchema).optional(),
-    lastName: z.lazy(() => SortOrderSchema).optional(),
+    lastname: z.lazy(() => SortOrderSchema).optional(),
     _count: z
       .lazy(() => AuthorCountOrderByAggregateInputObjectSchema)
       .optional(),

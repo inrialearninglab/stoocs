@@ -2,10 +2,11 @@ import { z } from 'zod';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValueInput.schema';
 import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
+import { NullableDateTimeFieldUpdateOperationsInputObjectSchema } from './NullableDateTimeFieldUpdateOperationsInput.schema';
+import { BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
 import { GradeReportUpdateManyWithoutMoocSessionNestedInputObjectSchema } from './GradeReportUpdateManyWithoutMoocSessionNestedInput.schema';
 import { AuthorUpdateManyWithoutSessionsNestedInputObjectSchema } from './AuthorUpdateManyWithoutSessionsNestedInput.schema';
 import { TeamMemberUpdateManyWithoutSessionsNestedInputObjectSchema } from './TeamMemberUpdateManyWithoutSessionsNestedInput.schema';
-import { PlatformUpdateOneRequiredWithoutMoocSessionNestedInputObjectSchema } from './PlatformUpdateOneRequiredWithoutMoocSessionNestedInput.schema';
 import { MoocUpdateOneRequiredWithoutSessionsNestedInputObjectSchema } from './MoocUpdateOneRequiredWithoutSessionsNestedInput.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -42,6 +43,19 @@ const Schema: z.ZodType<Prisma.MoocSessionUpdateWithoutTypeInput> = z
         z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
+    startDate: z
+      .union([
+        z.coerce.date(),
+        z.lazy(() => NullableDateTimeFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional()
+      .nullable(),
+    ended: z
+      .union([
+        z.boolean(),
+        z.lazy(() => BoolFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
     gradeReports: z
       .lazy(
         () => GradeReportUpdateManyWithoutMoocSessionNestedInputObjectSchema,
@@ -52,12 +66,6 @@ const Schema: z.ZodType<Prisma.MoocSessionUpdateWithoutTypeInput> = z
       .optional(),
     teamMembers: z
       .lazy(() => TeamMemberUpdateManyWithoutSessionsNestedInputObjectSchema)
-      .optional(),
-    platform: z
-      .lazy(
-        () =>
-          PlatformUpdateOneRequiredWithoutMoocSessionNestedInputObjectSchema,
-      )
       .optional(),
     mooc: z
       .lazy(() => MoocUpdateOneRequiredWithoutSessionsNestedInputObjectSchema)

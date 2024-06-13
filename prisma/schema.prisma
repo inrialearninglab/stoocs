@@ -18,25 +18,26 @@ datasource db {
 }
 
 model Mooc {
-    id          String        @id @default(cuid())
-    title       String
-    description String?
-    theme       String?
-    target      String?
-    sessions    MoocSession[]
+    id           String        @id @default(cuid())
+    organization String
+    title        String
+    description  String?
+    theme        String?
+    target       String?
+    sessions     MoocSession[]
 }
 
 model Author {
     id        String        @id @default(cuid())
     firstname String
-    lastName  String
+    lastname  String
     sessions  MoocSession[]
 }
 
 model TeamMember {
     id        String        @id @default(cuid())
     firstname String
-    lastName  String
+    lastname  String
     sessions  MoocSession[]
 }
 
@@ -45,11 +46,11 @@ model MoocSession {
     sessionName        String
     enrollmentsDetails Json?
     totalEnrollments   Int           @default(0)
+    startDate          DateTime?
+    ended              Boolean       @default(false)
     gradeReports       GradeReport[]
     authors            Author[]
     teamMembers        TeamMember[]
-    platform           Platform      @relation(fields: [platformID], references: [id])
-    platformID         String
     type               SessionType?  @relation(fields: [typeID], references: [id])
     typeID             String?
     mooc               Mooc          @relation(fields: [moocID], references: [id])
@@ -59,12 +60,6 @@ model MoocSession {
 model SessionType {
     id          String        @id @default(cuid())
     type        String
-    MoocSession MoocSession[]
-}
-
-model Platform {
-    id          String        @id @default(cuid())
-    name        String
     MoocSession MoocSession[]
 }
 

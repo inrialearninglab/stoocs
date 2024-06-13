@@ -2,12 +2,12 @@ import { z } from 'zod';
 import { StringFilterObjectSchema } from './StringFilter.schema';
 import { JsonNullableFilterObjectSchema } from './JsonNullableFilter.schema';
 import { IntFilterObjectSchema } from './IntFilter.schema';
+import { DateTimeNullableFilterObjectSchema } from './DateTimeNullableFilter.schema';
+import { BoolFilterObjectSchema } from './BoolFilter.schema';
 import { StringNullableFilterObjectSchema } from './StringNullableFilter.schema';
 import { GradeReportListRelationFilterObjectSchema } from './GradeReportListRelationFilter.schema';
 import { AuthorListRelationFilterObjectSchema } from './AuthorListRelationFilter.schema';
 import { TeamMemberListRelationFilterObjectSchema } from './TeamMemberListRelationFilter.schema';
-import { PlatformRelationFilterObjectSchema } from './PlatformRelationFilter.schema';
-import { PlatformWhereInputObjectSchema } from './PlatformWhereInput.schema';
 import { SessionTypeRelationFilterObjectSchema } from './SessionTypeRelationFilter.schema';
 import { SessionTypeWhereInputObjectSchema } from './SessionTypeWhereInput.schema';
 import { MoocRelationFilterObjectSchema } from './MoocRelationFilter.schema';
@@ -43,8 +43,15 @@ const Schema: z.ZodType<Prisma.MoocSessionWhereInput> = z
     totalEnrollments: z
       .union([z.lazy(() => IntFilterObjectSchema), z.number()])
       .optional(),
-    platformID: z
-      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
+    startDate: z
+      .union([
+        z.lazy(() => DateTimeNullableFilterObjectSchema),
+        z.coerce.date(),
+      ])
+      .optional()
+      .nullable(),
+    ended: z
+      .union([z.lazy(() => BoolFilterObjectSchema), z.boolean()])
       .optional(),
     typeID: z
       .union([z.lazy(() => StringNullableFilterObjectSchema), z.string()])
@@ -59,12 +66,6 @@ const Schema: z.ZodType<Prisma.MoocSessionWhereInput> = z
     authors: z.lazy(() => AuthorListRelationFilterObjectSchema).optional(),
     teamMembers: z
       .lazy(() => TeamMemberListRelationFilterObjectSchema)
-      .optional(),
-    platform: z
-      .union([
-        z.lazy(() => PlatformRelationFilterObjectSchema),
-        z.lazy(() => PlatformWhereInputObjectSchema),
-      ])
       .optional(),
     type: z
       .union([

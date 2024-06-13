@@ -8,7 +8,7 @@ const Schema: z.ZodType<Prisma.AuthorOrderByWithRelationInput> = z
   .object({
     id: z.lazy(() => SortOrderSchema).optional(),
     firstname: z.lazy(() => SortOrderSchema).optional(),
-    lastName: z.lazy(() => SortOrderSchema).optional(),
+    lastname: z.lazy(() => SortOrderSchema).optional(),
     sessions: z
       .lazy(() => MoocSessionOrderByRelationAggregateInputObjectSchema)
       .optional(),
