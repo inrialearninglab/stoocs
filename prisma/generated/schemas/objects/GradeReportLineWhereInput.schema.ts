@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { IntFilterObjectSchema } from './IntFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
-import { GradeReportQuestionLineListRelationFilterObjectSchema } from './GradeReportQuestionLineListRelationFilter.schema';
-import { GradeReportProblemLineListRelationFilterObjectSchema } from './GradeReportProblemLineListRelationFilter.schema';
+import { GradeReportQuestionListRelationFilterObjectSchema } from './GradeReportQuestionListRelationFilter.schema';
+import { GradeReportProblemListRelationFilterObjectSchema } from './GradeReportProblemListRelationFilter.schema';
 import { GradeReportRelationFilterObjectSchema } from './GradeReportRelationFilter.schema';
 import { GradeReportWhereInputObjectSchema } from './GradeReportWhereInput.schema';
 
@@ -41,11 +41,11 @@ const Schema: z.ZodType<Prisma.GradeReportLineWhereInput> = z
     gradeReportID: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    gradeReportQuestionLines: z
-      .lazy(() => GradeReportQuestionLineListRelationFilterObjectSchema)
+    gradeReportQuestions: z
+      .lazy(() => GradeReportQuestionListRelationFilterObjectSchema)
       .optional(),
-    gradeReportProblemLines: z
-      .lazy(() => GradeReportProblemLineListRelationFilterObjectSchema)
+    gradeReportProblems: z
+      .lazy(() => GradeReportProblemListRelationFilterObjectSchema)
       .optional(),
     gradeReport: z
       .union([

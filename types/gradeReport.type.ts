@@ -31,17 +31,17 @@ export interface GradeReport {
 export interface GradeReportLine {
     userID: number;
     date: Date;
-    gradeReportQuestionLines: GradeReportQuestionLine[]
-    gradeReportProblemLines: GradeReportProblemLine[]
+    gradeReportQuestionLines: GradeReportQuestion[]
+    gradeReportProblemLines: GradeReportProblem[]
 }
 
-export interface GradeReportQuestionLine {
+export interface GradeReportQuestion {
     userID: number;
     label: string;
     score: number;
 }
 
-export interface GradeReportProblemLine {
+export interface GradeReportProblem {
     userID: number;
     label: string;
     score?: number;

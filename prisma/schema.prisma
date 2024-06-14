@@ -20,7 +20,7 @@ datasource db {
 model Mooc {
     id           String        @id @default(cuid())
     organization String
-    title        String
+    title        String        @unique
     description  String?
     theme        String?
     target       String?
@@ -72,17 +72,17 @@ model GradeReport {
 }
 
 model GradeReportLine {
-    userID                   Int                       @id
-    grade                    Int
-    certificateEligible      String
-    certificateDelivered     String
-    gradeReportQuestionLines GradeReportQuestionLine[]
-    gradeReportProblemLines  GradeReportProblemLine[]
-    gradeReport              GradeReport               @relation(fields: [gradeReportID], references: [id])
-    gradeReportID            String
+    userID               Int                   @id
+    grade                Int
+    certificateEligible  String
+    certificateDelivered String
+    gradeReportQuestions GradeReportQuestion[]
+    gradeReportProblems  GradeReportProblem[]
+    gradeReport          GradeReport           @relation(fields: [gradeReportID], references: [id])
+    gradeReportID        String
 }
 
-model GradeReportQuestionLine {
+model GradeReportQuestion {
     userID          Int
     label           String
     score           Int
@@ -92,7 +92,7 @@ model GradeReportQuestionLine {
     @@id([userID, label])
 }
 
-model GradeReportProblemLine {
+model GradeReportProblem {
     userID          Int
     label           String
     score           Int?

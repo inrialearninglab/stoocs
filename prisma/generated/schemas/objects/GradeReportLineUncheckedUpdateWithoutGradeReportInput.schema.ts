@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
-import { GradeReportQuestionLineUncheckedUpdateManyWithoutGradeReportLineNestedInputObjectSchema } from './GradeReportQuestionLineUncheckedUpdateManyWithoutGradeReportLineNestedInput.schema';
-import { GradeReportProblemLineUncheckedUpdateManyWithoutGradeReportLineNestedInputObjectSchema } from './GradeReportProblemLineUncheckedUpdateManyWithoutGradeReportLineNestedInput.schema';
+import { GradeReportQuestionUncheckedUpdateManyWithoutGradeReportLineNestedInputObjectSchema } from './GradeReportQuestionUncheckedUpdateManyWithoutGradeReportLineNestedInput.schema';
+import { GradeReportProblemUncheckedUpdateManyWithoutGradeReportLineNestedInputObjectSchema } from './GradeReportProblemUncheckedUpdateManyWithoutGradeReportLineNestedInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -33,16 +33,16 @@ const Schema: z.ZodType<Prisma.GradeReportLineUncheckedUpdateWithoutGradeReportI
           z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
         ])
         .optional(),
-      gradeReportQuestionLines: z
+      gradeReportQuestions: z
         .lazy(
           () =>
-            GradeReportQuestionLineUncheckedUpdateManyWithoutGradeReportLineNestedInputObjectSchema,
+            GradeReportQuestionUncheckedUpdateManyWithoutGradeReportLineNestedInputObjectSchema,
         )
         .optional(),
-      gradeReportProblemLines: z
+      gradeReportProblems: z
         .lazy(
           () =>
-            GradeReportProblemLineUncheckedUpdateManyWithoutGradeReportLineNestedInputObjectSchema,
+            GradeReportProblemUncheckedUpdateManyWithoutGradeReportLineNestedInputObjectSchema,
         )
         .optional(),
     })

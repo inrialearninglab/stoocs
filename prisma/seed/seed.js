@@ -15,7 +15,7 @@ const gradeReportData = {
 }
 
 for (const reportLine of gradeReport) {
-    const gradeReportQuestionLine = reportLine.questions.map((question) => {
+    const gradeReportQuestions = reportLine.questions.map((question) => {
         return {
             userID: reportLine.id,
             label: question.label,
@@ -23,7 +23,7 @@ for (const reportLine of gradeReport) {
         }
     });
 
-    const gradeReportProblemLine = reportLine.problemGradeReport.map((problem) => {
+    const gradeReportProblems = reportLine.problemGradeReport.map((problem) => {
         return {
             userID: reportLine.id,
             label: problem.label,
@@ -37,11 +37,11 @@ for (const reportLine of gradeReport) {
         grade: reportLine.grade,
         certificateEligible: reportLine.certificateEligible,
         certificateDelivered: reportLine.certificateDelivered,
-        gradeReportQuestionLines: {
-            create: gradeReportQuestionLine
+        gradeReportQuestions: {
+            create: gradeReportQuestions
         },
-        gradeReportProblemLines: {
-            create: gradeReportProblemLine
+        gradeReportProblems: {
+            create: gradeReportProblems
         }
     }
 

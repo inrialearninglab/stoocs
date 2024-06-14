@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { SortOrderSchema } from '../enums/SortOrder.schema';
-import { GradeReportQuestionLineOrderByRelationAggregateInputObjectSchema } from './GradeReportQuestionLineOrderByRelationAggregateInput.schema';
-import { GradeReportProblemLineOrderByRelationAggregateInputObjectSchema } from './GradeReportProblemLineOrderByRelationAggregateInput.schema';
+import { GradeReportQuestionOrderByRelationAggregateInputObjectSchema } from './GradeReportQuestionOrderByRelationAggregateInput.schema';
+import { GradeReportProblemOrderByRelationAggregateInputObjectSchema } from './GradeReportProblemOrderByRelationAggregateInput.schema';
 import { GradeReportOrderByWithRelationInputObjectSchema } from './GradeReportOrderByWithRelationInput.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -13,15 +13,11 @@ const Schema: z.ZodType<Prisma.GradeReportLineOrderByWithRelationInput> = z
     certificateEligible: z.lazy(() => SortOrderSchema).optional(),
     certificateDelivered: z.lazy(() => SortOrderSchema).optional(),
     gradeReportID: z.lazy(() => SortOrderSchema).optional(),
-    gradeReportQuestionLines: z
-      .lazy(
-        () => GradeReportQuestionLineOrderByRelationAggregateInputObjectSchema,
-      )
+    gradeReportQuestions: z
+      .lazy(() => GradeReportQuestionOrderByRelationAggregateInputObjectSchema)
       .optional(),
-    gradeReportProblemLines: z
-      .lazy(
-        () => GradeReportProblemLineOrderByRelationAggregateInputObjectSchema,
-      )
+    gradeReportProblems: z
+      .lazy(() => GradeReportProblemOrderByRelationAggregateInputObjectSchema)
       .optional(),
     gradeReport: z
       .lazy(() => GradeReportOrderByWithRelationInputObjectSchema)

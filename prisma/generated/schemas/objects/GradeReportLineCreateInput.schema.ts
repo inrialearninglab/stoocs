@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { GradeReportQuestionLineCreateNestedManyWithoutGradeReportLineInputObjectSchema } from './GradeReportQuestionLineCreateNestedManyWithoutGradeReportLineInput.schema';
-import { GradeReportProblemLineCreateNestedManyWithoutGradeReportLineInputObjectSchema } from './GradeReportProblemLineCreateNestedManyWithoutGradeReportLineInput.schema';
+import { GradeReportQuestionCreateNestedManyWithoutGradeReportLineInputObjectSchema } from './GradeReportQuestionCreateNestedManyWithoutGradeReportLineInput.schema';
+import { GradeReportProblemCreateNestedManyWithoutGradeReportLineInputObjectSchema } from './GradeReportProblemCreateNestedManyWithoutGradeReportLineInput.schema';
 import { GradeReportCreateNestedOneWithoutGradeReportLinesInputObjectSchema } from './GradeReportCreateNestedOneWithoutGradeReportLinesInput.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -11,16 +11,16 @@ const Schema: z.ZodType<Prisma.GradeReportLineCreateInput> = z
     grade: z.number(),
     certificateEligible: z.string(),
     certificateDelivered: z.string(),
-    gradeReportQuestionLines: z
+    gradeReportQuestions: z
       .lazy(
         () =>
-          GradeReportQuestionLineCreateNestedManyWithoutGradeReportLineInputObjectSchema,
+          GradeReportQuestionCreateNestedManyWithoutGradeReportLineInputObjectSchema,
       )
       .optional(),
-    gradeReportProblemLines: z
+    gradeReportProblems: z
       .lazy(
         () =>
-          GradeReportProblemLineCreateNestedManyWithoutGradeReportLineInputObjectSchema,
+          GradeReportProblemCreateNestedManyWithoutGradeReportLineInputObjectSchema,
       )
       .optional(),
     gradeReport: z.lazy(
