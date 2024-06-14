@@ -140,6 +140,32 @@ async function seed() {
         }
     }
 
+    const moocName = 'Reproducible Research II: Practices and tools for managing computations and data';
+    const mooc = await prisma.mooc.findUnique({
+        where: { title: moocName }
+    });
+
+    if (mooc) {
+        const session = await prisma.moocSession.findFirst({
+            where: { moocID: mooc.id }
+        });
+
+        if (session) {
+            const res = await prisma.moocSession.update({
+                where: { id: session.id },
+                data: {
+                    enrollmentsDetails: enrollments,
+                    startDate: new Date('2024-05-16'),
+                    gradeReports: {
+                        create: [gradeReportData]
+                    }
+                }
+            });
+
+            console.log(`Updated session with id ${res.id}`);
+        }
+    }
+
     for (const member of teamData) {
         const res = await prisma.teamMember.create({
             data: member,
