@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { getEnrollments } from "./enrollments/enrollments.js";
 import { getReport } from "./gradeReports/gradeReports.js";
+import {getCourses} from "./courses/courses.js";
 
 const prisma = new PrismaClient();
 
@@ -48,24 +49,24 @@ for (const reportLine of gradeReport) {
     gradeReportData.gradeReportLines.create.push(gradeReportLine);
 }
 
-const moocData = [
-    {
-        title: 'Reproducible Research II: Practices and tools for managing computations and data',
-        organization: 'inria',
-        sessions: {
-            create: [
-                {
-                    sessionName: 'session01',
-                    enrollmentsDetails: enrollments,
-                    startDate: new Date('2024-05-16'),
-                    gradeReports: {
-                        create: [gradeReportData]
-                    }
-                }
-            ],
-        },
-    }
-];
+// const moocData = [
+//     {
+//         title: 'Reproducible Research II: Practices and tools for managing computations and data',
+//         organization: 'inria',
+//         sessions: {
+//             create: [
+//                 {
+//                     sessionName: 'session01',
+//                     enrollmentsDetails: enrollments,
+//                     startDate: new Date('2024-05-16'),
+//                     gradeReports: {
+//                         create: [gradeReportData]
+//                     }
+//                 }
+//             ],
+//         },
+//     }
+// ];
 
 const teamData = [
     {
@@ -100,17 +101,45 @@ const sessionTypeData = [
     { type: 'MAOI' }
 ];
 
+const { courses, sessions } = await getCourses();
+
 async function seed() {
     console.log('Start seeding...');
-    
-    for (const mooc of moocData) {
+
+    for (const course of courses) {
+        const alreadyExists = await prisma.mooc.findUnique({
+            where: { title: course.title }
+        });
+        if (alreadyExists) return;
+
         const res = await prisma.mooc.create({
-            data: mooc,
-        })
-        
-        console.log(`created mooc with id: ${res.id}`)
+            data: course
+        });
+
+        console.log(`Created mooc with id ${res.id}`);
     }
-    
+
+    for (const session of sessions) {
+        const parentCourse = await prisma.mooc.findUnique({
+            where: { title: session.parentCourse }
+        });
+
+        if (parentCourse) {
+            const res = await prisma.moocSession.create({
+                data: {
+                    sessionName: session.sessionName,
+                    ended: session.ended,
+                    mooc: {
+                        connect: {
+                            id: parentCourse.id
+                        }
+                    }
+                }
+            });
+            console.log(`Created session with id ${res.id}`);
+        }
+    }
+
     for (const member of teamData) {
         const res = await prisma.teamMember.create({
             data: member,
