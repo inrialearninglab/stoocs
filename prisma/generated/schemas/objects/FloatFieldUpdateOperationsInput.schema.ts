@@ -2,9 +2,9 @@ import { z } from 'zod';
 
 import type { Prisma } from '@prisma/client';
 
-const Schema: z.ZodType<Prisma.NullableIntFieldUpdateOperationsInput> = z
+const Schema: z.ZodType<Prisma.FloatFieldUpdateOperationsInput> = z
   .object({
-    set: z.number().optional().nullable(),
+    set: z.number().optional(),
     increment: z.number().optional(),
     decrement: z.number().optional(),
     multiply: z.number().optional(),
@@ -12,4 +12,4 @@ const Schema: z.ZodType<Prisma.NullableIntFieldUpdateOperationsInput> = z
   })
   .strict();
 
-export const NullableIntFieldUpdateOperationsInputObjectSchema = Schema;
+export const FloatFieldUpdateOperationsInputObjectSchema = Schema;

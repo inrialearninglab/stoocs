@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { IntFilterObjectSchema } from './IntFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
-import { IntNullableFilterObjectSchema } from './IntNullableFilter.schema';
+import { FloatNullableFilterObjectSchema } from './FloatNullableFilter.schema';
 import { GradeReportLineRelationFilterObjectSchema } from './GradeReportLineRelationFilter.schema';
 import { GradeReportLineWhereInputObjectSchema } from './GradeReportLineWhereInput.schema';
 
@@ -32,11 +32,11 @@ const Schema: z.ZodType<Prisma.GradeReportProblemWhereInput> = z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
     score: z
-      .union([z.lazy(() => IntNullableFilterObjectSchema), z.number()])
+      .union([z.lazy(() => FloatNullableFilterObjectSchema), z.number()])
       .optional()
       .nullable(),
     possible: z
-      .union([z.lazy(() => IntNullableFilterObjectSchema), z.number()])
+      .union([z.lazy(() => FloatNullableFilterObjectSchema), z.number()])
       .optional()
       .nullable(),
     lineID: z

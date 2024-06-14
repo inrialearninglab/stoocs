@@ -49,25 +49,6 @@ for (const reportLine of gradeReport) {
     gradeReportData.gradeReportLines.create.push(gradeReportLine);
 }
 
-// const moocData = [
-//     {
-//         title: 'Reproducible Research II: Practices and tools for managing computations and data',
-//         organization: 'inria',
-//         sessions: {
-//             create: [
-//                 {
-//                     sessionName: 'session01',
-//                     enrollmentsDetails: enrollments,
-//                     startDate: new Date('2024-05-16'),
-//                     gradeReports: {
-//                         create: [gradeReportData]
-//                     }
-//                 }
-//             ],
-//         },
-//     }
-// ];
-
 const teamData = [
     {
         firstname: 'Laurence',

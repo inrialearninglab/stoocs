@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
-import { NullableIntFieldUpdateOperationsInputObjectSchema } from './NullableIntFieldUpdateOperationsInput.schema';
+import { NullableFloatFieldUpdateOperationsInputObjectSchema } from './NullableFloatFieldUpdateOperationsInput.schema';
 import { GradeReportLineUpdateOneRequiredWithoutGradeReportProblemsNestedInputObjectSchema } from './GradeReportLineUpdateOneRequiredWithoutGradeReportProblemsNestedInput.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -23,14 +23,14 @@ const Schema: z.ZodType<Prisma.GradeReportProblemUpdateInput> = z
     score: z
       .union([
         z.number(),
-        z.lazy(() => NullableIntFieldUpdateOperationsInputObjectSchema),
+        z.lazy(() => NullableFloatFieldUpdateOperationsInputObjectSchema),
       ])
       .optional()
       .nullable(),
     possible: z
       .union([
         z.number(),
-        z.lazy(() => NullableIntFieldUpdateOperationsInputObjectSchema),
+        z.lazy(() => NullableFloatFieldUpdateOperationsInputObjectSchema),
       ])
       .optional()
       .nullable(),

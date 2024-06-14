@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { IntWithAggregatesFilterObjectSchema } from './IntWithAggregatesFilter.schema';
 import { StringWithAggregatesFilterObjectSchema } from './StringWithAggregatesFilter.schema';
+import { FloatWithAggregatesFilterObjectSchema } from './FloatWithAggregatesFilter.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -49,7 +50,10 @@ const Schema: z.ZodType<Prisma.GradeReportQuestionScalarWhereWithAggregatesInput
         ])
         .optional(),
       score: z
-        .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+        .union([
+          z.lazy(() => FloatWithAggregatesFilterObjectSchema),
+          z.number(),
+        ])
         .optional(),
       lineID: z
         .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
+import { FloatFieldUpdateOperationsInputObjectSchema } from './FloatFieldUpdateOperationsInput.schema';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { GradeReportQuestionUpdateManyWithoutGradeReportLineNestedInputObjectSchema } from './GradeReportQuestionUpdateManyWithoutGradeReportLineNestedInput.schema';
 import { GradeReportProblemUpdateManyWithoutGradeReportLineNestedInputObjectSchema } from './GradeReportProblemUpdateManyWithoutGradeReportLineNestedInput.schema';
@@ -17,7 +18,7 @@ const Schema: z.ZodType<Prisma.GradeReportLineUpdateWithoutGradeReportInput> = z
     grade: z
       .union([
         z.number(),
-        z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+        z.lazy(() => FloatFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
     certificateEligible: z

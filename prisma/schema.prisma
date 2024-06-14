@@ -73,7 +73,7 @@ model GradeReport {
 
 model GradeReportLine {
     userID               Int                   @id
-    grade                Int
+    grade                Float
     certificateEligible  String
     certificateDelivered String
     gradeReportQuestions GradeReportQuestion[]
@@ -85,7 +85,7 @@ model GradeReportLine {
 model GradeReportQuestion {
     userID          Int
     label           String
-    score           Int
+    score           Float
     gradeReportLine GradeReportLine @relation(fields: [lineID], references: [userID])
     lineID          Int
 
@@ -95,8 +95,8 @@ model GradeReportQuestion {
 model GradeReportProblem {
     userID          Int
     label           String
-    score           Int?
-    possible        Int?
+    score           Float?
+    possible        Float?
     gradeReportLine GradeReportLine @relation(fields: [lineID], references: [userID])
     lineID          Int
 

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
+import { FloatFieldUpdateOperationsInputObjectSchema } from './FloatFieldUpdateOperationsInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -21,7 +22,7 @@ const Schema: z.ZodType<Prisma.GradeReportQuestionUncheckedUpdateManyInput> = z
     score: z
       .union([
         z.number(),
-        z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+        z.lazy(() => FloatFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
     lineID: z

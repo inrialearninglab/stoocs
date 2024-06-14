@@ -4,7 +4,7 @@ import { NestedFloatNullableFilterObjectSchema } from './NestedFloatNullableFilt
 
 import type { Prisma } from '@prisma/client';
 
-const Schema: z.ZodType<Prisma.NestedIntNullableWithAggregatesFilter> = z
+const Schema: z.ZodType<Prisma.NestedFloatNullableWithAggregatesFilter> = z
   .object({
     equals: z.number().optional().nullable(),
     in: z.union([z.number().array(), z.number()]).optional().nullable(),
@@ -16,16 +16,16 @@ const Schema: z.ZodType<Prisma.NestedIntNullableWithAggregatesFilter> = z
     not: z
       .union([
         z.number(),
-        z.lazy(() => NestedIntNullableWithAggregatesFilterObjectSchema),
+        z.lazy(() => NestedFloatNullableWithAggregatesFilterObjectSchema),
       ])
       .optional()
       .nullable(),
     _count: z.lazy(() => NestedIntNullableFilterObjectSchema).optional(),
     _avg: z.lazy(() => NestedFloatNullableFilterObjectSchema).optional(),
-    _sum: z.lazy(() => NestedIntNullableFilterObjectSchema).optional(),
-    _min: z.lazy(() => NestedIntNullableFilterObjectSchema).optional(),
-    _max: z.lazy(() => NestedIntNullableFilterObjectSchema).optional(),
+    _sum: z.lazy(() => NestedFloatNullableFilterObjectSchema).optional(),
+    _min: z.lazy(() => NestedFloatNullableFilterObjectSchema).optional(),
+    _max: z.lazy(() => NestedFloatNullableFilterObjectSchema).optional(),
   })
   .strict();
 
-export const NestedIntNullableWithAggregatesFilterObjectSchema = Schema;
+export const NestedFloatNullableWithAggregatesFilterObjectSchema = Schema;

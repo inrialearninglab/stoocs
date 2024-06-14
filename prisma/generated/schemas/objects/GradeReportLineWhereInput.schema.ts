@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { IntFilterObjectSchema } from './IntFilter.schema';
+import { FloatFilterObjectSchema } from './FloatFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
 import { GradeReportQuestionListRelationFilterObjectSchema } from './GradeReportQuestionListRelationFilter.schema';
 import { GradeReportProblemListRelationFilterObjectSchema } from './GradeReportProblemListRelationFilter.schema';
@@ -30,7 +31,7 @@ const Schema: z.ZodType<Prisma.GradeReportLineWhereInput> = z
       .union([z.lazy(() => IntFilterObjectSchema), z.number()])
       .optional(),
     grade: z
-      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .union([z.lazy(() => FloatFilterObjectSchema), z.number()])
       .optional(),
     certificateEligible: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
