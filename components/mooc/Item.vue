@@ -16,7 +16,10 @@ const isOpen = ref(false);
             <CardHeader :class="{ 'border-b': isOpen }">
                 <div class="flex gap-3 justify-between items-center">
                     <div class="flex flex-col gap-3 flex-1">
-                        <CardTitle>{{ mooc.title }}</CardTitle>
+                        <CardTitle>
+                            {{ mooc.title }} ({{ mooc.sessions ? mooc.sessions.length : 0 }}
+                            {{ mooc.sessions && mooc.sessions.length > 1 ? 'sessions' : 'session' }})
+                        </CardTitle>
                         <CardDescription v-if="mooc.description">{{ mooc.description }}</CardDescription>
                     </div>
                     <CollapsibleTrigger as-child>
