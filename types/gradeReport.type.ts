@@ -31,8 +31,10 @@ export interface GradeReport {
 export interface GradeReportLine {
     userID: number;
     date: Date;
-    gradeReportQuestionLines: GradeReportQuestion[]
-    gradeReportProblemLines: GradeReportProblem[]
+    certificateEligible: string;
+    certificateDelivered: string;
+    gradeReportQuestions: GradeReportQuestion[]
+    gradeReportProblems: GradeReportProblem[]
 }
 
 export interface GradeReportQuestion {

@@ -33,7 +33,8 @@ const isOpen = ref(false);
                 <CardContent class="p-5">
                     <div v-for="session of mooc.sessions" class="flex gap-2 items-center">
                         <div class="size-4 rounded-full" :class="session.ended ? 'bg-red-500' : 'bg-green-500'"></div>
-                        <p>{{ session.sessionName }}</p>
+                        <NuxtLink :to="`/sessions/${session.id}`">{{ session.sessionName }}</NuxtLink>
+<!--                        <p>{{ session.sessionName }}</p>-->
                     </div>
                 </CardContent>
             </CollapsibleContent>

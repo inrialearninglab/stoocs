@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
-
-import { useMooc } from '~/stores/mooc.store';
 import type { GradeReport } from '~/types';
+import { calculateParticipationPercentage } from '~/utils/calculations.utils';
 
-const moocStore = useMooc();
+const props = defineProps<{
+    gradeReport?: GradeReport;
+    loading: boolean;
+}>();
 
 const data = computed(() => {
-    if (!moocStore.mooc || !moocStore.mooc.gradeReport) return [];
-
+    if (!props.gradeReport) return [];
     let data = [];
 
-    const firstLine = moocStore.mooc.gradeReport.report[0];
-    const questions = firstLine.questions
+    const firstLine = props.gradeReport.gradeReportLines[0];
+    const questions = firstLine.gradeReportQuestions;
 
-    const participation = calculateParticipationPercentage(moocStore.mooc.gradeReport);
+    const participation = calculateParticipationPercentage(props.gradeReport);
     for (const question of questions) {
         data.push({
             name: question.label,
@@ -39,7 +40,11 @@ const data = computed(() => {
             <CardDescription>Pourcentage d'utilisateurs actifs ayant répondu à chaque question. Dans ce cas un utilisateur est considéré comme actif si il a obtenu un score supérieur à 0 dans au moins un exercice</CardDescription>
         </CardHeader>
         <CardContent>
+            <div v-if="!loading && !gradeReport" class="w-full h-[400px] items-center justify-center flex">
+                <h2>Aucune donnée</h2>
+            </div>
             <BarChart
+                v-else
                 :rounded-corners="4"
                 :data="data"
                 index="name"

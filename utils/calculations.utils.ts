@@ -10,8 +10,8 @@ import type { GradeReport } from '~/types';
 export function calculateProblemAverage(gradeReport: GradeReport) {
     const problemStats:{ [key: string]: { total: number, score: number }} = {};
     
-    gradeReport.report.forEach((reportLine) =>  {
-        reportLine.problemGradeReport.forEach((problem) => {
+    gradeReport.gradeReportLines.forEach((reportLine) =>  {
+        reportLine.gradeReportProblems.forEach((problem) => {
             if (!problemStats[problem.label]) {
                 if (problem.possible && problem.possible > 0) {
                     if (!problem.score) problem.score = 0;
@@ -44,9 +44,9 @@ export function calculateParticipationPercentage(gradeReport: GradeReport) {
     const questionStats: { [key: string]: { total: number, scoreCount: number } } = {};
     
     let activeUsers = 0;
-    gradeReport.report.forEach(reportLine => {
+    gradeReport.gradeReportLines.forEach(reportLine => {
         let isActive = false;
-        reportLine.questions.forEach(question => {
+        reportLine.gradeReportQuestions.forEach(question => {
             if (!questionStats[question.label]) {
                 if (question.score > 0) {
                     questionStats[question.label] = { total: 1, scoreCount: 1 };

@@ -17,17 +17,20 @@ export interface Mooc {
     description?: string;
     theme?: string;
     target?: string;
-    sessions?: Session[];
+    sessions: Pick<Session, 'id' | 'sessionName'>[];
 }
 
 export interface Session {
     id: string;
     sessionName: string;
-    enrollmentsDeatils?: any;
+    enrollmentsDetails?: {
+        date: string;
+        enrollments: number;
+    }[];
     totalEnrollments?: number;
     startDate?: Date;
     ended: boolean;
-    gradeReports?: GradeReport;
+    gradeReports?: Pick<GradeReport, 'id' | 'date'>[];
     authors?: Author[];
     teamMembers?: TeamMember[];
     //type

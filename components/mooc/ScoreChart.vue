@@ -4,18 +4,22 @@ import { useMooc } from '~/stores/mooc.store';
 import Papa from 'papaparse';
 import { Eye, EyeOff } from 'lucide-vue-next';
 import { calculateProblemAverage } from '~/utils';
+import type { GradeReport } from '~/types';
 
-const moocStore = useMooc();
+const props = defineProps<{
+    gradeReport?: GradeReport
+    loading: boolean;
+}>();
 
 const data = computed(() => {
-    if (!moocStore.mooc || !moocStore.mooc.gradeReport) return [];
+    if (!props.gradeReport) return [];
 
     let data = [];
 
-    const firstLine = moocStore.mooc.gradeReport.report[0];
-    const problems = firstLine.problemGradeReport
+    const firstLine = props.gradeReport.gradeReportLines[0];
+    const problems = firstLine.gradeReportProblems;
 
-    const problemAverages = calculateProblemAverage(moocStore.mooc.gradeReport);
+    const problemAverages = calculateProblemAverage(props.gradeReport);
     for (const problem of problems) {
         data.push({
             name: problem.label,
@@ -27,7 +31,7 @@ const data = computed(() => {
 })
 
 const problems = computed(() => {
-    if (!moocStore.mooc || !moocStore.mooc.gradeReport) return [];
+    if (!data.value) return [];
 
     const res = data.value.filter((d) => d.average < 75).sort((a, b) => a.average - b.average);
     return res.map((d) => ({ name: d.name, average: d.average }));
@@ -63,7 +67,11 @@ const isTableVisible = ref(false);
             <CardDescription>Pourcentage de réussite moyen par question.Dans ce cas la moyenne ne prends en compte que les gens ayant répondu aux questions</CardDescription>
         </CardHeader>
         <CardContent class="flex flex-col gap-5">
+            <div v-if="!loading && !gradeReport" class="w-full h-[400px] items-center justify-center flex">
+                <h2>Aucune donnée</h2>
+            </div>
             <BarChart
+                v-else
                :rounded-corners="4"
                :data="data"
                index="name"
@@ -72,30 +80,31 @@ const isTableVisible = ref(false);
                :y-formatter="(tick, i) => tick + '%'"
             />
 
-            <Separator />
+<!--            <Separator />-->
 
 
-            <div id="problem-table" class="flex flex-col gap-2 rounded border">
-                <div class="p-3 border-b flex justify-between">
-                    <h3>Rapport de problème</h3>
-                    <Button @click="isTableVisible = !isTableVisible" variant="outline" size="icon">
-                        <component :is="isTableVisible ? EyeOff : Eye" />
-                    </Button>
-                </div>
-                <Table v-if="isTableVisible">
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Exercice</TableHead>
-                            <TableHead>Moyenne</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableRow v-for="problem in problems">
-                        <TableCell>{{ problem.name }}</TableCell>
-                        <TableCell>{{ problem.average.toFixed(2) }}%</TableCell>
-                    </TableRow>
-                </Table>
-                <Button @click="exportTableToCSV" variant="outline" class="m-3">Export CSV</Button>
-            </div>
+<!--            <div id="problem-table" class="flex flex-col gap-2 rounded border">-->
+<!--                <div class="p-3 border-b flex justify-between">-->
+<!--                    <h3>Rapport de problème</h3>-->
+<!--                    <Button @click="isTableVisible = !isTableVisible" variant="outline" size="icon">-->
+<!--                        <component :is="isTableVisible ? EyeOff : Eye" />-->
+<!--                    </Button>-->
+<!--                </div>-->
+<!--                -->
+<!--                <Table v-if="isTableVisible">-->
+<!--                    <TableHeader>-->
+<!--                        <TableRow>-->
+<!--                            <TableHead>Exercice</TableHead>-->
+<!--                            <TableHead>Moyenne</TableHead>-->
+<!--                        </TableRow>-->
+<!--                    </TableHeader>-->
+<!--                    <TableRow v-for="problem in problems">-->
+<!--                        <TableCell>{{ problem.name }}</TableCell>-->
+<!--                        <TableCell>{{ problem.average.toFixed(2) }}%</TableCell>-->
+<!--                    </TableRow>-->
+<!--                </Table>-->
+<!--                <Button @click="exportTableToCSV" variant="outline" class="m-3">Export CSV</Button>-->
+<!--            </div>-->
         </CardContent>
     </Card>
 </template>

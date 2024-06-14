@@ -6,6 +6,7 @@ defineProps<{
     title: string;
     description: string;
     percentage?: number;
+    loading: boolean;
 }>();
 
 </script>
@@ -17,8 +18,9 @@ defineProps<{
             <CardDescription>{{ description }}</CardDescription>
         </CardHeader>
         <CardContent class="justify-center flex">
-            <RadialProgress v-if="percentage" :percentage="percentage" class="w-32"/>
-            <Skeleton v-else class="size-32 rounded-full" />
+            <Skeleton v-if="loading" class="size-32 rounded-full" />
+            <RadialProgress v-else-if="percentage" :percentage="percentage" class="w-32"/>
+            <div v-else class="text-[8rem]">🥸</div>
         </CardContent>
     </Card>
 </template>
