@@ -50,6 +50,13 @@ const Schema: z.ZodType<Prisma.MoocSessionWhereInput> = z
       ])
       .optional()
       .nullable(),
+    endDate: z
+      .union([
+        z.lazy(() => DateTimeNullableFilterObjectSchema),
+        z.coerce.date(),
+      ])
+      .optional()
+      .nullable(),
     ended: z
       .union([z.lazy(() => BoolFilterObjectSchema), z.boolean()])
       .optional(),

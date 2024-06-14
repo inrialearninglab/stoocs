@@ -11,6 +11,7 @@ export async function fetchSessionById(id: string): Promise<SessionData> {
         throw new Error(res.data.message);
     }
     
+    console.log('res.data.session', res.data.session);
     return res.data.session;
 }
 

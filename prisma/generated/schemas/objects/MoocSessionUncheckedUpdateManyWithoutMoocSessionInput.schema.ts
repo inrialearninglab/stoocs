@@ -47,6 +47,13 @@ const Schema: z.ZodType<Prisma.MoocSessionUncheckedUpdateManyWithoutMoocSessionI
         ])
         .optional()
         .nullable(),
+      endDate: z
+        .union([
+          z.coerce.date(),
+          z.lazy(() => NullableDateTimeFieldUpdateOperationsInputObjectSchema),
+        ])
+        .optional()
+        .nullable(),
       ended: z
         .union([
           z.boolean(),

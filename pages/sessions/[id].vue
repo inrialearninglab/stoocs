@@ -21,6 +21,10 @@ onMounted(() => {
     <div v-if="sessionStore.session.data" class="flex flex-col gap-12">
         <h1 class="text-center">{{ sessionStore.session.data.mooc.title }}</h1>
 
+        <h2 class="text-center border border-muted w-fit p-4 mx-auto rounded-lg">
+            {{ sessionStore.totalEnrollments }} Inscrits
+        </h2>
+
         <div class="flex flex-wrap gap-3 mx-auto">
             <ProgressCard
                 title="Curieux"
@@ -44,7 +48,12 @@ onMounted(() => {
             />
         </div>
 
-        <MoocEnrollments :details="sessionStore.session.data.enrollmentsDetails" :loading="sessionStore.session.loading" />
+        <MoocEnrollments
+            :details="sessionStore.session.data.enrollmentsDetails"
+            :loading="sessionStore.session.loading"
+            :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
+        />
+
         <MoocInterestChart :loading="sessionStore.gradeReport.loading" :grade-report="sessionStore.gradeReport.data" />
         <MoocScoreChart :loading="sessionStore.gradeReport.loading" :grade-report="sessionStore.gradeReport.data" />
     </div>

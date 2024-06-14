@@ -49,6 +49,13 @@ const Schema: z.ZodType<Prisma.MoocSessionScalarWhereWithAggregatesInput> = z
       ])
       .optional()
       .nullable(),
+    endDate: z
+      .union([
+        z.lazy(() => DateTimeNullableWithAggregatesFilterObjectSchema),
+        z.coerce.date(),
+      ])
+      .optional()
+      .nullable(),
     ended: z
       .union([z.lazy(() => BoolWithAggregatesFilterObjectSchema), z.boolean()])
       .optional(),

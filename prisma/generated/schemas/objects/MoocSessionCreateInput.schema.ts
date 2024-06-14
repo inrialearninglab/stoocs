@@ -26,6 +26,7 @@ const Schema: z.ZodType<Prisma.MoocSessionCreateInput> = z
       .optional(),
     totalEnrollments: z.number().optional(),
     startDate: z.coerce.date().optional().nullable(),
+    endDate: z.coerce.date().optional().nullable(),
     ended: z.boolean().optional(),
     gradeReports: z
       .lazy(

@@ -26,6 +26,12 @@ const Schema: z.ZodType<Prisma.MoocSessionOrderByWithAggregationInput> = z
         z.lazy(() => SortOrderInputObjectSchema),
       ])
       .optional(),
+    endDate: z
+      .union([
+        z.lazy(() => SortOrderSchema),
+        z.lazy(() => SortOrderInputObjectSchema),
+      ])
+      .optional(),
     ended: z.lazy(() => SortOrderSchema).optional(),
     typeID: z
       .union([

@@ -25,6 +25,7 @@ const Schema: z.ZodType<Prisma.MoocSessionCreateWithoutGradeReportsInput> = z
       .optional(),
     totalEnrollments: z.number().optional(),
     startDate: z.coerce.date().optional().nullable(),
+    endDate: z.coerce.date().optional().nullable(),
     ended: z.boolean().optional(),
     authors: z
       .lazy(() => AuthorCreateNestedManyWithoutSessionsInputObjectSchema)

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DateFormatter, type DateValue, getLocalTimeZone, today } from '@internationalized/date';
+import { DateFormatter, type DateValue, getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { Calendar as CalendarIcon } from 'lucide-vue-next';
 import { Calendar } from '~/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover';
@@ -15,6 +15,10 @@ const df = new DateFormatter('fr-FR', {
 const props = defineProps<{
     modelValue: DateValue;
     size?: ButtonVariants['size']
+    presets?: {
+        value: string;
+        label: string;
+    }[]
 }>()
 
 const emits = defineEmits<{
@@ -32,7 +36,7 @@ function getPresetValue(value: string) {
         case 'year':
             return today(getLocalTimeZone()).subtract({ years: 1})
         default:
-            return today(getLocalTimeZone())
+            return parseDate(value)
     }
 }
 
@@ -40,6 +44,7 @@ const presets = [
     { value: 'week', label: 'La semaine dernière' },
     { value: 'month', label: 'Le mois dernier' },
     { value: 'year', label: 'La dernière année' },
+    ...props.presets ?? []
 ]
 </script>
 

@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { LineChart } from '@/components/ui/chart-line'
-import { useMooc } from '~/stores/mooc.store';
 import {
-    CalendarDate,
-    DateFormatter,
     type DateValue,
     getLocalTimeZone,
     parseDate,
@@ -17,12 +14,12 @@ const props = defineProps<{
         date: string,
         enrollments: number
     }[];
-    startDate?: Date;
+    startDate?: string;
     loading: boolean;
 }>();
 
-const startDate = ref<DateValue>(new CalendarDate(2024, 4, 1));
-//
+const startDateValue = ref<DateValue>(props.startDate ? parseDate(props.startDate) : today(getLocalTimeZone()));
+
 interface EnrollmentData {
     'Date': string;
     'Inscriptions': number;
@@ -37,17 +34,17 @@ function getFilteredData(mode: 'day' | 'total') {
 
     props.details.forEach((enrollment) => {
         const enrollmentDate = getParsedDate(enrollment.date);
-        const startDateDate = startDate.value.toDate(getLocalTimeZone());
+        const startDate = startDateValue.value.toDate(getLocalTimeZone());
 
         if (mode === 'day') {
-            if (enrollmentDate < startDateDate) return;
+            if (enrollmentDate < startDate) return;
 
             data.push({
                 'Date': formatDate(enrollmentDate),
                 'Inscriptions': enrollment.enrollments
             });
         } else if (mode === 'total') {
-            if (enrollmentDate < startDateDate) {
+            if (enrollmentDate < startDate) {
                 return enrollments += enrollment.enrollments;
             }
 
@@ -61,6 +58,10 @@ function getFilteredData(mode: 'day' | 'total') {
 
     return data;
 }
+
+const presets = [
+    { value: props.startDate, label: 'Début de la session' }
+]
 
 
 </script>
@@ -81,7 +82,7 @@ function getFilteredData(mode: 'day' | 'total') {
                 <CardContent>
                     <div class="flex gap-2 items-center mt-2">
                         <Label>A partir du</Label>
-                        <DatePicker size="sm" v-model="startDate" />
+                        <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
                     </div>
 
                     <div v-if="!loading && !details" class="w-full h-[400px] items-center justify-center flex">
@@ -107,7 +108,7 @@ function getFilteredData(mode: 'day' | 'total') {
                 <CardContent>
                     <div class="flex gap-2 items-center mt-2">
                         <Label>A partir du</Label>
-                        <DatePicker size="sm" v-model="startDate" />
+                        <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
                     </div>
 
                     <div v-if="!loading && !details" class="w-full h-[400px] p-5 items-center justify-center flex">

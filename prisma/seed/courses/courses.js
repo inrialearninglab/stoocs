@@ -17,10 +17,17 @@ export async function getCourses() {
             });
 
             const sessions = jsonData.map((session) => {
+                const startDateString = session['Course Start Date:'].replace(' at ', ' ');
+                const startDate = new Date(startDateString);
+
+                const endDateString = session['Course End Date:'].replace(' at ', ' ');
+                const endDate = new Date(endDateString);
                 return {
                     parentCourse: session['Course Display Name:'],
                     sessionName: session['Course Name:'],
-                    ended: session['Has the course ended?'] === 'Yes'
+                    ended: session['Has the course ended?'] === 'Yes',
+                    startDate,
+                    endDate,
                 }
             })
             resolve({ courses, sessions })

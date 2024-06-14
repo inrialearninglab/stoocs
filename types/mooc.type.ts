@@ -28,7 +28,8 @@ export interface Session {
         enrollments: number;
     }[];
     totalEnrollments?: number;
-    startDate?: Date;
+    startDate?: string;
+    endDate?: string;
     ended: boolean;
     gradeReports?: Pick<GradeReport, 'id' | 'date'>[];
     authors?: Author[];

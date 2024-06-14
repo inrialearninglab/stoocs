@@ -47,6 +47,7 @@ model MoocSession {
     enrollmentsDetails Json?
     totalEnrollments   Int           @default(0)
     startDate          DateTime?
+    endDate            DateTime?
     ended              Boolean       @default(false)
     gradeReports       GradeReport[]
     authors            Author[]

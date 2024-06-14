@@ -6,6 +6,7 @@ export const MoocSessionScalarFieldEnumSchema = z.enum([
   'enrollmentsDetails',
   'totalEnrollments',
   'startDate',
+  'endDate',
   'ended',
   'typeID',
   'moocID',

@@ -91,6 +91,8 @@ async function seed() {
         const alreadyExists = await prisma.mooc.findUnique({
             where: { title: course.title }
         });
+
+        // update the course here
         if (alreadyExists) return;
 
         const res = await prisma.mooc.create({
@@ -110,6 +112,8 @@ async function seed() {
                 data: {
                     sessionName: session.sessionName,
                     ended: session.ended,
+                    startDate: session.startDate,
+                    endDate: session.endDate,
                     mooc: {
                         connect: {
                             id: parentCourse.id
@@ -136,7 +140,6 @@ async function seed() {
                 where: { id: session.id },
                 data: {
                     enrollmentsDetails: enrollments,
-                    startDate: new Date('2024-05-16'),
                     gradeReports: {
                         create: [gradeReportData]
                     }

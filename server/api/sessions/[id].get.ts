@@ -9,6 +9,8 @@ export default defineEventHandler(async (event) => {
         },
         select: {
             sessionName: true,
+            startDate: true,
+            endDate: true,
             mooc: true,
             enrollmentsDetails: true,
             gradeReports: true
