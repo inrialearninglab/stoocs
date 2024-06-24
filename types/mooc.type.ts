@@ -17,7 +17,7 @@ export interface Mooc {
     description?: string;
     theme?: string;
     target?: string;
-    sessions: Pick<Session, 'id' | 'sessionName'>[];
+    sessions: Pick<Session, 'id' | 'sessionName' | 'ended'>[];
 }
 
 export interface Session {

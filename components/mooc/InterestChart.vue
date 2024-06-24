@@ -19,7 +19,7 @@ const data = computed(() => {
     for (const question of questions) {
         data.push({
             name: question.label,
-            participation: participation[question.label] ?? 0,
+            'Participation': participation[question.label] ?? 0,
         })
     }
 
@@ -48,7 +48,7 @@ const data = computed(() => {
                 :rounded-corners="4"
                 :data="data"
                 index="name"
-                :categories="['participation']"
+                :categories="['Participation']"
                 :y-formatter="(value) => `${value}%`"
             />
         </CardContent>

@@ -23,7 +23,7 @@ const data = computed(() => {
     for (const problem of problems) {
         data.push({
             name: problem.label,
-            average: problemAverages[problem.label] ?? 0,
+            'Moyenne': problemAverages[problem.label] ?? 0,
         })
     }
 
@@ -33,13 +33,13 @@ const data = computed(() => {
 const problems = computed(() => {
     if (!data.value) return [];
 
-    const res = data.value.filter((d) => d.average < 75).sort((a, b) => a.average - b.average);
-    return res.map((d) => ({ name: d.name, average: d.average }));
+    const res = data.value.filter((d) => d['Moyenne'] < 75).sort((a, b) => a['Moyenne'] - b['Moyenne']);
+    return res.map((d) => ({ name: d.name, average: d['Moyenne'] }));
 })
 
 const color = (d: any) => {
-    if (d.average < 50) return '#EF4444';
-    else if (d.average < 75) return '#F59E0B';
+    if (d['Moyenne'] < 50) return '#EF4444';
+    else if (d['Moyenne'] < 75) return '#F59E0B';
     else return '#10B981';
 }
 
@@ -75,7 +75,7 @@ const isTableVisible = ref(false);
                :rounded-corners="4"
                :data="data"
                index="name"
-               :categories="['average']"
+               :categories="['Moyenne']"
                :color="color"
                :y-formatter="(tick, i) => tick + '%'"
             />
