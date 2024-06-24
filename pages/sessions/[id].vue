@@ -1,5 +1,7 @@
 <script lang="ts" setup="">
 
+import FileUploader from '~/components/FileUploader.vue';
+
 const route = useRoute();
 const router = useRouter();
 
@@ -13,7 +15,9 @@ onMounted(() => {
     if (!sessionStore.session.data || sessionStore.session.data.id !== route.params.id) {
         sessionStore.getSession(route.params.id as string);
     }
-})
+});
+
+const files: Ref<File[]> = ref([]);
 
 </script>
 
@@ -48,13 +52,19 @@ onMounted(() => {
             />
         </div>
 
-        <MoocEnrollments
-            :details="sessionStore.session.data.enrollmentsDetails"
-            :loading="sessionStore.session.loading"
-            :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
-        />
+        <div class="flex flex-col gap-2">
+            <MoocEnrollments
+                :details="sessionStore.session.data.enrollmentsDetails"
+                :loading="sessionStore.session.loading"
+                :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
+            />
+            <FileInputEnrollments />
+        </div>
 
-        <MoocInterestChart :loading="sessionStore.gradeReport.loading" :grade-report="sessionStore.gradeReport.data" />
+        <div class="flex flex-col gap-2">
+            <MoocInterestChart :loading="sessionStore.gradeReport.loading" :grade-report="sessionStore.gradeReport.data" />
+            <FileInputGradeReports />
+        </div>
         <MoocScoreChart :loading="sessionStore.gradeReport.loading" :grade-report="sessionStore.gradeReport.data" />
     </div>
 </template>
