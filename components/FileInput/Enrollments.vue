@@ -1,25 +1,32 @@
 <script setup lang="ts">
 import { postEnrollments } from '~/services/files.service';
-import { CircleX, CircleCheck } from 'lucide-vue-next';
+import { Loader2 } from 'lucide-vue-next';
 
 const props = defineProps<{
     sessionId: string
 }>();
 
 const files = ref<File[]>([]);
+const loading = ref(false);
 
 async function handleSubmit() {
+    loading.value = true;
     const file = files.value[0];
     const body = new FormData();
 
     body.append('file', file);
     await postEnrollments(body, props.sessionId);
+    loading.value = false;
 }
 
 const conditions = computed(() => {
     return  {
         'enrollments.csv': files.value.length === 1 && files.value[0].name === 'enrollments.csv',
     }
+})
+
+const conditionsFilled = computed(() => {
+    return Object.values(conditions.value).every(condition => condition);
 })
 
 </script>
@@ -37,7 +44,10 @@ const conditions = computed(() => {
             </DialogHeader>
             <FileUploader v-model="files" :conditions="conditions" />
             <DialogFooter class="mt-4">
-                <Button @click="handleSubmit" class="w-full" type="submit">Valider</Button>
+                <Button :disabled="loading || !conditionsFilled" @click="handleSubmit" class="w-full" type="submit">
+                    <Loader2 v-if="loading" class="w-4 h-4 mr-2 animate-spin" />
+                    Valider
+                </Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
