@@ -47,20 +47,27 @@ export default defineEventHandler(async (event) => {
         );
         const filename = `uploads/enrollments/${originalFilename}`;
         
-        const enrollments = await readEnrollments(filename);
-        
-        const session = await prisma.moocSession.update({
-            where: { id },
-            data: {
-                enrollmentsDetails: enrollments
-            },
-            select: {
-                id: true,
-                enrollmentsDetails: true
-            }
-        })
-        
-        return { session };
+        try {
+            const enrollments = await readEnrollments(filename);
+            
+            const session = await prisma.moocSession.update({
+                where: { id },
+                data: {
+                    enrollmentsDetails: enrollments
+                },
+                select: {
+                    id: true,
+                    enrollmentsDetails: true
+                }
+            })
+            
+            return { session };
+        } catch {
+            return createError({
+                statusCode: 400,
+                statusMessage: 'Invalid CSV Format'
+            })
+        }
     } catch(error) {
         console.log(error);
         return createError({

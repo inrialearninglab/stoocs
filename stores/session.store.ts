@@ -2,6 +2,7 @@ import type { GradeReport, Mooc, Session } from '~/types';
 import { fetchGradeReport, fetchSessionById } from '~/services/sessions.service';
 import { isUserActive, isUserCurious } from '~/utils';
 import { postEnrollments } from '~/services/files.service';
+import { useToast } from '~/components/ui/toast';
 
 interface SessionDetails extends Session {
     mooc: Mooc;
@@ -73,9 +74,25 @@ export const useSession = defineStore('session', {
         
         async addEnrollmentsReport(body: FormData) {
             if (!this.session.data) return;
+            const { toast } = useToast();
             
             const updatedSession = await postEnrollments(body, this.session.data.id)
+            
+            if (!updatedSession) {
+                
+                toast({
+                    title: 'Erreur',
+                    description: 'Erreur lors de l\'envoi du rapport d\'inscriptions',
+                    variant: 'destructive'
+                });
+                return;
+            }
+            
             this.session.data.enrollmentsDetails = updatedSession.enrollmentsDetails;
+            toast({
+                title: 'Succès',
+                description: 'Rapport d\'inscriptions correctemetn envoyé',
+            })
         }
     }
 })
