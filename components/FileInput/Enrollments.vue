@@ -1,5 +1,20 @@
 <script setup lang="ts">
+import { postEnrollments } from '~/services/files.service';
+
+const props = defineProps<{
+    sessionId: string
+}>();
+
 const files = ref<File[]>([]);
+
+async function handleSubmit() {
+    const file = files.value[0];
+    const body = new FormData();
+
+    body.append('file', file);
+    await postEnrollments(body, props.sessionId);
+}
+
 </script>
 
 <template>
@@ -11,11 +26,11 @@ const files = ref<File[]>([]);
         <DialogContent class="max-w-2xl">
             <DialogHeader>
                 <DialogTitle>Ajouter un rapport d'inscription</DialogTitle>
-                <DialogDescription>Ajouter le rapport du "Course dashboard" de FUN ici</DialogDescription>
+                <DialogDescription>Ajouter le fichier "<code>enrollments.csv</code>" du "Course dashboard" de FUN ici</DialogDescription>
             </DialogHeader>
-            <FileUploader :model-value="files" />
+            <FileUploader v-model="files" />
             <DialogFooter>
-                <Button class="w-full" type="submit">Valider</Button>
+                <Button @click="handleSubmit" class="w-full" type="submit">Valider</Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>

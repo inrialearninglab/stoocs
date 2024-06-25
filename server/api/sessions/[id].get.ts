@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
             id
         },
         select: {
+            id: true,
             sessionName: true,
             startDate: true,
             endDate: true,

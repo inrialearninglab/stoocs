@@ -1,7 +1,4 @@
 <script lang="ts" setup="">
-
-import FileUploader from '~/components/FileUploader.vue';
-
 const route = useRoute();
 const router = useRouter();
 
@@ -58,7 +55,7 @@ const files: Ref<File[]> = ref([]);
                 :loading="sessionStore.session.loading"
                 :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
             />
-            <FileInputEnrollments />
+            <FileInputEnrollments :session-id="sessionStore.session?.data?.id" />
         </div>
 
         <div class="flex flex-col gap-2">
