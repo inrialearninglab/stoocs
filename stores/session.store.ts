@@ -1,6 +1,7 @@
 import type { GradeReport, Mooc, Session } from '~/types';
 import { fetchGradeReport, fetchSessionById } from '~/services/sessions.service';
 import { isUserActive, isUserCurious } from '~/utils';
+import { postEnrollments } from '~/services/files.service';
 
 interface SessionDetails extends Session {
     mooc: Mooc;
@@ -68,6 +69,13 @@ export const useSession = defineStore('session', {
             this.gradeReport.loading = true
             this.gradeReport.data = await fetchGradeReport(id);
             this.gradeReport.loading = false;
+        },
+        
+        async addEnrollmentsReport(body: FormData) {
+            if (!this.session.data) return;
+            
+            const updatedSession = await postEnrollments(body, this.session.data.id)
+            this.session.data.enrollmentsDetails = updatedSession.enrollmentsDetails;
         }
     }
 })

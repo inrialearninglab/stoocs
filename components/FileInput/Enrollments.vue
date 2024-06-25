@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { postEnrollments } from '~/services/files.service';
 import { Loader2 } from 'lucide-vue-next';
-
-const props = defineProps<{
-    sessionId: string
-}>();
+import { useSession } from '~/stores/session.store';
 
 const files = ref<File[]>([]);
 const loading = ref(false);
+const sessionStore = useSession();
 
 async function handleSubmit() {
     loading.value = true;
@@ -15,13 +12,15 @@ async function handleSubmit() {
     const body = new FormData();
 
     body.append('file', file);
-    await postEnrollments(body, props.sessionId);
+    await sessionStore.addEnrollmentsReport(body);
     loading.value = false;
 }
 
+const enrollmentsRegex = /^enrollments(\s\(\d+\))?\.csv$/;
+
 const conditions = computed(() => {
     return  {
-        'enrollments.csv': files.value.length === 1 && files.value[0].name === 'enrollments.csv',
+        'enrollments.csv': files.value.length === 1 && enrollmentsRegex.test(files.value[0].name),
     }
 })
 

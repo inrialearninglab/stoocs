@@ -7,5 +7,5 @@ export async function postEnrollments(body: FormData, id: string) {
         }
     })
     
-    return res.data;
+    return res.data.session;
 }

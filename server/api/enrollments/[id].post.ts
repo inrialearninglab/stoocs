@@ -1,6 +1,8 @@
 import multer from 'multer';
 import { callNodeListener } from 'h3';
 import path from 'node:path';
+import { readEnrollments } from '~/server/utils/files.utils';
+import { prisma } from '~/prisma/db';
 
 let originalFilename = '';
 const storage = multer.diskStorage({
@@ -33,8 +35,6 @@ const upload = multer({
 
 export default defineEventHandler(async (event) => {
     const id = getRouterParam(event, 'id');
-    const date = new Date().toISOString().split('T')[0];
-    
     // @ts-expect-error: adding id to req
     event.node.req.id = id;
     
@@ -45,8 +45,22 @@ export default defineEventHandler(async (event) => {
             event.node.req,
             event.node.res
         );
+        const filename = `uploads/enrollments/${originalFilename}`;
         
-        return `/uploads/enrollments/${id}-${date}-${originalFilename}`;
+        const enrollments = await readEnrollments(filename);
+        
+        const session = await prisma.moocSession.update({
+            where: { id },
+            data: {
+                enrollmentsDetails: enrollments
+            },
+            select: {
+                id: true,
+                enrollmentsDetails: true
+            }
+        })
+        
+        return { session };
     } catch(error) {
         console.log(error);
         return createError({

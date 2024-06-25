@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import { useDropzone } from 'vue3-dropzone';
+import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { CircleCheck, CircleX, Upload, X } from 'lucide-vue-next';
 import { useVModel } from '@vueuse/core';
-import Enrollments from '~/components/FileInput/Enrollments.vue';
 
 const props = defineProps<{
     modelValue: File[];
@@ -19,7 +18,7 @@ const modelValue = useVModel(props, 'modelValue', emits, {
     passive: true
 });
 
-function onDrop(acceptFiles, rejectReasons) {
+function onDrop(acceptFiles: any[], rejectReasons: FileRejectReason[]) {
     console.log('acceptFiles', acceptFiles);
     console.log('rejectReasons', rejectReasons);
     if (props.multiple) {

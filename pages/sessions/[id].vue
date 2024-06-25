@@ -55,7 +55,7 @@ const files: Ref<File[]> = ref([]);
                 :loading="sessionStore.session.loading"
                 :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
             />
-            <FileInputEnrollments :session-id="sessionStore.session?.data?.id" />
+            <FileInputEnrollments />
         </div>
 
         <div class="flex flex-col gap-2">
