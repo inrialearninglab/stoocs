@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import { useDropzone } from 'vue3-dropzone';
-import { Upload, X } from 'lucide-vue-next';
+import { CircleCheck, CircleX, Upload, X } from 'lucide-vue-next';
 import { useVModel } from '@vueuse/core';
+import Enrollments from '~/components/FileInput/Enrollments.vue';
 
 const props = defineProps<{
     modelValue: File[];
     multiple?: boolean;
     maxFiles?: number;
+    conditions?: Record<string, boolean>;
 }>()
 
 const emits = defineEmits<{
@@ -21,6 +23,8 @@ function onDrop(acceptFiles, rejectReasons) {
     console.log('acceptFiles', acceptFiles);
     console.log('rejectReasons', rejectReasons);
     if (props.multiple) {
+        if (props.maxFiles && modelValue.value.length + acceptFiles.length > props.maxFiles) return;
+
         modelValue.value.push(...acceptFiles)
     } else if(acceptFiles.length) {
         modelValue.value = acceptFiles
@@ -64,6 +68,16 @@ const isDragActive = rest.isDragActive;
                     <X class="size-4" />
                 </Button>
             </div>
+        </div>
+        <div v-if="conditions" class="flex flex-col gap-2">
+            <p>Fichiers attendus:</p>
+            <ul class="space-y-1">
+                <li v-for="(value, key) in conditions" class="flex items-center gap-2">
+                    <CircleCheck class="size-5 text-green-500" v-if="value" />
+                    <CircleX class="size-5 text-red-500" v-else />
+                    <code>{{ key }}</code>
+                </li>
+            </ul>
         </div>
     </div>
 </template>

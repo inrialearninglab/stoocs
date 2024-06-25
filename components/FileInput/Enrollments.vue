@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { postEnrollments } from '~/services/files.service';
+import { CircleX, CircleCheck } from 'lucide-vue-next';
 
 const props = defineProps<{
     sessionId: string
@@ -15,6 +16,12 @@ async function handleSubmit() {
     await postEnrollments(body, props.sessionId);
 }
 
+const conditions = computed(() => {
+    return  {
+        'enrollments.csv': files.value.length === 1 && files.value[0].name === 'enrollments.csv',
+    }
+})
+
 </script>
 
 <template>
@@ -28,8 +35,8 @@ async function handleSubmit() {
                 <DialogTitle>Ajouter un rapport d'inscription</DialogTitle>
                 <DialogDescription>Ajouter le fichier "<code>enrollments.csv</code>" du "Course dashboard" de FUN ici</DialogDescription>
             </DialogHeader>
-            <FileUploader v-model="files" />
-            <DialogFooter>
+            <FileUploader v-model="files" :conditions="conditions" />
+            <DialogFooter class="mt-4">
                 <Button @click="handleSubmit" class="w-full" type="submit">Valider</Button>
             </DialogFooter>
         </DialogContent>
