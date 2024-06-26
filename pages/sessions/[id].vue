@@ -59,9 +59,9 @@ const files: Ref<File[]> = ref([]);
         </div>
 
         <div class="flex flex-col gap-2">
-            <MoocInterestChart :loading="sessionStore.gradeReport.loading" :grade-report="sessionStore.gradeReport.data" />
+            <MoocInterestChart :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.participation" />
             <FileInputGradeReports />
         </div>
-        <MoocScoreChart :loading="sessionStore.gradeReport.loading" :grade-report="sessionStore.gradeReport.data" />
+        <MoocScoreChart :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" />
     </div>
 </template>

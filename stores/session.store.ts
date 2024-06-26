@@ -1,19 +1,27 @@
 import type { GradeReport, Mooc, Session } from '~/types';
 import { fetchGradeReport, fetchSessionById } from '~/services/sessions.service';
-import { isUserActive, isUserCurious } from '~/utils';
 import { postEnrollments, postGradeReports } from '~/services/files.service';
 import { useToast } from '~/components/ui/toast';
 
 interface SessionDetails extends Session {
     mooc: Mooc;
 }
+
+interface ReportData {
+    totalActive: number;
+    totalCurious: number;
+    totalEligible: number;
+    participation: any;
+    score: any;
+}
+
 interface SessionState {
     session: {
         data: SessionDetails | null;
         loading: boolean;
     },
     gradeReport: {
-        data: GradeReport | null;
+        data: ReportData | null;
         loading: boolean;
     }
 }
@@ -33,20 +41,20 @@ export const useSession = defineStore('session', {
     
         totalActive(): number | undefined {
             if (!this.gradeReport.data) return undefined;
-            
-            return this.gradeReport.data.gradeReportLines.filter(isUserActive).length
+
+            return this.gradeReport.data.totalActive;
         },
-        
+
         totalCurious(): number | undefined {
             if (!this.gradeReport.data) return undefined;
             
-            return this.gradeReport.data.gradeReportLines.filter(isUserCurious).length
+            return this.gradeReport.data.totalCurious;
         },
-        
+
         totalEligible(): number | undefined {
             if (!this.gradeReport.data) return undefined;
             
-            return this.gradeReport.data.gradeReportLines.filter(line => line.certificateEligible === 'Y').length
+            return this.gradeReport.data.totalEligible;
         }
     },
     
@@ -96,6 +104,7 @@ export const useSession = defineStore('session', {
         },
         
         async addGradeReports(body: FormData){
+            console.time('addGradeReports');
             if (!this.session.data) return;
             const { toast } = useToast();
             
@@ -119,6 +128,7 @@ export const useSession = defineStore('session', {
                 title: 'Succès',
                 description: 'Rapport de notes correctement envoyé',
             })
+            console.timeEnd('addGradeReports');
         }
     }
     

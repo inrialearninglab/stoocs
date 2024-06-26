@@ -22,5 +22,5 @@ export async function fetchGradeReport(id: string) {
         throw new Error(res.data.message);
     }
     
-    return res.data.report;
+    return res.data;
 }
