@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Mooc } from '~/types';
 import { ChevronDown } from 'lucide-vue-next';
-import { Badge } from '~/components/ui/badge';
+// import { Badge } from '~/components/ui/badge';
 
 const props = defineProps<{
     mooc: Mooc;
@@ -9,8 +9,9 @@ const props = defineProps<{
 
 const isOpen = ref(false);
 
-const openedSessions = ref(props.mooc.sessions.filter(session => !session.ended).length);
-const closedSessions = ref(props.mooc.sessions.filter(session => session.ended).length);
+const openedSessions = ref(props.mooc.sessions.filter(session => !session.ended && session.sessionName !== 'archiveouvert').length);
+const closedSessions = ref(props.mooc.sessions.filter(session => session.ended && session.sessionName !== 'archiveouvert').length);
+const archiveSessions = ref(props.mooc.sessions.filter(session => session.sessionName === 'archiveouvert').length)
 
 </script>
 
@@ -24,13 +25,25 @@ const closedSessions = ref(props.mooc.sessions.filter(session => session.ended).
                             <CardTitle>{{ mooc.title }}</CardTitle>
                             <CardDescription v-if="mooc.description">{{ mooc.description }}</CardDescription>
                         </div>
-                        <div class="flex gap-3">
-                            <Badge v-if="openedSessions" class="bg-green-500">
-                                {{ openedSessions }} {{ openedSessions > 1 ? 'sessions ouvertes' : 'session ouverte' }}
-                            </Badge>
-                            <Badge v-if="closedSessions" class="bg-red-500">
-                                {{ closedSessions }} {{ closedSessions > 1 ? 'sessions fermées' : 'session fermée' }}
-                            </Badge>
+                        <div class="flex gap-2">
+                            <p
+                                v-if="openedSessions"
+                                class="size-7 rounded-full border-2 border-green-500 text-green-500 flex items-center justify-center"
+                            >
+                                {{ openedSessions }}
+                            </p>
+                            <p
+                                v-if="archiveSessions"
+                                class="size-7 rounded-full border-2 border-orange-500 text-orange-500 flex items-center justify-center"
+                            >
+                                {{ archiveSessions }}
+                            </p>
+                            <p
+                                v-if="closedSessions"
+                                class="size-7 rounded-full border-2 border-red-500 text-red-500 flex items-center justify-center"
+                            >
+                                {{ closedSessions }}
+                            </p>
                         </div>
                         <Button size="icon" variant="ghost" class="relative">
                             <ChevronDown class="transition-all absolute duration-200" :class="isOpen ? 'rotate-0' : '-rotate-180'" />
@@ -42,7 +55,10 @@ const closedSessions = ref(props.mooc.sessions.filter(session => session.ended).
                 <CardContent class="p-5">
                     <Button v-for="session of mooc.sessions" variant="ghost" class="flex gap-2 items-center w-fit" as-child>
                         <NuxtLink :to="`/sessions/${session.id}`">
-                            <div class="size-4 rounded-full" :class="session.ended ? 'bg-red-500' : 'bg-green-500'"></div>
+                            <div
+                                class="size-4 rounded-full"
+                                :class="session.ended ? 'bg-red-500' : session.sessionName === 'archiveouvert' ? 'bg-orange-500' : 'bg-green-500'"
+                            ></div>
                             {{ session.sessionName }}
                         </NuxtLink>
                     </Button>
