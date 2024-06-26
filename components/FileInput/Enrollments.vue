@@ -3,8 +3,10 @@ import { Loader2 } from 'lucide-vue-next';
 import { useSession } from '~/stores/session.store';
 
 const files = ref<File[]>([]);
-const loading = ref(false);
 const sessionStore = useSession();
+
+const loading = ref(false);
+const open = ref(false);
 
 async function handleSubmit() {
     loading.value = true;
@@ -14,6 +16,7 @@ async function handleSubmit() {
     body.append('file', file);
     await sessionStore.addEnrollmentsReport(body);
     loading.value = false;
+    open.value = false;
 }
 
 const enrollmentsRegex = /^enrollments(\s\(\d+\))?\.csv$/;
@@ -31,7 +34,7 @@ const conditionsFilled = computed(() => {
 </script>
 
 <template>
-    <Dialog>
+    <Dialog v-model:open="open">
         <DialogTrigger as-child class>
             <Button variant="outline">Ajouter un rapport</Button>
         </DialogTrigger>

@@ -9,6 +9,7 @@ const gradeReportRegex = /^\w+_\d+_\w+_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv
 const problemGradeReportRegex = /^\w+_\d+_\w+_problem_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
 
 const loading = ref(false);
+const open = ref(false);
 
 const conditions = computed(() => {
     return {
@@ -37,11 +38,12 @@ async function handleSubmit() {
     body.append('problemGradeReport', problemGradeReport);
     await sessionStore.addGradeReports(body);
     loading.value = false;
+    open.value = false;
 }
 </script>
 
 <template>
-    <Dialog>
+    <Dialog v-model:open="open">
         <DialogTrigger as-child class>
             <Button variant="outline">Ajouter des rapports</Button>
         </DialogTrigger>
