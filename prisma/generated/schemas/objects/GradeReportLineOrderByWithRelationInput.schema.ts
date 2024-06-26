@@ -8,6 +8,7 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.GradeReportLineOrderByWithRelationInput> = z
   .object({
+    id: z.lazy(() => SortOrderSchema).optional(),
     userID: z.lazy(() => SortOrderSchema).optional(),
     grade: z.lazy(() => SortOrderSchema).optional(),
     certificateEligible: z.lazy(() => SortOrderSchema).optional(),

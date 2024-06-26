@@ -73,7 +73,8 @@ model GradeReport {
 }
 
 model GradeReportLine {
-    userID               Int                   @id
+    id                   String                @id @default(cuid())
+    userID               Int
     grade                Float
     certificateEligible  String
     certificateDelivered String
@@ -81,25 +82,25 @@ model GradeReportLine {
     gradeReportProblems  GradeReportProblem[]
     gradeReport          GradeReport           @relation(fields: [gradeReportID], references: [id])
     gradeReportID        String
+
+    @@unique([userID, gradeReportID])
 }
 
 model GradeReportQuestion {
+    id              String          @id @default(cuid())
     userID          Int
     label           String
     score           Float
-    gradeReportLine GradeReportLine @relation(fields: [lineID], references: [userID])
-    lineID          Int
-
-    @@id([userID, label])
+    gradeReportLine GradeReportLine @relation(fields: [lineID], references: [id])
+    lineID          String
 }
 
 model GradeReportProblem {
+    id              String          @id @default(cuid())
     userID          Int
     label           String
     score           Float?
     possible        Float?
-    gradeReportLine GradeReportLine @relation(fields: [lineID], references: [userID])
-    lineID          Int
-
-    @@id([userID, label])
+    gradeReportLine GradeReportLine @relation(fields: [lineID], references: [id])
+    lineID          String
 }

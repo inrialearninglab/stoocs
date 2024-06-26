@@ -4,6 +4,7 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.GradeReportProblemCountAggregateInputType> = z
   .object({
+    id: z.literal(true).optional(),
     userID: z.literal(true).optional(),
     label: z.literal(true).optional(),
     score: z.literal(true).optional(),

@@ -6,7 +6,6 @@ const Schema: z.ZodType<Prisma.GradeReportQuestionSumAggregateInputType> = z
   .object({
     userID: z.literal(true).optional(),
     score: z.literal(true).optional(),
-    lineID: z.literal(true).optional(),
   })
   .strict();
 

@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { IntFilterObjectSchema } from './IntFilter.schema';
 import { StringFilterObjectSchema } from './StringFilter.schema';
+import { IntFilterObjectSchema } from './IntFilter.schema';
 import { FloatFilterObjectSchema } from './FloatFilter.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -23,6 +23,9 @@ const Schema: z.ZodType<Prisma.GradeReportQuestionScalarWhereInput> = z
         z.lazy(() => GradeReportQuestionScalarWhereInputObjectSchema).array(),
       ])
       .optional(),
+    id: z
+      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
+      .optional(),
     userID: z
       .union([z.lazy(() => IntFilterObjectSchema), z.number()])
       .optional(),
@@ -33,7 +36,7 @@ const Schema: z.ZodType<Prisma.GradeReportQuestionScalarWhereInput> = z
       .union([z.lazy(() => FloatFilterObjectSchema), z.number()])
       .optional(),
     lineID: z
-      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
   })
   .strict();

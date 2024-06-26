@@ -5,6 +5,7 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.GradeReportProblemMinOrderByAggregateInput> = z
   .object({
+    id: z.lazy(() => SortOrderSchema).optional(),
     userID: z.lazy(() => SortOrderSchema).optional(),
     label: z.lazy(() => SortOrderSchema).optional(),
     score: z.lazy(() => SortOrderSchema).optional(),

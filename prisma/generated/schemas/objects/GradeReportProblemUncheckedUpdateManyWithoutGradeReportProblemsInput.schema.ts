@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
+import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { NullableFloatFieldUpdateOperationsInputObjectSchema } from './NullableFloatFieldUpdateOperationsInput.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -8,6 +8,12 @@ import type { Prisma } from '@prisma/client';
 const Schema: z.ZodType<Prisma.GradeReportProblemUncheckedUpdateManyWithoutGradeReportProblemsInput> =
   z
     .object({
+      id: z
+        .union([
+          z.string(),
+          z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
+        ])
+        .optional(),
       userID: z
         .union([
           z.number(),

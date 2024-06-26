@@ -7,7 +7,6 @@ const Schema: z.ZodType<Prisma.GradeReportQuestionAvgOrderByAggregateInput> = z
   .object({
     userID: z.lazy(() => SortOrderSchema).optional(),
     score: z.lazy(() => SortOrderSchema).optional(),
-    lineID: z.lazy(() => SortOrderSchema).optional(),
   })
   .strict();
 

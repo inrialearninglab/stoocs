@@ -1,10 +1,16 @@
 import { z } from 'zod';
+import { GradeReportLineUserIDGradeReportIDCompoundUniqueInputObjectSchema } from './GradeReportLineUserIDGradeReportIDCompoundUniqueInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.GradeReportLineWhereUniqueInput> = z
   .object({
-    userID: z.number().optional(),
+    id: z.string().optional(),
+    userID_gradeReportID: z
+      .lazy(
+        () => GradeReportLineUserIDGradeReportIDCompoundUniqueInputObjectSchema,
+      )
+      .optional(),
   })
   .strict();
 

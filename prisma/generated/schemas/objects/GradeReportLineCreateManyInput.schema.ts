@@ -4,6 +4,7 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.GradeReportLineCreateManyInput> = z
   .object({
+    id: z.string().optional(),
     userID: z.number(),
     grade: z.number(),
     certificateEligible: z.string(),

@@ -7,7 +7,6 @@ const Schema: z.ZodType<Prisma.GradeReportProblemAvgAggregateInputType> = z
     userID: z.literal(true).optional(),
     score: z.literal(true).optional(),
     possible: z.literal(true).optional(),
-    lineID: z.literal(true).optional(),
   })
   .strict();
 

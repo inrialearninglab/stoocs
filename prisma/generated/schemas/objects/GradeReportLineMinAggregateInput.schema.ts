@@ -4,6 +4,7 @@ import type { Prisma } from '@prisma/client';
 
 const Schema: z.ZodType<Prisma.GradeReportLineMinAggregateInputType> = z
   .object({
+    id: z.literal(true).optional(),
     userID: z.literal(true).optional(),
     grade: z.literal(true).optional(),
     certificateEligible: z.literal(true).optional(),
