@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { Loader2 } from 'lucide-vue-next';
+import { useSession } from '~/stores/session.store';
 
 const files: Ref<File[]> = ref([]);
+const sessionStore = useSession();
 
-const gradeReportRegex = /^\w+_\d+_\w+_(grade_report)_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
-const problemGradeReportRegex = /^\w+_\d+_\w+_(problem_grade_report)_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
+const gradeReportRegex = /^\w+_\d+_\w+_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
+const problemGradeReportRegex = /^\w+_\d+_\w+_problem_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
 
 const loading = ref(false);
 
 const conditions = computed(() => {
     return {
-        'Grade report': files.value.some(file => gradeReportRegex.test(file.name)),
+        'Grade report': files.value.some(file => gradeReportRegex.test(file.name) && !problemGradeReportRegex.test(file.name)),
         'Problem grade report': files.value.some(file => problemGradeReportRegex.test(file.name)),
     }
 })
@@ -18,6 +20,24 @@ const conditions = computed(() => {
 const conditionsFilled = computed(() => {
     return Object.values(conditions.value).every(condition => condition);
 })
+
+async function handleSubmit() {
+    loading.value = true;
+    const gradeReport = files.value.find(file => gradeReportRegex.test(file.name) && !problemGradeReportRegex.test(file.name));
+    const problemGradeReport = files.value.find(file => problemGradeReportRegex.test(file.name));
+
+    if (!gradeReport || !problemGradeReport) return;
+
+    console.log('gradeReport', gradeReport)
+    console.log('problemGradeReport', problemGradeReport)
+
+    const body = new FormData();
+
+    body.append('gradeReport', gradeReport);
+    body.append('problemGradeReport', problemGradeReport);
+    await sessionStore.addGradeReports(body);
+    loading.value = false;
+}
 </script>
 
 <template>
@@ -33,7 +53,7 @@ const conditionsFilled = computed(() => {
             </DialogHeader>
             <FileUploader v-model="files" :multiple="true" :max-files="2" :conditions="conditions" />
             <DialogFooter class="mt-4">
-                <Button :disabled="loading || !conditionsFilled" class="w-full" type="submit">
+                <Button :disabled="loading || !conditionsFilled" @click="handleSubmit" class="w-full" type="submit">
                     <Loader2 v-if="loading" class="w-4 h-4 mr-2 animate-spin" />
                     Valider
                 </Button>

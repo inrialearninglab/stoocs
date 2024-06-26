@@ -21,3 +21,17 @@ export async function postEnrollments(body: FormData, id: string) {
         return null;
     }
 }
+
+export async function postGradeReports(body: FormData, id: string) {
+    try {
+        const res = await axios.post(`/api/reports/${id}`, body, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        
+        return res.data.session;
+    } catch {
+        return null;
+    }
+}

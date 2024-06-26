@@ -1,7 +1,7 @@
 import type { GradeReport, Mooc, Session } from '~/types';
 import { fetchGradeReport, fetchSessionById } from '~/services/sessions.service';
 import { isUserActive, isUserCurious } from '~/utils';
-import { postEnrollments } from '~/services/files.service';
+import { postEnrollments, postGradeReports } from '~/services/files.service';
 import { useToast } from '~/components/ui/toast';
 
 interface SessionDetails extends Session {
@@ -26,7 +26,6 @@ export const useSession = defineStore('session', {
     
     getters: {
         totalEnrollments(): number | undefined {
-            console.log('before if')
             if (!this.session.data?.enrollmentsDetails) return undefined;
             
             return this.session.data.enrollmentsDetails.reduce((acc, { enrollments }) => acc + enrollments, 0) ?? 0;
@@ -85,14 +84,42 @@ export const useSession = defineStore('session', {
                     description: 'Erreur lors de l\'envoi du rapport d\'inscriptions',
                     variant: 'destructive'
                 });
+                
                 return;
             }
             
             this.session.data.enrollmentsDetails = updatedSession.enrollmentsDetails;
             toast({
                 title: 'Succès',
-                description: 'Rapport d\'inscriptions correctemetn envoyé',
+                description: 'Rapport d\'inscriptions correctement envoyé',
+            })
+        },
+        
+        async addGradeReports(body: FormData){
+            if (!this.session.data) return;
+            const { toast } = useToast();
+            
+            const updatedSession = await postGradeReports(body, this.session.data.id);
+            
+            if (!updatedSession) {
+                toast({
+                    title: 'Erreur',
+                    description: 'Erreur lors de l\'envoi du rapport de notes',
+                    variant: 'destructive'
+                });
+                
+                return
+            }
+            if (!this.session.data.gradeReports) this.session.data.gradeReports = [];
+            
+            this.session.data.gradeReports.push(updatedSession.gradeReports[updatedSession.gradeReports.length - 1]);
+            const lastGradeReport = this.session.data.gradeReports[this.session.data.gradeReports.length - 1];
+            await this.getGradeReport(lastGradeReport.id);
+            toast({
+                title: 'Succès',
+                description: 'Rapport de notes correctement envoyé',
             })
         }
     }
+    
 })
