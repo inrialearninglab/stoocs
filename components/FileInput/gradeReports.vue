@@ -29,9 +29,6 @@ async function handleSubmit() {
 
     if (!gradeReport || !problemGradeReport) return;
 
-    console.log('gradeReport', gradeReport)
-    console.log('problemGradeReport', problemGradeReport)
-
     const body = new FormData();
 
     body.append('gradeReport', gradeReport);
@@ -40,6 +37,12 @@ async function handleSubmit() {
     loading.value = false;
     open.value = false;
 }
+
+defineExpose({
+    open,
+    files
+})
+
 </script>
 
 <template>

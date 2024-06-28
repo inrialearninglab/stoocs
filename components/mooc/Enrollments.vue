@@ -8,6 +8,7 @@ import {
 } from '@internationalized/date';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs'
 import { formatDate, getParsedDate } from '~/utils/date.utils';
+import FileInputEnrollments from '~/components/FileInput/Enrollments.vue';
 
 const props = defineProps<{
     details?: {
@@ -62,50 +63,65 @@ const presets = [
     { value: props.startDate, label: 'Début de la session' }
 ]
 
+const fileInput: Ref<InstanceType<typeof FileInputEnrollments> | null> = ref(null);
+function upload(event: File[]) {
+   if (!fileInput.value) return;
+
+   fileInput.value.open = true;
+   fileInput.value.files = event
+}
+
+
 </script>
 
 <template>
-    <Tabs default-value="day">
-       <TabsList class="grid w-full grid-cols-2">
-           <TabsTrigger value="day">Par jour</TabsTrigger>
-           <TabsTrigger value="total">Cumul</TabsTrigger>
-       </TabsList>
-        <TabsContent value="day">
-            <GraphCard
-                title="Inscriptions"
-                description="Nombre de nouvelle inscription par jour"
-                :loading="loading"
-                :empty="!details"
-            >
-                <div class="flex gap-2 items-center mt-2">
-                    <Label>A partir du</Label>
-                    <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
-                </div>
-                <LineChart
-                    :data="getFilteredData('day')"
-                    index="Date"
-                    :categories="['Inscriptions']"
-                />
-            </GraphCard>
-        </TabsContent>
+    <div class="flex flex-col gap-2">
+        <Tabs default-value="day">
+            <TabsList class="grid w-full grid-cols-2">
+                <TabsTrigger value="day">Par jour</TabsTrigger>
+                <TabsTrigger value="total">Cumul</TabsTrigger>
+            </TabsList>
+            <TabsContent value="day">
+                <GraphCard
+                    @upload="upload"
+                    title="Inscriptions"
+                    description="Nombre de nouvelle inscription par jour"
+                    :loading="loading"
+                    :empty="!details"
+                >
+                    <div class="flex gap-2 items-center mt-2">
+                        <Label>A partir du</Label>
+                        <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
+                    </div>
+                    <LineChart
+                        :data="getFilteredData('day')"
+                        index="Date"
+                        :categories="['Inscriptions']"
+                    />
+                </GraphCard>
+            </TabsContent>
 
-        <TabsContent value="total">
-            <GraphCard
-                title="Inscriptions"
-                description="Nombre total d'inscription"
-                :loading="loading"
-                :empty="!details"
-            >
-                <div class="flex gap-2 items-center mt-2">
-                    <Label>A partir du</Label>
-                    <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
-                </div>
-                <AreaChart
-                    :data="getFilteredData('total')"
-                    index="Date"
-                    :categories="['Inscriptions']"
-                />
-            </GraphCard>
-        </TabsContent>
-    </Tabs>
+            <TabsContent value="total">
+                <GraphCard
+                    @upload="upload"
+                    title="Inscriptions"
+                    description="Nombre total d'inscription"
+                    :loading="loading"
+                    :empty="!details"
+                >
+                    <div class="flex gap-2 items-center mt-2">
+                        <Label>A partir du</Label>
+                        <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
+                    </div>
+                    <AreaChart
+                        :data="getFilteredData('total')"
+                        index="Date"
+                        :categories="['Inscriptions']"
+                    />
+                </GraphCard>
+            </TabsContent>
+        </Tabs>
+
+        <FileInputEnrollments ref="fileInput" />
+    </div>
 </template>

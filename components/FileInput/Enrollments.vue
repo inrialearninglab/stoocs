@@ -31,6 +31,11 @@ const conditionsFilled = computed(() => {
     return Object.values(conditions.value).every(condition => condition);
 })
 
+defineExpose({
+    open,
+    files
+})
+
 </script>
 
 <template>

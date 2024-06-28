@@ -14,8 +14,6 @@ onMounted(() => {
     }
 });
 
-const files: Ref<File[]> = ref([]);
-
 </script>
 
 <template>
@@ -52,19 +50,13 @@ const files: Ref<File[]> = ref([]);
             />
         </div>
 
-        <div class="flex flex-col gap-2" @dragenter="dragging = true" @dragleave="handleDragLeave">
-            <MoocEnrollments
-                :details="sessionStore.session.data.enrollmentsDetails"
-                :loading="sessionStore.session.loading"
-                :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
-            />
-            <FileInputEnrollments />
-        </div>
+        <MoocEnrollments
+            :details="sessionStore.session.data.enrollmentsDetails"
+            :loading="sessionStore.session.loading"
+            :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
+        />
 
-        <div class="flex flex-col gap-2">
-            <MoocInterestChart :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
-            <FileInputGradeReports />
-        </div>
+        <MoocInterestChart :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
         <MoocScoreChart :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" />
     </div>
 </template>
