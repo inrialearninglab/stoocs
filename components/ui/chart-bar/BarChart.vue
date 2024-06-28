@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<BaseChartProps<T> & {
   color?: any
 }>(), {
   type: 'grouped',
-  margin: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+  margin: () => ({ top: 10, bottom: 0, left: 0, right: 0 }),
   filterOpacity: 0.2,
   roundedCorners: 0,
   showXAxis: true,
@@ -68,6 +68,7 @@ const selectorsBar = computed(() => props.type === 'grouped' ? GroupedBar.select
       :data="data"
       :style="{ height: isMounted ? '100%' : 'auto' }"
       :margin="margin"
+      :yDomain="[0, 100]"
     >
       <ChartCrosshair v-if="showTooltip" :colors="colors" :items="legendItems" :custom-tooltip="customTooltip" :index="index" />
 
