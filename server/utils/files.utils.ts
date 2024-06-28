@@ -72,14 +72,16 @@ export async function readGradeReports(gradeReportPath: string, probemGradeRepor
         
         gradeReportData.gradeReportLines.push(gradeReportLine);
     }
+    
+    const totalActive = gradeReportData.gradeReportLines.filter(isUserActive).length;
 
     return {
         date: gradeReportData.date,
-        totalActive: gradeReportData.gradeReportLines.filter(isUserActive).length,
+        totalActive: totalActive,
         totalCurious: gradeReportData.gradeReportLines.filter(isUserCurious).length,
         totalEligible: gradeReportData.gradeReportLines.filter(line => line.certificateEligible === 'Y').length,
         score: getScoreData(gradeReportData),
-        interest: getInterestData(gradeReportData)
+        interest: getInterestData(gradeReportData, totalActive)
     };
 }
 

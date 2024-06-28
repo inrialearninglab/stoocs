@@ -1,12 +1,12 @@
 import type { GradeReport, GradeReportData } from '~/types/gradeReport.type';
 
-export function getInterestData(gradeReport: GradeReportData): GradeReport['interest'] {
+export function getInterestData(gradeReport: GradeReportData, totalActive: number): GradeReport['interest'] {
     let data = [];
     
     const firstLine = gradeReport.gradeReportLines[0];
     const questions = firstLine.gradeReportQuestions;
     
-    const participation = calculateParticipationPercentage(gradeReport);
+    const participation = calculateParticipationPercentage(gradeReport, totalActive);
     for (const question of questions) {
         data.push({
             name: question.label,
@@ -78,18 +78,17 @@ export function calculateProblemAverage(gradeReport: GradeReportData) {
  * @description - This function calculates the percentage of users that have responded to a question
  * @remarks - This function only takes into account the active users
  * @param gradeReport
+ * @param totalActive
  */
-export function calculateParticipationPercentage(gradeReport: GradeReportData) {
+export function calculateParticipationPercentage(gradeReport: GradeReportData, totalActive: number) {
+    console.log('totalActive', totalActive)
     const questionStats: { [key: string]: { total: number, scoreCount: number } } = {};
     
-    let activeUsers = 0;
     gradeReport.gradeReportLines.forEach(reportLine => {
-        let isActive = false;
         reportLine.gradeReportQuestions.forEach(question => {
             if (!questionStats[question.label]) {
                 if (question.score > 0) {
                     questionStats[question.label] = { total: 1, scoreCount: 1 };
-                    isActive = true;
                 } else {
                     questionStats[question.label] = { total: 1, scoreCount: 0 };
                 }
@@ -97,18 +96,16 @@ export function calculateParticipationPercentage(gradeReport: GradeReportData) {
                 questionStats[question.label].total += 1;
                 if (question.score > 0) {
                     questionStats[question.label].scoreCount += 1;
-                    isActive = true;
                 }
             }
         });
-        if (isActive) activeUsers ++;
     });
     
     const participationPercentages: { [key: string]: number } = {};
     
     Object.keys(questionStats).forEach(questionLabel => {
         const stats = questionStats[questionLabel];
-        participationPercentages[questionLabel] = (stats.scoreCount / activeUsers) * 100;
+        participationPercentages[questionLabel] = (stats.scoreCount / totalActive) * 100;
     });
     
     return participationPercentages;

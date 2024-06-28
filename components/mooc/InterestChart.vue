@@ -12,7 +12,7 @@ defineProps<{
     <Card>
         <CardHeader class="pb-3">
             <CardTitle>Participation</CardTitle>
-            <CardDescription>Pourcentage d'utilisateurs actifs ayant répondu à chaque question. Dans ce cas un utilisateur est considéré comme actif si il a obtenu un score supérieur à 0 dans au moins un exercice</CardDescription>
+            <CardDescription>Pour chaque séquence, pourcentage d'utilisateurs actifs ayant répondu à au moins une question</CardDescription>
         </CardHeader>
         <CardContent>
             <div v-if="!loading && !data" class="w-full h-[400px] items-center justify-center flex">

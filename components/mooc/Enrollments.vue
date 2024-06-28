@@ -31,7 +31,6 @@ function getFilteredData(mode: 'day' | 'total') {
 
     let enrollments = 0;
 
-
     props.details.forEach((enrollment) => {
         const enrollmentDate = getParsedDate(enrollment.date);
         const startDate = startDateValue.value.toDate(getLocalTimeZone());
@@ -70,7 +69,7 @@ const presets = [
     <Tabs default-value="day">
        <TabsList class="grid w-full grid-cols-2">
            <TabsTrigger value="day">Par jour</TabsTrigger>
-           <TabsTrigger value="total">Total</TabsTrigger>
+           <TabsTrigger value="total">Cumul</TabsTrigger>
        </TabsList>
 
         <TabsContent value="day">
