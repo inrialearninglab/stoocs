@@ -52,7 +52,7 @@ const files: Ref<File[]> = ref([]);
             />
         </div>
 
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2" @dragenter="dragging = true" @dragleave="handleDragLeave">
             <MoocEnrollments
                 :details="sessionStore.session.data.enrollmentsDetails"
                 :loading="sessionStore.session.loading"

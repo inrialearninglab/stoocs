@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LineChart } from '@/components/ui/chart-line'
+import { LineChart } from '~/components/ui/chart-line'
 import {
     type DateValue,
     getLocalTimeZone,
@@ -62,7 +62,6 @@ const presets = [
     { value: props.startDate, label: 'Début de la session' }
 ]
 
-
 </script>
 
 <template>
@@ -71,56 +70,42 @@ const presets = [
            <TabsTrigger value="day">Par jour</TabsTrigger>
            <TabsTrigger value="total">Cumul</TabsTrigger>
        </TabsList>
-
         <TabsContent value="day">
-            <Card>
-                <CardHeader class="pb-3">
-                    <CardTitle>Inscriptions</CardTitle>
-                    <CardDescription>Nombre de nouvelle inscription par jour</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div class="flex gap-2 items-center mt-2">
-                        <Label>A partir du</Label>
-                        <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
-                    </div>
-
-                    <div v-if="!loading && !details" class="w-full h-[400px] items-center justify-center flex">
-                        <h2>Aucune donnée</h2>
-                    </div>
-                    <LineChart
-                        v-else
-                        :data="getFilteredData('day')"
-                        index="Date"
-                        :categories="['Inscriptions']"
-                    />
-                </CardContent>
-            </Card>
+            <GraphCard
+                title="Inscriptions"
+                description="Nombre de nouvelle inscription par jour"
+                :loading="loading"
+                :empty="!details"
+            >
+                <div class="flex gap-2 items-center mt-2">
+                    <Label>A partir du</Label>
+                    <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
+                </div>
+                <LineChart
+                    :data="getFilteredData('day')"
+                    index="Date"
+                    :categories="['Inscriptions']"
+                />
+            </GraphCard>
         </TabsContent>
 
         <TabsContent value="total">
-            <Card>
-                <CardHeader  class="pb-3">
-                    <CardTitle>Inscriptions</CardTitle>
-                    <CardDescription>Nombre total d'inscription</CardDescription>
-                </CardHeader>
-
-                <CardContent>
-                    <div class="flex gap-2 items-center mt-2">
-                        <Label>A partir du</Label>
-                        <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
-                    </div>
-
-                    <div v-if="!loading && !details" class="w-full h-[400px] p-5 items-center justify-center flex">
-                        <h2>Aucune donnée</h2>
-                    </div>
-                    <AreaChart
-                        v-else
-                        :data="getFilteredData('total')"
-                        index="Date"
-                        :categories="['Inscriptions']"
-                    />
-                </CardContent>
-            </Card>
+            <GraphCard
+                title="Inscriptions"
+                description="Nombre total d'inscription"
+                :loading="loading"
+                :empty="!details"
+            >
+                <div class="flex gap-2 items-center mt-2">
+                    <Label>A partir du</Label>
+                    <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
+                </div>
+                <AreaChart
+                    :data="getFilteredData('total')"
+                    index="Date"
+                    :categories="['Inscriptions']"
+                />
+            </GraphCard>
         </TabsContent>
     </Tabs>
 </template>

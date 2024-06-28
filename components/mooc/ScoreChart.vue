@@ -14,24 +14,19 @@ const color = (d: any) => {
 </script>
 
 <template>
-    <Card>
-        <CardHeader class="pb-3">
-            <CardTitle>Score</CardTitle>
-            <CardDescription>Pourcentage de réussite moyen par question.Dans ce cas la moyenne ne prends en compte que les gens ayant répondu aux questions</CardDescription>
-        </CardHeader>
-        <CardContent class="flex flex-col gap-5">
-            <div v-if="!loading && !data" class="w-full h-[400px] items-center justify-center flex">
-                <h2>Aucune donnée</h2>
-            </div>
-            <BarChart
-                v-else
-               :rounded-corners="4"
-               :data="data"
-               index="name"
-               :categories="['Moyenne']"
-               :color="color"
-               :y-formatter="(tick, i) => tick + '%'"
-            />
-        </CardContent>
-    </Card>
+    <GraphCard
+        title="Score"
+        description="Pourcentage de réussite moyen par question.Dans ce cas la moyenne ne prends en compte que les gens ayant répondu aux questions"
+        :loading="loading"
+        :empty="!data"
+    >
+        <BarChart
+            :rounded-corners="4"
+            :data="data"
+            index="name"
+            :categories="['Moyenne']"
+            :color="color"
+            :y-formatter="(tick, i) => tick + '%'"
+        />
+    </GraphCard>
 </template>
