@@ -26,6 +26,7 @@ const emits = defineEmits<{
 }>();
 
 const value = useVModel(props, 'modelValue', emits);
+const open = ref(false);
 
 function getPresetValue(value: string) {
     switch (value) {
@@ -49,7 +50,7 @@ const presets = [
 </script>
 
 <template>
-    <Popover>
+    <Popover v-model:open="open">
         <PopoverTrigger as-child>
             <Button
                 :size="size"
@@ -69,6 +70,7 @@ const presets = [
                 @update:model-value="(v) => {
                     if (!v) return;
                     value = getPresetValue(v)
+                    open = false
                 }"
             >
                 <SelectTrigger>
@@ -82,7 +84,7 @@ const presets = [
                 </SelectContent>
             </Select>
 
-            <Calendar v-model="value" initial-focus/>
+            <Calendar @update:model-value="open = false" v-model="value" initial-focus/>
         </PopoverContent>
     </Popover>
 </template>
