@@ -7,21 +7,13 @@ interface SessionDetails extends Session {
     mooc: Mooc;
 }
 
-interface ReportData {
-    totalActive: number;
-    totalCurious: number;
-    totalEligible: number;
-    participation: any;
-    score: any;
-}
-
 interface SessionState {
     session: {
         data: SessionDetails | null;
         loading: boolean;
     },
     gradeReport: {
-        data: ReportData | null;
+        data: GradeReport | null;
         loading: boolean;
     }
 }
@@ -70,13 +62,14 @@ export const useSession = defineStore('session', {
                 const lastGradeReport = this.session.data.gradeReports[this.session.data.gradeReports.length - 1];
                 this.getGradeReport(lastGradeReport.id);
             }
-            
         },
         
         async getGradeReport(id: string) {
+            console.time('getGradeReport')
             this.gradeReport.loading = true
             this.gradeReport.data = await fetchGradeReport(id);
             this.gradeReport.loading = false;
+            console.timeEnd('getGradeReport')
         },
         
         async addEnrollmentsReport(body: FormData) {

@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { StringWithAggregatesFilterObjectSchema } from './StringWithAggregatesFilter.schema';
 import { DateTimeWithAggregatesFilterObjectSchema } from './DateTimeWithAggregatesFilter.schema';
+import { IntWithAggregatesFilterObjectSchema } from './IntWithAggregatesFilter.schema';
+import { JsonWithAggregatesFilterObjectSchema } from './JsonWithAggregatesFilter.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -38,6 +40,17 @@ const Schema: z.ZodType<Prisma.GradeReportScalarWhereWithAggregatesInput> = z
     moocSessionId: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
+    totalActive: z
+      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
+    totalCurious: z
+      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
+    totalEligible: z
+      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
+    score: z.lazy(() => JsonWithAggregatesFilterObjectSchema).optional(),
+    interest: z.lazy(() => JsonWithAggregatesFilterObjectSchema).optional(),
   })
   .strict();
 

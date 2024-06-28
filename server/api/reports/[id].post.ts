@@ -44,55 +44,13 @@ export default defineEventHandler(async (event) => {
         // @ts-expect-error: Nuxt 3
         const problemGradeReportFile = event.node.req.files.problemGradeReport[0].path;
         
-        
-        const report = await readGradeReports(gradeReportFile, problemGradeReportFile);
-        
-        const gradeReportData = {
-            date: new Date('2021-01-01'),
-            gradeReportLines: {
-                create: []
-            }
-        }
-        
-        for (const reportLine of report) {
-            const gradeReportQuestions = reportLine.questions.map((question) => {
-                return {
-                    userID: reportLine.id,
-                    label: question.label,
-                    score: question.score
-                }
-            });
-
-            const gradeReportProblems = reportLine.problemGradeReport.map((problem) => {
-                return {
-                    userID: reportLine.id,
-                    label: problem.label,
-                    score: problem.score,
-                    possible: problem.possible
-                }
-            });
-
-            const gradeReportLine = {
-                userID: reportLine.id,
-                grade: reportLine.grade,
-                certificateEligible: reportLine.certificateEligible,
-                certificateDelivered: reportLine.certificateDelivered,
-                gradeReportQuestions: {
-                    create: gradeReportQuestions
-                },
-                gradeReportProblems: {
-                    create: gradeReportProblems
-                }
-            }
-            gradeReportData.gradeReportLines.create.push(gradeReportLine);
-        }
-        
+        const gradeReport = await readGradeReports(gradeReportFile, problemGradeReportFile);
         
         const session = await prisma.moocSession.update({
             where: { id },
             data: {
                 gradeReports: {
-                    create: [gradeReportData]
+                    create: [gradeReport]
                 }
             },
             select: {

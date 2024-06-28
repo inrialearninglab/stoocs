@@ -65,42 +65,13 @@ model SessionType {
 }
 
 model GradeReport {
-    id               String            @id @default(cuid())
-    date             DateTime          @default(now())
-    gradeReportLines GradeReportLine[]
-    moocSession      MoocSession       @relation(fields: [moocSessionId], references: [id])
-    moocSessionId    String
-}
-
-model GradeReportLine {
-    id                   String                @id @default(cuid())
-    userID               Int
-    grade                Float
-    certificateEligible  String
-    certificateDelivered String
-    gradeReportQuestions GradeReportQuestion[]
-    gradeReportProblems  GradeReportProblem[]
-    gradeReport          GradeReport           @relation(fields: [gradeReportID], references: [id])
-    gradeReportID        String
-
-    @@unique([userID, gradeReportID])
-}
-
-model GradeReportQuestion {
-    id              String          @id @default(cuid())
-    userID          Int
-    label           String
-    score           Float
-    gradeReportLine GradeReportLine @relation(fields: [lineID], references: [id])
-    lineID          String
-}
-
-model GradeReportProblem {
-    id              String          @id @default(cuid())
-    userID          Int
-    label           String
-    score           Float?
-    possible        Float?
-    gradeReportLine GradeReportLine @relation(fields: [lineID], references: [id])
-    lineID          String
+    id            String      @id @default(cuid())
+    date          DateTime    @default(now())
+    moocSession   MoocSession @relation(fields: [moocSessionId], references: [id])
+    moocSessionId String
+    totalActive   Int
+    totalCurious  Int
+    totalEligible Int
+    score         Json
+    interest      Json
 }

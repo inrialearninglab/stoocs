@@ -1,5 +1,13 @@
 import { createReadStream } from 'fs';
 import { parse } from 'csv';
+import type { GradeReport, GradeReportData, GradeReportLine } from '~/types';
+import { isUserActive, isUserCurious } from '~/server/utils/usersStatus.utils';
+import { getInterestData, getScoreData } from '~/server/utils/graph.utils';
+
+interface Question {
+    label: string
+    score: number
+}
 
 export async function readEnrollments(filename: string): Promise<any> {
     const results: any[] = [];
@@ -22,18 +30,61 @@ export async function readEnrollments(filename: string): Promise<any> {
             })
             .on('end', () => resolve(results))
             .on('error', (error) => reject(error))
-    })
+    });
 }
 
-export async function readGradeReports(gradeReport: string, probemGradeReport: string): Promise<any> {
-    let report = await readGradeReport(gradeReport);
-    report = await readProblemGradeReport(probemGradeReport, report);
+export async function readGradeReports(gradeReportPath: string, probemGradeReportPath: string): Promise<Omit<GradeReport, 'id'>> {
+    let report = await readGradeReport(gradeReportPath);
+    report = await readProblemGradeReport(probemGradeReportPath, report);
     
-    return report;
+    const gradeReportData: GradeReportData = {
+        date: new Date('2021-01-01'),
+        gradeReportLines: []
+    };
+    
+    for (const reportLine of report) {
+        const gradeReportQuestions = reportLine.questions.map((question: { label: string, score: number }) => {
+            return {
+                userID: reportLine.id,
+                label: question.label,
+                score: question.score
+            }
+        })
+        
+        const gradeReportProblems = reportLine.problemGradeReport.map((problem: { label: string, score: number, possible: number }) => {
+            return {
+                userID: reportLine.id,
+                label: problem.label,
+                score: problem.score,
+                possible: problem.possible
+            }
+        })
+        
+        const gradeReportLine: GradeReportLine = {
+            userID: reportLine.id,
+            grade: reportLine.grade,
+            certificateEligible: reportLine.certificateEligible,
+            certificateDelivered: reportLine.certificateDelivered,
+            gradeReportQuestions,
+            gradeReportProblems
+        
+        }
+        
+        gradeReportData.gradeReportLines.push(gradeReportLine);
+    }
+
+    return {
+        date: gradeReportData.date,
+        totalActive: gradeReportData.gradeReportLines.filter(isUserActive).length,
+        totalCurious: gradeReportData.gradeReportLines.filter(isUserCurious).length,
+        totalEligible: gradeReportData.gradeReportLines.filter(line => line.certificateEligible === 'Y').length,
+        score: getScoreData(gradeReportData),
+        interest: getInterestData(gradeReportData)
+    };
 }
 
 async function readGradeReport(filename: string): Promise<any> {
-    const report: any[] = [];
+    const lines: any[] = []
     
     await new Promise((resolve, reject) => {
         createReadStream(filename)
@@ -50,20 +101,20 @@ async function readGradeReport(filename: string): Promise<any> {
                 const othersKeys = ['id', 'username', 'grade', 'Enrollment Track', 'Verification Status', 'Certificate Eligible', 'Certificate Delivered', 'Certificate Type'];
                 const questions = Object.keys(data).filter(key => !othersKeys.includes(key));
                 
-                questions.forEach((question) => {
+                questions.forEach((question: any) => {
                     reportLine.questions.push({
                         label: question,
                         score: Number(data[question])
                     });
                 });
                 
-                report.push(reportLine);
+                lines.push(reportLine);
             })
-            .on('end', () => resolve(report))
+            .on('end', () => resolve(lines))
             .on('error', (error) => reject(error))
     })
     
-    return report;
+    return lines;
 }
 
 async function readProblemGradeReport(filename: string, report: any) {
@@ -98,7 +149,7 @@ async function readProblemGradeReport(filename: string, report: any) {
                                 possible: getResultValue(possible[i])
                             }
                             
-                            const reportLine = report.find(reportLine => reportLine.id === id);
+                            const reportLine = report.find((reportLine: any) => reportLine.id === id);
                             if (reportLine) {
                                 reportLine.problemGradeReport.push(problemGradeReportLine);
                             } else {
@@ -112,7 +163,7 @@ async function readProblemGradeReport(filename: string, report: any) {
                             possible: getResultValue(possible)
                         }
                         
-                        const reportLine = report.find(reportLine => reportLine.id === id);
+                        const reportLine = report.find((reportLine: any) => reportLine.id === id);
                         if (reportLine) {
                             reportLine.problemGradeReport.push(problemGradeReportLine);
                         } else {

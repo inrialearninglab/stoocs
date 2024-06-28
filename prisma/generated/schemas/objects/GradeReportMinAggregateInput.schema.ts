@@ -7,6 +7,9 @@ const Schema: z.ZodType<Prisma.GradeReportMinAggregateInputType> = z
     id: z.literal(true).optional(),
     date: z.literal(true).optional(),
     moocSessionId: z.literal(true).optional(),
+    totalActive: z.literal(true).optional(),
+    totalCurious: z.literal(true).optional(),
+    totalEligible: z.literal(true).optional(),
   })
   .strict();
 

@@ -1,7 +1,8 @@
 import { z } from 'zod';
 import { StringFilterObjectSchema } from './StringFilter.schema';
 import { DateTimeFilterObjectSchema } from './DateTimeFilter.schema';
-import { GradeReportLineListRelationFilterObjectSchema } from './GradeReportLineListRelationFilter.schema';
+import { IntFilterObjectSchema } from './IntFilter.schema';
+import { JsonFilterObjectSchema } from './JsonFilter.schema';
 import { MoocSessionRelationFilterObjectSchema } from './MoocSessionRelationFilter.schema';
 import { MoocSessionWhereInputObjectSchema } from './MoocSessionWhereInput.schema';
 
@@ -34,9 +35,17 @@ const Schema: z.ZodType<Prisma.GradeReportWhereInput> = z
     moocSessionId: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
-    gradeReportLines: z
-      .lazy(() => GradeReportLineListRelationFilterObjectSchema)
+    totalActive: z
+      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
       .optional(),
+    totalCurious: z
+      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .optional(),
+    totalEligible: z
+      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .optional(),
+    score: z.lazy(() => JsonFilterObjectSchema).optional(),
+    interest: z.lazy(() => JsonFilterObjectSchema).optional(),
     moocSession: z
       .union([
         z.lazy(() => MoocSessionRelationFilterObjectSchema),

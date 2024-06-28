@@ -5,6 +5,8 @@ import { GradeReportWhereUniqueInputObjectSchema } from './objects/GradeReportWh
 import { GradeReportCountAggregateInputObjectSchema } from './objects/GradeReportCountAggregateInput.schema';
 import { GradeReportMinAggregateInputObjectSchema } from './objects/GradeReportMinAggregateInput.schema';
 import { GradeReportMaxAggregateInputObjectSchema } from './objects/GradeReportMaxAggregateInput.schema';
+import { GradeReportAvgAggregateInputObjectSchema } from './objects/GradeReportAvgAggregateInput.schema';
+import { GradeReportSumAggregateInputObjectSchema } from './objects/GradeReportSumAggregateInput.schema';
 
 export const GradeReportAggregateSchema = z.object({
   orderBy: z
@@ -22,4 +24,6 @@ export const GradeReportAggregateSchema = z.object({
     .optional(),
   _min: GradeReportMinAggregateInputObjectSchema.optional(),
   _max: GradeReportMaxAggregateInputObjectSchema.optional(),
+  _avg: GradeReportAvgAggregateInputObjectSchema.optional(),
+  _sum: GradeReportSumAggregateInputObjectSchema.optional(),
 });

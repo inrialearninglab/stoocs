@@ -14,7 +14,12 @@ export default defineEventHandler(async (event) => {
             endDate: true,
             mooc: true,
             enrollmentsDetails: true,
-            gradeReports: true
+            gradeReports: {
+                select: {
+                    id: true,
+                    date: true
+                }
+            }
         }
     })
     

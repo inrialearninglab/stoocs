@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Mooc, Session } from '~/types';
+import type { GradeReport, Mooc, Session } from '~/types';
 
 interface SessionData extends Session {
     mooc: Mooc
@@ -11,16 +11,15 @@ export async function fetchSessionById(id: string): Promise<SessionData> {
         throw new Error(res.data.message);
     }
     
-    console.log('res.data.session', res.data.session);
     return res.data.session;
 }
 
-export async function fetchGradeReport(id: string) {
+export async function fetchGradeReport(id: string): Promise<GradeReport> {
     const res = await axios.get(`/api/reports/${id}`);
     
     if (res.status !== 200) {
         throw new Error(res.data.message);
     }
     
-    return res.data;
+    return res.data.report;
 }

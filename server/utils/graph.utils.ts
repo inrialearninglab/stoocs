@@ -1,6 +1,6 @@
-import { GradeReport } from '~/types';
+import type { GradeReport, GradeReportData } from '~/types/gradeReport.type';
 
-export function getInterestData(gradeReport: GradeReport) {
+export function getInterestData(gradeReport: GradeReportData): GradeReport['interest'] {
     let data = [];
     
     const firstLine = gradeReport.gradeReportLines[0];
@@ -22,7 +22,7 @@ export function getInterestData(gradeReport: GradeReport) {
     return data;
 }
 
-export function getScoreData(gradeReport: GradeReport) {
+export function getScoreData(gradeReport: GradeReportData): GradeReport['score'] {
     let data = [];
     
     const firstLine = gradeReport.gradeReportLines[0];
@@ -46,7 +46,7 @@ export function getScoreData(gradeReport: GradeReport) {
  * For a given problem each user can have a different possible so we to calculate a percentage per question for each user.
  * @param gradeReport
  */
-export function calculateProblemAverage(gradeReport: GradeReport) {
+export function calculateProblemAverage(gradeReport: GradeReportData) {
     const problemStats:{ [key: string]: { total: number, score: number }} = {};
     
     gradeReport.gradeReportLines.forEach((reportLine) =>  {
@@ -79,7 +79,7 @@ export function calculateProblemAverage(gradeReport: GradeReport) {
  * @remarks - This function only takes into account the active users
  * @param gradeReport
  */
-export function calculateParticipationPercentage(gradeReport: GradeReport) {
+export function calculateParticipationPercentage(gradeReport: GradeReportData) {
     const questionStats: { [key: string]: { total: number, scoreCount: number } } = {};
     
     let activeUsers = 0;

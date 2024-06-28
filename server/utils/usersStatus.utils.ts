@@ -5,5 +5,5 @@ export function isUserActive(reportLine: GradeReportLine) {
 }
 
 export function isUserCurious(reportLine: GradeReportLine) {
-    return reportLine.gradeReportProblems.some(item => item.possible !== null);
+    return reportLine.gradeReportProblems.some(item => item.possible !== undefined);
 }
