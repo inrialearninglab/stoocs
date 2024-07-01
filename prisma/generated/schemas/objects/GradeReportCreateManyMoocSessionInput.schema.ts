@@ -21,6 +21,7 @@ const Schema: z.ZodType<Prisma.GradeReportCreateManyMoocSessionInput> = z
     totalEligible: z.number(),
     score: z.union([z.lazy(() => JsonNullValueInputSchema), jsonSchema]),
     interest: z.union([z.lazy(() => JsonNullValueInputSchema), jsonSchema]),
+    threshold: z.union([z.lazy(() => JsonNullValueInputSchema), jsonSchema]),
   })
   .strict();
 

@@ -1,5 +1,24 @@
 import type { GradeReport, GradeReportData } from '~/types/gradeReport.type';
 
+export function getPassingThresholdData(gradeReport: GradeReportData) {
+    const data = [];
+    
+    const thresholds = [];
+    for (let i = 10; i <= 100; i += 5) {
+        thresholds.push(i);
+    }
+    for (const threshold of thresholds) {
+        const eligible = gradeReport.gradeReportLines.filter((line) => line.grade >= threshold / 100);
+        
+        data.push({
+            threshold: `${threshold}%`,
+            'Eligible': eligible.length
+        });
+    }
+    
+    return data;
+}
+
 export function getInterestData(gradeReport: GradeReportData, totalActive: number): GradeReport['interest'] {
     let data = [];
     

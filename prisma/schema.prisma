@@ -74,4 +74,5 @@ model GradeReport {
     totalEligible Int
     score         Json
     interest      Json
+    threshold     Json
 }

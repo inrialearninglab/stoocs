@@ -12,6 +12,7 @@ const Schema: z.ZodType<Prisma.GradeReportCountAggregateInputType> = z
     totalEligible: z.literal(true).optional(),
     score: z.literal(true).optional(),
     interest: z.literal(true).optional(),
+    threshold: z.literal(true).optional(),
     _all: z.literal(true).optional(),
   })
   .strict();

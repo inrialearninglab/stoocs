@@ -18,6 +18,7 @@ const Schema: z.ZodType<Prisma.GradeReportOrderByWithAggregationInput> = z
     totalEligible: z.lazy(() => SortOrderSchema).optional(),
     score: z.lazy(() => SortOrderSchema).optional(),
     interest: z.lazy(() => SortOrderSchema).optional(),
+    threshold: z.lazy(() => SortOrderSchema).optional(),
     _count: z
       .lazy(() => GradeReportCountOrderByAggregateInputObjectSchema)
       .optional(),

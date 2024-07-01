@@ -58,5 +58,6 @@ onMounted(() => {
 
         <MoocInterestChart :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
         <MoocScoreChart :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" />
+        <MoocThreshold :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.threshold" />
     </div>
 </template>

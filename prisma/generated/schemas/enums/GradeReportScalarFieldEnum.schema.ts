@@ -9,4 +9,5 @@ export const GradeReportScalarFieldEnumSchema = z.enum([
   'totalEligible',
   'score',
   'interest',
+  'threshold',
 ]);

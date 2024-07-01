@@ -11,6 +11,10 @@ export interface GradeReport {
     interest: {
         name: string;
         'Participation': number;
+    }[],
+    threshold: {
+        threshold: number;
+        'Eligible': number;
     }[]
 }
 export interface GradeReportData {

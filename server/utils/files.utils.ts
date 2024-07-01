@@ -2,7 +2,7 @@ import { createReadStream } from 'fs';
 import { parse } from 'csv';
 import type { GradeReport, GradeReportData, GradeReportLine } from '~/types';
 import { isUserActive, isUserCurious } from '~/server/utils/usersStatus.utils';
-import { getInterestData, getScoreData } from '~/server/utils/graph.utils';
+import { getInterestData, getPassingThresholdData, getScoreData } from '~/server/utils/graph.utils';
 
 interface Question {
     label: string
@@ -81,7 +81,8 @@ export async function readGradeReports(gradeReportPath: string, probemGradeRepor
         totalCurious: gradeReportData.gradeReportLines.filter(isUserCurious).length,
         totalEligible: gradeReportData.gradeReportLines.filter(line => line.certificateEligible === 'Y').length,
         score: getScoreData(gradeReportData),
-        interest: getInterestData(gradeReportData, totalActive)
+        interest: getInterestData(gradeReportData, totalActive),
+        threshold: getPassingThresholdData(gradeReportData)
     };
 }
 

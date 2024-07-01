@@ -54,6 +54,9 @@ const Schema: z.ZodType<Prisma.GradeReportUncheckedUpdateWithoutMoocSessionInput
       interest: z
         .union([z.lazy(() => JsonNullValueInputSchema), jsonSchema])
         .optional(),
+      threshold: z
+        .union([z.lazy(() => JsonNullValueInputSchema), jsonSchema])
+        .optional(),
     })
     .strict();
 

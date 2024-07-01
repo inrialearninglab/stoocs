@@ -44,6 +44,7 @@ const Schema: z.ZodType<Prisma.GradeReportScalarWhereInput> = z
       .optional(),
     score: z.lazy(() => JsonFilterObjectSchema).optional(),
     interest: z.lazy(() => JsonFilterObjectSchema).optional(),
+    threshold: z.lazy(() => JsonFilterObjectSchema).optional(),
   })
   .strict();
 
