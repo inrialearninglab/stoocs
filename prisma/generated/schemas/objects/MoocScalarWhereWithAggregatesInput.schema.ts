@@ -31,6 +31,9 @@ const Schema: z.ZodType<Prisma.MoocScalarWhereWithAggregatesInput> = z
     title: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
+    courseNumber: z
+      .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
+      .optional(),
     description: z
       .union([
         z.lazy(() => StringNullableWithAggregatesFilterObjectSchema),

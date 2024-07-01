@@ -7,6 +7,7 @@ const Schema: z.ZodType<Prisma.MoocCountAggregateInputType> = z
     id: z.literal(true).optional(),
     organization: z.literal(true).optional(),
     title: z.literal(true).optional(),
+    courseNumber: z.literal(true).optional(),
     description: z.literal(true).optional(),
     theme: z.literal(true).optional(),
     target: z.literal(true).optional(),

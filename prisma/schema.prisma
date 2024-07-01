@@ -20,7 +20,8 @@ datasource db {
 model Mooc {
     id           String        @id @default(cuid())
     organization String
-    title        String        @unique
+    title        String
+    courseNumber String        @unique
     description  String?
     theme        String?
     target       String?

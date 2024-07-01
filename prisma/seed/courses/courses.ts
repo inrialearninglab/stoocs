@@ -12,6 +12,7 @@ export async function getCourses(): Promise<{ courses: any, sessions: any }> {
             const courses = jsonData.map((course: any) => {
                 return {
                     title: course['Course Display Name:'],
+                    courseNumber: course['Course Number:'],
                     organization: course['Organization:'],
                 }
             });
@@ -23,7 +24,7 @@ export async function getCourses(): Promise<{ courses: any, sessions: any }> {
                 const endDateString = session['Course End Date:'].replace(' at ', ' ');
                 const endDate = new Date(endDateString);
                 return {
-                    parentCourse: session['Course Display Name:'],
+                    parentCourse: session['Course Number:'],
                     sessionName: session['Course Name:'],
                     ended: session['Has the course ended?'] === 'Yes',
                     startDate,

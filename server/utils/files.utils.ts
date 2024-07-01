@@ -3,6 +3,7 @@ import { parse } from 'csv';
 import type { GradeReport, GradeReportData, GradeReportLine } from '~/types';
 import { isUserActive, isUserCurious } from '~/server/utils/usersStatus.utils';
 import { getInterestData, getPassingThresholdData, getScoreData } from '~/server/utils/graph.utils';
+import { extractMetadata } from '~/utils';
 
 interface Question {
     label: string
@@ -37,8 +38,10 @@ export async function readGradeReports(gradeReportPath: string, probemGradeRepor
     let report = await readGradeReport(gradeReportPath);
     report = await readProblemGradeReport(probemGradeReportPath, report);
     
+    const metaData = extractMetadata(gradeReportPath);
+    
     const gradeReportData: GradeReportData = {
-        date: new Date('2021-01-01'),
+        date: new Date(metaData.date),
         gradeReportLines: []
     };
     
@@ -67,7 +70,6 @@ export async function readGradeReports(gradeReportPath: string, probemGradeRepor
             certificateDelivered: reportLine.certificateDelivered,
             gradeReportQuestions,
             gradeReportProblems
-        
         }
         
         gradeReportData.gradeReportLines.push(gradeReportLine);

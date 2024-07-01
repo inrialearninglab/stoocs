@@ -5,7 +5,7 @@ import { readEnrollments, readGradeReports } from "~/server/utils/";
 const prisma = new PrismaClient();
 
 const enrollments = await readEnrollments('prisma/seed/enrollments/enrollments.csv');
-const gradeReportData = await readGradeReports('prisma/seed/gradeReports/gradeReport.csv', 'prisma/seed/gradeReports/ProblemGradeReport.csv');
+const gradeReportData = await readGradeReports('prisma/seed/gradeReports/inria_41023_session01_grade_report_2024-06-24-0727.csv', 'prisma/seed/gradeReports/inria_41023_session01_problem_grade_report_2024-06-24-0727.csv');
 
 const teamData = [
     {
@@ -47,7 +47,7 @@ async function seed() {
 
     for (const course of courses) {
         const alreadyExists = await prisma.mooc.findUnique({
-            where: { title: course.title }
+            where: { courseNumber: course.courseNumber }
         });
 
         // update the course here
@@ -62,7 +62,7 @@ async function seed() {
 
     for (const session of sessions) {
         const parentCourse = await prisma.mooc.findUnique({
-            where: { title: session.parentCourse }
+            where: { courseNumber: session.parentCourse }
         });
 
         if (parentCourse) {
@@ -83,9 +83,10 @@ async function seed() {
         }
     }
 
-    const moocName = 'Reproducible Research II: Practices and tools for managing computations and data';
+    const courseNumber = '41023';
+    // const moocName = 'Reproducible Research II: Practices and tools for managing computations and data';
     const mooc = await prisma.mooc.findUnique({
-        where: { title: moocName }
+        where: { courseNumber }
     });
 
     if (mooc) {

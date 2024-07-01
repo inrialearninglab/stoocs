@@ -8,6 +8,7 @@ const Schema: z.ZodType<Prisma.MoocMaxOrderByAggregateInput> = z
     id: z.lazy(() => SortOrderSchema).optional(),
     organization: z.lazy(() => SortOrderSchema).optional(),
     title: z.lazy(() => SortOrderSchema).optional(),
+    courseNumber: z.lazy(() => SortOrderSchema).optional(),
     description: z.lazy(() => SortOrderSchema).optional(),
     theme: z.lazy(() => SortOrderSchema).optional(),
     target: z.lazy(() => SortOrderSchema).optional(),

@@ -25,3 +25,5 @@ logs
 
 uploads/enrollments
 uploads/reports
+
+prisma/seed

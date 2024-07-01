@@ -10,6 +10,7 @@ const Schema: z.ZodType<Prisma.MoocOrderByWithRelationInput> = z
     id: z.lazy(() => SortOrderSchema).optional(),
     organization: z.lazy(() => SortOrderSchema).optional(),
     title: z.lazy(() => SortOrderSchema).optional(),
+    courseNumber: z.lazy(() => SortOrderSchema).optional(),
     description: z
       .union([
         z.lazy(() => SortOrderSchema),

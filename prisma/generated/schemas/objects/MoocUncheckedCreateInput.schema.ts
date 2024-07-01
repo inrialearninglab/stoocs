@@ -8,6 +8,7 @@ const Schema: z.ZodType<Prisma.MoocUncheckedCreateInput> = z
     id: z.string().optional(),
     organization: z.string(),
     title: z.string(),
+    courseNumber: z.string(),
     description: z.string().optional().nullable(),
     theme: z.string().optional().nullable(),
     target: z.string().optional().nullable(),
