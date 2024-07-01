@@ -2,6 +2,7 @@ import type { GradeReport, Mooc, Session } from '~/types';
 import { fetchGradeReport, fetchSessionById } from '~/services/sessions.service';
 import { postEnrollments, postGradeReports } from '~/services/files.service';
 import { useToast } from '~/components/ui/toast';
+import { formatDate, getParsedDate } from '~/utils';
 
 interface SessionDetails extends Session {
     mooc: Mooc;
@@ -47,6 +48,24 @@ export const useSession = defineStore('session', {
             if (!this.gradeReport.data) return undefined;
             
             return this.gradeReport.data.totalEligible;
+        },
+        
+        enrollmentsReportDate(): string | undefined {
+            if (!this.session.data?.enrollmentsDetails) return undefined;
+            
+            const date = this.session.data.enrollmentsDetails.pop()?.date;
+            
+            if (!date) return undefined;
+            
+            return formatDate(getParsedDate(date));
+        },
+        
+        gradeReportDate(): string | undefined {
+            if (!this.gradeReport.data) return undefined;
+            
+            const date = this.gradeReport.data.date.toString().split('T')[0];
+            
+            return formatDate(getParsedDate(date));
         }
     },
     

@@ -13,9 +13,10 @@ defineProps<{
 
 <template>
     <Card class="max-w-64">
-        <CardHeader>
+        <CardHeader class="relative">
             <CardTitle>{{ title }}</CardTitle>
             <CardDescription>{{ description }}</CardDescription>
+            <ReportChip report="grade" />
         </CardHeader>
         <CardContent class="justify-center flex">
             <Skeleton v-if="loading" class="size-32 rounded-full" />

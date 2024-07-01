@@ -25,6 +25,7 @@ function upload(event: File[]) {
             description="Pour chaque séquence, pourcentage d'utilisateurs actifs ayant répondu à au moins une question"
             :loading="loading"
             :empty="!data"
+            report="grade"
         >
             <BarChart
                 :rounded-corners="4"

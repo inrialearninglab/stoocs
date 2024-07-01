@@ -29,6 +29,7 @@ function upload(event: File[]) {
             description="Nombre d'utilisateurs éligibles par seuil de note"
             :loading="loading"
             :empty="!data"
+            report="grade"
         >
             <LineChart
                 :data="data"

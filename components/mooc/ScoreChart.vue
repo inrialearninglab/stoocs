@@ -31,6 +31,7 @@ function upload(event: File[]) {
             description="Pourcentage de réussite moyen par question.Dans ce cas la moyenne ne prends en compte que les gens ayant répondu aux questions"
             :loading="loading"
             :empty="!data"
+            report="grade"
         >
             <BarChart
                 :rounded-corners="4"

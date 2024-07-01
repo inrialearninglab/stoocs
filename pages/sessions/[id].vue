@@ -23,6 +23,17 @@ onMounted(() => {
             <h2 class="text-center text-muted-foreground">{{ sessionStore.session.data.sessionName }}</h2>
         </div>
 
+        <div class="flex gap-6 mx-auto">
+            <div class="flex gap-2 items-center">
+                <ReportChip report="enrollment" :static="true" />
+                <p>{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p>
+            </div>
+            <div class="flex gap-2 relative items-center">
+                <ReportChip report="grade" :static="true" />
+                <p>{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
+            </div>
+        </div>
+
         <h2 class="text-center border border-muted w-fit p-4 mx-auto rounded-lg">
             {{ sessionStore.totalEnrollments }} Inscrits
         </h2>

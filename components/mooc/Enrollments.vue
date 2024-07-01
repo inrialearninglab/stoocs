@@ -88,6 +88,7 @@ function upload(event: File[]) {
                     description="Nombre de nouvelle inscription par jour"
                     :loading="loading"
                     :empty="!details"
+                    report="enrollment"
                 >
                     <div class="flex gap-2 items-center mt-2">
                         <Label>A partir du</Label>
@@ -108,6 +109,7 @@ function upload(event: File[]) {
                     description="Nombre total d'inscription"
                     :loading="loading"
                     :empty="!details"
+                    report="enrollment"
                 >
                     <div class="flex gap-2 items-center mt-2">
                         <Label>A partir du</Label>

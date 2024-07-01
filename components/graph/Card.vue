@@ -8,6 +8,7 @@ defineProps<{
     description: string;
     loading: boolean;
     empty: boolean;
+    report: 'enrollment' | 'grade';
 }>();
 
 const emits = defineEmits<{
@@ -37,9 +38,10 @@ const { getRootProps, getInputProps, ...rest } = useDropzone({
 
 <template>
     <Card>
-       <CardHeader class="pb-3">
+       <CardHeader class="pb-3 relative">
            <CardTitle>{{ title }}</CardTitle>
            <CardDescription>{{ description }}</CardDescription>
+           <ReportChip :report="report" />
        </CardHeader>
         <CardContent @dragenter="dragging = true" @dragleave="handleDragLeave" class="flex flex-col gap-5">
             <div
