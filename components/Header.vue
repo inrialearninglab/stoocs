@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { Sun, Moon } from 'lucide-vue-next';
+import { Sun, Moon, User } from 'lucide-vue-next';
+import { useAuth } from '~/stores/auth.store';
 
 const colorMode = useColorMode();
+const authStore = useAuth();
 
 function toggleColorMode() {
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
@@ -16,10 +18,17 @@ function toggleColorMode() {
             </NuxtLink>
         </Button>
 
-        <Button @click="toggleColorMode" size="icon" variant="ghost">
-            <Sun class="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon class="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            <span class="sr-only">Toggle theme</span>
-        </Button>
+        <div class="flex gap-2 items-center">
+            <Button @click="toggleColorMode" size="icon" variant="ghost">
+                <Sun class="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon class="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span class="sr-only">Toggle theme</span>
+            </Button>
+
+            <Button v-if="authStore.user" to="/profile" variant="ghost" size="icon">
+                <User class="size-6" />
+                <span class="sr-only">Profile</span>
+            </Button>
+        </div>
     </header>
 </template>

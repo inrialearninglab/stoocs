@@ -34,8 +34,9 @@ onMounted(() => {
             </div>
         </div>
 
-        <h2 class="text-center border border-muted w-fit p-4 mx-auto rounded-lg">
-            {{ sessionStore.totalEnrollments }} Inscrits
+        <h2 class="text-center border border-muted w-fit p-4 mx-auto rounded-lg relative">
+            <ReportChip report="enrollment" />
+            {{ sessionStore.totalEnrollments?.toLocaleString('fr-FR') }} Inscrits
         </h2>
 
         <div class="flex flex-wrap gap-3 mx-auto">
