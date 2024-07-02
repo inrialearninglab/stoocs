@@ -27,6 +27,7 @@ export default defineEventHandler(async (event) => {
         });
     }
     
+    console.log('session detected');
     event.context.user = user;
     event.context.session = session;
 })

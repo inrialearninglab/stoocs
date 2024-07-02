@@ -11,3 +11,7 @@ export async function login(email: string, password: string) {
     
     return res.data.user;
 }
+
+export async function logout() {
+    await axios.post('/api/auth/logout');
+}

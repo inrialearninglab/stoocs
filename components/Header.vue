@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { Sun, Moon, User } from 'lucide-vue-next';
-import { useAuth } from '~/stores/auth.store';
 
 const colorMode = useColorMode();
-const authStore = useAuth();
 
 function toggleColorMode() {
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
@@ -25,10 +23,7 @@ function toggleColorMode() {
                 <span class="sr-only">Toggle theme</span>
             </Button>
 
-            <Button v-if="authStore.user" to="/profile" variant="ghost" size="icon">
-                <User class="size-6" />
-                <span class="sr-only">Profile</span>
-            </Button>
+            <UserMenu />
         </div>
     </header>
 </template>
