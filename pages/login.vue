@@ -19,11 +19,10 @@ const error = ref(false);
 
 async function onSubmit() {
     loading.value = true;
-    const res = await login(form.email, form.password);
+    const success = await login(form.email, form.password);
     loading.value = false;
 
-    if (res)  {
-        user.value = res;
+    if (success)  {
         await navigateTo('/moocs');
     } else {
         error.value = true;
@@ -34,7 +33,7 @@ async function onSubmit() {
 
 <template>
     <div class="flex flex-col gap-4 max-w-2xl w-full mx-auto">
-        <Alert variant="destructive">
+        <Alert v-if="error" variant="destructive">
             <AlertCircle class="size-4" />
             <AlertTitle>Erreur</AlertTitle>
             <AlertDescription>

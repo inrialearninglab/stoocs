@@ -29,6 +29,4 @@ export default defineEventHandler(async (event) => {
         path: '.',
         ...sessionCookie.attributes
     });
-    
-    return { user };
 })
