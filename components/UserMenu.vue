@@ -21,9 +21,11 @@ async function handleLogout() {
        <DropdownMenuContent class="w-56">
            <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
            <DropdownMenuSeparator />
-           <DropdownMenuItem to="/profile">
-               <User class="size-4 mr-2" />
-               <span>Profil</span>
+           <DropdownMenuItem as-child>
+               <NuxtLink to="/profile">
+                   <User class="size-4 mr-2" />
+                   <span>Profil</span>
+               </NuxtLink>
            </DropdownMenuItem>
            <DropdownMenuItem @click="handleLogout">
                <LogOut class="size-4 mr-2" />
