@@ -34,10 +34,18 @@ onMounted(() => {
             </div>
         </div>
 
-        <h2 class="text-center border border-muted w-fit p-4 mx-auto rounded-lg relative">
-            <GraphReportChip report="enrollment" />
-            {{ sessionStore.totalEnrollments?.toLocaleString('fr-FR') }} Inscrits
-        </h2>
+        <Card class="w-full max-w-sm mx-auto relative">
+            <CardHeader>
+                <CardTitle>Nombre d'inscrits</CardTitle>
+                <CardDescription>Nombre total d'inscrits le {{ sessionStore.enrollmentsReportDate }} (sans compter les désinscrits</CardDescription>
+                <GraphReportChip report="enrollment" />
+            </CardHeader>
+            <CardContent>
+                <h2 class="text-center">
+                    {{ sessionStore.totalEnrollments?.toLocaleString('fr-FR') }} Inscrits
+                </h2>
+            </CardContent>
+        </Card>
 
         <div class="flex flex-wrap gap-3 mx-auto">
             <GraphProgressCard
