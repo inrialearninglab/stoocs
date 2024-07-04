@@ -4,9 +4,6 @@ import { Search } from 'lucide-vue-next';
 
 const moocsStore = useMoocs()
 
-onMounted(() => {
-    if (!moocsStore.moocs.length) moocsStore.getMoocs();
-})
 </script>
 
 <template>

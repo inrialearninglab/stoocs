@@ -18,12 +18,12 @@ export default defineEventHandler(async (event) => {
         }
     })
     
-    const session = await lucia.createSession(user.id, {});
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    setCookie(event, sessionCookie.name, sessionCookie.value, {
-        path: '.',
-        ...sessionCookie.attributes
-    });
+    if (!user) {
+        throw createError({
+            statusCode: 400,
+            message: 'User not created'
+        });
+    }
     
     return { user }
 })

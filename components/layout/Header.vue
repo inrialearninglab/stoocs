@@ -23,7 +23,7 @@ function toggleColorMode() {
                 <span class="sr-only">Toggle theme</span>
             </Button>
 
-            <LayoutUserMenu />
+            <UserMenu />
         </div>
     </header>
 </template>

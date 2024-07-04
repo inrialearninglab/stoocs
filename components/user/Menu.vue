@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { User, LogOut } from 'lucide-vue-next';
+import { User, Users, LogOut } from 'lucide-vue-next';
 import { logout } from '~/services/auth.service';
+import { Avatar, AvatarImage, AvatarFallback } from '~/components/ui/avatar';
 
 const user = useUser();
 
@@ -14,19 +15,32 @@ async function handleLogout() {
 <template>
    <DropdownMenu v-if="user">
        <DropdownMenuTrigger as-child>
-           <Button size="icon" variant="ghost">
-              <User />
-           </Button>
+           <Avatar class="cursor-pointer">
+<!--               <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />-->
+               <AvatarFallback>{{ user.firstname[0] + user.lastname[0] }}</AvatarFallback>
+           </Avatar>
        </DropdownMenuTrigger>
        <DropdownMenuContent class="w-56">
            <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
            <DropdownMenuSeparator />
+
            <DropdownMenuItem as-child>
                <NuxtLink to="/users/profile">
                    <User class="size-4 mr-2" />
                    <span>Profil</span>
                </NuxtLink>
            </DropdownMenuItem>
+
+           <DropdownMenuItem as-child>
+               <NuxtLink to="/users">
+                   <Users class="size-4 mr-2" />
+                   <span>Equipe</span>
+               </NuxtLink>
+
+           </DropdownMenuItem>
+
+           <DropdownMenuSeparator />
+
            <DropdownMenuItem @click="handleLogout">
                <LogOut class="size-4 mr-2" />
                <span>Déconnexion</span>

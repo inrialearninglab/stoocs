@@ -19,7 +19,7 @@ export const useMoocs = defineStore('moocs', {
     },
     
     actions: {
-        async getMoocs() {
+        async fetchMoocs() {
             this.moocs = await fetchMoocs();
         }
     }
