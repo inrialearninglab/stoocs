@@ -7,7 +7,7 @@ const route = useRoute()
 
 <template>
     <div class="flex flex-col">
-        <Header v-if="route.path !== '/'" />
+        <LayoutHeader v-if="route.path !== '/'" />
         <div :class="{ 'p-8': route.path !== '/' }">
             <NuxtPage />
             <Toaster />

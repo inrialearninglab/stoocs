@@ -16,11 +16,11 @@ defineProps<{
         <CardHeader class="relative">
             <CardTitle>{{ title }}</CardTitle>
             <CardDescription>{{ description }}</CardDescription>
-            <ReportChip report="grade" />
+            <GraphReportChip report="grade" />
         </CardHeader>
         <CardContent class="justify-center flex">
             <Skeleton v-if="loading" class="size-32 rounded-full" />
-            <RadialProgress v-else-if="percentage" :percentage="percentage" class="w-32"/>
+            <GraphRadialProgress v-else-if="percentage" :percentage="percentage" class="w-32"/>
             <div v-else class="text-[8rem]">🥸</div>
         </CardContent>
     </Card>

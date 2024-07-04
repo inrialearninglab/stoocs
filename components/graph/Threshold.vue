@@ -1,17 +1,15 @@
 <script setup lang="ts">
+import { LineChart } from '~/components/ui/chart-line';
+import FileInputGradeReports from '~/components/fileInput/gradeReports.vue';
 import { BarChart } from '~/components/ui/chart-bar';
-import FileInputGradeReports from '~/components/FileInput/gradeReports.vue';
 
-defineProps<{
-    data: any
+const props = defineProps<{
+    data: {
+        threshold: string;
+        'Eligible': number
+    }[];
     loading: boolean;
 }>();
-
-const color = (d: any) => {
-    if (d['Moyenne'] < 50) return '#EF4444';
-    else if (d['Moyenne'] < 75) return '#F59E0B';
-    else return '#10B981';
-}
 
 const fileInput: Ref<InstanceType<typeof FileInputGradeReports> | null> = ref(null);
 function upload(event: File[]) {
@@ -27,19 +25,16 @@ function upload(event: File[]) {
     <div class="flex flex-col gap-2">
         <GraphCard
             @upload="upload"
-            title="Score"
-            description="Pourcentage de réussite moyen par question.Dans ce cas la moyenne ne prends en compte que les gens ayant répondu aux questions"
+            title="Nombre d'éligibles"
+            description="Nombre d'utilisateurs éligibles par seuil de note"
             :loading="loading"
             :empty="!data"
             report="grade"
         >
-            <BarChart
-                :rounded-corners="4"
+            <LineChart
                 :data="data"
-                index="name"
-                :categories="['Moyenne']"
-                :color="color"
-                :y-formatter="(tick, i) => tick + '%'"
+                index="threshold"
+                :categories="['Eligible']"
             />
         </GraphCard>
 

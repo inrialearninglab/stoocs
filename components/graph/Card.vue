@@ -41,7 +41,7 @@ const { getRootProps, getInputProps, ...rest } = useDropzone({
        <CardHeader class="pb-3 relative">
            <CardTitle>{{ title }}</CardTitle>
            <CardDescription>{{ description }}</CardDescription>
-           <ReportChip :report="report" />
+           <GraphReportChip :report="report" />
        </CardHeader>
         <CardContent @dragenter="dragging = true" @dragleave="handleDragLeave" class="flex flex-col gap-5">
             <div

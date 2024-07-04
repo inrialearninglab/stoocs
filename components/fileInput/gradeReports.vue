@@ -56,7 +56,7 @@ defineExpose({
                 <DialogTitle>Ajouter des rapports de notations</DialogTitle>
                 <DialogDescription>Ajouter les fichier "<code>Grade Report</code>" et "<code>Problem Grade Report</code>" ici</DialogDescription>
             </DialogHeader>
-            <FileUploader v-model="files" :multiple="true" :max-files="2" :conditions="conditions" />
+            <InputFileUploader v-model="files" :multiple="true" :max-files="2" :conditions="conditions" />
             <DialogFooter class="mt-4">
                 <Button :disabled="loading || !conditionsFilled" @click="handleSubmit" class="w-full" type="submit">
                     <Loader2 v-if="loading" class="w-4 h-4 mr-2 animate-spin" />

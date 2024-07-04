@@ -8,7 +8,7 @@ import {
 } from '@internationalized/date';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs'
 import { formatDate, getParsedDate } from '~/utils/date.utils';
-import FileInputEnrollments from '~/components/FileInput/Enrollments.vue';
+import FileInputEnrollments from '~/components/fileInput/Enrollments.vue';
 
 const props = defineProps<{
     details?: {
@@ -92,7 +92,7 @@ function upload(event: File[]) {
                 >
                     <div class="flex gap-2 items-center mt-2">
                         <Label>A partir du</Label>
-                        <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
+                        <InputDatePicker size="sm" v-model="startDateValue" :presets="presets" />
                     </div>
                     <LineChart
                         :data="getFilteredData('day')"
@@ -113,7 +113,7 @@ function upload(event: File[]) {
                 >
                     <div class="flex gap-2 items-center mt-2">
                         <Label>A partir du</Label>
-                        <DatePicker size="sm" v-model="startDateValue" :presets="presets" />
+                        <InputDatePicker size="sm" v-model="startDateValue" :presets="presets" />
                     </div>
                     <AreaChart
                         :data="getFilteredData('total')"

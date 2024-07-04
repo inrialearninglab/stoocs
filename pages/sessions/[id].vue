@@ -25,36 +25,36 @@ onMounted(() => {
 
         <div class="flex gap-6 mx-auto">
             <div class="flex gap-2 items-center">
-                <ReportChip report="enrollment" :static="true" />
+                <GraphReportChip report="enrollment" :static="true" />
                 <p>{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p>
             </div>
             <div class="flex gap-2 relative items-center">
-                <ReportChip report="grade" :static="true" />
+                <GraphReportChip report="grade" :static="true" />
                 <p>{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
             </div>
         </div>
 
         <h2 class="text-center border border-muted w-fit p-4 mx-auto rounded-lg relative">
-            <ReportChip report="enrollment" />
+            <GraphReportChip report="enrollment" />
             {{ sessionStore.totalEnrollments?.toLocaleString('fr-FR') }} Inscrits
         </h2>
 
         <div class="flex flex-wrap gap-3 mx-auto">
-            <ProgressCard
+            <GraphProgressCard
                 title="Curieux"
                 description="Utilisateurs ayant chargé au moins une page d'activité"
                 :loading="sessionStore.gradeReport.loading || sessionStore.session.loading"
                 :percentage="sessionStore.totalEnrollments && sessionStore.totalCurious ? Math.round(sessionStore.totalCurious / sessionStore.totalEnrollments * 100) : undefined"
             />
 
-            <ProgressCard
+            <GraphProgressCard
                 title="Actifs"
                 description="Utilisateurs ayant soumis au moins une réponse à une question"
                 :loading="sessionStore.gradeReport.loading || sessionStore.session.loading"
                 :percentage="sessionStore.totalEnrollments && sessionStore.totalActive ? Math.round(sessionStore.totalActive / sessionStore.totalEnrollments * 100) : undefined"
             />
 
-            <ProgressCard
+            <GraphProgressCard
                 title="Eligibles"
                 description="Utilisateurs actifs éligibles pour le badge/attestation"
                 :loading="sessionStore.session.loading || sessionStore.gradeReport.loading"
@@ -62,14 +62,14 @@ onMounted(() => {
             />
         </div>
 
-        <MoocEnrollments
+        <GraphEnrollments
             :details="sessionStore.session.data.enrollmentsDetails"
             :loading="sessionStore.session.loading"
             :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
         />
 
-        <MoocInterestChart :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
-        <MoocScoreChart :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" />
-        <MoocThreshold :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.threshold" />
+        <GraphInterest :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
+        <GraphScore :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" />
+        <GraphThreshold :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.threshold" />
     </div>
 </template>

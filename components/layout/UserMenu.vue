@@ -6,8 +6,8 @@ const user = useUser();
 
 async function handleLogout() {
     await logout();
-    await navigateTo('/login');
     user.value = null;
+    await navigateTo('/auth/login');
 }
 </script>
 
@@ -22,7 +22,7 @@ async function handleLogout() {
            <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
            <DropdownMenuSeparator />
            <DropdownMenuItem as-child>
-               <NuxtLink to="/profile">
+               <NuxtLink to="/users/profile">
                    <User class="size-4 mr-2" />
                    <span>Profil</span>
                </NuxtLink>

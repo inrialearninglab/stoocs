@@ -1,11 +1,11 @@
 export default defineNuxtRouteMiddleware(async (to) => {
     const guestRoutes = [
-        '/login',
+        '/auth/login',
         '/'
     ];
     
     const user = useUser();
     if (!user.value && !guestRoutes.includes(to.path)) {
-        return navigateTo('/login');
+        return navigateTo('/auth/login');
     }
 });

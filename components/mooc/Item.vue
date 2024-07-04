@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Mooc } from '~/types';
 import { ChevronDown } from 'lucide-vue-next';
-// import { Badge } from '~/components/ui/badge';
 
 const props = defineProps<{
     mooc: Mooc;
