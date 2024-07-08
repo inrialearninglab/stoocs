@@ -8,7 +8,5 @@ export async function fetchMoocs(): Promise<Mooc[]> {
         throw new Error(res.data.message);
     }
     
-    console.log(res.data.moocs)
-    
     return res.data.moocs
 }

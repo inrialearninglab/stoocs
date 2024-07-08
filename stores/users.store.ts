@@ -38,7 +38,6 @@ export const useUsers = defineStore('users', {
         async updateProfile(email: string, firstname: string, lastname: string) {
             this.users.loading = true;
             const updatedUser = await updateProfile(email, firstname, lastname);
-            console.log('updatedUser', updatedUser)
             if (updatedUser) {
                 this.users.data = this.users.data.map(user => user.id === updatedUser.id ? updatedUser : user);
                 await navigateTo('/users/profile');

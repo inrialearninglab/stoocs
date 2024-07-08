@@ -100,7 +100,6 @@ export function calculateProblemAverage(gradeReport: GradeReportData) {
  * @param totalActive
  */
 export function calculateParticipationPercentage(gradeReport: GradeReportData, totalActive: number) {
-    console.log('totalActive', totalActive)
     const questionStats: { [key: string]: { total: number, scoreCount: number } } = {};
     
     gradeReport.gradeReportLines.forEach(reportLine => {
