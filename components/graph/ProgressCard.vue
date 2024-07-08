@@ -5,6 +5,7 @@ import { Skeleton } from '~/components/ui/skeleton';
 defineProps<{
     title: string;
     description: string;
+    icon: any;
     percentage?: number;
     loading: boolean;
 }>();
@@ -14,7 +15,10 @@ defineProps<{
 <template>
     <Card class="max-w-64">
         <CardHeader class="relative">
-            <CardTitle>{{ title }}</CardTitle>
+            <div class="flex gap-5 justify-between">
+                <CardTitle>{{ title }}</CardTitle>
+                <Component :is="icon" class="size-4 text-muted-foreground" />
+            </div>
             <CardDescription>{{ description }}</CardDescription>
             <GraphReportChip report="grade" />
         </CardHeader>

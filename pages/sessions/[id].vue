@@ -1,4 +1,6 @@
-<script lang="ts" setup="">
+<script lang="ts" setup>
+import { Users, Eye, Award, Speech } from 'lucide-vue-next'
+
 const route = useRoute();
 const router = useRouter();
 
@@ -36,7 +38,10 @@ onMounted(() => {
 
         <Card class="w-full max-w-sm mx-auto relative">
             <CardHeader>
-                <CardTitle>Nombre d'inscrits</CardTitle>
+                <div class="flex gap-5 justify-between">
+                    <CardTitle>Nombre d'inscrits</CardTitle>
+                    <Users class="size-4 text-muted-foreground" />
+                </div>
                 <CardDescription>Nombre total d'inscrits le {{ sessionStore.enrollmentsReportDate }} (sans compter les désinscrits</CardDescription>
                 <GraphReportChip report="enrollment" />
             </CardHeader>
@@ -51,6 +56,7 @@ onMounted(() => {
             <GraphProgressCard
                 title="Curieux"
                 description="Utilisateurs ayant chargé au moins une page d'activité"
+                :icon="Eye"
                 :loading="sessionStore.gradeReport.loading || sessionStore.session.loading"
                 :percentage="sessionStore.totalEnrollments && sessionStore.totalCurious ? Math.round(sessionStore.totalCurious / sessionStore.totalEnrollments * 100) : undefined"
             />
@@ -58,6 +64,7 @@ onMounted(() => {
             <GraphProgressCard
                 title="Actifs"
                 description="Utilisateurs ayant soumis au moins une réponse à une question"
+                :icon="Speech"
                 :loading="sessionStore.gradeReport.loading || sessionStore.session.loading"
                 :percentage="sessionStore.totalEnrollments && sessionStore.totalActive ? Math.round(sessionStore.totalActive / sessionStore.totalEnrollments * 100) : undefined"
             />
@@ -65,6 +72,7 @@ onMounted(() => {
             <GraphProgressCard
                 title="Eligibles"
                 description="Utilisateurs actifs éligibles pour le badge/attestation"
+                :icon="Award"
                 :loading="sessionStore.session.loading || sessionStore.gradeReport.loading"
                 :percentage="sessionStore.totalEligible && sessionStore.totalActive ? Math.round(sessionStore.totalEligible / sessionStore.totalActive * 100) : undefined"
             />
