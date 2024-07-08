@@ -28,7 +28,7 @@ function upload(event: File[]) {
         <GraphCard
             @upload="upload"
             title="Score"
-            description="Pourcentage de réussite moyen par question.Dans ce cas la moyenne ne prends en compte que les gens ayant répondu aux questions"
+            description="Pourcentage de réussite moyen par question.Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions"
             :loading="loading"
             :empty="!data"
             report="grade"

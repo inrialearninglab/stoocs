@@ -41,8 +41,8 @@ const onSubmit = form.handleSubmit(async (values) => {
 <template>
     <Card class="max-w-2xl mx-auto">
         <CardHeader>
-            <CardTitle>Inscription</CardTitle>
-            <CardDescription>Créez un nouveau compte</CardDescription>
+            <CardTitle>Modification</CardTitle>
+            <CardDescription>Modifier votre profil</CardDescription>
         </CardHeader>
         <CardContent>
             <form @submit="onSubmit" class="flex flex-col gap-3">
