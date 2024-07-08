@@ -42,7 +42,7 @@ onMounted(() => {
                     <CardTitle>Nombre d'inscrits</CardTitle>
                     <Users class="size-4 text-muted-foreground" />
                 </div>
-                <CardDescription>Nombre total d'inscrits le {{ sessionStore.enrollmentsReportDate }} (sans compter les désinscrits</CardDescription>
+                <CardDescription>Nombre total d'inscrits le {{ sessionStore.enrollmentsReportDate }} (sans compter les désinscrits)</CardDescription>
                 <GraphReportChip report="enrollment" />
             </CardHeader>
             <CardContent>
