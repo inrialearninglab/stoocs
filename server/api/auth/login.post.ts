@@ -9,10 +9,10 @@ export default defineEventHandler(async (event) => {
         where: { email }
     });
     if (!user) {
-       throw createError({
-           statusCode: 400,
-           message: 'Incorrect email or password'
-       })
+        throw createError({
+            statusCode: 400,
+            message: 'Incorrect email or password'
+        })
     }
     
     const validPassword = await new Argon2id().verify(user.password, password);
