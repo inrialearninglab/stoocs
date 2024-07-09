@@ -6,14 +6,11 @@ RUN curl -fsSL https://bun.sh/install | bash
 
 ENV PATH="/root/.bun/bin:${PATH}"
 
-COPY package.json bun.lockb ./
+COPY . .
 
 RUN bun install
-RUN bun add --global prisma
 
 RUN bunx prisma generate
-
-COPY . .
 
 RUN bun run build
 
