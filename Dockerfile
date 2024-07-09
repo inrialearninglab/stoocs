@@ -11,6 +11,8 @@ COPY package.json bun.lockb ./
 RUN bun install
 RUN bun add --global prisma
 
+RUN bunx prisma generate
+
 COPY . .
 
 RUN bun run build
