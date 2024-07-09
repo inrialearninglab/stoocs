@@ -28,7 +28,7 @@ services:
     build: .
     command: ["/usr/local/bin/startup.sh"]
     ports:
-      - "3000:3000"
+      - "80:3000"
 
 volumes:
   db-data:
