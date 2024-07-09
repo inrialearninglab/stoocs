@@ -32,6 +32,7 @@ function upload(event: File[]) {
             report="grade"
         >
             <LineChart
+                :show-legend="false"
                 :data="data"
                 index="threshold"
                 :categories="['Eligible']"

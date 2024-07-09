@@ -95,6 +95,7 @@ function upload(event: File[]) {
                         <InputDatePicker size="sm" v-model="startDateValue" :presets="presets" />
                     </div>
                     <LineChart
+                        :show-legend="false"
                         :data="getFilteredData('day')"
                         index="Date"
                         :categories="['Inscriptions']"
@@ -116,6 +117,7 @@ function upload(event: File[]) {
                         <InputDatePicker size="sm" v-model="startDateValue" :presets="presets" />
                     </div>
                     <AreaChart
+                        :show-legend="false"
                         :data="getFilteredData('total')"
                         index="Date"
                         :categories="['Inscriptions']"

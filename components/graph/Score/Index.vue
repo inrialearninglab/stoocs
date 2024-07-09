@@ -39,6 +39,8 @@ const problems = computed(() => {
             report="grade"
         >
             <BarChart
+                :show-legend="false"
+                :percentage="true"
                 :rounded-corners="4"
                 :data="data"
                 index="name"

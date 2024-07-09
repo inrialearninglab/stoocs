@@ -28,6 +28,8 @@ function upload(event: File[]) {
             report="grade"
         >
             <BarChart
+                :percentage="true"
+                :show-legend="false"
                 :rounded-corners="4"
                 :data="data"
                 index="name"
