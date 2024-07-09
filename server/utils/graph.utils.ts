@@ -29,7 +29,7 @@ export function getInterestData(gradeReport: GradeReportData, totalActive: numbe
     for (const question of questions) {
         data.push({
             name: question.label,
-            'Participation' : Number(participation[question.label].toFixed(2)) ?? 0
+            'Participation' : Number((participation[question.label] ?? 0).toFixed(2))
         })
     }
     
@@ -51,7 +51,7 @@ export function getScoreData(gradeReport: GradeReportData): GradeReport['score']
     for (const problem of problems) {
         data.push({
             name: problem.label,
-            'Moyenne': Number(problemAverages[problem.label].toFixed(2)) ?? 0
+            'Moyenne': Number((problemAverages[problem.label] ?? 0).toFixed(2))
         })
     }
     
