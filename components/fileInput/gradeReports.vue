@@ -5,8 +5,8 @@ import { useSession } from '~/stores/session.store';
 const files: Ref<File[]> = ref([]);
 const sessionStore = useSession();
 
-const gradeReportRegex = /^\w+_\d+_\w+_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
-const problemGradeReportRegex = /^\w+_\d+_\w+_problem_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
+const gradeReportRegex = /^[\w-]+_\d+_[\w-]+_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
+const problemGradeReportRegex = /^[\w-]+_\d+_[\w-]+_problem_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
 
 const loading = ref(false);
 const open = ref(false);
