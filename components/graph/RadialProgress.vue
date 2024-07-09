@@ -1,7 +1,8 @@
 <script setup lang="ts">
 
 const props = defineProps<{
-    percentage: number;
+    dividend: number;
+    divisor: number;
 }>();
 
 const colors = {
@@ -13,9 +14,13 @@ const colors = {
 const circumference = 45 * 2 * Math.PI;
 const offset = ref(circumference);
 
-watch(() => props.percentage, (newPercentage) => {
+const percentage = computed(() => {
+    return Math.round((props.dividend / props.divisor) * 100);
+})
+
+watch(() => percentage, (newPercentage) => {
     setTimeout(() => {
-        offset.value = circumference - (newPercentage / 100) * circumference;
+        offset.value = circumference - (newPercentage.value / 100) * circumference;
     })
 }, { immediate: true })
 
@@ -26,7 +31,7 @@ watch(() => props.percentage, (newPercentage) => {
         <circle class="progress-background stroke-secondary" cx="50" cy="50" r="45"></circle>
         <circle
             class="progress-bar"
-            :stroke="props.percentage < 50 ? colors.red : props.percentage < 75 ? colors.yellow : colors.green"
+            :stroke="percentage < 50 ? colors.red : percentage < 75 ? colors.yellow : colors.green"
             cx="50"
             cy="50"
             r="45"
@@ -35,7 +40,7 @@ watch(() => props.percentage, (newPercentage) => {
         >
         </circle>
 
-        <text x="53" y="57" text-anchor="middle" class="text-lg fill-primary">
+        <text x="53" y="57" text-anchor="middle" class="text-lg fill-foreground">
             {{ percentage }}%
         </text>
     </svg>

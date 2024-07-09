@@ -58,7 +58,8 @@ onMounted(() => {
                 description="Utilisateurs ayant chargé au moins une page d'activité"
                 :icon="Eye"
                 :loading="sessionStore.gradeReport.loading || sessionStore.session.loading"
-                :percentage="sessionStore.totalEnrollments && sessionStore.totalCurious ? Math.round(sessionStore.totalCurious / sessionStore.totalEnrollments * 100) : undefined"
+                :dividend="sessionStore.totalCurious"
+                :divisor="sessionStore.totalEnrollments"
             />
 
             <GraphProgressCard
@@ -66,7 +67,8 @@ onMounted(() => {
                 description="Utilisateurs ayant soumis au moins une réponse à une question"
                 :icon="Speech"
                 :loading="sessionStore.gradeReport.loading || sessionStore.session.loading"
-                :percentage="sessionStore.totalEnrollments && sessionStore.totalActive ? Math.round(sessionStore.totalActive / sessionStore.totalEnrollments * 100) : undefined"
+                :dividend="sessionStore.totalActive"
+                :divisor="sessionStore.totalEnrollments"
             />
 
             <GraphProgressCard
@@ -74,7 +76,8 @@ onMounted(() => {
                 description="Utilisateurs actifs éligibles pour le badge/attestation"
                 :icon="Award"
                 :loading="sessionStore.session.loading || sessionStore.gradeReport.loading"
-                :percentage="sessionStore.totalEligible && sessionStore.totalActive ? Math.round(sessionStore.totalEligible / sessionStore.totalActive * 100) : undefined"
+                :dividend="sessionStore.totalEligible"
+                :divisor="sessionStore.totalActive"
             />
         </div>
 
