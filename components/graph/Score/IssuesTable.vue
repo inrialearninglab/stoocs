@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
 import { ChevronDown, CircleAlert } from 'lucide-vue-next';
+import { useToast } from '~/components/ui/toast';
 
-defineProps<{
+const { toast } = useToast();
+
+const props = defineProps<{
     problems: {
         name: string;
         Moyenne: number;
@@ -10,6 +13,29 @@ defineProps<{
 }>();
 
 const isTableOpen = ref(false);
+
+async function toClipboard() {
+    try {
+        let markdown = '| Question | Moyenne |\n| --- | --- |\n';
+
+        props.problems.forEach(problem => {
+            markdown += `| ${problem.name} | ${problem['Moyenne']}% |\n`;
+        });
+
+        await navigator.clipboard.writeText(markdown);
+
+        toast({
+            title: 'Succès',
+            description: 'Tableau copié dans le presse-papier'
+        })
+    } catch (error) {
+        console.error('Failed to copy to clipboard', error);
+        toast({
+            title: 'Erreur',
+            description: 'Impossible de copier le tableau',
+        })
+    }
+}
 
 </script>
 
@@ -50,6 +76,11 @@ const isTableOpen = ref(false);
                         </TableBody>
                     </Table>
                 </CardContent>
+                <CardFooter class="border-t p-4">
+                    <Button @click="toClipboard" variant="outline">
+                        Copier le tableau
+                    </Button>
+                </CardFooter>
             </CollapsibleContent>
         </Collapsible>
     </Card>
