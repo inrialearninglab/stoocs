@@ -13,14 +13,9 @@ RUN bun add --global prisma
 
 COPY . .
 
-#RUN bunx prisma migrate deploy
-
 RUN bun run build
 
 EXPOSE 3000
-##ENTRYPOINT ["bunx", "prisma", "migrate", "deploy"]
-##CMD ["bun", "run", "start"]
-#CMD ["npm", "run", "start"]
 
-CMD ["bunx", "prisma", "migrate", "deploy"]
-CMD ["bun", "run", "start"]
+COPY startup.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/startup.sh
