@@ -1,11 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { getCourses } from "./courses/courses.js";
-import { readEnrollments, readGradeReports } from "~/server/utils/";
+import { user } from './initialUser';
 
 const prisma = new PrismaClient();
-
-const enrollments = await readEnrollments('prisma/seed/enrollments/enrollments.csv');
-const gradeReportData = await readGradeReports('prisma/seed/gradeReports/inria_41023_session01_grade_report_2024-06-24-0727.csv', 'prisma/seed/gradeReports/inria_41023_session01_problem_grade_report_2024-06-24-0727.csv');
 
 const teamData = [
     {
@@ -83,32 +80,6 @@ async function seed() {
         }
     }
 
-    const courseNumber = '41023';
-    // const moocName = 'Reproducible Research II: Practices and tools for managing computations and data';
-    const mooc = await prisma.mooc.findUnique({
-        where: { courseNumber }
-    });
-
-    if (mooc) {
-        const session = await prisma.moocSession.findFirst({
-            where: { moocID: mooc.id }
-        });
-        
-        if (session) {
-            const res = await prisma.moocSession.update({
-                where: { id: session.id },
-                data: {
-                    enrollmentsDetails: enrollments,
-                    gradeReports: {
-                        create: [gradeReportData]
-                    }
-                }
-            });
-
-            console.log(`Updated session with id ${res.id}`);
-        }
-    }
-
     for (const member of teamData) {
         const res = await prisma.teamMember.create({
             data: member,
@@ -124,6 +95,11 @@ async function seed() {
 
         console.log(`created sessionType with id: ${res.id}`)
     }
+    
+    const res = await prisma.user.create({
+        data: user
+    });
+    console.log(`created user with id: ${res.id}`)
 
     console.log('Seeding finished.');
 }

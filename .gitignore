@@ -29,3 +29,4 @@ uploads/reports
 prisma/seed/courses/*.json
 prisma/seed/enrollments/*.csv
 prisma/seed/gradeReports/*.csv
+prisma/seed/initialUser.ts
