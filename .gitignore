@@ -26,4 +26,6 @@ logs
 uploads/enrollments
 uploads/reports
 
-prisma/seed
+prisma/seed/courses/*.json
+prisma/seed/enrollments/*.csv
+prisma/seed/reports/*.csv
