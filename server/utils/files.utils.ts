@@ -5,11 +5,6 @@ import { isUserActive, isUserCurious } from '~/server/utils/usersStatus.utils';
 import { getInterestData, getPassingThresholdData, getScoreData } from '~/server/utils/graph.utils';
 import { extractMetadata } from '~/utils';
 
-interface Question {
-    label: string
-    score: number
-}
-
 export async function readEnrollments(filename: string): Promise<any> {
     const results: any[] = [];
     let isHeader = true;
@@ -41,7 +36,7 @@ export async function readGradeReports(gradeReportPath: string, probemGradeRepor
     const metaData = extractMetadata(gradeReportPath);
     
     const gradeReportData: GradeReportData = {
-        date: new Date(metaData.date),
+        date: new Date(metaData?.date || Date.now()),
         gradeReportLines: []
     };
     

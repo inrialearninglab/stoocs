@@ -13,7 +13,7 @@ export interface GradeReport {
         'Participation': number;
     }[],
     threshold: {
-        threshold: number;
+        threshold: string;
         'Eligible': number;
     }[]
 }

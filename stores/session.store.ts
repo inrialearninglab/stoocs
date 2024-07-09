@@ -84,11 +84,9 @@ export const useSession = defineStore('session', {
         },
         
         async getGradeReport(id: string) {
-            console.time('getGradeReport')
             this.gradeReport.loading = true
             this.gradeReport.data = await fetchGradeReport(id);
             this.gradeReport.loading = false;
-            console.timeEnd('getGradeReport')
         },
         
         async addEnrollmentsReport(body: FormData) {
