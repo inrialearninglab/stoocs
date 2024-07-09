@@ -2,7 +2,7 @@
 import { BarChart } from '~/components/ui/chart-bar';
 import FileInputGradeReports from '~/components/fileInput/gradeReports.vue';
 
-defineProps<{
+const props = defineProps<{
     data: any
     loading: boolean;
 }>();
@@ -20,6 +20,11 @@ function upload(event: File[]) {
     fileInput.value.open = true;
     fileInput.value.files = event;
 }
+
+const problems = computed(() => {
+    if (!props.data) return [];
+    return props.data.filter((d: any) => d['Moyenne'] < 50).sort((a: any, b: any) => a['Moyenne'] - b['Moyenne']);
+})
 
 </script>
 
@@ -41,6 +46,9 @@ function upload(event: File[]) {
                 :color="color"
                 :y-formatter="(tick, i) => tick + '%'"
             />
+
+            <GraphScoreIssuesTable v-if="problems.length" :problems="problems" />
+
         </GraphCard>
 
         <FileInputGradeReports ref="fileInput" />

@@ -18,7 +18,7 @@ const archiveSessions = ref(props.mooc.sessions.filter(session => session.sessio
     <Card class="select-none">
         <Collapsible v-model:open="isOpen">
             <CollapsibleTrigger as-child>
-                <CardHeader :class="{ 'border-b': isOpen, 'rounded-b': !isOpen }" class="cursor-pointer hover:bg-muted hover:rounded-t">
+                <CardHeader :class="{ 'border-b': isOpen, 'rounded-b': !isOpen }" class="cursor-pointer hover:bg-muted hover:rounded-t transition">
                     <div class="flex gap-3 justify-between items-center">
                         <div class="flex flex-col gap-3 flex-1">
                             <CardTitle>{{ mooc.title }}</CardTitle>
@@ -45,7 +45,7 @@ const archiveSessions = ref(props.mooc.sessions.filter(session => session.sessio
                             </p>
                         </div>
                         <Button size="icon" variant="ghost" class="relative">
-                            <ChevronDown class="transition-all absolute duration-200" :class="isOpen ? 'rotate-0' : '-rotate-180'" />
+                            <ChevronDown class="transition-all absolute duration-200" :class="isOpen ? 'rotate-180' : '-rotate-0'" />
                         </Button>
                     </div>
                 </CardHeader>
