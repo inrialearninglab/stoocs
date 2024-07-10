@@ -18,10 +18,10 @@ const archiveSessions = ref(props.mooc.sessions.filter(session => session.sessio
     <Card class="select-none">
         <Collapsible v-model:open="isOpen">
             <CollapsibleTrigger as-child>
-                <CardHeader :class="{ 'border-b': isOpen, 'rounded-b': !isOpen }" class="cursor-pointer hover:bg-muted hover:rounded-t transition">
+                <CardHeader :class="{ 'border-b': isOpen, 'rounded-b': !isOpen }" class="cursor-pointer hover:bg-muted hover:rounded-t transition p-4">
                     <div class="flex gap-3 justify-between items-center">
                         <div class="flex flex-col gap-3 flex-1">
-                            <CardTitle>{{ mooc.title }}</CardTitle>
+                            <CardTitle class="text-xl">{{ mooc.title }}</CardTitle>
                             <CardDescription v-if="mooc.description">{{ mooc.description }}</CardDescription>
                         </div>
                         <div class="flex gap-2">
@@ -51,7 +51,7 @@ const archiveSessions = ref(props.mooc.sessions.filter(session => session.sessio
                 </CardHeader>
             </CollapsibleTrigger>
             <CollapsibleContent>
-                <CardContent class="p-5">
+                <CardContent class="p-2">
                     <Button v-for="session of mooc.sessions" variant="ghost" class="flex gap-2 items-center w-fit" as-child>
                         <NuxtLink :to="`/sessions/${session.id}`">
                             <div
