@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
-import { ChevronDown, CircleAlert } from 'lucide-vue-next';
+import { ChevronDown, CircleAlert, Clipboard } from 'lucide-vue-next';
 import { useToast } from '~/components/ui/toast';
 
 const { toast } = useToast();
@@ -40,7 +40,7 @@ async function toClipboard() {
 </script>
 
 <template>
-    <Card>
+    <Card class="select-none">
         <Collapsible v-model:open="isTableOpen">
             <CollapsibleTrigger as-child>
                 <CardHeader
@@ -78,6 +78,7 @@ async function toClipboard() {
                 </CardContent>
                 <CardFooter class="border-t p-4">
                     <Button @click="toClipboard" variant="outline">
+                        <Clipboard class="size-4 mr-2" />
                         Copier le tableau
                     </Button>
                 </CardFooter>
