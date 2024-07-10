@@ -1,20 +1,29 @@
 <script setup lang="ts">
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
+import { useUsers } from '~/stores/users.store';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { useForm } from 'vee-validate';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
-import { useUsers } from '~/stores/users.store';
-
 const usersStore = useUsers();
+
+const user = useUser();
+
+onMounted(async () => {
+    if (user.value) {
+        form.setValues({
+            email: user.value.email,
+            firstname: user.value.firstname,
+            lastname: user.value.lastname,
+        })
+    } else {
+        await navigateTo('/auth/login')
+    }
+})
 
 const formSchema = toTypedSchema(z.object({
     email: z.string().email(),
     firstname: z.string().min(2),
     lastname: z.string().min(2),
-    password: z.string().min(6),
-    passwordConfirmation: z.string().refine((value) => value === form.values.password, {
-        message: 'Passwords do not match',
-    }),
 }));
 
 const form = useForm({
@@ -22,16 +31,15 @@ const form = useForm({
 });
 
 const onSubmit = form.handleSubmit(async (values) => {
-    await usersStore.register(values.email, values.firstname, values.lastname, values.password);
+    await usersStore.updateProfile(values.email, values.firstname, values.lastname)
 })
-
 </script>
 
 <template>
-    <Card class="max-w-2xl mx-auto">
+    <Card class="w-full">
         <CardHeader>
-            <CardTitle>Inscription</CardTitle>
-            <CardDescription>Créer un nouveau compte</CardDescription>
+            <CardTitle>Modification</CardTitle>
+            <CardDescription>Modifier votre profil</CardDescription>
         </CardHeader>
         <CardContent>
             <form @submit="onSubmit" class="flex flex-col gap-3">
@@ -67,29 +75,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                     </FormField>
                 </div>
 
-                <FormField v-slot="{ componentField }" name="password">
-                    <FormItem>
-                        <FormLabel>Mot de passe</FormLabel>
-                        <FormControl>
-                            <Input type="password" v-bind="componentField"/>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-
-                <FormField v-slot="{ componentField }" name="passwordConfirmation">
-                    <FormItem>
-                        <FormLabel>Confirmation du mot de passe</FormLabel>
-                        <FormControl>
-                            <Input type="password" v-bind="componentField"/>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-
-                <Button :disabled="!form.meta.value.valid" type="submit" class="mt-3">
-                    Valider
-                </Button>
+                <Button :disabled="!form.meta.value.valid" type="submit" class="mt-3">Valider</Button>
             </form>
         </CardContent>
     </Card>

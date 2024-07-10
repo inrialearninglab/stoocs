@@ -1,6 +1,7 @@
 import type { User } from 'lucia';
 import { deleteUser, getUsers, updateProfile } from '~/services/users.service';
-import { register } from '~/services/auth.service';
+import { register, updatePassword } from '~/services/auth.service';
+import { useToast } from '~/components/ui/toast';
 
 interface UsersState {
     users: {
@@ -43,6 +44,29 @@ export const useUsers = defineStore('users', {
                 await navigateTo('/users/profile');
             }
             this.users.loading = false;
+        },
+        
+        async updatePassword(password: string) {
+            const { toast } = useToast();
+            
+            const updated = await updatePassword(password);
+            if (updated) {
+                await navigateTo('/users/profile');
+                toast({
+                    title: 'Succès',
+                    description: 'Mot de passe mis à jour',
+                })
+                
+                await navigateTo('/users/profile')
+            } else {
+                toast({
+                    title: 'Erreur',
+                    description: 'Erreur lors de la mise à jour du mot de passe',
+                    variant: 'destructive'
+                })
+                
+                await navigateTo('/users/profile')
+            }
         },
         
         async deleteUser(id: string) {

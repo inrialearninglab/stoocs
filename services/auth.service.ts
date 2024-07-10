@@ -18,3 +18,13 @@ export async function login(email: string, password: string): Promise<boolean> {
 export async function logout() {
     await axios.post('/api/auth/logout');
 }
+
+export async function updatePassword(password: string) {
+    try {
+        await axios.put('/api/auth/password', { password });
+        
+        return true
+    } catch {
+        return false;
+    }
+}

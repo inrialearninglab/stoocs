@@ -1,87 +1,19 @@
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod';
-import * as z from 'zod';
-import { useForm } from 'vee-validate';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
-import { useUsers } from '~/stores/users.store';
-import type { User } from 'lucia';
-
-const usersStore = useUsers();
-
-const user = useUser();
-
-onMounted(async () => {
-    if (user.value) {
-        form.setValues({
-            email: user.value.email,
-            firstname: user.value.firstname,
-            lastname: user.value.lastname,
-        })
-    } else {
-        await navigateTo('/auth/login')
-    }
-})
-
-const formSchema = toTypedSchema(z.object({
-    email: z.string().email(),
-    firstname: z.string().min(2),
-    lastname: z.string().min(2),
-}));
-
-const form = useForm({
-    validationSchema: formSchema,
-});
-
-const onSubmit = form.handleSubmit(async (values) => {
-    await usersStore.updateProfile(values.email, values.firstname, values.lastname)
-})
 
 </script>
 
 <template>
-    <Card class="max-w-2xl mx-auto">
-        <CardHeader>
-            <CardTitle>Modification</CardTitle>
-            <CardDescription>Modifier votre profil</CardDescription>
-        </CardHeader>
-        <CardContent>
-            <form @submit="onSubmit" class="flex flex-col gap-3">
-                <FormField v-slot="{ componentField }" name="email">
-                    <FormItem>
-                        <FormLabel>Mail</FormLabel>
-                        <FormControl>
-                            <Input type="email" v-bind="componentField"/>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
+    <Tabs default-value="profile" class="max-w-2xl mx-auto">
+        <TabsList class="grid w-full grid-cols-2">
+            <TabsTrigger value="profile">Profil</TabsTrigger>
+            <TabsTrigger value="password">Mot de passe</TabsTrigger>
+        </TabsList>
+        <TabsContent value="profile">
+            <UserFormProfile />
+        </TabsContent>
 
-                <div class="flex gap-3 w-full">
-                    <FormField v-slot="{ componentField }" name="firstname">
-                        <FormItem class="flex-1">
-                            <FormLabel>Prénom</FormLabel>
-                            <FormControl>
-                                <Input type="text" v-bind="componentField"/>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    </FormField>
-
-                    <FormField v-slot="{ componentField }" name="lastname">
-                        <FormItem class="flex-1">
-                            <FormLabel>Nom</FormLabel>
-                            <FormControl>
-                                <Input type="text" v-bind="componentField"/>
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    </FormField>
-                </div>
-
-                <Button type="submit" class="mt-3">
-                    Valider
-                </Button>
-            </form>
-        </CardContent>
-    </Card>
+        <TabsContent value="password">
+            <UserFormPassword />
+        </TabsContent>
+    </Tabs>
 </template>

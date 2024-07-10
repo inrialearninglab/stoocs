@@ -1,7 +1,6 @@
 import { prisma } from '~/prisma/db';
 import { generateId } from 'lucia';
 import { Argon2id } from 'oslo/password';
-import { lucia } from '~/server/utils/auth';
 
 export default defineEventHandler(async (event) => {
     const { email, firstname, lastname, password } = await readBody(event);
