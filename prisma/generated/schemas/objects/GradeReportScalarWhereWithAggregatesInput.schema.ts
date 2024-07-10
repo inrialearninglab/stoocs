@@ -40,6 +40,9 @@ const Schema: z.ZodType<Prisma.GradeReportScalarWhereWithAggregatesInput> = z
     moocSessionId: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
+    totalUsers: z
+      .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
     totalActive: z
       .union([z.lazy(() => IntWithAggregatesFilterObjectSchema), z.number()])
       .optional(),

@@ -17,6 +17,7 @@ const Schema: z.ZodType<Prisma.GradeReportUncheckedCreateInput> = z
     id: z.string().optional(),
     date: z.coerce.date().optional(),
     moocSessionId: z.string(),
+    totalUsers: z.number(),
     totalActive: z.number(),
     totalCurious: z.number(),
     totalEligible: z.number(),

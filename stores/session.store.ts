@@ -26,6 +26,9 @@ export const useSession = defineStore('session', {
     }),
     
     getters: {
+        /**
+         * Get the number of users from the enrollments report
+         */
         totalEnrollments(): number | undefined {
             if (!this.session.data?.enrollmentsDetails) return undefined;
             
@@ -48,6 +51,15 @@ export const useSession = defineStore('session', {
             if (!this.gradeReport.data) return undefined;
             
             return this.gradeReport.data.totalEligible;
+        },
+        
+        /**
+         * Get the number of users from the grade report & problem grade report
+         */
+        totalUsers(): number | undefined {
+            if (!this.gradeReport.data) return undefined;
+            
+            return this.gradeReport.data.totalUsers;
         },
         
         enrollmentsReportDate(): string | undefined {

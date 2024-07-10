@@ -16,6 +16,9 @@ onMounted(() => {
     }
 });
 
+const enrollmentsReport = computed(() => Boolean(sessionStore.session.data?.enrollmentsDetails))
+const gradeReport = computed(() => Boolean(sessionStore.gradeReport.data))
+
 </script>
 
 <template>
@@ -36,7 +39,9 @@ onMounted(() => {
             </div>
         </div>
 
-        <Card class="w-full max-w-sm mx-auto relative">
+        <FileInput v-if="!gradeReport && !enrollmentsReport" class="max-w-4xl mx-auto" />
+
+        <Card v-if="enrollmentsReport" class="w-full max-w-sm mx-auto relative">
             <CardHeader>
                 <div class="flex gap-5 justify-between">
                     <CardTitle>Nombre d'inscrits</CardTitle>
@@ -52,43 +57,46 @@ onMounted(() => {
             </CardContent>
         </Card>
 
-        <div class="flex flex-wrap gap-3 mx-auto">
+        <div v-if="gradeReport" class="flex flex-wrap gap-3 mx-auto">
             <GraphProgressCard
                 title="Curieux"
                 description="Utilisateurs ayant chargé au moins une page d'activité"
                 :icon="Eye"
-                :loading="sessionStore.gradeReport.loading || sessionStore.session.loading"
+                :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalCurious"
-                :divisor="sessionStore.totalEnrollments"
+                :divisor="sessionStore.totalUsers"
             />
 
             <GraphProgressCard
                 title="Actifs"
                 description="Utilisateurs ayant soumis au moins une réponse à une question"
                 :icon="Speech"
-                :loading="sessionStore.gradeReport.loading || sessionStore.session.loading"
+                :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalActive"
-                :divisor="sessionStore.totalEnrollments"
+                :divisor="sessionStore.totalUsers"
             />
 
             <GraphProgressCard
                 title="Eligibles"
                 description="Utilisateurs actifs éligibles pour le badge/attestation"
                 :icon="Award"
-                :loading="sessionStore.session.loading || sessionStore.gradeReport.loading"
+                :loading="sessionStore.session.loading"
                 :dividend="sessionStore.totalEligible"
                 :divisor="sessionStore.totalActive"
             />
         </div>
 
         <GraphEnrollments
+            v-if="enrollmentsReport"
             :details="sessionStore.session.data.enrollmentsDetails"
             :loading="sessionStore.session.loading"
             :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
         />
 
-        <GraphInterest :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
-        <GraphScore :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" />
-        <GraphThreshold :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.threshold" />
+        <template v-if="gradeReport">
+            <GraphInterest :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
+            <GraphScore :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" />
+            <GraphThreshold :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.threshold" />
+        </template>
     </div>
 </template>

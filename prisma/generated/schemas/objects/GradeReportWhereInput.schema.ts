@@ -35,6 +35,9 @@ const Schema: z.ZodType<Prisma.GradeReportWhereInput> = z
     moocSessionId: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
+    totalUsers: z
+      .union([z.lazy(() => IntFilterObjectSchema), z.number()])
+      .optional(),
     totalActive: z
       .union([z.lazy(() => IntFilterObjectSchema), z.number()])
       .optional(),

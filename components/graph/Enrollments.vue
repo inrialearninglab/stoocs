@@ -8,7 +8,6 @@ import {
 } from '@internationalized/date';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs'
 import { formatDate, getParsedDate } from '~/utils/date.utils';
-import FileInputEnrollments from '~/components/fileInput/Enrollments.vue';
 
 const props = defineProps<{
     details?: {
@@ -63,15 +62,6 @@ const presets = [
     { value: props.startDate, label: 'Début de la session' }
 ]
 
-const fileInput: Ref<InstanceType<typeof FileInputEnrollments> | null> = ref(null);
-function upload(event: File[]) {
-   if (!fileInput.value) return;
-
-   fileInput.value.open = true;
-   fileInput.value.files = event
-}
-
-
 </script>
 
 <template>
@@ -83,7 +73,6 @@ function upload(event: File[]) {
             </TabsList>
             <TabsContent value="day">
                 <GraphCard
-                    @upload="upload"
                     title="Inscriptions"
                     description="Nombre de nouvelle inscription par jour"
                     :loading="loading"
@@ -105,7 +94,6 @@ function upload(event: File[]) {
 
             <TabsContent value="total">
                 <GraphCard
-                    @upload="upload"
                     title="Inscriptions"
                     description="Nombre total d'inscription"
                     :loading="loading"
@@ -126,6 +114,6 @@ function upload(event: File[]) {
             </TabsContent>
         </Tabs>
 
-        <FileInputEnrollments ref="fileInput" />
+<!--        <FileInputEnrollments ref="fileInput" />-->
     </div>
 </template>

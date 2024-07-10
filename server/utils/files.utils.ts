@@ -74,6 +74,7 @@ export async function readGradeReports(gradeReportPath: string, probemGradeRepor
 
     return {
         date: gradeReportData.date,
+        totalUsers: gradeReportData.gradeReportLines.length,
         totalActive: totalActive,
         totalCurious: gradeReportData.gradeReportLines.filter(isUserCurious).length,
         totalEligible: gradeReportData.gradeReportLines.filter(line => line.certificateEligible === 'Y').length,

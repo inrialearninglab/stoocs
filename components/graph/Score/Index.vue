@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
-import FileInputGradeReports from '~/components/fileInput/gradeReports.vue';
 
 const props = defineProps<{
     data: any
@@ -13,14 +12,6 @@ const color = (d: any) => {
     else return '#10B981';
 }
 
-const fileInput: Ref<InstanceType<typeof FileInputGradeReports> | null> = ref(null);
-function upload(event: File[]) {
-    if (!fileInput.value) return;
-
-    fileInput.value.open = true;
-    fileInput.value.files = event;
-}
-
 const problems = computed(() => {
     if (!props.data) return [];
     return props.data.filter((d: any) => d['Moyenne'] < 50).sort((a: any, b: any) => a['Moyenne'] - b['Moyenne']);
@@ -31,7 +22,6 @@ const problems = computed(() => {
 <template>
     <div class="flex flex-col gap-2">
         <GraphCard
-            @upload="upload"
             title="Score"
             description="Pourcentage de réussite moyen par question. Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions"
             :loading="loading"
@@ -52,7 +42,5 @@ const problems = computed(() => {
             <GraphScoreIssuesTable v-if="problems.length" :problems="problems" />
 
         </GraphCard>
-
-        <FileInputGradeReports ref="fileInput" />
     </div>
 </template>

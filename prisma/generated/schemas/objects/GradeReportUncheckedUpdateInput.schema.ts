@@ -35,6 +35,12 @@ const Schema: z.ZodType<Prisma.GradeReportUncheckedUpdateInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
+    totalUsers: z
+      .union([
+        z.number(),
+        z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
     totalActive: z
       .union([
         z.number(),

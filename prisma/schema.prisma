@@ -71,6 +71,7 @@ model GradeReport {
     date          DateTime    @default(now())
     moocSession   MoocSession @relation(fields: [moocSessionId], references: [id])
     moocSessionId String
+    totalUsers    Int
     totalActive   Int
     totalCurious  Int
     totalEligible Int

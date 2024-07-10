@@ -13,6 +13,7 @@ const Schema: z.ZodType<Prisma.GradeReportOrderByWithAggregationInput> = z
     id: z.lazy(() => SortOrderSchema).optional(),
     date: z.lazy(() => SortOrderSchema).optional(),
     moocSessionId: z.lazy(() => SortOrderSchema).optional(),
+    totalUsers: z.lazy(() => SortOrderSchema).optional(),
     totalActive: z.lazy(() => SortOrderSchema).optional(),
     totalCurious: z.lazy(() => SortOrderSchema).optional(),
     totalEligible: z.lazy(() => SortOrderSchema).optional(),

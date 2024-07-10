@@ -1,6 +1,7 @@
 export interface GradeReport {
     id: string;
     date: Date;
+    totalUsers: number;
     totalActive: number;
     totalCurious: number;
     totalEligible: number;

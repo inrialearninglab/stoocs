@@ -29,6 +29,12 @@ const Schema: z.ZodType<Prisma.GradeReportUpdateManyMutationInput> = z
         z.lazy(() => DateTimeFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
+    totalUsers: z
+      .union([
+        z.number(),
+        z.lazy(() => IntFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
     totalActive: z
       .union([
         z.number(),
