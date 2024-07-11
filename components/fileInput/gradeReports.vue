@@ -34,6 +34,7 @@ async function handleSubmit() {
     await sessionStore.addGradeReports(body);
     loading.value = false;
     open.value = false;
+    files.value = [];
 }
 
 defineExpose({

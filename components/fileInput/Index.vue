@@ -56,6 +56,8 @@ async function handleSubmit() {
         body.append('file', enrollments);
 
         await sessionStore.addEnrollmentsReport(body);
+
+        files.value.splice(files.value.indexOf(enrollments), 1);
     }
 
     if (gradeReport && problemGradeReport) {
@@ -64,9 +66,13 @@ async function handleSubmit() {
         body.append('gradeReport', gradeReport);
         body.append('problemGradeReport', problemGradeReport);
         await sessionStore.addGradeReports(body);
+
+        files.value.splice(files.value.indexOf(gradeReport), 1);
+        files.value.splice(files.value.indexOf(problemGradeReport), 1);
     }
 
     loading.value = false;
+    if (files.value.length === 0) open.value = false;
 }
 
 

@@ -18,6 +18,7 @@ async function handleSubmit() {
     await sessionStore.addEnrollmentsReport(body);
     loading.value = false;
     open.value = false;
+    files.value = [];
 }
 
 const conditions = computed(() => {
