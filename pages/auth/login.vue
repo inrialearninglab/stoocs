@@ -9,10 +9,11 @@ import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { useForm } from 'vee-validate';
+import { emailMessage, requiredMessage } from '~/schema/users.schema';
 
 const formSchema = toTypedSchema(z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
+    email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
+    password: z.string({ message: requiredMessage })
 }));
 
 const form = useForm({

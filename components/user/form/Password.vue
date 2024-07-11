@@ -3,13 +3,14 @@ import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { useForm } from 'vee-validate';
 import { useUsers } from '~/stores/users.store';
+import { passwordMatchMessage, passwordMessage, passwordRequirements, requiredMessage } from '~/schema/users.schema';
 
 const usersStore = useUsers();
 
 const formSchema = toTypedSchema(z.object({
-    password: z.string().min(6),
-    passwordConfirmation: z.string().refine((value) => value === form.values.password, {
-        message: 'Passwords do not match',
+    password: z.string({ message: requiredMessage }).min(8, passwordMessage).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/, passwordRequirements),
+    passwordConfirmation: z.string({ message: requiredMessage }).refine((value) => value === form.values.password, {
+        message: passwordMatchMessage,
     }),
 }));
 
@@ -33,7 +34,7 @@ const onSubmit = form.handleSubmit(async (values) => {
            <form @submit="onSubmit" class="flex flex-col gap-3">
                <FormField v-slot="{ componentField }" name="password">
                    <FormItem>
-                       <FormLabel>Mot de passe</FormLabel>
+                       <FormLabel>Nouveau mot de passe</FormLabel>
                        <FormControl>
                            <Input type="password" v-bind="componentField" />
                        </FormControl>

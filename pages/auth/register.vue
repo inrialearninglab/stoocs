@@ -5,16 +5,23 @@ import { useForm } from 'vee-validate';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { useUsers } from '~/stores/users.store';
 import { Loader2 } from 'lucide-vue-next';
+import {
+    emailMessage,
+    passwordMatchMessage,
+    passwordMessage,
+    passwordRequirements,
+    requiredMessage
+} from '~/schema/users.schema';
 
 const usersStore = useUsers();
 
 const formSchema = toTypedSchema(z.object({
-    email: z.string().email(),
-    firstname: z.string().min(2),
-    lastname: z.string().min(2),
-    password: z.string().min(6),
-    passwordConfirmation: z.string().refine((value) => value === form.values.password, {
-        message: 'Passwords do not match',
+    email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
+    firstname: z.string({ message: requiredMessage }).min(2, 'Le prénom doit contenir au moins 2 caractères'),
+    lastname: z.string({ message: requiredMessage }).min(2, 'Le nom doit contenir au moins 2 caractères'),
+    password: z.string({ message: requiredMessage }).min(8, passwordMessage).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/, passwordRequirements),
+    passwordConfirmation: z.string({ message: requiredMessage }).refine((value) => value === form.values.password, {
+        message: passwordMatchMessage,
     }),
 }));
 

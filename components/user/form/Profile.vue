@@ -4,6 +4,7 @@ import { useUsers } from '~/stores/users.store';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { useForm } from 'vee-validate';
+import { emailMessage, requiredMessage } from '~/schema/users.schema';
 const usersStore = useUsers();
 
 const user = useUser();
@@ -21,9 +22,9 @@ onMounted(async () => {
 })
 
 const formSchema = toTypedSchema(z.object({
-    email: z.string().email(),
-    firstname: z.string().min(2),
-    lastname: z.string().min(2),
+    email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
+    firstname: z.string({ message: requiredMessage }).min(2, 'Le prénom doit contenir au moins 2 caractères'),
+    lastname: z.string({ message: requiredMessage }).min(2, 'Le nom doit contenir au moins 2 caractères'),
 }));
 
 const form = useForm({
