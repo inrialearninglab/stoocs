@@ -6,28 +6,30 @@ import { Button } from '~/components/ui/button';
 import { login } from '~/services/auth.service';
 import { Loader2, AlertCircle } from 'lucide-vue-next';
 import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert';
+import { toTypedSchema } from '@vee-validate/zod';
+import * as z from 'zod';
+import { useForm } from 'vee-validate';
 
-const user = useUser();
+const formSchema = toTypedSchema(z.object({
+    email: z.string().email(),
+    password: z.string().min(6),
+}));
 
-const form = reactive({
-    email: '',
-    password: '',
+const form = useForm({
+    validationSchema: formSchema,
 });
 
-const loading = ref(false);
 const error = ref(false);
 
-async function onSubmit() {
-    loading.value = true;
-    const success = await login(form.email, form.password);
-    loading.value = false;
+const onSubmit = form.handleSubmit(async (values) => {
+    const success = await login(values.email, values.password);
 
-    if (success)  {
+    if (success) {
         await navigateTo('/moocs');
     } else {
         error.value = true;
     }
-}
+});
 
 </script>
 
@@ -46,24 +48,35 @@ async function onSubmit() {
                 <CardTitle>Connexion</CardTitle>
             </CardHeader>
 
-            <CardContent class="flex flex-col gap-4">
-                <div class="flex flex-col gap-2">
-                    <Label for="username">Nom d'utilisateur</Label>
-                    <Input type="email" id="username" v-model="form.email" />
-                </div>
+            <CardContent>
+                <form @submit="onSubmit" class="flex flex-col gap-3">
+                    <FormField v-slot="{ componentField }" name="email">
+                        <FormItem>
+                            <FormLabel>Mail</FormLabel>
+                            <FormControl>
+                                <Input type="email" v-bind="componentField"/>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
 
-                <div class="flex flex-col gap-2">
-                    <Label for="password">Mot de passe</Label>
-                    <Input id="password" type="password" v-model="form.password"/>
-                </div>
+
+                    <FormField v-slot="{ componentField }" name="password">
+                        <FormItem>
+                            <FormLabel>Mot de passe</FormLabel>
+                            <FormControl>
+                                <Input type="password" v-bind="componentField"/>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+
+                    <Button :disabled="!form.meta.value.valid || form.isSubmitting.value" type="submit" class="mt-3">
+                        <Loader2 v-if="form.isSubmitting.value" class="size-4 mr-2 animate-spin" />
+                        Valider
+                    </Button>
+                </form>
             </CardContent>
-
-            <CardFooter>
-                <Button :disabled="loading" type="submit" class="w-full" @click="onSubmit">
-                    <Loader2 v-if="loading" class="size-4 mr-2 animate-spin" />
-                    Connexion
-                </Button>
-            </CardFooter>
         </Card>
     </div>
 </template>

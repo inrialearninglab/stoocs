@@ -4,6 +4,7 @@ import * as z from 'zod';
 import { useForm } from 'vee-validate';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { useUsers } from '~/stores/users.store';
+import { Loader2 } from 'lucide-vue-next';
 
 const usersStore = useUsers();
 
@@ -87,7 +88,8 @@ const onSubmit = form.handleSubmit(async (values) => {
                     </FormItem>
                 </FormField>
 
-                <Button :disabled="!form.meta.value.valid" type="submit" class="mt-3">
+                <Button :disabled="!form.meta.value.valid || form.isSubmitting.value" type="submit" class="mt-3">
+                    <Loader2 v-if="form.isSubmitting.value" class="size-4 mr-2 animate-spin" />
                     Valider
                 </Button>
             </form>
