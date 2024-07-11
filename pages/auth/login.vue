@@ -32,6 +32,12 @@ const onSubmit = form.handleSubmit(async (values) => {
     }
 });
 
+onMounted(() => {
+    const mailInput = document.getElementById('mail');
+    console.log('mailInput', mailInput);
+    mailInput?.focus();
+})
+
 </script>
 
 <template>
@@ -55,7 +61,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                         <FormItem>
                             <FormLabel>Mail</FormLabel>
                             <FormControl>
-                                <Input type="email" v-bind="componentField"/>
+                                <Input id="mail" type="email" v-bind="componentField"/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
