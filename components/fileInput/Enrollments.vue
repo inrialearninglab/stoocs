@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Loader2 } from 'lucide-vue-next';
 import { useSession } from '~/stores/session.store';
+import { isEnrollments } from '~/utils';
 
 const files = ref<File[]>([]);
 const sessionStore = useSession();
@@ -19,11 +20,9 @@ async function handleSubmit() {
     open.value = false;
 }
 
-const enrollmentsRegex = /^enrollments(\s\(\d+\))?\.csv$/;
-
 const conditions = computed(() => {
     return  {
-        'enrollments.csv': files.value.length === 1 && enrollmentsRegex.test(files.value[0].name),
+        'enrollments.csv': files.value.length === 1 && isEnrollments(files.value[0].name),
     }
 })
 
@@ -40,10 +39,6 @@ defineExpose({
 
 <template>
     <Dialog v-model:open="open">
-        <DialogTrigger as-child class>
-            <Button variant="outline">Ajouter un rapport</Button>
-        </DialogTrigger>
-
         <DialogContent class="max-w-2xl">
             <DialogHeader>
                 <DialogTitle>Ajouter un rapport d'inscription</DialogTitle>

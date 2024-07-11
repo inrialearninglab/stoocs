@@ -1,20 +1,18 @@
 <script setup lang="ts">
 import { Loader2 } from 'lucide-vue-next';
 import { useSession } from '~/stores/session.store';
+import { isGradeReport, isProblemGradeReport } from '~/utils';
 
 const files: Ref<File[]> = ref([]);
 const sessionStore = useSession();
-
-const gradeReportRegex = /^[\w-]+_\d+_[\w-]+_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
-const problemGradeReportRegex = /^[\w-]+_\d+_[\w-]+_problem_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
 
 const loading = ref(false);
 const open = ref(false);
 
 const conditions = computed(() => {
     return {
-        'Grade report': files.value.some(file => gradeReportRegex.test(file.name) && !problemGradeReportRegex.test(file.name)),
-        'Problem grade report': files.value.some(file => problemGradeReportRegex.test(file.name)),
+        'Grade report': files.value.some(file => isGradeReport(file.name)),
+        'Problem grade report': files.value.some(file => isProblemGradeReport(file.name)),
     }
 })
 
@@ -24,8 +22,8 @@ const conditionsFilled = computed(() => {
 
 async function handleSubmit() {
     loading.value = true;
-    const gradeReport = files.value.find(file => gradeReportRegex.test(file.name) && !problemGradeReportRegex.test(file.name));
-    const problemGradeReport = files.value.find(file => problemGradeReportRegex.test(file.name));
+    const gradeReport = files.value.find(file => isGradeReport(file.name));
+    const problemGradeReport = files.value.find(file => isProblemGradeReport(file.name));
 
     if (!gradeReport || !problemGradeReport) return;
 
@@ -47,10 +45,6 @@ defineExpose({
 
 <template>
     <Dialog v-model:open="open">
-        <DialogTrigger as-child class>
-            <Button variant="outline">Ajouter des rapports</Button>
-        </DialogTrigger>
-
         <DialogContent class="max-w-2xl">
             <DialogHeader>
                 <DialogTitle>Ajouter des rapports de notations</DialogTitle>
