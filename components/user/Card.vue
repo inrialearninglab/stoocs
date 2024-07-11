@@ -40,7 +40,7 @@ const usersStore = useUsers()
                     Modifier
                 </NuxtLink>
             </Button>
-            <AlertDialog>
+            <AlertDialog v-if="profile">
                 <AlertDialogTrigger as-child>
                     <Button variant="destructive" class="flex-1">
                         <Trash2 class="size-4 mr-2"/>

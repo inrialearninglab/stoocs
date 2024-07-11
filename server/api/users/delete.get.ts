@@ -1,10 +1,8 @@
 import { prisma } from '~/prisma/db';
 
 export default defineEventHandler(async (event) => {
-    const id = getRouterParam(event, 'id');
-    
     const user = await prisma.user.delete({
-        where: { id }
+        where: { id: event.context.user.id }
     });
     
     if (!user) {
@@ -15,4 +13,4 @@ export default defineEventHandler(async (event) => {
     }
     
     return { user };
-});
+})

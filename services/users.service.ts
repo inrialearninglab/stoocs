@@ -11,10 +11,11 @@ export async function getUsers(): Promise<User[] | null> {
     }
 }
 
-export async function deleteUser(id: string): Promise<User | null> {
+export async function deleteUser(): Promise<User | null> {
     try {
-        const res = await axios.delete(`/api/users/${id}`);
+        const res = await axios.get(`/api/users/delete`);
         
+        await navigateTo('/auth/login');
         return res.data.user;
     } catch {
         return null;

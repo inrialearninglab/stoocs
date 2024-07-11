@@ -71,7 +71,7 @@ export const useUsers = defineStore('users', {
         
         async deleteUser(id: string) {
             this.users.loading = true;
-            const user = await deleteUser(id);
+            const user = await deleteUser();
             if (user) {
                 this.users.data = this.users.data.filter(u => u.id !== id);
             }
