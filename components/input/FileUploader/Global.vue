@@ -2,6 +2,7 @@
 import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { CircleCheck, CircleX, Upload, X } from 'lucide-vue-next';
 import { useVModel } from '@vueuse/core';
+import { getFormattedSize } from '../../../utils';
 
 const props = defineProps<{
     modelValue: File[];
@@ -65,7 +66,7 @@ const isDragActive = rest.isDragActive;
             <div v-for="(file, index) of modelValue" class="flex items-center">
                 <div class="flex flex-col flex-1">
                     <p class="text-sm">{{ file.name }}</p>
-                    <small class="text-xs text-muted-foreground">{{ Math.round(file.size / (1024 * 1024)) }} Mo</small>
+                    <small class="text-xs text-muted-foreground">{{ getFormattedSize(file.size) }}</small>
                 </div>
                 <Button @click="removeFile(index)" variant="outline" size="icon" class="size-7">
                     <X class="size-4" />

@@ -1,2 +1,2 @@
 export * from './date.utils';
-export * from './filename.utils';
+export * from './files.utils';
