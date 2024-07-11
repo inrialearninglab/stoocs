@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { getCourses } from "./courses/courses.js";
-import { user } from './initialUser';
+import { users } from './initialUser';
 
 const prisma = new PrismaClient();
 
@@ -96,10 +96,12 @@ async function seed() {
         console.log(`created sessionType with id: ${res.id}`)
     }
     
-    const res = await prisma.user.create({
-        data: user
-    });
-    console.log(`created user with id: ${res.id}`)
+    for (const user of users) {
+        const res = await prisma.user.create({
+            data: user
+        });
+        console.log(`created user with id: ${res.id}`)
+    }
 
     console.log('Seeding finished.');
 }
