@@ -31,7 +31,25 @@ export async function readEnrollments(filename: string): Promise<any> {
 
 export async function readGradeReports(gradeReportPath: string, probemGradeReportPath: string): Promise<Omit<GradeReport, 'id'>> {
     let report = await readGradeReport(gradeReportPath);
-    report = await readProblemGradeReport(probemGradeReportPath, report);
+    // let reportCopy = JSON.parse(JSON.stringify(report));
+    //
+    // console.time('readProblemGradeReport')
+    // report = await readProblemGradeReport(probemGradeReportPath, report);
+    // console.timeEnd('readProblemGradeReport')
+    //
+    // console.time('readProblemGradeReportOptimized')
+    // reportCopy = await readProblemGradeReportOptimized(probemGradeReportPath, reportCopy);
+    // console.timeEnd('readProblemGradeReportOptimized')
+    //
+    // if (JSON.stringify(report) !== JSON.stringify(reportCopy)) {
+    //     fs.writeFileSync('report1.json', JSON.stringify(report, null, 2));
+    //     fs.writeFileSync('report2.json', JSON.stringify(reportCopy, null, 2));
+    //
+    //     throw new Error('The two methods of reading the problem grade report do not match');
+    // }
+    
+    report = await readProblemGradeReportOptimized(probemGradeReportPath, report);
+    
     
     const metaData = extractMetadata(gradeReportPath);
     
@@ -118,6 +136,57 @@ async function readGradeReport(filename: string): Promise<any> {
     return lines;
 }
 
+async function readProblemGradeReportOptimized(filename: string, report: any) {
+    const reportMap = new Map(report.map((reportLine: any) => [reportLine.id, reportLine]));
+    
+    await new Promise((resolve, reject) => {
+        createReadStream(filename)
+            .pipe(parse({ columns: true }))
+            .on('data', (data) => {
+                const id = Number(data['Student ID']);
+                
+                const reportLine = reportMap.get(id);
+                if (!reportLine) {
+                    console.log('Could not find report line with id', id);
+                    return;
+                }
+                
+                const keys = Object.keys(data).filter((key) => !['Student ID', 'Username', 'Final Grade'].includes(key));
+                const problemGradeReportLines = keys
+                    .filter((_, i) => i % 2 === 0)
+                    .map((key, i) => {
+                        const score = data[key];
+                        const possible = data[keys[i * 2 + 1]];
+                        const label = key.replace(/\s*\([^)]*\)\s*$/, '').trim();
+                        
+                        if (possible === undefined) console.log('possible is undefined')
+                        if (score === undefined) console.log('score is undefined')
+                        
+                        if (Array.isArray(score)) {
+                            return score.map((s, j) => ({
+                                label: `${label} ${j + 1}`,
+                                score: getResultValue(s),
+                                possible: getResultValue(possible[j])
+                            }));
+                        } else {
+                            return {
+                                label,
+                                score: getResultValue(score),
+                                possible: getResultValue(possible)
+                            };
+                        }
+                    })
+                    .flat();
+                
+                reportLine.problemGradeReport.push(...problemGradeReportLines);
+            })
+            .on('end', () => resolve(report))
+            .on('error', (error) => reject(error))
+    });
+    
+    return report;
+}
+
 async function readProblemGradeReport(filename: string, report: any) {
     await new Promise((resolve, reject) => {
         createReadStream(filename)
@@ -139,7 +208,7 @@ async function readProblemGradeReport(filename: string, report: any) {
                     // in the label i have to remove the parenthesis at the end
                     const labelArray = label.split(' ');
                     labelArray.pop();
-                    const labelWithoutParenthesis = labelArray.join(' ');
+                    const labelWithoutParenthesis = labelArray.join(' ').trim();
                     
                     // create multiple problemGradeReportLine if score is an array
                     if (Array.isArray(score)) {
