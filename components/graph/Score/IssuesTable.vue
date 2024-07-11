@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
-import { ChevronDown, CircleAlert, Clipboard } from 'lucide-vue-next';
+import { ChevronDown, CircleAlert, Clipboard, Check } from 'lucide-vue-next';
 import { useToast } from '~/components/ui/toast';
 
 const { toast } = useToast();
@@ -14,6 +14,8 @@ const props = defineProps<{
 
 const isTableOpen = ref(false);
 
+const copied = ref(false);
+
 async function toClipboard() {
     try {
         let markdown = '| Question | Moyenne |\n| --- | --- |\n';
@@ -24,6 +26,8 @@ async function toClipboard() {
 
         await navigator.clipboard.writeText(markdown);
 
+        copied.value = true;
+        setTimeout(() => copied.value = false, 2000);
         toast({
             title: 'Succès',
             description: 'Tableau copié dans le presse-papier'
@@ -77,8 +81,9 @@ async function toClipboard() {
                     </Table>
                 </CardContent>
                 <CardFooter class="border-t p-4">
-                    <Button @click="toClipboard" variant="outline">
-                        <Clipboard class="size-4 mr-2" />
+                    <Button @click="toClipboard" variant="outline" class="transition">
+                        <Clipboard v-if="!copied" class="size-4 mr-2" />
+                        <Check v-else class="size-4 mr-2" />
                         Copier le tableau
                     </Button>
                 </CardFooter>
