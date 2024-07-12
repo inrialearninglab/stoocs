@@ -184,7 +184,7 @@ function openFileInput(files?: File[]) {
             <div v-if="gradeReport" class="flex flex-wrap gap-3 mx-auto">
                 <GraphProgressCard
                     title="Curieux"
-                    description="Utilisateurs ayant chargé au moins une page d'activité"
+                    description="Utilisateurs ayant chargé au moins une page d'exercice"
                     :icon="Eye"
                     :loading="sessionStore.gradeReport.loading"
                     :dividend="sessionStore.totalCurious"

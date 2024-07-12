@@ -12,7 +12,7 @@ defineProps<{
     <div class="flex flex-col gap-2">
         <GraphCard
             title="Participation"
-            description="Pour chaque séquence, pourcentage d'utilisateurs actifs ayant répondu à au moins une question"
+            description="Pour chaque séquence, pourcentage d'utilisateurs actifs ayant répondu"
             :loading="loading"
             :empty="!data"
             report="grade"
@@ -27,7 +27,5 @@ defineProps<{
                 :y-formatter="(value) => `${value}%`"
             />
         </GraphCard>
-
-<!--        <FileInputGradeReports ref="fileInput" />-->
     </div>
 </template>
