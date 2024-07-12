@@ -49,7 +49,7 @@
 ## Restart the application
 1. Restart the application:
     ```shell
-    docker compose up
+    docker compose up -d
     ```
 
 2. You can access the application at this url: [http://localhost](http://localhost)
@@ -61,5 +61,5 @@
     ```
 2. Rebuild the application:
     ```shell
-   docker compose build
+   docker compose build && docker compose up -d
    ```

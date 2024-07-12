@@ -24,13 +24,11 @@ export async function postEnrollments(body: FormData, id: string) {
 
 export async function postGradeReports(body: FormData, id: string) {
     try {
-        console.log('posting grade reports', body, id)
         const res = await axios.post(`/api/reports/${id}`, body, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        console.log('res', res)
         
         return res.data.session;
     } catch(e) {
