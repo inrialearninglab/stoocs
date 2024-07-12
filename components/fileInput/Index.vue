@@ -75,10 +75,18 @@ async function handleSubmit() {
     if (files.value.length === 0) open.value = false;
 }
 
+async function focusSubmit() {
+    await nextTick();
+    const submit = document.getElementById('submit');
+    if (submit) {
+        submit.focus();
+    }
+}
 
 defineExpose({
     open,
-    files
+    files,
+    focusSubmit
 })
 
 </script>
@@ -92,7 +100,7 @@ defineExpose({
             </DialogHeader>
             <InputFileUploaderGlobal :multiple="true" :max-files="3" v-model="files" :conditions="conditions" />
             <DialogFooter class="mt-4">
-                <Button :disabled="loading || !conditionsFilled" @click="handleSubmit" class="w-full" type="submit">
+                <Button :disabled="loading || !conditionsFilled" @click="handleSubmit" class="w-full" type="submit" id="submit">
                     <Loader2 v-if="loading" class="size-4 mr-2 animate-spin" />
                     Valider
                 </Button>

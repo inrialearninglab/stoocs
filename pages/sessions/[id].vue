@@ -73,21 +73,30 @@ function openEnrollmentFileInput(files?: File[]) {
     if (!enrollmentFileInput.value) return;
 
     enrollmentFileInput.value.open = true;
-    if (files) enrollmentFileInput.value.files = files;
+    if (files) {
+        enrollmentFileInput.value.files = files;
+        enrollmentFileInput.value.focusSubmit();
+    }
 }
 
 function openGradeReportFileInput(files?: File[]) {
     if (!gradeReportFileInput.value) return;
 
     gradeReportFileInput.value.open = true;
-    if (files) gradeReportFileInput.value.files = files;
+    if (files) {
+        gradeReportFileInput.value.files = files;
+        gradeReportFileInput.value.focusSubmit();
+    }
 }
 
 function openFileInput(files?: File[]) {
     if (!globalFileInput.value) return;
 
     globalFileInput.value.open = true;
-    if (files) globalFileInput.value.files = files;
+    if (files) {
+        globalFileInput.value.files = files;
+        globalFileInput.value.focusSubmit();
+    }
 }
 
 </script>
