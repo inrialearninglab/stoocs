@@ -13,7 +13,7 @@ function toggleColorMode() {
         <div class="flex gap-5">
             <Button variant="ghost" as-child class="">
                 <NuxtLink to="/" class="h-20">
-                    <LockKeyhole class="size-12" />
+                    <LockKeyhole class="size-10" />
                 </NuxtLink>
             </Button>
             <nav class="flex items-center gap-4 text-xl">

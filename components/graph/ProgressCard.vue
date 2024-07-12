@@ -14,7 +14,7 @@ defineProps<{
 </script>
 
 <template>
-    <Card class="max-w-64 flex flex-col">
+    <Card class="max-w-80 flex flex-col">
         <CardHeader class="relative">
             <div class="flex gap-5 justify-between">
                 <CardTitle>{{ title }}</CardTitle>

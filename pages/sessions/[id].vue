@@ -201,12 +201,21 @@ function openFileInput(files?: File[]) {
                 />
 
                 <GraphProgressCard
-                    title="Eligibles"
+                    title="Eligibles - Actifs"
                     description="Utilisateurs actifs éligibles pour le badge/attestation"
                     :icon="Award"
                     :loading="sessionStore.session.loading"
                     :dividend="sessionStore.totalEligible"
                     :divisor="sessionStore.totalActive"
+                />
+
+                <GraphProgressCard
+                    title="Eligibles - Utilisateurs"
+                    description="Utilisateurs éligibles pour le badge/attestation"
+                    :icon="Award"
+                    :loading="sessionStore.gradeReport.loading"
+                    :dividend="sessionStore.totalEligible"
+                    :divisor="sessionStore.totalUsers"
                 />
             </div>
 
