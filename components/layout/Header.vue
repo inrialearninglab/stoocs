@@ -10,11 +10,16 @@ function toggleColorMode() {
 
 <template>
     <header class="border-b-2 mb-5 p-3 flex justify-between items-center">
-        <Button variant="ghost" as-child class="">
-            <NuxtLink to="/" class="h-20">
-                <LockKeyhole class="size-12" />
-            </NuxtLink>
-        </Button>
+        <div class="flex gap-5">
+            <Button variant="ghost" as-child class="">
+                <NuxtLink to="/" class="h-20">
+                    <LockKeyhole class="size-12" />
+                </NuxtLink>
+            </Button>
+            <nav class="flex items-center gap-4 text-xl">
+                <NuxtLink class="nav-link" to="/moocs">Moocs</NuxtLink>
+            </nav>
+        </div>
 
         <div class="flex gap-2 items-center">
             <Button @click="toggleColorMode" size="icon" variant="ghost">
@@ -27,3 +32,13 @@ function toggleColorMode() {
         </div>
     </header>
 </template>
+
+<style scoped>
+    .nav-link {
+        @apply transition-colors hover:text-foreground/80 text-foreground/60 font-medium;
+    }
+
+    .router-link-active {
+        @apply text-foreground font-semibold;
+    }
+</style>
