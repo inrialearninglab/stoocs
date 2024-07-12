@@ -1,6 +1,6 @@
 # Stoocs
 
-## First Deployment
+## First time setup
 1. Fill the `.env` file with the following content and replace the placeholders with the actual values:
    ```plaintext
    DATABASE_URL="postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@db:5432/<POSTGRES_DB>"
@@ -31,30 +31,35 @@
 
 4. Put the `courses.json` file in the `prisma/seed/courses` directory.
 
-5. Execute the following command to start the application:
+5. Create the uploads directories
+    ```shell
+   mkdir -p uploads/enrollments uploads/reports
+    ```
+
+6. Start the application:
     ```shell
     docker compose up
     ```
 
-6. Once started to fill the db with initial values execute the following command in the application container:
+7. Once started to fill the db with initial values execute the following command in the application container:
     ```shell
     bunx prisma migrate reset
     ```
 
 ## Restart the application
-1. Execute the following command to restart the application:
+1. Restart the application:
     ```shell
     docker compose up
     ```
 
-2. You cann access the application at this url: [http://localhost](http://localhost)
+2. You can access the application at this url: [http://localhost](http://localhost)
 
 ## Pull changes from the repository
-1. Execute the following command to pull the changes from the repository:
+1. Pull the changes from the repository:
     ```shell
    git pull
     ```
-2. Execute the following command to restart the application:
+2. Rebuild the application:
     ```shell
    docker compose build
    ```
