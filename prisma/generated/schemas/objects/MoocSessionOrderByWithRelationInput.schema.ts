@@ -33,6 +33,7 @@ const Schema: z.ZodType<Prisma.MoocSessionOrderByWithRelationInput> = z
       ])
       .optional(),
     ended: z.lazy(() => SortOrderSchema).optional(),
+    cutoffs: z.lazy(() => SortOrderSchema).optional(),
     typeID: z
       .union([
         z.lazy(() => SortOrderSchema),

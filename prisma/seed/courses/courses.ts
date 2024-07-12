@@ -23,12 +23,17 @@ export async function getCourses(): Promise<{ courses: any, sessions: any }> {
 
                 const endDateString = session['Course End Date:'].replace(' at ', ' ');
                 const endDate = new Date(endDateString);
+                
+                let cutoffs = session['Grade Cutoffs:'];
+                cutoffs = Number(cutoffs.split(':')[1].trim());
+                
                 return {
                     parentCourse: session['Course Number:'],
                     sessionName: session['Course Name:'],
                     ended: session['Has the course ended?'] === 'Yes',
                     startDate,
                     endDate,
+                    cutoffs
                 }
             })
             resolve({ courses, sessions })

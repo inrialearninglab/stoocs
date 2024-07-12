@@ -7,6 +7,7 @@ const props = defineProps<{
         'Eligible': number
     }[];
     loading: boolean;
+    cutoffs: number;
 }>();
 
 </script>
@@ -15,7 +16,7 @@ const props = defineProps<{
     <div class="flex flex-col gap-2">
         <GraphCard
             title="Nombre d'éligibles"
-            description="Nombre d'utilisateurs éligibles par seuil de note"
+            :description="`Nombre d'utilisateurs éligibles par seuil de note. Le seuil actuel est de ${cutoffs * 100}%.`"
             :loading="loading"
             :empty="!data"
             report="grade"
@@ -27,7 +28,5 @@ const props = defineProps<{
                 :categories="['Eligible']"
             />
         </GraphCard>
-
-<!--        <FileInputGradeReports ref="fileInput" />-->
     </div>
 </template>

@@ -31,6 +31,7 @@ export interface Session {
     startDate?: string;
     endDate?: string;
     ended: boolean;
+    cutoffs?: number;
     gradeReports?: Pick<GradeReport, 'id' | 'date'>[];
     authors?: Author[];
     teamMembers?: TeamMember[];

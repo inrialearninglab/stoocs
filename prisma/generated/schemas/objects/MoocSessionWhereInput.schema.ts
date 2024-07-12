@@ -4,6 +4,7 @@ import { JsonNullableFilterObjectSchema } from './JsonNullableFilter.schema';
 import { IntFilterObjectSchema } from './IntFilter.schema';
 import { DateTimeNullableFilterObjectSchema } from './DateTimeNullableFilter.schema';
 import { BoolFilterObjectSchema } from './BoolFilter.schema';
+import { FloatFilterObjectSchema } from './FloatFilter.schema';
 import { StringNullableFilterObjectSchema } from './StringNullableFilter.schema';
 import { GradeReportListRelationFilterObjectSchema } from './GradeReportListRelationFilter.schema';
 import { AuthorListRelationFilterObjectSchema } from './AuthorListRelationFilter.schema';
@@ -59,6 +60,9 @@ const Schema: z.ZodType<Prisma.MoocSessionWhereInput> = z
       .nullable(),
     ended: z
       .union([z.lazy(() => BoolFilterObjectSchema), z.boolean()])
+      .optional(),
+    cutoffs: z
+      .union([z.lazy(() => FloatFilterObjectSchema), z.number()])
       .optional(),
     typeID: z
       .union([z.lazy(() => StringNullableFilterObjectSchema), z.string()])

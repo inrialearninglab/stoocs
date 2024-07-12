@@ -69,6 +69,7 @@ async function seed() {
                     ended: session.ended,
                     startDate: session.startDate,
                     endDate: session.endDate,
+                    cutoffs: session.cutoffs,
                     mooc: {
                         connect: {
                             id: parentCourse.id

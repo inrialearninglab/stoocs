@@ -8,6 +8,7 @@ export const MoocSessionScalarFieldEnumSchema = z.enum([
   'startDate',
   'endDate',
   'ended',
+  'cutoffs',
   'typeID',
   'moocID',
 ]);

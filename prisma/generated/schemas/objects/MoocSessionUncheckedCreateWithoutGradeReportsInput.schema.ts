@@ -26,6 +26,7 @@ const Schema: z.ZodType<Prisma.MoocSessionUncheckedCreateWithoutGradeReportsInpu
       startDate: z.coerce.date().optional().nullable(),
       endDate: z.coerce.date().optional().nullable(),
       ended: z.boolean().optional(),
+      cutoffs: z.number(),
       typeID: z.string().optional().nullable(),
       moocID: z.string(),
       authors: z

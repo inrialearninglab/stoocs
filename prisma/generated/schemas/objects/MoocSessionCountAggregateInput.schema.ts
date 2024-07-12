@@ -11,6 +11,7 @@ const Schema: z.ZodType<Prisma.MoocSessionCountAggregateInputType> = z
     startDate: z.literal(true).optional(),
     endDate: z.literal(true).optional(),
     ended: z.literal(true).optional(),
+    cutoffs: z.literal(true).optional(),
     typeID: z.literal(true).optional(),
     moocID: z.literal(true).optional(),
     _all: z.literal(true).optional(),

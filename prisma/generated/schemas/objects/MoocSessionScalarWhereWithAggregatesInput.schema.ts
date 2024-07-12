@@ -4,6 +4,7 @@ import { JsonNullableWithAggregatesFilterObjectSchema } from './JsonNullableWith
 import { IntWithAggregatesFilterObjectSchema } from './IntWithAggregatesFilter.schema';
 import { DateTimeNullableWithAggregatesFilterObjectSchema } from './DateTimeNullableWithAggregatesFilter.schema';
 import { BoolWithAggregatesFilterObjectSchema } from './BoolWithAggregatesFilter.schema';
+import { FloatWithAggregatesFilterObjectSchema } from './FloatWithAggregatesFilter.schema';
 import { StringNullableWithAggregatesFilterObjectSchema } from './StringNullableWithAggregatesFilter.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -58,6 +59,9 @@ const Schema: z.ZodType<Prisma.MoocSessionScalarWhereWithAggregatesInput> = z
       .nullable(),
     ended: z
       .union([z.lazy(() => BoolWithAggregatesFilterObjectSchema), z.boolean()])
+      .optional(),
+    cutoffs: z
+      .union([z.lazy(() => FloatWithAggregatesFilterObjectSchema), z.number()])
       .optional(),
     typeID: z
       .union([

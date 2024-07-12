@@ -26,6 +26,7 @@ const Schema: z.ZodType<Prisma.MoocSessionUncheckedCreateWithoutTypeInput> = z
     startDate: z.coerce.date().optional().nullable(),
     endDate: z.coerce.date().optional().nullable(),
     ended: z.boolean().optional(),
+    cutoffs: z.number(),
     moocID: z.string(),
     gradeReports: z
       .lazy(

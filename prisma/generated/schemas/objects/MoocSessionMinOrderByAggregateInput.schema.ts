@@ -11,6 +11,7 @@ const Schema: z.ZodType<Prisma.MoocSessionMinOrderByAggregateInput> = z
     startDate: z.lazy(() => SortOrderSchema).optional(),
     endDate: z.lazy(() => SortOrderSchema).optional(),
     ended: z.lazy(() => SortOrderSchema).optional(),
+    cutoffs: z.lazy(() => SortOrderSchema).optional(),
     typeID: z.lazy(() => SortOrderSchema).optional(),
     moocID: z.lazy(() => SortOrderSchema).optional(),
   })

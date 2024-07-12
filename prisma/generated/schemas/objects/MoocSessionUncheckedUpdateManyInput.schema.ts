@@ -4,6 +4,7 @@ import { NullableJsonNullValueInputSchema } from '../enums/NullableJsonNullValue
 import { IntFieldUpdateOperationsInputObjectSchema } from './IntFieldUpdateOperationsInput.schema';
 import { NullableDateTimeFieldUpdateOperationsInputObjectSchema } from './NullableDateTimeFieldUpdateOperationsInput.schema';
 import { BoolFieldUpdateOperationsInputObjectSchema } from './BoolFieldUpdateOperationsInput.schema';
+import { FloatFieldUpdateOperationsInputObjectSchema } from './FloatFieldUpdateOperationsInput.schema';
 import { NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
 
 import type { Prisma } from '@prisma/client';
@@ -58,6 +59,12 @@ const Schema: z.ZodType<Prisma.MoocSessionUncheckedUpdateManyInput> = z
       .union([
         z.boolean(),
         z.lazy(() => BoolFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
+    cutoffs: z
+      .union([
+        z.number(),
+        z.lazy(() => FloatFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
     typeID: z

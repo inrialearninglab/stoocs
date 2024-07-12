@@ -188,7 +188,7 @@ function openFileInput(files?: File[]) {
                 </CardContent>
             </Card>
 
-            <div v-if="gradeReport" class="flex flex-wrap gap-3 mx-auto">
+            <div v-if="gradeReport" class="flex flex-wrap gap-3 w-full justify-center">
                 <GraphProgressCard
                     title="Curieux"
                     description="Utilisateurs ayant chargé au moins une page d'exercice"
@@ -236,7 +236,11 @@ function openFileInput(files?: File[]) {
             <template v-if="gradeReport">
                 <GraphInterest :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
                 <GraphScore :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" />
-                <GraphThreshold :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.threshold" />
+                <GraphThreshold
+                    :loading="sessionStore.gradeReport.loading"
+                    :data="sessionStore.gradeReport.data?.threshold"
+                    :cutoffs="sessionStore.session.data.cutoffs"
+                />
             </template>
         </div>
     </div>

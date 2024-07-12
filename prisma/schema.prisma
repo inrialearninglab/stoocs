@@ -51,6 +51,7 @@ model MoocSession {
     startDate          DateTime?
     endDate            DateTime?
     ended              Boolean       @default(false)
+    cutoffs            Float
     gradeReports       GradeReport[]
     authors            Author[]
     teamMembers        TeamMember[]

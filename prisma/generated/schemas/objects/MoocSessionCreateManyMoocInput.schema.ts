@@ -23,6 +23,7 @@ const Schema: z.ZodType<Prisma.MoocSessionCreateManyMoocInput> = z
     startDate: z.coerce.date().optional().nullable(),
     endDate: z.coerce.date().optional().nullable(),
     ended: z.boolean().optional(),
+    cutoffs: z.number(),
     typeID: z.string().optional().nullable(),
   })
   .strict();
