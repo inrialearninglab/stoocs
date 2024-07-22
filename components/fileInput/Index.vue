@@ -2,6 +2,7 @@
 import { useSession } from '~/stores/session.store';
 import { Loader2 } from 'lucide-vue-next';
 import { isEnrollments, isGradeReport, isProblemGradeReport } from '~/utils';
+import { toast } from 'vue-sonner';
 
 const open = ref(false);
 const loading = ref(false);
@@ -61,11 +62,21 @@ async function handleSubmit() {
     }
 
     if (gradeReport && problemGradeReport) {
-        const body = new FormData();
 
-        body.append('gradeReport', gradeReport);
-        body.append('problemGradeReport', problemGradeReport);
-        await sessionStore.addGradeReports(body);
+        const gradeReportCourseNumber = extractMetadata(gradeReport.name)?.courseNumber;
+        const problemGradeReportCourseNumber = extractMetadata(problemGradeReport.name)?.courseNumber;
+
+        if (gradeReportCourseNumber !== problemGradeReportCourseNumber) {
+            toast.error('Les rapports de notes ne semblent pas correspondre entre eux')
+        } else if (gradeReportCourseNumber !== sessionStore?.session?.data?.mooc.courseNumber) {
+            toast.error('Les rapports de notes ne semblent pas correspondre à la session actuelle')
+        } else {
+            const body = new FormData();
+
+            body.append('gradeReport', gradeReport);
+            body.append('problemGradeReport', problemGradeReport);
+            await sessionStore.addGradeReports(body);
+        }
 
         files.value.splice(files.value.indexOf(gradeReport), 1);
         files.value.splice(files.value.indexOf(problemGradeReport), 1);
@@ -96,7 +107,6 @@ defineExpose({
         <DialogContent class="max-w-2xl">
             <DialogHeader>
                 <DialogTitle>Ajouter des rapports</DialogTitle>
-<!--                <DialogDescription>Ajouter les fichier "<code>Grade Report</code>" et "<code>Problem Grade Report</code>" ici</DialogDescription>-->
             </DialogHeader>
             <InputFileUploaderGlobal :multiple="true" :max-files="3" v-model="files" :conditions="conditions" />
             <DialogFooter class="mt-4">

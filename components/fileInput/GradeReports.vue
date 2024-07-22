@@ -2,6 +2,7 @@
 import { Loader2 } from 'lucide-vue-next';
 import { useSession } from '~/stores/session.store';
 import { isGradeReport, isProblemGradeReport } from '~/utils';
+import { toast } from 'vue-sonner';
 
 const files: Ref<File[]> = ref([]);
 const sessionStore = useSession();
@@ -27,11 +28,21 @@ async function handleSubmit() {
 
     if (!gradeReport || !problemGradeReport) return;
 
-    const body = new FormData();
+    const gradeReportCourseNumber = extractMetadata(gradeReport.name)?.courseNumber;
+    const problemGradeReportCourseNumber = extractMetadata(problemGradeReport.name)?.courseNumber;
 
-    body.append('gradeReport', gradeReport);
-    body.append('problemGradeReport', problemGradeReport);
-    await sessionStore.addGradeReports(body);
+    if (gradeReportCourseNumber !== problemGradeReportCourseNumber) {
+        toast.error('Les rapports ne semblent pas correspondre entre eux')
+    } else if (gradeReportCourseNumber !== sessionStore?.session?.data?.mooc.courseNumber) {
+        toast.error('Les rapports ne semblent pas correspondre à la session actuelle')
+    } else {
+        const body = new FormData();
+
+        body.append('gradeReport', gradeReport);
+        body.append('problemGradeReport', problemGradeReport);
+        await sessionStore.addGradeReports(body);
+    }
+
     loading.value = false;
     open.value = false;
     files.value = [];

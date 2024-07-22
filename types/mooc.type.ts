@@ -17,6 +17,7 @@ export interface Mooc {
     description?: string;
     theme?: string;
     target?: string;
+    courseNumber: string;
     sessions: Pick<Session, 'id' | 'sessionName' | 'ended'>[];
 }
 
