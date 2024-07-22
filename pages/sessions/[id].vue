@@ -132,6 +132,12 @@ function openFileInput(files?: File[]) {
                     <GraphReportChip report="grade" :static="true" />
                     <p>{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
                 </div>
+
+                <MoocAddReport
+                    @open-enrollments="openEnrollmentFileInput()"
+                    @open-grades="openGradeReportFileInput()"
+                    @open-all="openFileInput()"
+                />
             </div>
 
             <div v-if="!enrollmentsReport && !gradeReport" class="mx-auto flex flex-col items-center">
@@ -160,6 +166,7 @@ function openFileInput(files?: File[]) {
                     </Button>
                 </div>
             </div>
+
 
             <FileInput ref="globalFileInput" />
             <FileInputGradeReports ref="gradeReportFileInput" />
