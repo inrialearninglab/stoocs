@@ -10,9 +10,9 @@ function toggleColorMode() {
 
 <template>
     <header class="border-b-2 mb-5 p-3 flex justify-between items-center">
-        <div class="flex gap-5">
+        <div class="flex gap-5 items-center">
             <Button variant="ghost" as-child class="">
-                <NuxtLink to="/" class="h-20">
+                <NuxtLink to="/">
                     <LockKeyhole class="size-10" />
                 </NuxtLink>
             </Button>

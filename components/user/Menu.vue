@@ -24,14 +24,14 @@ async function handleLogout() {
            <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
            <DropdownMenuSeparator />
 
-           <DropdownMenuItem as-child>
+           <DropdownMenuItem as-child class="cursor-pointer">
                <NuxtLink to="/users/profile">
                    <User class="size-4 mr-2" />
                    <span>Profil</span>
                </NuxtLink>
            </DropdownMenuItem>
 
-           <DropdownMenuItem as-child>
+           <DropdownMenuItem as-child class="cursor-pointer">
                <NuxtLink to="/users">
                    <Users class="size-4 mr-2" />
                    <span>Equipe</span>
@@ -41,7 +41,7 @@ async function handleLogout() {
 
            <DropdownMenuSeparator />
 
-           <DropdownMenuItem @click="handleLogout">
+           <DropdownMenuItem @click="handleLogout" class="cursor-pointer">
                <LogOut class="size-4 mr-2" />
                <span>Déconnexion</span>
            </DropdownMenuItem>
