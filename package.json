@@ -48,6 +48,7 @@
     "vee-validate": "^4.13.1",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
+    "vue-sonner": "^1.1.3",
     "vue3-dropzone": "^2.2.1",
     "zod": "^3.23.8"
   },

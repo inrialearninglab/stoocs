@@ -1,7 +1,7 @@
 import type { User } from 'lucia';
 import { deleteUser, getUsers, updateProfile } from '~/services/users.service';
 import { register, updatePassword } from '~/services/auth.service';
-import { useToast } from '~/components/ui/toast';
+import { toast } from 'vue-sonner';
 
 interface UsersState {
     users: {
@@ -31,6 +31,9 @@ export const useUsers = defineStore('users', {
             const user = await register(email, firstname, lastname, password);
             if (user) {
                 this.users.data.push(user);
+                
+                toast.success('Compte créé');
+                
                 await navigateTo('/users');
             }
             this.users.loading = false;
@@ -41,29 +44,24 @@ export const useUsers = defineStore('users', {
             const updatedUser = await updateProfile(email, firstname, lastname);
             if (updatedUser) {
                 this.users.data = this.users.data.map(user => user.id === updatedUser.id ? updatedUser : user);
+                
+                toast.success('Profil mis à jour');
+                
                 await navigateTo('/users/profile');
             }
             this.users.loading = false;
         },
         
         async updatePassword(password: string) {
-            const { toast } = useToast();
             
             const updated = await updatePassword(password);
             if (updated) {
                 await navigateTo('/users/profile');
-                toast({
-                    title: 'Succès',
-                    description: 'Mot de passe mis à jour',
-                })
+                toast.success('Mot de passe mis à jour');
                 
                 await navigateTo('/users/profile')
             } else {
-                toast({
-                    title: 'Erreur',
-                    description: 'Erreur lors de la mise à jour du mot de passe',
-                    variant: 'destructive'
-                })
+                toast.error('Erreur lors de la mise à jour du mot de passe');
                 
                 await navigateTo('/users/profile')
             }
