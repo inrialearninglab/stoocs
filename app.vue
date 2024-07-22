@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import Toaster from '~/components/ui/toast/Toaster.vue'
+import { Toaster } from '~/components/ui/sonner';
 
-const route = useRoute()
+const route = useRoute();
+const colorMode = useColorMode();
 
 </script>
 
@@ -10,7 +11,7 @@ const route = useRoute()
         <LayoutHeader v-if="route.path !== '/'" />
         <div class="h-full" :class="{ 'p-8': route.path !== '/' }">
             <NuxtPage />
-            <Toaster />
+            <Toaster rich-colors :theme="colorMode.preference" />
         </div>
     </div>
 </template>

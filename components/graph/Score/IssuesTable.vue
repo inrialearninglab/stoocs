@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
 import { ChevronDown, CircleAlert, Clipboard, Check } from 'lucide-vue-next';
-import { useToast } from '~/components/ui/toast';
+import { toast } from 'vue-sonner';
 
-const { toast } = useToast();
 
 const props = defineProps<{
     problems: {
@@ -28,16 +27,10 @@ async function toClipboard() {
 
         copied.value = true;
         setTimeout(() => copied.value = false, 2000);
-        toast({
-            title: 'Succès',
-            description: 'Tableau copié dans le presse-papier'
-        })
+        toast.success('Tableau copié dans le presse-papier');
     } catch (error) {
         console.error('Failed to copy to clipboard', error);
-        toast({
-            title: 'Erreur',
-            description: 'Impossible de copier le tableau',
-        })
+        toast.error('Impossible de copier le tableau');
     }
 }
 

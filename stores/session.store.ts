@@ -1,8 +1,8 @@
 import type { GradeReport, Mooc, Session } from '~/types';
 import { fetchGradeReport, fetchSessionById } from '~/services/sessions.service';
 import { postEnrollments, postGradeReports } from '~/services/files.service';
-import { useToast } from '~/components/ui/toast';
 import { formatDate, getParsedDate } from '~/utils';
+import { toast } from 'vue-sonner';
 
 interface SessionDetails extends Session {
     mooc: Mooc;
@@ -103,41 +103,28 @@ export const useSession = defineStore('session', {
         
         async addEnrollmentsReport(body: FormData) {
             if (!this.session.data) return;
-            const { toast } = useToast();
             
             const updatedSession = await postEnrollments(body, this.session.data.id)
             
             if (!updatedSession) {
                 
-                toast({
-                    title: 'Erreur',
-                    description: 'Erreur lors de l\'envoi du rapport d\'inscriptions',
-                    variant: 'destructive'
-                });
+                toast.error('Erreur lors de l\'envoi du rapport d\'inscriptions');
                 
                 return;
             }
             
             this.session.data.enrollmentsDetails = updatedSession.enrollmentsDetails;
-            toast({
-                title: 'Succès',
-                description: 'Rapport d\'inscriptions correctement envoyé',
-            })
+            toast.success('Rapport d\'inscriptions envoyé');
         },
         
         async addGradeReports(body: FormData){
             console.time('addGradeReports');
             if (!this.session.data) return;
-            const { toast } = useToast();
             
             const updatedSession = await postGradeReports(body, this.session.data.id);
             
             if (!updatedSession) {
-                toast({
-                    title: 'Erreur',
-                    description: 'Erreur lors de l\'envoi du rapport de notes',
-                    variant: 'destructive'
-                });
+                toast.error('Erreur lors de l\'envoi du rapport de notes');
                 
                 return
             }
@@ -146,10 +133,9 @@ export const useSession = defineStore('session', {
             this.session.data.gradeReports.push(updatedSession.gradeReports[updatedSession.gradeReports.length - 1]);
             const lastGradeReport = this.session.data.gradeReports[this.session.data.gradeReports.length - 1];
             await this.getGradeReport(lastGradeReport.id);
-            toast({
-                title: 'Succès',
-                description: 'Rapport de notes correctement envoyé',
-            })
+            
+            toast.success('Rapport de notes envoyé');
+            
             console.timeEnd('addGradeReports');
         }
     }
