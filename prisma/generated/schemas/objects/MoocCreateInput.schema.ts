@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { MoocSessionCreateNestedManyWithoutMoocInputObjectSchema } from './MoocSessionCreateNestedManyWithoutMoocInput.schema';
+import { PinnedMoocCreateNestedManyWithoutMoocInputObjectSchema } from './PinnedMoocCreateNestedManyWithoutMoocInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -14,6 +15,9 @@ const Schema: z.ZodType<Prisma.MoocCreateInput> = z
     target: z.string().optional().nullable(),
     sessions: z
       .lazy(() => MoocSessionCreateNestedManyWithoutMoocInputObjectSchema)
+      .optional(),
+    pinnedBy: z
+      .lazy(() => PinnedMoocCreateNestedManyWithoutMoocInputObjectSchema)
       .optional(),
   })
   .strict();

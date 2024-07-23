@@ -14,9 +14,14 @@ export default defineEventHandler(async (event) => {
                     sessionName: true,
                     ended: true
                 }
+            },
+            pinnedBy: {
+                select: {
+                    userId: true
+                }
             }
         }
     });
-   
+    
     return { moocs }
 })

@@ -9,8 +9,7 @@ const adapter = new PrismaAdapter(client.session, client.user);
 export const lucia = new Lucia(adapter, {
     sessionCookie: {
         attributes: {
-            // secure: !dev
-            secure: false
+            secure: !import.meta.dev,
         }
     },
     getUserAttributes: (attributes) => {

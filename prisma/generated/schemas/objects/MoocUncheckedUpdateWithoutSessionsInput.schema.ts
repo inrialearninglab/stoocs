@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { NullableStringFieldUpdateOperationsInputObjectSchema } from './NullableStringFieldUpdateOperationsInput.schema';
+import { PinnedMoocUncheckedUpdateManyWithoutMoocNestedInputObjectSchema } from './PinnedMoocUncheckedUpdateManyWithoutMoocNestedInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -51,6 +52,11 @@ const Schema: z.ZodType<Prisma.MoocUncheckedUpdateWithoutSessionsInput> = z
       ])
       .optional()
       .nullable(),
+    pinnedBy: z
+      .lazy(
+        () => PinnedMoocUncheckedUpdateManyWithoutMoocNestedInputObjectSchema,
+      )
+      .optional(),
   })
   .strict();
 

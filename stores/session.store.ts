@@ -3,6 +3,7 @@ import { fetchGradeReport, fetchSessionById } from '~/services/sessions.service'
 import { postEnrollments, postGradeReports } from '~/services/files.service';
 import { formatDate, getParsedDate } from '~/utils';
 import { toast } from 'vue-sonner';
+import { pinMooc } from '~/services/moocs.service';
 
 interface SessionDetails extends Session {
     mooc: Mooc;
@@ -78,6 +79,13 @@ export const useSession = defineStore('session', {
             const date = this.gradeReport.data.date.toString().split('T')[0];
             
             return formatDate(getParsedDate(date));
+        },
+        
+        isMoocPinned(): boolean {
+            const user = useUser();
+            if (!this.session.data) return false;
+            
+            return this.session.data.mooc.pinnedBy.some(pinned => pinned.userId === user.value?.id);
         }
     },
     
@@ -137,7 +145,26 @@ export const useSession = defineStore('session', {
             toast.success('Rapport de notes envoyé');
             
             console.timeEnd('addGradeReports');
+        },
+        
+        async pinMooc(moocId: string, pinned: boolean) {
+            if (!this.session.data) return;
+            const moocsStore = useMoocs();
+            
+            const updatedMooc = await pinMooc(moocId, pinned);
+            
+            if (updatedMooc) {
+                this.session.data.mooc.pinnedBy = updatedMooc.pinnedBy ?? [];
+                
+                if (!pinned) toast.info('Le mooc a été épinglée');
+                else toast.warning('Le mooc a été désépinglée');
+                
+                if (moocsStore.moocs) {
+                    moocsStore.moocs.find(mooc => mooc.id === moocId).pinnedBy = updatedMooc.pinnedBy ?? [];
+                }
+            } else {
+                toast.error('Erreur lors de l\'épinglage du mooc');
+            }
         }
     }
-    
 })

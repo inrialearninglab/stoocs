@@ -10,3 +10,16 @@ export async function fetchMoocs(): Promise<Mooc[]> {
     
     return res.data.moocs
 }
+
+export async function pinMooc(moocId: string, pinned: boolean): Promise<Partial<Mooc> | null> {
+    try {
+        let res;
+        if (!pinned) res = await axios.post('/api/moocs/pin', { moocId });
+        else res = await axios.delete('/api/moocs/pin', { data: { moocId } });
+        
+        return res.data.mooc;
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}

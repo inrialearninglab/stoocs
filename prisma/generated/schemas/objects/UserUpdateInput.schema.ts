@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { StringFieldUpdateOperationsInputObjectSchema } from './StringFieldUpdateOperationsInput.schema';
 import { SessionUpdateManyWithoutUserNestedInputObjectSchema } from './SessionUpdateManyWithoutUserNestedInput.schema';
+import { PinnedMoocUpdateManyWithoutUserNestedInputObjectSchema } from './PinnedMoocUpdateManyWithoutUserNestedInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -38,6 +39,9 @@ const Schema: z.ZodType<Prisma.UserUpdateInput> = z
       .optional(),
     sessions: z
       .lazy(() => SessionUpdateManyWithoutUserNestedInputObjectSchema)
+      .optional(),
+    pinnedMoocs: z
+      .lazy(() => PinnedMoocUpdateManyWithoutUserNestedInputObjectSchema)
       .optional(),
   })
   .strict();

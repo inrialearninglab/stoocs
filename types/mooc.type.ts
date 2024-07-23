@@ -1,15 +1,4 @@
 import type { GradeReport } from "./gradeReport.type";
-
-// export interface Enrollments {
-//     date: string;
-//     enrollments: number;
-// }
-//
-// export interface Mooc {
-//    enrollments?: Enrollments[];
-//    gradeReport?: GradeReport;
-// }
-
 export interface Mooc {
     id: string;
     organization: string;
@@ -19,6 +8,9 @@ export interface Mooc {
     target?: string;
     courseNumber: string;
     sessions: Pick<Session, 'id' | 'sessionName' | 'ended'>[];
+    pinnedBy: {
+        userId: string;
+    }[];
 }
 
 export interface Session {
