@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { StringFilterObjectSchema } from './StringFilter.schema';
 import { StringNullableFilterObjectSchema } from './StringNullableFilter.schema';
 import { MoocSessionListRelationFilterObjectSchema } from './MoocSessionListRelationFilter.schema';
+import { PinnedMoocListRelationFilterObjectSchema } from './PinnedMoocListRelationFilter.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -50,6 +51,7 @@ const Schema: z.ZodType<Prisma.MoocWhereInput> = z
     sessions: z
       .lazy(() => MoocSessionListRelationFilterObjectSchema)
       .optional(),
+    pinnedBy: z.lazy(() => PinnedMoocListRelationFilterObjectSchema).optional(),
   })
   .strict();
 

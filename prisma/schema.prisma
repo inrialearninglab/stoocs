@@ -27,6 +27,7 @@ model Mooc {
     theme        String?
     target       String?
     sessions     MoocSession[]
+    pinnedBy     PinnedMooc[]
 }
 
 model Author {
@@ -82,12 +83,23 @@ model GradeReport {
 }
 
 model User {
-    id        String    @id
-    email     String    @unique
-    firstname String
-    lastname  String
-    password  String
-    sessions  Session[]
+    id          String       @id
+    email       String       @unique
+    firstname   String
+    lastname    String
+    password    String
+    sessions    Session[]
+    pinnedMoocs PinnedMooc[]
+}
+
+model PinnedMooc {
+    id     String @id @default(cuid())
+    user   User   @relation(references: [id], fields: [userId], onDelete: Cascade)
+    userId String
+    mooc   Mooc   @relation(fields: [moocId], references: [id])
+    moocId String
+
+    @@unique([userId, moocId])
 }
 
 model Session {

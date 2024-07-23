@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { SessionCreateNestedManyWithoutUserInputObjectSchema } from './SessionCreateNestedManyWithoutUserInput.schema';
+import { PinnedMoocCreateNestedManyWithoutUserInputObjectSchema } from './PinnedMoocCreateNestedManyWithoutUserInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -12,6 +13,9 @@ const Schema: z.ZodType<Prisma.UserCreateInput> = z
     password: z.string(),
     sessions: z
       .lazy(() => SessionCreateNestedManyWithoutUserInputObjectSchema)
+      .optional(),
+    pinnedMoocs: z
+      .lazy(() => PinnedMoocCreateNestedManyWithoutUserInputObjectSchema)
       .optional(),
   })
   .strict();

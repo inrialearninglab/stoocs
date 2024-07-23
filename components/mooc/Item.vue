@@ -4,9 +4,10 @@ import { ChevronDown } from 'lucide-vue-next';
 
 const props = defineProps<{
     mooc: Mooc;
+    pinned?: boolean
 }>();
 
-const isOpen = ref(false);
+const isOpen = ref(Boolean(props.pinned));
 
 const openedSessions = ref(props.mooc.sessions.filter(session => !session.ended && session.sessionName !== 'archiveouvert').length);
 const closedSessions = ref(props.mooc.sessions.filter(session => session.ended && session.sessionName !== 'archiveouvert').length);

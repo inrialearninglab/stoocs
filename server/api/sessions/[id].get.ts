@@ -13,7 +13,17 @@ export default defineEventHandler(async (event) => {
             startDate: true,
             endDate: true,
             cutoffs: true,
-            mooc: true,
+            mooc: {
+                select: {
+                    id: true,
+                    title: true,
+                    description: true,
+                    theme: true,
+                    target: true,
+                    sessions: false,
+                    pinnedBy: true
+                }
+            },
             enrollmentsDetails: true,
             gradeReports: {
                 select: {
@@ -23,6 +33,13 @@ export default defineEventHandler(async (event) => {
             }
         }
     })
+    
+    if (!session) {
+        throw createError({
+            statusCode: 404,
+            message: 'Session not found.'
+        })
+    }
     
     return { session }
 })

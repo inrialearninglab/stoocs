@@ -87,6 +87,6 @@
 }
 
 
-html, body {
+html, body, #__nuxt {
   @apply h-full;
 }

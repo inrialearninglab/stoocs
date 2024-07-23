@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { SortOrderSchema } from '../enums/SortOrder.schema';
 import { SortOrderInputObjectSchema } from './SortOrderInput.schema';
 import { MoocSessionOrderByRelationAggregateInputObjectSchema } from './MoocSessionOrderByRelationAggregateInput.schema';
+import { PinnedMoocOrderByRelationAggregateInputObjectSchema } from './PinnedMoocOrderByRelationAggregateInput.schema';
 
 import type { Prisma } from '@prisma/client';
 
@@ -31,6 +32,9 @@ const Schema: z.ZodType<Prisma.MoocOrderByWithRelationInput> = z
       .optional(),
     sessions: z
       .lazy(() => MoocSessionOrderByRelationAggregateInputObjectSchema)
+      .optional(),
+    pinnedBy: z
+      .lazy(() => PinnedMoocOrderByRelationAggregateInputObjectSchema)
       .optional(),
   })
   .strict();

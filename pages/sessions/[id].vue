@@ -3,7 +3,7 @@ import FileInput from '~/components/fileInput/Index.vue'
 import FileInputGradeReports from '~/components/fileInput/GradeReports.vue'
 import FileInputEnrollments from '~/components/fileInput/Enrollments.vue'
 
-import { Users, Eye, Award, Speech, Upload, CirclePlus } from 'lucide-vue-next'
+import { Users, Eye, Award, Speech, Upload, CirclePlus, Pin } from 'lucide-vue-next'
 import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { isEnrollments, isGradeReport, isProblemGradeReport } from '~/utils';
 import {
@@ -106,6 +106,12 @@ function openFileInput(files?: File[]) {
     }
 }
 
+function handlePin() {
+    if (!sessionStore.session.data) return;
+
+    sessionStore.pinMooc(sessionStore.session.data.mooc.id, sessionStore.isMoocPinned);
+}
+
 </script>
 
 <template>
@@ -126,23 +132,29 @@ function openFileInput(files?: File[]) {
 
         <div v-show="!dragging" v-if="sessionStore.session.data" class="flex flex-col gap-12" >
             <div class="flex flex-col gap-2">
-                <Breadcrumb class="mb-2">
-                    <BreadcrumbList>
-                        <BreadcrumbItem>
-                            <BreadcrumbLink as-child>
-                                <NuxtLink to="/moocs">Moocs</NuxtLink>
-                            </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbLink as-child>
-                                <NuxtLink :to="`/sessions/${sessionStore.session.data.id}`">
-                                    {{ sessionStore?.session?.data?.mooc.title }}/{{ sessionStore?.session?.data?.sessionName }}
-                                </NuxtLink>
-                            </BreadcrumbLink>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
+                <div class="flex justify-between items-center">
+                    <Breadcrumb class="mb-2">
+                        <BreadcrumbList>
+                            <BreadcrumbItem>
+                                <BreadcrumbLink as-child>
+                                    <NuxtLink to="/moocs">Moocs</NuxtLink>
+                                </BreadcrumbLink>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <BreadcrumbLink as-child>
+                                    <NuxtLink :to="`/sessions/${sessionStore.session.data.id}`">
+                                        {{ sessionStore?.session?.data?.mooc.title }}/{{ sessionStore?.session?.data?.sessionName }}
+                                    </NuxtLink>
+                                </BreadcrumbLink>
+                            </BreadcrumbItem>
+                        </BreadcrumbList>
+                    </Breadcrumb>
+
+                    <Button @click="handlePin" variant="outline" size="icon">
+                        <Pin class="size-6" :class="{ 'stroke-yellow-500 fill-yellow-500' : sessionStore.isMoocPinned }" />
+                    </Button>
+                </div>
 
                 <h1 class="text-center">{{ sessionStore?.session?.data?.mooc.title }}</h1>
                 <h2 class="text-center text-muted-foreground">{{ sessionStore?.session?.data?.sessionName }}</h2>
