@@ -2,6 +2,10 @@
 import { useMoocs } from '~/stores/moocs.store';
 import { Search } from 'lucide-vue-next';
 
+definePageMeta({
+    layout: 'dashboard'
+});
+
 const moocsStore = useMoocs()
 
 </script>

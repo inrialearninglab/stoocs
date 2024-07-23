@@ -6,6 +6,13 @@ import FileInputEnrollments from '~/components/fileInput/Enrollments.vue'
 import { Users, Eye, Award, Speech, Upload, CirclePlus } from 'lucide-vue-next'
 import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { isEnrollments, isGradeReport, isProblemGradeReport } from '~/utils';
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbSeparator
+} from '~/components/ui/breadcrumb';
 
 const route = useRoute();
 const router = useRouter();
@@ -119,8 +126,26 @@ function openFileInput(files?: File[]) {
 
         <div v-show="!dragging" v-if="sessionStore.session.data" class="flex flex-col gap-12" >
             <div class="flex flex-col gap-2">
-                <h1 class="text-center">{{ sessionStore.session.data.mooc.title }}</h1>
-                <h2 class="text-center text-muted-foreground">{{ sessionStore.session.data.sessionName }}</h2>
+                <Breadcrumb class="mb-2">
+                    <BreadcrumbList>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink as-child>
+                                <NuxtLink to="/moocs">Moocs</NuxtLink>
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbLink as-child>
+                                <NuxtLink :to="`/sessions/${sessionStore.session.data.id}`">
+                                    {{ sessionStore?.session?.data?.mooc.title }}/{{ sessionStore?.session?.data?.sessionName }}
+                                </NuxtLink>
+                            </BreadcrumbLink>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
+
+                <h1 class="text-center">{{ sessionStore?.session?.data?.mooc.title }}</h1>
+                <h2 class="text-center text-muted-foreground">{{ sessionStore?.session?.data?.sessionName }}</h2>
             </div>
 
             <div class="flex gap-6 mx-auto">

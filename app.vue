@@ -10,7 +10,9 @@ const colorMode = useColorMode();
     <div class="flex flex-col h-full">
         <LayoutHeader v-if="route.path !== '/'" />
         <div class="h-full" :class="{ 'p-8': route.path !== '/' }">
-            <NuxtPage />
+            <NuxtLayout>
+                <NuxtPage />
+            </NuxtLayout>
             <Toaster rich-colors :theme="colorMode.preference" />
         </div>
     </div>
