@@ -45,6 +45,10 @@ function findCurrentTab(path: string): TabState | null {
 
 const activeTab: Ref<TabState | null> = ref(findCurrentTab(route.path));
 
+watch(() => route.path, () => {
+    activeTab.value = findCurrentTab(route.path);
+})
+
 </script>
 
 <template>
@@ -60,7 +64,7 @@ const activeTab: Ref<TabState | null> = ref(findCurrentTab(route.path));
 
         <Tabs
             class="flex flex-col gap-8"
-            :default-value="activeTab"
+            v-model="activeTab"
             @update:model-value="onTabChange"
         >
             <nav class="flex flex-row items-center justify-between w-full gap-4 max-sm:overflow-x-auto border-b border-b-divider pb-1">
