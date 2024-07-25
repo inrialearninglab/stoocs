@@ -1,9 +1,28 @@
+import { isWithinExpirationDate } from 'oslo';
 import { prisma } from '~/prisma/db';
 import { generateId } from 'lucia';
 import { Argon2id } from 'oslo/password';
+import { lucia } from '~/server/utils/auth';
 
 export default defineEventHandler(async (event) => {
-    const { email, firstname, lastname, password } = await readBody(event);
+    const { email, firstname, lastname, password, token } = await readBody(event);
+    
+    const verificationToken = await prisma.invitation.findUnique({
+        where: { tokenHash: token }
+    });
+    
+    if (!verificationToken || !isWithinExpirationDate(verificationToken.expiresAt)) {
+        console.log('verificationToken', verificationToken);
+        throw createError({
+            statusCode: 400
+        })
+    }
+    
+    if (email !== verificationToken.email) {
+        throw createError({
+            statusCode: 400
+        })
+    }
     
     const userId = generateId(15);
     const hashedPassword = await new Argon2id().hash(password);
@@ -19,10 +38,22 @@ export default defineEventHandler(async (event) => {
     
     if (!user) {
         throw createError({
-            statusCode: 400,
-            message: 'User not created'
+            statusCode: 500,
+            message: 'User not created',
         });
     }
+    
+    await prisma.invitation.deleteMany({
+        where: { tokenHash: token }
+    });
+    
+    setHeader(event, 'Referrer-Policy', 'strict-origin');
+    const session = await lucia.createSession(user.id, []);
+    const sessionCookie = lucia.createSessionCookie(session.id);
+    setCookie(event, sessionCookie.name, sessionCookie.value, {
+        path: '.',
+        ...sessionCookie.attributes
+    });
     
     return { user }
 })

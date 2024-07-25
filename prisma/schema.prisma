@@ -108,3 +108,9 @@ model Session {
     expiresAt DateTime
     user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
+
+model Invitation {
+    tokenHash String   @unique
+    email     String
+    expiresAt DateTime
+}

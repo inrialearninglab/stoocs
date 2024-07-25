@@ -13,7 +13,14 @@ import {
     requiredMessage
 } from '~/schema/users.schema';
 
-const usersStore = useUsers();
+useHead({
+    meta: [
+        {
+            name: 'referrer',
+            content: 'strict-origin'
+        }
+    ]
+});
 
 const formSchema = toTypedSchema(z.object({
     email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
@@ -29,14 +36,38 @@ const form = useForm({
     validationSchema: formSchema,
 });
 
+const route = useRoute();
+
 const onSubmit = form.handleSubmit(async (values) => {
-    await usersStore.register(values.email, values.firstname, values.lastname, values.password);
+    const { data, error } = await useFetch(' /api/auth/register', {
+        method: 'POST',
+        body: {
+            email: values.email,
+            firstname: values.firstname,
+            lastname: values.lastname,
+            password: values.password,
+            token: route.params.token
+        }
+    })
+
+    if (error.value) console.error(error.value);
+    else await navigateTo('/moocs');
 })
+
+const { data, error, status } = await useFetch('/api/auth/invitations/email', {
+    method: 'POST',
+    body: {
+        tokenHash: route.params.token
+    }
+});
+
+if (data?.value?.email) form.setValues({ email: data.value.email });
+
 
 </script>
 
 <template>
-    <Card class="max-w-2xl mx-auto">
+    <Card v-if="status === 'success'" class="max-w-2xl mx-auto">
         <CardHeader>
             <CardTitle>Inscription</CardTitle>
             <CardDescription>Créer un nouveau compte</CardDescription>
@@ -47,7 +78,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                     <FormItem>
                         <FormLabel>Mail</FormLabel>
                         <FormControl>
-                            <Input type="email" v-bind="componentField"/>
+                            <Input type="email" disabled v-bind="componentField"/>
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -102,4 +133,8 @@ const onSubmit = form.handleSubmit(async (values) => {
             </form>
         </CardContent>
     </Card>
+
+    <div v-else-if="status === 'pending'">
+        <Loader2 class="size-12 mx-auto animate-spin"/>
+    </div>
 </template>

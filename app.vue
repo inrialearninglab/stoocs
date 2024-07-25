@@ -4,8 +4,6 @@ import { Toaster } from '~/components/ui/sonner';
 const route = useRoute();
 const colorMode = useColorMode();
 
-const theme = computed(() => colorMode.value === 'dark' ? 'dark' : 'light');
-
 </script>
 
 <template>
@@ -19,8 +17,8 @@ const theme = computed(() => colorMode.value === 'dark' ? 'dark' : 'light');
                 <NuxtPage />
             </LayoutNavbar>
 
-
-            <Toaster rich-colors :theme="theme" />
+            <!-- Wait for colorMode init -->
+            <Toaster v-if="colorMode.value !== 'system'" rich-colors :theme="colorMode.value" />
         </div>
     </div>
 </template>
