@@ -10,9 +10,13 @@ const colorMode = useColorMode();
     <div class="flex flex-col h-full">
         <LayoutHeader v-if="route.path !== '/'" />
         <div class="h-full" :class="{ 'p-8': route.path !== '/' }">
-            <NuxtLayout>
+
+            <NuxtPage v-if="!(route.meta.layout === 'dashboard')" />
+
+            <LayoutNavbar v-else class="max-w-8xl w-full mx-auto">
                 <NuxtPage />
-            </NuxtLayout>
+            </LayoutNavbar>
+
             <Toaster rich-colors :theme="colorMode.preference" />
         </div>
     </div>

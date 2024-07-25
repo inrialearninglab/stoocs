@@ -9,7 +9,7 @@ interface TabInfo {
     add?: Component
 }
 
-type TabState = 'moocs' | 'team';
+type TabState = 'moocs' | 'team' | 'profile';
 
 const tabMap: Record<TabState, TabInfo> = {
     moocs: {
@@ -22,23 +22,28 @@ const tabMap: Record<TabState, TabInfo> = {
         description: 'Liste des membres de l\'équipe',
         to: '/users',
         add: AddUser
+    },
+    profile: {
+        label: 'Profil',
+        description: 'Mon profil',
+        to: '/users/profile'
     }
 }
 
 const route = useRoute();
-const router = useRouter();
 
-function onTabChange(tab: TabState) {
+async function onTabChange(tab: TabState) {
+    await navigateTo(tabMap[tab].to);
     activeTab.value = tab;
-    router.push(tabMap[tab].to);
 }
 
-function findCurrentTab(path: string): TabState {
+function findCurrentTab(path: string): TabState | null {
     const entry = Object.entries(tabMap).find(([, value]) => value.to === path)
-    return entry ? entry[0] as TabState : 'moocs'
+    if (!entry) return null;
+    return entry[0] as TabState;
 }
 
-const activeTab: Ref<TabState> = ref(findCurrentTab(route.path));
+const activeTab: Ref<TabState | null> = ref(findCurrentTab(route.path));
 
 </script>
 
@@ -79,12 +84,10 @@ const activeTab: Ref<TabState> = ref(findCurrentTab(route.path));
                     </div>
                 </TabsList>
             </nav>
-
             <TabsContent :value="activeTab">
                 <slot />
             </TabsContent>
         </Tabs>
-
     </div>
 </template>
 

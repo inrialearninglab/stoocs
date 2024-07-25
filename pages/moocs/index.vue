@@ -26,7 +26,7 @@ const moocsStore = useMoocs()
             </div>
 
             <div class="flex flex-col gap-3">
-                <h2>Autres moocs</h2>
+                <h2 v-if="moocsStore.pinnedMoocs.length">Autres moocs</h2>
                 <MoocList :moocs="moocsStore.unpinnedMoocs" />
             </div>
         </div>

@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
                     theme: true,
                     target: true,
                     sessions: false,
+                    courseNumber: true,
                     pinnedBy: true
                 }
             },

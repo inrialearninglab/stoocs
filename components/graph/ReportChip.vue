@@ -12,17 +12,17 @@ defineProps<{
         <div
             v-if="!static"
             class="size-[10px] rounded-full absolute left-[6px] top-[6px]"
-            :class="{ 'bg-yellow-500': report === 'enrollment', 'bg-purple-600': report === 'grade' }"
+            :class="{ 'bg-blue-500': report === 'enrollment', 'bg-purple-600': report === 'grade' }"
         />
         <div
             v-else
             class="size-3 rounded-full"
-            :class="{ 'bg-yellow-500': report === 'enrollment', 'bg-purple-600': report === 'grade' }"
+            :class="{ 'bg-blue-500': report === 'enrollment', 'bg-purple-600': report === 'grade' }"
         />
     </div>
     <div v-else-if="!static">
         <div
-            class="size-[10px] rounded-full absolute left-[6px] top-[6px] bg-yellow-500"
+            class="size-[10px] rounded-full absolute left-[6px] top-[6px] bg-blue-500"
         />
         <div
             class="size-[10px] rounded-full absolute left-[22px] top-[6px] bg-purple-600"

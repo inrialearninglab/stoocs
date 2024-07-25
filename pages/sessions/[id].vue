@@ -158,6 +158,7 @@ function handlePin() {
 
                 <h1 class="text-center">{{ sessionStore?.session?.data?.mooc.title }}</h1>
                 <h2 class="text-center text-muted-foreground">{{ sessionStore?.session?.data?.sessionName }}</h2>
+                <p class="text-muted-foreground text-center">{{ sessionStore.session.data?.mooc.courseNumber }}</p>
             </div>
 
             <div class="flex gap-6 mx-auto">
@@ -179,29 +180,7 @@ function handlePin() {
 
             <div v-if="!enrollmentsReport && !gradeReport" class="mx-auto flex flex-col items-center">
                 <h2>Aucune données</h2>
-                <p class="text-muted-foreground mt-2">Pour ajouter des données glisser-déposer les fichiers sur cette page ou utiliser les boutons ci-dessous</p>
-                <div class="flex flex-col gap-5 mt-8 items-center">
-                    <div class="flex gap-5 flex-wrap justify-center">
-                        <Button @click="openEnrollmentFileInput()" variant="outline" class="big-button relative">
-                            <GraphReportChip report="enrollment" />
-                            <CirclePlus class="mr-2 size-7" />
-                            Ajouter un rapport d'inscription
-                        </Button>
-                        <Button @click="openGradeReportFileInput()" variant="outline" class="big-button relative">
-                            <GraphReportChip report="grade" />
-                            <CirclePlus class="mr-2 size-7" />
-                            Ajouter des rapports de notations
-                        </Button>
-                    </div>
-
-                    <Separator label="Ou" size="xl" />
-
-                    <Button @click="openFileInput()" variant="outline" class="big-button w-full relative">
-                        <GraphReportChip report="both" />
-                        <CirclePlus class="mr-2 size-7" />
-                        Ajouter tous les rapports
-                    </Button>
-                </div>
+                <p class="text-muted-foreground mt-2">Pour ajouter des données glisser-déposer les fichiers sur cette page ou utiliser le bouton ci-dessus</p>
             </div>
 
 

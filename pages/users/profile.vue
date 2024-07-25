@@ -1,4 +1,8 @@
 <script lang="ts" setup="">
+definePageMeta({
+    layout: 'dashboard',
+});
+
 const user = useUser();
 </script>
 
