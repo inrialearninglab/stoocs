@@ -11,7 +11,6 @@ const theme = computed(() => colorMode.value === 'dark' ? 'dark' : 'light');
 <template>
     <div class="flex flex-col h-full">
         <LayoutHeader v-if="route.path !== '/'" />
-        {{ theme }}
         <div class="h-full" :class="{ 'p-8': route.path !== '/' }">
 
             <NuxtPage v-if="!(route.meta.layout === 'dashboard')" />
