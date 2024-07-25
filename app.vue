@@ -4,11 +4,14 @@ import { Toaster } from '~/components/ui/sonner';
 const route = useRoute();
 const colorMode = useColorMode();
 
+const theme = computed(() => colorMode.value === 'dark' ? 'dark' : 'light');
+
 </script>
 
 <template>
     <div class="flex flex-col h-full">
         <LayoutHeader v-if="route.path !== '/'" />
+        {{ theme }}
         <div class="h-full" :class="{ 'p-8': route.path !== '/' }">
 
             <NuxtPage v-if="!(route.meta.layout === 'dashboard')" />
@@ -17,7 +20,8 @@ const colorMode = useColorMode();
                 <NuxtPage />
             </LayoutNavbar>
 
-            <Toaster rich-colors :theme="colorMode.preference" />
+
+            <Toaster rich-colors :theme="theme" />
         </div>
     </div>
 </template>
