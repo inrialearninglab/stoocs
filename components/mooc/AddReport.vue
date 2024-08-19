@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Plus } from 'lucide-vue-next';
+import { CirclePlus } from 'lucide-vue-next';
 
 const emits = defineEmits<{
     (e: 'open-enrollments'): void;
@@ -12,8 +12,9 @@ const emits = defineEmits<{
 <template>
    <DropdownMenu>
        <DropdownMenuTrigger as-child>
-           <Button size="icon" variant="outline">
-               <Plus />
+           <Button variant="outline" class="flex items-center gap-2">
+               <CirclePlus class="size-5" />
+               Ajouter des données
            </Button>
        </DropdownMenuTrigger>
         <DropdownMenuContent>
