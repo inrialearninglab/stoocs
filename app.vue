@@ -7,9 +7,9 @@ const colorMode = useColorMode();
 </script>
 
 <template>
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col">
         <LayoutHeader v-if="route.path !== '/'" />
-        <div class="h-full" :class="{ 'p-8': route.path !== '/' }">
+        <div :class="{ 'p-8': route.path !== '/' }">
 
             <NuxtPage v-if="!(route.meta.layout === 'dashboard')" />
 
