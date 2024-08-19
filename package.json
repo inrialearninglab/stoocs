@@ -33,6 +33,7 @@
     "lucide-vue-next": "^0.414.0",
     "multer": "^1.4.5-lts.1",
     "nuxt": "^3.12.4",
+    "nuxt-security": "latest",
     "oslo": "^1.2.1",
     "papaparse": "^5.4.1",
     "pinia": "^2.1.7",
