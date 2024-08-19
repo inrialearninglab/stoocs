@@ -19,12 +19,15 @@ const { handleSubmit } = useForm({
 
 const onSubmit = handleSubmit(async (values) => {
     await usersStore.createInvitation(values.email);
+    open.value = false;
 })
+
+const open = ref(false);
 
 </script>
 
 <template>
-    <Dialog>
+    <Dialog v-model:open="open">
         <DialogTrigger as-child>
             <Button class="flex items-center gap-2">
                 <CirclePlus class="size-4"/>
@@ -53,9 +56,7 @@ const onSubmit = handleSubmit(async (values) => {
             </form>
 
             <DialogFooter>
-                <DialogClose as-child>
-                    <Button type="submit" @click="onSubmit">Inviter</Button>
-                </DialogClose>
+                <Button type="submit" @click="onSubmit">Inviter</Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
