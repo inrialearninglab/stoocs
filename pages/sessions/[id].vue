@@ -43,7 +43,12 @@ function handleDragLeave(event: any) {
 }
 
 function handleDragEnter(event: any) {
-    dragging.value = true;
+    const { dataTransfer } = event;
+    const { types } = dataTransfer;
+
+    if (types.includes('Files')) {
+        dragging.value = true;
+    }
 }
 
 const globalFileInput: Ref<InstanceType<typeof FileInput> | null > = ref(null);
@@ -115,11 +120,11 @@ function handlePin() {
 </script>
 
 <template>
-    <div @dragenter="handleDragEnter" @dragleave="handleDragLeave" class="h-full">
+    <div @dragenter="handleDragEnter" @dragleave="handleDragLeave" class="flex flex-1 min-h-full">
         <div
             v-show="dragging"
             v-bind="getRootProps()"
-            class="w-full h-full border-2 border-dashed rounded-xl text-muted-foreground items-center flex"
+            class="w-full border-2 border-dashed rounded-xl text-muted-foreground items-center flex"
         >
             <div class="flex flex-col gap-4 place-items-center w-full">
                 <input v-bind="getInputProps()">
@@ -130,7 +135,7 @@ function handlePin() {
             </div>
         </div>
 
-        <div v-show="!dragging" v-if="sessionStore.session.data" class="flex flex-col gap-12" >
+        <div v-show="!dragging" v-if="sessionStore.session.data" class="flex w-full flex-col gap-12" >
             <div class="flex flex-col gap-2">
                 <div class="flex justify-between items-center">
                     <Breadcrumb class="mb-2">
