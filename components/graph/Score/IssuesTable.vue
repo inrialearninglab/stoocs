@@ -74,11 +74,7 @@ async function toClipboard() {
                     </Table>
                 </CardContent>
                 <CardFooter class="border-t p-4">
-                    <Button @click="toClipboard" variant="outline" class="transition">
-                        <Clipboard v-if="!copied" class="size-4 mr-2" />
-                        <Check v-else class="size-4 mr-2" />
-                        Copier le tableau
-                    </Button>
+                    <UtilsClipboard @copied="toClipboard" />
                 </CardFooter>
             </CollapsibleContent>
         </Collapsible>
