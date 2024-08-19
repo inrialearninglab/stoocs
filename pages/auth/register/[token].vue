@@ -3,8 +3,7 @@ import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { useForm } from 'vee-validate';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
-import { useUsers } from '~/stores/users.store';
-import { Loader2 } from 'lucide-vue-next';
+import { Loader2, AlertCircle } from 'lucide-vue-next';
 import {
     emailMessage,
     passwordMatchMessage,
@@ -61,13 +60,24 @@ const { data, error, status } = await useFetch('/api/auth/invitations/email', {
     }
 });
 
+const errorMessage = ref(false);
+
 if (data?.value?.email) form.setValues({ email: data.value.email });
+else errorMessage.value = true;
 
 
 </script>
 
 <template>
-    <Card v-if="status === 'success'" class="max-w-2xl mx-auto">
+    <Alert v-if="errorMessage" variant="destructive">
+        <AlertCircle class="size-4" />
+        <AlertTitle>Erreur</AlertTitle>
+        <AlertDescription>
+            Ce lien n'est pas ou plus valide
+        </AlertDescription>
+    </Alert>
+
+    <Card v-else-if="status === 'success'" class="max-w-2xl mx-auto">
         <CardHeader>
             <CardTitle>Inscription</CardTitle>
             <CardDescription>Créer un nouveau compte</CardDescription>
