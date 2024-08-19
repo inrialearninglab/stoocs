@@ -13,6 +13,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '~/components/ui/alert-dialog'
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '~/components/ui/card';
 
 defineProps<{
     user: User
@@ -23,7 +24,7 @@ const usersStore = useUsers()
 </script>
 
 <template>
-    <Card class="w-full max-w-sm">
+    <Card>
         <CardHeader class="items-center">
             <Avatar size="lg" class="mb-4">
                 <!--               <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />-->
