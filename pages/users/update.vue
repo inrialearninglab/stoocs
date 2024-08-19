@@ -1,19 +1,28 @@
 <script setup lang="ts">
+import { ArrowLeft } from 'lucide-vue-next';
 
 </script>
 
 <template>
-    <Tabs default-value="profile" class="max-w-2xl mx-auto">
-        <TabsList class="grid w-full grid-cols-2">
-            <TabsTrigger value="profile">Profil</TabsTrigger>
-            <TabsTrigger value="password">Mot de passe</TabsTrigger>
-        </TabsList>
-        <TabsContent value="profile">
-            <UserFormProfile />
-        </TabsContent>
+    <div class="flex flex-col gap-4 max-w-2xl w-full mx-auto">
+        <Button as-child size="icon" variant="outline" class="cursor-pointer">
+            <NuxtLink @click="$router.back()">
+                <ArrowLeft class="size-5" />
+            </NuxtLink>
+        </Button>
 
-        <TabsContent value="password">
-            <UserFormPassword />
-        </TabsContent>
-    </Tabs>
+        <Tabs default-value="profile">
+            <TabsList class="grid w-full grid-cols-2">
+                <TabsTrigger value="profile">Profil</TabsTrigger>
+                <TabsTrigger value="password">Mot de passe</TabsTrigger>
+            </TabsList>
+            <TabsContent value="profile">
+                <UserFormProfile />
+            </TabsContent>
+
+            <TabsContent value="password">
+                <UserFormPassword />
+            </TabsContent>
+        </Tabs>
+    </div>
 </template>
