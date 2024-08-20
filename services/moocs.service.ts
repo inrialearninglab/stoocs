@@ -1,25 +1,25 @@
-import axios from 'axios';
 import type { Mooc } from '~/types';
+import { FetchError } from 'ofetch';
 
-export async function fetchMoocs(): Promise<Mooc[]> {
-    const res = await axios.get('/api/moocs');
-    
-    if (res.status !== 200) {
-        throw new Error(res.data.message);
+export async function fetchMoocs(): Promise<{ data?: Mooc[], error?: FetchError }> {
+    try {
+        const data = await $fetch<Mooc[]>('/api/moocs');
+        
+        return { data }
+    } catch (e) {
+        return { error: e as FetchError }
     }
-    
-    return res.data.moocs
 }
 
-export async function pinMooc(moocId: string, pinned: boolean): Promise<Partial<Mooc> | null> {
+export async function pinMooc(moocId: string, pinned: boolean): Promise<{ data?: Partial<Mooc>, error?: FetchError }> {
     try {
-        let res;
-        if (!pinned) res = await axios.post('/api/moocs/pin', { moocId });
-        else res = await axios.delete('/api/moocs/pin', { data: { moocId } });
+        const data = await $fetch<Partial<Mooc>>('/api/moocs/pin', {
+            method: pinned ? 'DELETE' : 'POST',
+            body: { moocId }
+        })
         
-        return res.data.mooc;
+        return { data }
     } catch (e) {
-        console.error(e);
-        return null;
+        return { error: e as FetchError }
     }
 }

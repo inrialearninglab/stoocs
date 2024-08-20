@@ -1,16 +1,15 @@
 import type { User } from 'lucia';
-import { deleteUser, getUsers, updateProfile } from '~/services/users.service';
-import { register, updatePassword } from '~/services/auth.service';
+import { createInvitation, deleteInvitation, getInvitations, getUsers } from '~/services/users.service';
+import { updatePassword, updateProfile, deleteUser } from '~/services/auth.service';
 import { toast } from 'vue-sonner';
 import type { Invitation } from '~/types';
-import type { SerializeObject } from 'nitropack';
 
 interface UsersState {
     users: {
         data: User[];
         loading: boolean;
     },
-    invitations: SerializeObject<Invitation>[];
+    invitations: Invitation[];
 }
 
 export const useUsers = defineStore('users', {
@@ -25,102 +24,77 @@ export const useUsers = defineStore('users', {
     actions: {
         async fetchUsers() {
             this.users.loading = true;
-            const users = await getUsers();
-            if (users) this.users.data = users
+            const { data, error } = await getUsers();
+            if (!error && data) this.users.data = data;
             
-            const { data, error } = await useFetch('/api/auth/invitations');
-            if (!error.value && data?.value?.invitations.length) this.invitations = data.value.invitations;
+            const { data: invitationsData, error: invitationsError } = await getInvitations();
+            if (!invitationsError && invitationsData) this.invitations = invitationsData;
             
             this.users.loading = false;
         },
         
         async createInvitation(email: string) {
-            const { data, error } = await useFetch('/api/auth/invitations', {
-                method: 'POST',
-                body: {
-                    email
-                }
-            });
+            const { data, error } = await createInvitation(email);
             
-            if (error.value) {
+            if (error) {
                 toast.error('Une erreur est survenue lors de la création de l\'invitation');
-            }
-
-            else if (data?.value?.invitation) {
-                this.invitations.push(data.value.invitation);
-                const url = `${window.location.origin}/auth/register/${data.value.invitation.tokenHash}`;
+            } else if (data) {
+                this.invitations.push(data);
+                const url = `${window.location.origin}/auth/register/${data.tokenHash}`;
                 await navigator.clipboard.writeText(url);
                 toast.success('Lien d\'invitation créée et copié dans le presse papier');
             }
         },
         
         async deleteInvitation(tokenHash: string) {
-            const { data, error } = await useFetch('/api/auth/invitations', {
-                method: 'DELETE',
-                body: {
-                    tokenHash
-                }
-            });
+            const { data, error } = await deleteInvitation(tokenHash);
             
-            if (error.value) {
+            if (error) {
                 toast.error('Une erreur est survenue lors de la suppression de l\'invitation');
-            }
-            
-            else if (data?.value?.invitation) {
+            } else if (data) {
                 const index = this.invitations.findIndex(invitation => invitation.tokenHash === tokenHash);
                 if (index !== -1) this.invitations.splice(index, 1);
+                
                 toast.success('Invitation supprimée');
             }
         },
         
-        async register(email: string, firstname: string, lastname: string, password: string) {
-            this.users.loading = true;
-            const user = await register(email, firstname, lastname, password);
-            if (user) {
-                this.users.data.push(user);
-                
-                toast.success('Compte créé');
-                
-                await navigateTo('/users');
-            }
-            this.users.loading = false;
-        },
-        
         async updateProfile(email: string, firstname: string, lastname: string) {
             this.users.loading = true;
-            const updatedUser = await updateProfile(email, firstname, lastname);
-            if (updatedUser) {
-                this.users.data = this.users.data.map(user => user.id === updatedUser.id ? updatedUser : user);
+            const { data, error } = await updateProfile(email, firstname, lastname);
+            if (!error && data) {
+                this.users.data = this.users.data.map(user => user.id === data.id ? data : user);
                 
                 toast.success('Profil mis à jour');
                 
                 await navigateTo('/users/profile');
+            } else {
+                toast.error('Une erreur est survenue lors de la mise à jour du profil');
             }
             this.users.loading = false;
         },
         
         async updatePassword(password: string) {
+            const { error } = await updatePassword(password);
             
-            const updated = await updatePassword(password);
-            if (updated) {
+            if (error) {
+                await navigateTo('/users/profile');
+                toast.error('Une erreur est survenue lors de la mise à jour du mot de passe');
+            } else {
                 await navigateTo('/users/profile');
                 toast.success('Mot de passe mis à jour');
-                
-                await navigateTo('/users/profile')
-            } else {
-                toast.error('Erreur lors de la mise à jour du mot de passe');
-                
-                await navigateTo('/users/profile')
             }
         },
         
-        async deleteUser(id: string) {
-            this.users.loading = true;
-            const user = await deleteUser();
-            if (user) {
-                this.users.data = this.users.data.filter(u => u.id !== id);
+        async deleteUser() {
+            const { error } = await deleteUser();
+            
+            if (error) {
+                toast.error('Une erreur est survenue lors de la suppression de votre compte');
+            } else {
+                await navigateTo('/auth/login');
+                toast.info('Votre compte a été supprimé');
             }
-            this.users.loading = false;
         }
     }
 })

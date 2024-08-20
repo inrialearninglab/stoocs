@@ -1,25 +1,26 @@
-import axios from 'axios';
 import type { GradeReport, Mooc, Session } from '~/types';
+import { FetchError } from 'ofetch';
 
 interface SessionData extends Session {
     mooc: Mooc
 }
-export async function fetchSessionById(id: string): Promise<SessionData> {
-    const res = await axios.get(`/api/sessions/${id}`);
-    
-    if (res.status !== 200) {
-        throw new Error(res.data.message);
+
+export async function fetchSessionById(id: string): Promise<{ data?: SessionData, error?: FetchError }> {
+    try {
+        const data = await $fetch<SessionData>(`/api/sessions/${id}`);
+        
+        return { data };
+    } catch (e) {
+        return { error: e as FetchError };
     }
-    
-    return res.data.session;
 }
 
-export async function fetchGradeReport(id: string): Promise<GradeReport> {
-    const res = await axios.get(`/api/reports/${id}`);
-    
-    if (res.status !== 200) {
-        throw new Error(res.data.message);
+export async function fetchGradeReport(id: string): Promise<{ data?: GradeReport, error?: FetchError }> {
+    try {
+        const data = await $fetch<GradeReport>(`/api/reports/${id}`);
+        
+        return { data };
+    } catch (e) {
+        return { error: e as FetchError };
     }
-    
-    return res.data.report;
 }

@@ -23,5 +23,12 @@ export default defineEventHandler(async (event) => {
         }
     });
     
-    return { moocs }
+    if (!moocs) {
+        throw createError({
+            statusCode: 404,
+            message: 'No moocs found'
+        });
+    }
+    
+    return moocs;
 })

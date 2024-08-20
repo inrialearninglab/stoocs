@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { User, Users, LogOut } from 'lucide-vue-next';
-import { logout } from '~/services/auth.service';
 import { Avatar, AvatarImage, AvatarFallback } from '~/components/ui/avatar';
+import { logout } from '~/services/auth.service';
 
 const user = useUser();
 
 async function handleLogout() {
-    await logout();
+    const { error } = await logout();
+    if (error) {
+        console.error(error);
+    }
+
     user.value = null;
     await navigateTo('/auth/login');
 }

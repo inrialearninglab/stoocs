@@ -36,8 +36,8 @@ export const useMoocs = defineStore('moocs', {
     
     actions: {
         async fetchMoocs() {
-            this.moocs = await fetchMoocs();
-            this.moocs.sort((a, b) => a.title.localeCompare(b.title));
+            const { data, error } = await fetchMoocs();
+            if (!error && data) this.moocs = data;
         },
     }
 })

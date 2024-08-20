@@ -46,7 +46,7 @@ export default defineEventHandler(async (event) => {
         
         const gradeReport = await readGradeReports(gradeReportFile, problemGradeReportFile);
         
-        const session = await prisma.moocSession.update({
+        return prisma.moocSession.update({
             where: { id },
             data: {
                 gradeReports: {
@@ -58,8 +58,6 @@ export default defineEventHandler(async (event) => {
                 gradeReports: true
             }
         });
-
-        return { session };
     } catch(err) {
         console.log(err);
     }
