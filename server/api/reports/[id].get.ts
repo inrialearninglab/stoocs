@@ -1,7 +1,12 @@
 import { prisma } from '~/prisma/db';
+import { z } from 'zod';
+
+const routeSchema = z.object({
+    id: z.string(),
+});
 
 export default defineEventHandler(async (event) => {
-    const id = getRouterParam(event, 'id');
+    const { id } = await getValidatedRouterParams(event, routeSchema.parse);
     
     const report = await prisma.gradeReport.findUnique({
         where: { id },

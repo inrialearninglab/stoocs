@@ -1,7 +1,11 @@
 import { prisma } from '~/prisma/db';
+import { z } from 'zod';
 
+const routeSchema = z.object({
+    tokenHash: z.string()
+})
 export default defineEventHandler(async (event) => {
-    const { tokenHash } = await readBody(event);
+    const { tokenHash } = await readValidatedBody(event, routeSchema.parse);
     
     if (!tokenHash) {
         throw createError({

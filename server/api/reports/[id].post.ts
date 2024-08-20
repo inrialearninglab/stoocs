@@ -3,6 +3,7 @@ import { callNodeListener } from 'h3';
 import path from 'node:path';
 import { prisma } from '~/prisma/db';
 import { readGradeReports } from '~/server/utils/files.utils';
+import { z } from 'zod';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -28,8 +29,13 @@ const upload = multer({
     }
 })
 
+const routerSchema = z.object({
+    id: z.string(),
+    
+});
+
 export default defineEventHandler(async (event) => {
-    const id = getRouterParam(event, 'id');
+    const { id } = await getValidatedRouterParams(event, routerSchema.parse);
     
     try {
         await callNodeListener(

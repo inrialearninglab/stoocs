@@ -1,7 +1,11 @@
 import { prisma } from '~/prisma/db';
+import { z } from 'zod';
 
+const routeSchema = z.object({
+    moocId: z.string()
+});
 export default defineEventHandler(async (event) => {
-    const { moocId } = await readBody(event);
+    const { moocId } = await readValidatedBody(event, routeSchema.parse);
     
     if (!moocId || !event.context.user.id) {
         throw createError({

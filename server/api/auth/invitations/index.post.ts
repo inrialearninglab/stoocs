@@ -3,13 +3,18 @@ import { sha256 } from 'oslo/crypto';
 import { encodeHex } from 'oslo/encoding';
 import { generateIdFromEntropySize } from 'lucia';
 import { prisma } from '~/prisma/db';
+import { z } from 'zod';
+
+const routeSchema = z.object({
+    email: z.string().email()
+});
 
 export default defineEventHandler(async (event) => {
-    const { email } = await readBody(event);
+    const { email } = await readValidatedBody(event, routeSchema.parse);
     
     // Invalidate all previous tokens
     await prisma.invitation.deleteMany({
-        where: { email}
+        where: { email }
     })
     
     const alreadyRegistered = await prisma.user.findUnique({
