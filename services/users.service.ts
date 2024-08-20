@@ -1,33 +1,49 @@
 import type { User } from 'lucia';
-import axios from 'axios';
+import type { Invitation } from '~/types';
+import { FetchError } from 'ofetch';
 
-export async function getUsers(): Promise<User[] | null> {
+export async function getUsers(): Promise<{ data?: User[], error?: FetchError }> {
     try {
-        const res = await axios.get('/api/users');
+        const data = await $fetch<User[]>('/api/users');
         
-        return res.data;
-    } catch {
-        return null;
+        return { data };
+    } catch (e) {
+        return { error: e as FetchError };
     }
 }
 
-export async function deleteUser(): Promise<User | null> {
+export async function getInvitations(): Promise<{ data?: Invitation[], error?: FetchError }> {
     try {
-        const res = await axios.get(`/api/users/delete`);
+        const data = await $fetch<Invitation[]>('/api/auth/invitations');
         
-        await navigateTo('/auth/login');
-        return res.data.user;
-    } catch {
-        return null;
+        return { data };
+    } catch (e) {
+        return { error: e as FetchError };
     }
 }
 
-export async function updateProfile(email: string, firstname: string, lastname: string): Promise<User | null> {
+export async function createInvitation(email: string): Promise<{ data?: Invitation, error?: FetchError }> {
     try {
-        const res = await axios.put('/api/users/profile', { email, firstname, lastname });
+        const data = await $fetch<Invitation>('/api/auth/invitations', {
+            method: 'POST',
+            body: { email }
+        });
         
-        return res.data.user;
-    } catch {
-        return null;
+        return { data };
+    } catch (e) {
+        return { error: e as FetchError };
+    }
+}
+
+export async function deleteInvitation(tokenHash: string): Promise<{ data?: Invitation, error?: FetchError }> {
+    try {
+        const data = await $fetch<Invitation>('/api/auth/invitations', {
+            method: 'DELETE',
+            body: { tokenHash }
+        });
+        
+        return { data };
+    } catch (e) {
+        return { error: e as FetchError };
     }
 }

@@ -1,38 +1,31 @@
-import axios from 'axios';
+import { FetchError } from 'ofetch';
+import type { Session } from '~/types';
 
-/**
- * Uploads an enrollments report to a session
- * @param body
- * @param id
- * @returns - The updated session
- * @throws - An error if the request fails
- *
- */
-export async function postEnrollments(body: FormData, id: string) {
+type EnrollmentsUpdate = Pick<Session, 'enrollmentsDetails' | 'id'>;
+export async function postEnrollments(body: FormData, id: string): Promise<{ data?: EnrollmentsUpdate , error?: FetchError }> {
     try {
-        const res = await axios.post(`/api/enrollments/${id}`, body, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-
-        return res.data.session;
-    } catch {
-        return null;
+        const data = await $fetch<EnrollmentsUpdate>(`/api/enrollments/${id}`, {
+            method: 'POST',
+            body,
+        });
+        
+        console.log('data', data);
+        return { data };
+    } catch (e) {
+        return { error: e as FetchError };
     }
 }
 
-export async function postGradeReports(body: FormData, id: string) {
+type ReportUpdate = Pick<Session, 'gradeReports' | 'id'>;
+export async function postGradeReports(body: FormData, id: string): Promise<{ data?: ReportUpdate, error?: FetchError }> {
     try {
-        const res = await axios.post(`/api/reports/${id}`, body, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
+        const data = await $fetch<ReportUpdate>(`/api/reports/${id}`, {
+            method: 'POST',
+            body,
+        });
         
-        return res.data.session;
-    } catch(e) {
-        console.error(e);
-        return null;
+        return { data };
+    } catch (e) {
+        return { error: e as FetchError };
     }
 }

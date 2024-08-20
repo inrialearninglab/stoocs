@@ -42,5 +42,5 @@ export default defineEventHandler(async (event) => {
         })
     }
     
-    return { session }
+    return session;
 })

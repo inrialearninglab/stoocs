@@ -50,7 +50,7 @@ export default defineEventHandler(async (event) => {
         try {
             const enrollments = await readEnrollments(filename);
             
-            const session = await prisma.moocSession.update({
+            return prisma.moocSession.update({
                 where: { id },
                 data: {
                     enrollmentsDetails: enrollments
@@ -60,8 +60,6 @@ export default defineEventHandler(async (event) => {
                     enrollmentsDetails: true
                 }
             })
-            
-            return { session };
         } catch {
             return createError({
                 statusCode: 400,

@@ -12,5 +12,6 @@ export default defineEventHandler(async (event) => {
         });
     }
     
-    return { user };
+    await lucia.invalidateSession(event.context.session.id);
+    appendHeader(event, 'Set-Cookie', lucia.createBlankSessionCookie().serialize());
 })

@@ -7,5 +7,12 @@ export default defineEventHandler(async (event) => {
         where: { id },
     });
     
-    return { report };
+    if (!report) {
+        throw createError({
+            statusCode: 404,
+            message: 'Report not found.'
+        });
+    }
+    
+    return report;
 })

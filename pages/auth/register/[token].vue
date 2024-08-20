@@ -11,6 +11,8 @@ import {
     passwordRequirements,
     requiredMessage
 } from '~/schema/users.schema';
+import { register } from '~/services/auth.service';
+import { toast } from 'vue-sonner';
 
 useHead({
     meta: [
@@ -21,7 +23,7 @@ useHead({
     ]
 });
 
-const formSchema = toTypedSchema(z.object({
+const formSchema: any = toTypedSchema(z.object({
     email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
     firstname: z.string({ message: requiredMessage }).min(2, 'Le prénom doit contenir au moins 2 caractères'),
     lastname: z.string({ message: requiredMessage }).min(2, 'Le nom doit contenir au moins 2 caractères'),
@@ -37,23 +39,16 @@ const form = useForm({
 
 const route = useRoute();
 
-const onSubmit = form.handleSubmit(async (values) => {
-    const { data, error } = await useFetch(' /api/auth/register', {
-        method: 'POST',
-        body: {
-            email: values.email,
-            firstname: values.firstname,
-            lastname: values.lastname,
-            password: values.password,
-            token: route.params.token
-        }
-    })
-
-    if (error.value) console.error(error.value);
-    else await navigateTo('/moocs');
+const onSubmit = form.handleSubmit(async (values: any) => {
+    const { error } = await register(values.email, values.firstname, values.lastname, values.password, route.params.token as string);
+    if (error) console.error(error);
+    else {
+        toast.success('Compte créé avec succès');
+        await navigateTo('/moocs');
+    }
 })
 
-const { data, error, status } = await useFetch('/api/auth/invitations/email', {
+const { data, status } = await useFetch('/api/auth/invitations/email', {
     method: 'POST',
     body: {
         tokenHash: route.params.token

@@ -94,10 +94,11 @@ export const useSession = defineStore('session', {
             this.session.data = null
             this.gradeReport.data = null
             this.session.loading = true
-            this.session.data = await fetchSessionById(id);
+            const { data, error } = await fetchSessionById(id);
+            if (!error && data) this.session.data = data;
             this.session.loading = false;
             
-            if (this.session.data.gradeReports && this.session.data.gradeReports.length) {
+            if (this.session?.data?.gradeReports && this.session.data.gradeReports.length) {
                 const lastGradeReport = this.session.data.gradeReports[this.session.data.gradeReports.length - 1];
                 this.getGradeReport(lastGradeReport.id);
             }
@@ -105,65 +106,64 @@ export const useSession = defineStore('session', {
         
         async getGradeReport(id: string) {
             this.gradeReport.loading = true
-            this.gradeReport.data = await fetchGradeReport(id);
+            const { data, error } = await fetchGradeReport(id);
+            if (!error && data) this.gradeReport.data = data;
             this.gradeReport.loading = false;
         },
         
         async addEnrollmentsReport(body: FormData) {
             if (!this.session.data) return;
             
-            const updatedSession = await postEnrollments(body, this.session.data.id)
+            const { data, error } = await postEnrollments(body, this.session.data.id)
             
-            if (!updatedSession) {
-                
+            if (error) {
                 toast.error('Erreur lors de l\'envoi du rapport d\'inscriptions');
-                
-                return;
+            } else if (data) {
+                this.session.data.enrollmentsDetails = data.enrollmentsDetails;
+                toast.success('Rapport d\'inscriptions envoyé');
             }
             
-            this.session.data.enrollmentsDetails = updatedSession.enrollmentsDetails;
-            toast.success('Rapport d\'inscriptions envoyé');
         },
         
         async addGradeReports(body: FormData){
             console.time('addGradeReports');
             if (!this.session.data) return;
             
-            const updatedSession = await postGradeReports(body, this.session.data.id);
+            const { data, error } = await postGradeReports(body, this.session.data.id);
             
-            if (!updatedSession) {
+            if (error) {
                 toast.error('Erreur lors de l\'envoi du rapport de notes');
                 
                 return
+            } else if (data && data.gradeReports) {
+                if (!this.session.data.gradeReports) this.session.data.gradeReports = [];
+                
+                this.session.data.gradeReports.push(data.gradeReports[data.gradeReports.length - 1]);
+                const lastGradeReport = this.session.data.gradeReports[this.session.data.gradeReports.length - 1];
+                await this.getGradeReport(lastGradeReport.id);
+                
+                toast.success('Rapport de notes envoyé');
+                
+                console.timeEnd('addGradeReports');
             }
-            if (!this.session.data.gradeReports) this.session.data.gradeReports = [];
-            
-            this.session.data.gradeReports.push(updatedSession.gradeReports[updatedSession.gradeReports.length - 1]);
-            const lastGradeReport = this.session.data.gradeReports[this.session.data.gradeReports.length - 1];
-            await this.getGradeReport(lastGradeReport.id);
-            
-            toast.success('Rapport de notes envoyé');
-            
-            console.timeEnd('addGradeReports');
         },
         
         async pinMooc(moocId: string, pinned: boolean) {
             if (!this.session.data) return;
             const moocsStore = useMoocs();
             
-            const updatedMooc = await pinMooc(moocId, pinned);
+            const { data, error } = await pinMooc(moocId, pinned);
             
-            if (updatedMooc) {
-                this.session.data.mooc.pinnedBy = updatedMooc.pinnedBy ?? [];
+            if (error) {
+                toast.error('Erreur lors de l\'épinglage du mooc');
+            } else if (data) {
+                this.session.data.mooc.pinnedBy = data.pinnedBy ?? [];
                 
                 if (!pinned) toast.info('Le mooc a été épinglée');
                 else toast.warning('Le mooc a été désépinglée');
                 
-                if (moocsStore.moocs) {
-                    moocsStore.moocs.find(mooc => mooc.id === moocId).pinnedBy = updatedMooc.pinnedBy ?? [];
-                }
-            } else {
-                toast.error('Erreur lors de l\'épinglage du mooc');
+                const mooc = moocsStore.moocs.find(mooc => mooc.id === moocId);
+                if (mooc) mooc.pinnedBy = data.pinnedBy ?? [];
             }
         }
     }

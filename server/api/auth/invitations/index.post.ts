@@ -1,5 +1,5 @@
-import { TimeSpan, createDate } from 'oslo';
-import { sha256 }  from 'oslo/crypto';
+import { createDate, TimeSpan } from 'oslo';
+import { sha256 } from 'oslo/crypto';
 import { encodeHex } from 'oslo/encoding';
 import { generateIdFromEntropySize } from 'lucia';
 import { prisma } from '~/prisma/db';
@@ -25,14 +25,12 @@ export default defineEventHandler(async (event) => {
     
     const tokenId = generateIdFromEntropySize(25);
     const tokenHash = encodeHex(await sha256(new TextEncoder().encode(tokenId)))
-    
-    const invitation = await prisma.invitation.create({
+
+    return prisma.invitation.create({
         data: {
             tokenHash,
             email,
             expiresAt: createDate(new TimeSpan(2, 'h'))
         }
     });
-    
-    return { invitation };
 })

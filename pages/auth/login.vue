@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '~/components/ui/card';
 import { Input } from '~/components/ui/input';
-import { Label } from '~/components/ui/label';
 import { Button } from '~/components/ui/button';
-import { login } from '~/services/auth.service';
 import { Loader2, AlertCircle } from 'lucide-vue-next';
 import { Alert, AlertDescription, AlertTitle } from '~/components/ui/alert';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { useForm } from 'vee-validate';
 import { emailMessage, requiredMessage } from '~/schema/users.schema';
+import { login } from '~/services/auth.service';
 
 const formSchema = toTypedSchema(z.object({
     email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
@@ -20,15 +19,15 @@ const form = useForm({
     validationSchema: formSchema,
 });
 
-const error = ref(false);
+const errorAlert = ref(false);
 
 const onSubmit = form.handleSubmit(async (values) => {
-    const success = await login(values.email, values.password);
+    const { error } = await login(values.email, values.password);
 
-    if (success) {
-        await navigateTo('/moocs');
+    if (error) {
+        errorAlert.value = true;
     } else {
-        error.value = true;
+        await navigateTo('/moocs');
     }
 });
 
@@ -42,7 +41,7 @@ onMounted(() => {
 
 <template>
     <div class="flex flex-col gap-4 max-w-2xl w-full mx-auto">
-        <Alert v-if="error" variant="destructive">
+        <Alert v-if="errorAlert" variant="destructive">
             <AlertCircle class="size-4" />
             <AlertTitle>Erreur</AlertTitle>
             <AlertDescription>

@@ -1,30 +1,83 @@
-import axios from 'axios';
+import type { User } from 'lucia';
+import { FetchError } from 'ofetch';
 
-export async function register(email: string, firstname: string, lastname: string, password: string) {
-    const res = await axios.post('/api/auth/register', { email, firstname, lastname, password });
-    
-    return res.data.user;
-}
-
-export async function login(email: string, password: string): Promise<boolean> {
+export async function login(email: string, password: string): Promise<{ error?: FetchError }> {
     try {
-        await axios.post('/api/auth/login', { email, password });
-        return true;
-    } catch {
-        return false;
+        await $fetch<User>('/api/auth/login', {
+            method: 'POST',
+            body: { email, password }
+        });
+        
+        return {};
+    } catch (e) {
+        return { error: e as FetchError };
     }
 }
 
-export async function logout() {
-    await axios.post('/api/auth/logout');
+export async function register(email: string, firstname: string, lastname: string, password: string, token: string): Promise<{ error?: FetchError }> {
+    try {
+        await $fetch('/api/auth/register', {
+            method: 'POST',
+            body: {
+                email,
+                firstname,
+                lastname,
+                password,
+                token
+            }
+        })
+        
+        return {};
+    } catch (e) {
+        return { error: e as FetchError };
+    }
 }
 
-export async function updatePassword(password: string) {
+export async function logout(): Promise<{ error?: FetchError }> {
     try {
-        await axios.put('/api/auth/password', { password });
+        await $fetch('/api/auth/logout', {
+            method: 'POST'
+        });
         
-        return true
-    } catch {
-        return false;
+        return {};
+    } catch (e) {
+        return { error: e as FetchError };
+    }
+}
+
+export async function updatePassword(password: string): Promise<{ error?: FetchError }> {
+    try {
+        await $fetch('/api/auth/password', {
+            method: 'PUT',
+            body: { password }
+        });
+        
+        return {};
+    } catch (e) {
+        return { error: e as FetchError };
+    }
+
+}
+
+export async function updateProfile(email: string, firstname: string, lastname: string): Promise<{ data?: User, error?: FetchError }> {
+    try {
+        const data = await $fetch<User>('/api/users/profile', {
+            method: 'PUT',
+            body: { email, firstname, lastname }
+        });
+        
+        return { data };
+    } catch (e) {
+        return { error: e as FetchError };
+    }
+}
+
+export async function deleteUser(): Promise<{ error?: FetchError }> {
+    try {
+        await $fetch ('/api/users/delete');
+        
+        return {};
+    } catch (e) {
+        return { error: e as FetchError };
     }
 }

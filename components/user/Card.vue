@@ -57,7 +57,7 @@ const usersStore = useUsers()
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Annuler</AlertDialogCancel>
-                        <AlertDialogAction @click="usersStore.deleteUser(user.id)">Continuer</AlertDialogAction>
+                        <AlertDialogAction @click="usersStore.deleteUser()">Continuer</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
