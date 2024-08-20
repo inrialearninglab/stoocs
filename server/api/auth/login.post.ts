@@ -1,9 +1,15 @@
 import { prisma } from '~/prisma/db';
 import { lucia } from '~/server/utils/auth';
 import { Argon2id } from 'oslo/password';
+import { z } from 'zod';
+
+const routeSchema = z.object({
+    email: z.string().email(),
+    password: z.string()
+});
 
 export default defineEventHandler(async (event) => {
-    const { email, password } = await readBody(event);
+    const { email, password } = await readValidatedBody(event, routeSchema.parse);
     
     const user = await prisma.user.findUnique({
         where: { email }

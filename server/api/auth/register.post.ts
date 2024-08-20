@@ -3,16 +3,20 @@ import { prisma } from '~/prisma/db';
 import { generateId } from 'lucia';
 import { Argon2id } from 'oslo/password';
 import { lucia } from '~/server/utils/auth';
+import { registerSchema } from '~/schema/users.schema';
+import { z } from 'zod';
 
+const routeSchema = registerSchema.extend({
+    token: z.string()
+});
 export default defineEventHandler(async (event) => {
-    const { email, firstname, lastname, password, token } = await readBody(event);
+    const { email, firstname, lastname, password, token } = await readValidatedBody(event, routeSchema.parse);
     
     const verificationToken = await prisma.invitation.findUnique({
         where: { tokenHash: token }
     });
     
     if (!verificationToken || !isWithinExpirationDate(verificationToken.expiresAt)) {
-        console.log('verificationToken', verificationToken);
         throw createError({
             statusCode: 400
         })

@@ -8,7 +8,7 @@ import {
     emailMessage,
     passwordMatchMessage,
     passwordMessage,
-    passwordRequirements,
+    passwordRequirements, registerSchema,
     requiredMessage
 } from '~/schema/users.schema';
 import { register } from '~/services/auth.service';
@@ -23,11 +23,7 @@ useHead({
     ]
 });
 
-const formSchema: any = toTypedSchema(z.object({
-    email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
-    firstname: z.string({ message: requiredMessage }).min(2, 'Le prénom doit contenir au moins 2 caractères'),
-    lastname: z.string({ message: requiredMessage }).min(2, 'Le nom doit contenir au moins 2 caractères'),
-    password: z.string({ message: requiredMessage }).min(8, passwordMessage).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/, passwordRequirements),
+const formSchema: any = toTypedSchema(registerSchema.extend({
     passwordConfirmation: z.string({ message: requiredMessage }).refine((value) => value === form.values.password, {
         message: passwordMatchMessage,
     }),

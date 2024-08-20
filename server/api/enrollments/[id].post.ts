@@ -3,6 +3,7 @@ import { callNodeListener } from 'h3';
 import path from 'node:path';
 import { readEnrollments } from '~/server/utils/files.utils';
 import { prisma } from '~/prisma/db';
+import { z } from 'zod';
 
 let originalFilename = '';
 const storage = multer.diskStorage({
@@ -31,10 +32,14 @@ const upload = multer({
         
         cb(null, true);
     }
-})
+});
+
+const routeSchema = z.object({
+    id: z.string(),
+});
 
 export default defineEventHandler(async (event) => {
-    const id = getRouterParam(event, 'id');
+    const { id } = await getValidatedRouterParams(event, routeSchema.parse);
     // @ts-expect-error: adding id to req
     event.node.req.id = id;
     
