@@ -3,16 +3,9 @@ import FileInput from '~/components/fileInput/Index.vue'
 import FileInputGradeReports from '~/components/fileInput/GradeReports.vue'
 import FileInputEnrollments from '~/components/fileInput/Enrollments.vue'
 
-import { Users, Eye, Award, Speech, Upload, CirclePlus, Pin } from 'lucide-vue-next'
+import { Upload } from 'lucide-vue-next'
 import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { isEnrollments, isGradeReport, isProblemGradeReport } from '~/utils';
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbSeparator
-} from '~/components/ui/breadcrumb';
 
 const route = useRoute();
 const router = useRouter();
@@ -111,12 +104,6 @@ function openFileInput(files?: File[]) {
     }
 }
 
-function handlePin() {
-    if (!sessionStore.session.data) return;
-
-    sessionStore.pinMooc(sessionStore.session.data.mooc.id, sessionStore.isMoocPinned);
-}
-
 </script>
 
 <template>
@@ -136,35 +123,8 @@ function handlePin() {
         </div>
 
         <div v-show="!dragging" v-if="sessionStore.session.data" class="flex w-full flex-col gap-12" >
-            <div class="flex flex-col gap-2">
-                <div class="flex justify-between items-center">
-                    <Breadcrumb class="mb-2">
-                        <BreadcrumbList>
-                            <BreadcrumbItem>
-                                <BreadcrumbLink as-child>
-                                    <NuxtLink to="/moocs">Moocs</NuxtLink>
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator />
-                            <BreadcrumbItem>
-                                <BreadcrumbLink as-child>
-                                    <NuxtLink :to="`/sessions/${sessionStore.session.data.id}`">
-                                        {{ sessionStore?.session?.data?.mooc.title }}/{{ sessionStore?.session?.data?.sessionName }}
-                                    </NuxtLink>
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-                        </BreadcrumbList>
-                    </Breadcrumb>
 
-                    <Button @click="handlePin" variant="outline" size="icon">
-                        <Pin class="size-6" :class="{ 'stroke-yellow-500 fill-yellow-500' : sessionStore.isMoocPinned }" />
-                    </Button>
-                </div>
-
-                <h1 class="text-center">{{ sessionStore?.session?.data?.mooc.title }}</h1>
-                <h2 class="text-center text-muted-foreground">{{ sessionStore?.session?.data?.sessionName }}</h2>
-                <p class="text-muted-foreground text-center">{{ sessionStore.session.data?.mooc.courseNumber }}</p>
-            </div>
+            <SessionHeader />
 
             <div class="flex gap-6 mx-auto">
                 <div class="flex gap-2 items-center">
@@ -193,83 +153,7 @@ function handlePin() {
             <FileInputGradeReports ref="gradeReportFileInput" />
             <FileInputEnrollments ref="enrollmentFileInput" />
 
-            <Card v-if="enrollmentsReport" class="w-full max-w-sm mx-auto relative">
-                <CardHeader>
-                    <div class="flex gap-5 justify-between">
-                        <CardTitle>Nombre d'inscrits</CardTitle>
-                        <Users class="size-4 text-muted-foreground" />
-                    </div>
-                    <CardDescription>Nombre total d'inscrits le {{ sessionStore.enrollmentsReportDate }} (sans compter les désinscrits)</CardDescription>
-                    <GraphReportChip report="enrollment" />
-                </CardHeader>
-                <CardContent>
-                    <h2 class="text-center">
-                        {{ sessionStore.totalEnrollments?.toLocaleString('fr-FR') }} Inscrits
-                    </h2>
-                </CardContent>
-            </Card>
-
-            <div v-if="gradeReport" class="flex flex-wrap gap-3 w-full justify-center">
-                <GraphProgressCard
-                    title="Curieux"
-                    description="Utilisateurs ayant chargé au moins une page d'exercice"
-                    :icon="Eye"
-                    :loading="sessionStore.gradeReport.loading"
-                    :dividend="sessionStore.totalCurious"
-                    :divisor="sessionStore.totalUsers"
-                />
-
-                <GraphProgressCard
-                    title="Actifs"
-                    description="Utilisateurs ayant soumis au moins une réponse à une question"
-                    :icon="Speech"
-                    :loading="sessionStore.gradeReport.loading"
-                    :dividend="sessionStore.totalActive"
-                    :divisor="sessionStore.totalUsers"
-                />
-
-                <GraphProgressCard
-                    title="Eligibles - Actifs"
-                    description="Utilisateurs actifs éligibles pour le badge/attestation"
-                    :icon="Award"
-                    :loading="sessionStore.session.loading"
-                    :dividend="sessionStore.totalEligible"
-                    :divisor="sessionStore.totalActive"
-                />
-
-                <GraphProgressCard
-                    title="Eligibles - Utilisateurs"
-                    description="Utilisateurs éligibles pour le badge/attestation"
-                    :icon="Award"
-                    :loading="sessionStore.gradeReport.loading"
-                    :dividend="sessionStore.totalEligible"
-                    :divisor="sessionStore.totalUsers"
-                />
-            </div>
-
-            <GraphEnrollments
-                v-if="enrollmentsReport"
-                :details="sessionStore.session.data.enrollmentsDetails"
-                :loading="sessionStore.session.loading"
-                :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
-            />
-
-            <template v-if="gradeReport">
-                <GraphInterest :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
-                <GraphScore :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" />
-                <GraphThreshold
-                    :loading="sessionStore.gradeReport.loading"
-                    :data="sessionStore.gradeReport.data?.threshold"
-                    :cutoffs="sessionStore.session.data.cutoffs"
-                />
-            </template>
+            <SessionContent :enrollments-report="enrollmentsReport" :grade-report="gradeReport" />
         </div>
     </div>
 </template>
-
-<style scoped>
-.big-button {
-    @apply text-xl font-semibold p-8;
-}
-
-</style>
