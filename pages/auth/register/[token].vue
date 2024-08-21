@@ -3,7 +3,7 @@ import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { useForm } from 'vee-validate';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
-import { Loader2, AlertCircle } from 'lucide-vue-next';
+import { Loader2, CircleX } from 'lucide-vue-next';
 import {
     passwordMatchMessage,
     registerSchema,
@@ -58,13 +58,20 @@ else errorMessage.value = true;
 </script>
 
 <template>
-    <Alert v-if="errorMessage" variant="destructive">
-        <AlertCircle class="size-4" />
-        <AlertTitle>Erreur</AlertTitle>
-        <AlertDescription>
-            Ce lien n'est pas ou plus valide
-        </AlertDescription>
-    </Alert>
+    <Card v-if="errorMessage" class="max-w-lg mx-auto w-full text-center pt-3 mt-12">
+        <CardHeader>
+            <CircleX class="size-24 stroke-destructive mb-2 mx-auto" />
+            <CardTitle>Erreur</CardTitle>
+            <CardDescription class="text-md">Ce lien est invalide ou a expiré</CardDescription>
+        </CardHeader>
+        <CardFooter>
+            <Button as-child class="w-full">
+                <NuxtLink to="/auth/login">
+                    Retour
+                </NuxtLink>
+            </Button>
+        </CardFooter>
+    </Card>
 
     <Card v-else-if="status === 'success'" class="max-w-2xl mx-auto w-full border-0">
         <CardHeader>

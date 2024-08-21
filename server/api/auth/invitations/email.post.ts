@@ -1,5 +1,6 @@
 import { prisma } from '~/prisma/db';
 import { z } from 'zod';
+import { isWithinExpirationDate } from 'oslo';
 
 const routeSchema = z.object({
     tokenHash: z.string()
@@ -7,20 +8,15 @@ const routeSchema = z.object({
 export default defineEventHandler(async (event) => {
     const { tokenHash } = await readValidatedBody(event, routeSchema.parse);
     
-    if (!tokenHash) {
-        throw createError({
-            statusCode: 400,
-            message: 'Missing token'
-        });
-    }
-    
     const invitation = await prisma.invitation.findUnique({
         where: { tokenHash }
     });
     
-    if (!invitation) {
-        await sendRedirect(event, '/', 302)
-        return;
+    if (!invitation || !isWithinExpirationDate(invitation.expiresAt)) {
+        throw createError({
+            statusCode: 404,
+            message: 'Invitation not found or expired'
+        });
     }
     
     return { email: invitation.email };
