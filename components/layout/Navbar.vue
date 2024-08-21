@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
-import AddUser from '~/components/layout/AddUser.vue';
+import UserActions from '~/components/layout/actions/user/index.vue';
 
 interface TabInfo {
     label: string;
     description: string;
     to: string;
-    add?: Component
+    actions?: Component
 }
 
 type TabState = 'moocs' | 'team' | 'profile';
@@ -21,7 +21,7 @@ const tabMap: Record<TabState, TabInfo> = {
         label: 'Équipe',
         description: 'Liste des membres de l\'équipe',
         to: '/users',
-        add: AddUser
+        actions: UserActions
     },
     profile: {
         label: 'Profil',
@@ -59,7 +59,7 @@ watch(() => route.path, () => {
                 <p class="text-muted-foreground">{{ tabMap[activeTab].description }}</p>
             </div >
 
-            <Component v-if="tabMap[activeTab].add" :is="tabMap[activeTab].add" />
+            <Component v-if="tabMap[activeTab].actions" :is="tabMap[activeTab].actions" />
         </header>
 
         <Tabs
