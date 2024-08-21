@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Sun, Moon, LockKeyhole } from 'lucide-vue-next';
+import { Sun, Moon } from 'lucide-vue-next';
 
 const colorMode = useColorMode();
 
@@ -11,9 +11,9 @@ function toggleColorMode() {
 <template>
     <header class="border-b-2 p-3 flex justify-between items-center sticky top-0 z-10 bg-background/70 backdrop-blur-lg">
         <div class="flex gap-5 items-center">
-            <Button variant="ghost" as-child class="">
+            <Button variant="ghost" as-child>
                 <NuxtLink to="/">
-                    <LockKeyhole class="size-10" />
+                    <LayoutLogo class="size-8" />
                 </NuxtLink>
             </Button>
         </div>

@@ -5,10 +5,8 @@ import { useForm } from 'vee-validate';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { Loader2, AlertCircle } from 'lucide-vue-next';
 import {
-    emailMessage,
     passwordMatchMessage,
-    passwordMessage,
-    passwordRequirements, registerSchema,
+    registerSchema,
     requiredMessage
 } from '~/schema/users.schema';
 import { register } from '~/services/auth.service';
@@ -68,7 +66,7 @@ else errorMessage.value = true;
         </AlertDescription>
     </Alert>
 
-    <Card v-else-if="status === 'success'" class="max-w-2xl mx-auto w-full">
+    <Card v-else-if="status === 'success'" class="max-w-2xl mx-auto w-full border-0">
         <CardHeader>
             <CardTitle>Inscription</CardTitle>
             <CardDescription>Créer un nouveau compte</CardDescription>
