@@ -129,10 +129,17 @@ function openFileInput(files?: File[]) {
                     <div class="flex gap-2 items-center">
                         <GraphReportChip report="enrollment" :static="true" />
                         <p>{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p>
+                        <UtilsHelp>
+                            Ces données sont générées depuis le rapport d'inscription disponible sur le dashboard FUN
+                        </UtilsHelp>
                     </div>
+
                     <div class="flex gap-2 relative items-center">
                         <GraphReportChip report="grade" :static="true" />
                         <p>{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
+                        <UtilsHelp>
+                            Ces données sont générées depuis le &quot;grade report&quot; et le &quot;problem grade report&quot; disponibles dans la vue instructeur
+                        </UtilsHelp>
                     </div>
 
                     <MoocAddReport
