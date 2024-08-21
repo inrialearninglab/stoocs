@@ -22,8 +22,8 @@ interface SessionState {
 
 export const useSession = defineStore('session', {
     state: (): SessionState => ({
-        session: { data: null, loading: false },
-        gradeReport: { data: null, loading: false }
+        session: { data: null, loading: true },
+        gradeReport: { data: null, loading: false },
     }),
     
     getters: {

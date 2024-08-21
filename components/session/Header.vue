@@ -8,7 +8,7 @@ import {
 } from '~/components/ui/breadcrumb';
 import { Pin } from 'lucide-vue-next';
 import Refresh from '~/components/utils/Refresh.vue';
-import { toast } from 'vue-sonner';
+import { Skeleton } from '~/components/ui/skeleton';
 
 const sessionStore = useSession();
 
@@ -41,9 +41,10 @@ async function handleRefresh() {
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
                         <BreadcrumbLink as-child>
-                            <NuxtLink :to="`/sessions/${sessionStore?.session?.data?.id}`">
+                            <NuxtLink v-if="!sessionStore?.session?.loading" :to="`/sessions/${sessionStore?.session?.data?.id}`">
                                 {{ sessionStore?.session?.data?.mooc.title }}/{{ sessionStore?.session?.data?.sessionName }}
                             </NuxtLink>
+                            <Skeleton v-else class="w-80 h-6" />
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                 </BreadcrumbList>
