@@ -34,7 +34,6 @@ const route = useRoute();
 
 async function onTabChange(tab: TabState) {
     await navigateTo(tabMap[tab].to);
-    activeTab.value = tab;
 }
 
 function findCurrentTab(path: string): TabState | null {
@@ -44,6 +43,7 @@ function findCurrentTab(path: string): TabState | null {
 }
 
 const activeTab: Ref<TabState | null> = ref(findCurrentTab(route.path));
+const modelValue: Ref<TabState | null> = ref(activeTab.value);
 
 watch(() => route.path, () => {
     activeTab.value = findCurrentTab(route.path);
@@ -64,7 +64,7 @@ watch(() => route.path, () => {
 
         <Tabs
             class="flex flex-col gap-8"
-            v-model="activeTab"
+            v-model="modelValue"
             @update:model-value="onTabChange"
         >
             <nav class="flex flex-row items-center justify-between w-full gap-4 max-sm:overflow-x-auto border-b border-b-divider pb-1">
@@ -88,7 +88,7 @@ watch(() => route.path, () => {
                     </div>
                 </TabsList>
             </nav>
-            <TabsContent :value="activeTab">
+            <TabsContent :value="modelValue">
                 <slot />
             </TabsContent>
         </Tabs>
