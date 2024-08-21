@@ -24,13 +24,12 @@ async function handleRefresh() {
 
     refresh.value.onStartLoad();
     await sessionStore.getSession(sessionStore.session.data.id);
-    //? as the refresh component is in a v-if the component is not mounted after the reload
-    toast.success('Mise à jour effectuée avec succès');
+    refresh.value.onEndLoad();
 }
 
 </script>
 <template>
-    <div v-if="sessionStore.session.data" class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2">
         <div class="flex justify-between items-center">
             <Breadcrumb class="mb-2">
                 <BreadcrumbList>
@@ -42,7 +41,7 @@ async function handleRefresh() {
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
                         <BreadcrumbLink as-child>
-                            <NuxtLink :to="`/sessions/${sessionStore.session.data.id}`">
+                            <NuxtLink :to="`/sessions/${sessionStore?.session?.data?.id}`">
                                 {{ sessionStore?.session?.data?.mooc.title }}/{{ sessionStore?.session?.data?.sessionName }}
                             </NuxtLink>
                         </BreadcrumbLink>

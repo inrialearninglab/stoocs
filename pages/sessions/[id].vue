@@ -2,8 +2,7 @@
 import FileInput from '~/components/fileInput/Index.vue'
 import FileInputGradeReports from '~/components/fileInput/GradeReports.vue'
 import FileInputEnrollments from '~/components/fileInput/Enrollments.vue'
-
-import { Upload } from 'lucide-vue-next'
+import { Upload, Loader2 } from 'lucide-vue-next'
 import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { isEnrollments, isGradeReport, isProblemGradeReport } from '~/utils';
 
@@ -122,38 +121,41 @@ function openFileInput(files?: File[]) {
             </div>
         </div>
 
-        <div v-show="!dragging" v-if="sessionStore.session.data" class="flex w-full flex-col gap-12" >
-
+        <div v-show="!dragging" class="flex w-full flex-col gap-12" >
             <SessionHeader />
 
-            <div class="flex gap-6 mx-auto">
-                <div class="flex gap-2 items-center">
-                    <GraphReportChip report="enrollment" :static="true" />
-                    <p>{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p>
+            <template v-if="!sessionStore.session.loading">
+                <div class="flex gap-6 mx-auto">
+                    <div class="flex gap-2 items-center">
+                        <GraphReportChip report="enrollment" :static="true" />
+                        <p>{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p>
+                    </div>
+                    <div class="flex gap-2 relative items-center">
+                        <GraphReportChip report="grade" :static="true" />
+                        <p>{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
+                    </div>
+
+                    <MoocAddReport
+                        @open-enrollments="openEnrollmentFileInput()"
+                        @open-grades="openGradeReportFileInput()"
+                        @open-all="openFileInput()"
+                    />
                 </div>
-                <div class="flex gap-2 relative items-center">
-                    <GraphReportChip report="grade" :static="true" />
-                    <p>{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
+
+                <div v-if="!enrollmentsReport && !gradeReport" class="mx-auto flex flex-col items-center">
+                    <h2>Aucune données</h2>
+                    <p class="text-muted-foreground mt-2">Pour ajouter des données glisser-déposer les fichiers sur cette page ou utiliser le bouton ci-dessus</p>
                 </div>
 
-                <MoocAddReport
-                    @open-enrollments="openEnrollmentFileInput()"
-                    @open-grades="openGradeReportFileInput()"
-                    @open-all="openFileInput()"
-                />
-            </div>
 
-            <div v-if="!enrollmentsReport && !gradeReport" class="mx-auto flex flex-col items-center">
-                <h2>Aucune données</h2>
-                <p class="text-muted-foreground mt-2">Pour ajouter des données glisser-déposer les fichiers sur cette page ou utiliser le bouton ci-dessus</p>
-            </div>
+                <FileInput ref="globalFileInput" />
+                <FileInputGradeReports ref="gradeReportFileInput" />
+                <FileInputEnrollments ref="enrollmentFileInput" />
 
+                <SessionContent :enrollments-report="enrollmentsReport" :grade-report="gradeReport" />
+            </template>
 
-            <FileInput ref="globalFileInput" />
-            <FileInputGradeReports ref="gradeReportFileInput" />
-            <FileInputEnrollments ref="enrollmentFileInput" />
-
-            <SessionContent :enrollments-report="enrollmentsReport" :grade-report="gradeReport" />
+            <Loader2 v-else class="size-20 mx-auto animate-spin mt-12"/>
         </div>
     </div>
 </template>
