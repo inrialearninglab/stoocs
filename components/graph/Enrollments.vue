@@ -74,7 +74,7 @@ const presets = [
             <TabsContent value="day">
                 <GraphCard
                     title="Inscriptions"
-                    description="Nombre de nouvelle inscription par jour"
+                    description="Nombre de nouvelles inscriptions par jour"
                     :loading="loading"
                     :empty="!details"
                     report="enrollment"
@@ -95,7 +95,7 @@ const presets = [
             <TabsContent value="total">
                 <GraphCard
                     title="Inscriptions"
-                    description="Nombre total d'inscription"
+                    description="Nombre total d'inscriptions"
                     :loading="loading"
                     :empty="!details"
                     report="enrollment"

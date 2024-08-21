@@ -12,7 +12,7 @@ function toggleColorMode() {
     <header class="border-b-2 p-3 flex justify-between items-center sticky top-0 z-10 bg-background/70 backdrop-blur-lg">
         <div class="flex gap-5 items-center">
             <Button variant="ghost" as-child>
-                <NuxtLink to="/">
+                <NuxtLink to="/moocs">
                     <LayoutLogo class="size-8" />
                 </NuxtLink>
             </Button>

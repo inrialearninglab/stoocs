@@ -117,10 +117,10 @@ export const useSession = defineStore('session', {
             const { data, error } = await postEnrollments(body, this.session.data.id)
             
             if (error) {
-                toast.error('Erreur lors de l\'envoi du rapport d\'inscriptions');
+                toast.error('Erreur lors de l\'envoi du rapport d\'inscription');
             } else if (data) {
                 this.session.data.enrollmentsDetails = data.enrollmentsDetails;
-                toast.success('Rapport d\'inscriptions envoyé');
+                toast.success('Rapport d\'inscription envoyé');
             }
             
         },
@@ -132,7 +132,7 @@ export const useSession = defineStore('session', {
             const { data, error } = await postGradeReports(body, this.session.data.id);
             
             if (error) {
-                toast.error('Erreur lors de l\'envoi du rapport de notes');
+                toast.error('Erreur lors de l\'envoi des rapports de notes');
                 
                 return
             } else if (data && data.gradeReports) {
@@ -142,7 +142,7 @@ export const useSession = defineStore('session', {
                 const lastGradeReport = this.session.data.gradeReports[this.session.data.gradeReports.length - 1];
                 await this.getGradeReport(lastGradeReport.id);
                 
-                toast.success('Rapport de notes envoyé');
+                toast.success('Rapports de notes envoyés');
                 
                 console.timeEnd('addGradeReports');
             }
@@ -155,12 +155,12 @@ export const useSession = defineStore('session', {
             const { data, error } = await pinMooc(moocId, pinned);
             
             if (error) {
-                toast.error('Erreur lors de l\'épinglage du mooc');
+                toast.error('Erreur lors de l\'épinglage du MOOC');
             } else if (data) {
                 this.session.data.mooc.pinnedBy = data.pinnedBy ?? [];
                 
-                if (!pinned) toast.info('Le mooc a été épinglée');
-                else toast.warning('Le mooc a été désépinglée');
+                if (!pinned) toast.info('Le MOOC a été épinglé');
+                else toast.warning('Le MOOC a été désépinglé');
                 
                 const mooc = moocsStore.moocs.find(mooc => mooc.id === moocId);
                 if (mooc) mooc.pinnedBy = data.pinnedBy ?? [];

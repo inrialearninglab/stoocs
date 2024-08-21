@@ -138,7 +138,7 @@ function openFileInput(files?: File[]) {
                         <GraphReportChip report="grade" :static="true" />
                         <p>{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
                         <UtilsHelp>
-                            Ces données sont générées depuis le &quot;grade report&quot; et le &quot;problem grade report&quot; disponibles dans la vue instructeur
+                            Ces données sont générées depuis le &quot;grade report&quot; et le &quot;problem grade report&quot; disponibles dans la vue instructeur de FUN
                         </UtilsHelp>
                     </div>
 

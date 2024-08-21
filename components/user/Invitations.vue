@@ -17,7 +17,7 @@ async function copyToClipboard(token: string) {
 
 <template>
     <div class="flex flex-col gap-5">
-        <h3>Invitations en attentes ({{ usersStore.invitations.length }})</h3>
+        <h3>Invitations en attente ({{ usersStore.invitations.length }})</h3>
         <div
             v-for="invitation in usersStore.invitations"
             :key="invitation.tokenHash"

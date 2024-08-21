@@ -37,7 +37,7 @@ const open = ref(false);
         <DialogContent>
             <DialogHeader>
                 <DialogTitle>Ajouter un membre</DialogTitle>
-                <DialogDescription>Invitez un nouveau membre</DialogDescription>
+                <DialogDescription>Inviter un nouveau membre</DialogDescription>
             </DialogHeader>
 
             <form @submit="onSubmit">

@@ -13,7 +13,7 @@ const moocsStore = useMoocs()
 <template>
     <div class="flex flex-col gap-8">
         <div class="relative w-full max-w-sm items-center">
-            <Input id="search" v-model="moocsStore.search" placeholder="Chercher un mooc..." class="pl-8"/>
+            <Input id="search" v-model="moocsStore.search" placeholder="Chercher un MOOC..." class="pl-8"/>
             <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
                 <Search class="size-5 text-muted-foreground" />
             </span>
@@ -26,7 +26,7 @@ const moocsStore = useMoocs()
             </div>
 
             <div class="flex flex-col gap-3">
-                <h2 v-if="moocsStore.pinnedMoocs.length">Autres moocs</h2>
+                <h2 v-if="moocsStore.pinnedMoocs.length">Autres MOOCs</h2>
                 <MoocList :moocs="moocsStore.unpinnedMoocs" />
             </div>
         </div>
