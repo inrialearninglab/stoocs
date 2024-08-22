@@ -37,7 +37,6 @@
     "papaparse": "^5.4.1",
     "pinia": "^2.1.7",
     "prisma": "latest",
-    "prisma-zod-generator": "^0.8.13",
     "radix-vue": "^1.9.2",
     "shadcn-nuxt": "latest",
     "tailwind-merge": "^2.4.0",

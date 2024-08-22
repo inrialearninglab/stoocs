@@ -2,11 +2,8 @@
     <div class="relative overflow-hidden py-24 lg:py-32">
         <div
             aria-hidden="true"
-            class="flex absolute -top-96 start-1/2 transform -translate-x-1/2"
-        >
-            <div class="bg-gradient-to-r from-background/50 to-background blur-3xl w-[25rem] h-[44rem] rotate-[-60deg] transform -translate-x-[10rem]" />
-            <div class="bg-gradient-to-tl blur-3xl w-[90rem] h-[50rem] rounded-full origin-top-left -rotate-12 -translate-x-[15rem] from-primary-foreground via-primary-foreground to-background" />
-        </div>
+            class="absolute inset-0 bg-[radial-gradient(theme(colors.border/90%)_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_50%,transparent_100%)]"
+        />
         <div class="relative z-10">
             <div class="container py-10 lg:py-16">
                 <div class="max-w-2xl text-center mx-auto">
@@ -23,13 +20,14 @@
                         </p>
                     </div>
                     <div class="mt-8 gap-3 flex justify-center">
+                        <Button size="lg" variant="outline">
+                            Documentation
+                        </Button>
+
                         <Button size="lg" as-child>
                             <NuxtLink to="/moocs">
                                 Commencer
                             </NuxtLink>
-                        </Button>
-                        <Button size="lg" variant="outline">
-                            Documentation
                         </Button>
                     </div>
                 </div>

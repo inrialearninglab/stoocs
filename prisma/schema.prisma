@@ -9,9 +9,9 @@ generator client {
     binaryTargets = ["native", "linux-arm64-openssl-3.0.x"]
 }
 
-generator zod {
-    provider = "prisma-zod-generator"
-}
+// generator zod {
+//     provider = "prisma-zod-generator"
+// }
 
 datasource db {
     provider = "postgresql"
