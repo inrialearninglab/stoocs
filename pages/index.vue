@@ -21,7 +21,7 @@
                     </div>
                     <div class="mt-8 gap-3 flex justify-center">
                         <Button size="lg" variant="outline" as-child>
-                            <NuxtLink to="https://docs-stoocs.nathan-viaud.xyz/data/enrollments">
+                            <NuxtLink to="https://docs-stoocs.nathan-viaud.xyz">
                                 Documentation
                             </NuxtLink>
                         </Button>
