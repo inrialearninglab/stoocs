@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { User, Users, LogOut } from 'lucide-vue-next';
+import { User, Users, LogOut, BookOpen } from 'lucide-vue-next';
 import { Avatar, AvatarImage, AvatarFallback } from '~/components/ui/avatar';
 import { logout } from '~/services/auth.service';
 
@@ -42,6 +42,16 @@ async function handleLogout() {
                </NuxtLink>
 
            </DropdownMenuItem>
+
+           <DropdownMenuSeparator />
+
+           <DropdownMenuItem as-child class="cursor-pointer">
+               <NuxtLink to="https://docs-stoocs.nathan-viaud.xyz">
+                   <BookOpen class="size-4 mr-2" />
+                   <span>Documentation</span>
+               </NuxtLink>
+           </DropdownMenuItem>
+
 
            <DropdownMenuSeparator />
 
