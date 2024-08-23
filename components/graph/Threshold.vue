@@ -21,10 +21,12 @@ const props = defineProps<{
             :empty="!data"
             report="grade"
         >
-            <LineChart
+            <AreaChart
                 :show-legend="false"
                 :data="data"
                 index="threshold"
+                y-label="Nombres d'éligibles"
+                x-label="Seuil de note"
                 :categories="['Eligible']"
             />
         </GraphCard>

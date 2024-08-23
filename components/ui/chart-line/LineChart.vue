@@ -17,6 +17,8 @@ const props = withDefaults(defineProps<BaseChartProps<T> & {
    * Type of curve
    */
   curveType?: CurveType
+  xLabel?: string
+  yLabel?: string
 }>(), {
   curveType: CurveType.MonotoneX,
   filterOpacity: 0.2,
@@ -79,6 +81,7 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
       <VisAxis
         v-if="showXAxis"
         type="x"
+        :label="xLabel"
         :tick-format="xFormatter ?? ((v: number) => data[v]?.[index])"
         :grid-line="false"
         :tick-line="false"
@@ -87,6 +90,7 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
       <VisAxis
         v-if="showYAxis"
         type="y"
+        :label="yLabel"
         :tick-line="false"
         :tick-format="yFormatter"
         :domain-line="false"

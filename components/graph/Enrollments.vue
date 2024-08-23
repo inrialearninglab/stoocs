@@ -86,6 +86,8 @@ const presets = [
                     <LineChart
                         :show-legend="false"
                         :data="getFilteredData('day')"
+                        x-label="Date"
+                        y-label="Nombre d'inscrits"
                         index="Date"
                         :categories="['Inscriptions']"
                     />
@@ -107,6 +109,8 @@ const presets = [
                     <AreaChart
                         :show-legend="false"
                         :data="getFilteredData('total')"
+                        y-label="Nombre d'inscrits"
+                        x-label="Date"
                         index="Date"
                         :categories="['Inscriptions']"
                     />
