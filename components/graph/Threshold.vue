@@ -15,7 +15,7 @@ const props = defineProps<{
 <template>
     <div class="flex flex-col gap-2">
         <GraphCard
-            title="Nombre d'éligibles"
+            title="Nombre d'éligibles au badge"
             :description="`Nombre d'utilisateurs éligibles par seuil de note. Le seuil actuel est de ${cutoffs * 100}%.`"
             :loading="loading"
             :empty="!data"
@@ -25,7 +25,7 @@ const props = defineProps<{
                 :show-legend="false"
                 :data="data"
                 index="threshold"
-                y-label="Nombres d'éligibles"
+                y-label="Utilisateurs éligibles"
                 x-label="Seuil de note"
                 :categories="['Eligible']"
             />
