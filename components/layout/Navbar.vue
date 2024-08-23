@@ -43,7 +43,7 @@ function findCurrentTab(path: string): TabState | null {
 }
 
 const activeTab: Ref<TabState | null> = ref(findCurrentTab(route.path));
-const modelValue: Ref<TabState | null> = ref(activeTab.value);
+const modelValue = computed(() => activeTab.value);
 
 watch(() => route.path, () => {
     activeTab.value = findCurrentTab(route.path);
