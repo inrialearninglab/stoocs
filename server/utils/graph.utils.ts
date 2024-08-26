@@ -35,8 +35,14 @@ export function getInterestData(gradeReport: GradeReportData, totalActive: numbe
     
     // Remove the Average because i don't really understand how to use it
     data = data.filter((item) => !item.name.endsWith('Avg'));
+    
     // Sorting by name because there is some strange choice of order in the default data
-    data.sort((a, b) => a.name > b.name ? 1 : -1);
+    data.sort((a, b) => {
+        const nameA = a.name.replace(/[.:]/g, ' ').trim();
+        const nameB = b.name.replace(/[.:]/g, ' ').trim();
+        
+        return nameA > nameB ? 1 : -1;
+    });
     
     return data;
 }
