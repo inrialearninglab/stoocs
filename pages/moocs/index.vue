@@ -7,7 +7,6 @@ definePageMeta({
 });
 
 const moocsStore = useMoocs()
-
 </script>
 
 <template>

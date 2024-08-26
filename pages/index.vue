@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { Button } from '~/components/ui/button';
+import useConfetti from '~/composables/confetti';
+
+function triggerConfetti() {
+    useConfetti({ particleCount: 200, spread: 360, origin: { y: 0.3 }})
+}
+</script>
+
 <template>
     <div class="relative overflow-hidden py-24 lg:py-32">
         <div
@@ -7,26 +16,26 @@
         <div class="relative z-10">
             <div class="container py-10 lg:py-16">
                 <div class="max-w-2xl text-center mx-auto">
-                    <p class="">By Nathan</p>
-                    <div class="mt-5 max-w-2xl">
-                        <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                            丂ｲののᄃ
+                    <Badge variant="outline" size="lg">By Nathan</Badge>
+                    <div class="mt-2 max-w-2xl">
+                        <h1 class="text-4xl font-extrabold lg:text-5xl">
+                            Stoocs
                         </h1>
                     </div>
-                    <div class="mt-5 max-w-3xl">
+
+                    <div class="mt-3 max-w-3xl">
                         <p class="text-xl text-muted-foreground">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Les données des MOOCs, réinventées pour le plaisir des yeux et des statistiques !
                         </p>
                     </div>
-                    <div class="mt-8 gap-3 flex justify-center">
+                    <div class="mt-8 gap-5 flex justify-center">
                         <Button size="lg" variant="outline" as-child>
                             <NuxtLink to="https://docs-stoocs.nathan-viaud.xyz">
                                 Documentation
                             </NuxtLink>
                         </Button>
 
-                        <Button size="lg" as-child>
+                        <Button @click="triggerConfetti" size="lg" as-child>
                             <NuxtLink to="/moocs">
                                 Commencer
                             </NuxtLink>
