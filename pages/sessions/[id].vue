@@ -162,7 +162,7 @@ function openFileInput(files?: File[]) {
                 <SessionContent :enrollments-report="enrollmentsReport" :grade-report="gradeReport" />
             </template>
 
-            <Loader2 v-else class="size-20 mx-auto animate-spin mt-12"/>
+            <Loader2 v-else class="size-12 animate-spin top-1/4 relative mx-auto"/>
         </div>
     </div>
 </template>

@@ -53,9 +53,10 @@ async function handleRefresh() {
             <div class="flex gap-2 items-center">
                 <Refresh ref="refresh" @refresh="handleRefresh" />
 
-                <Button @click="handlePin" variant="outline" size="icon">
+                <Button v-if="!sessionStore.session.loading" @click="handlePin" variant="outline" size="icon">
                     <Pin class="size-6" :class="{ 'stroke-yellow-500 fill-yellow-500' : sessionStore.isMoocPinned }" />
                 </Button>
+                <Skeleton v-else class="size-10" />
             </div>
         </div>
 
