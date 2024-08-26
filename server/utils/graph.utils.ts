@@ -37,14 +37,7 @@ export function getInterestData(gradeReport: GradeReportData, totalActive: numbe
     data = data.filter((item) => !item.name.endsWith('Avg'));
     
     // Sorting by name because there is some strange choice of order in the default data
-    data.sort((a, b) => {
-        const nameA = a.name.replace(/[.:]/g, ' ').trim();
-        const nameB = b.name.replace(/[.:]/g, ' ').trim();
-        
-        return nameA > nameB ? 1 : -1;
-    });
-    
-    return data;
+    return data.sort((a, b) => sortByName(a.name, b.name));
 }
 
 export function getScoreData(gradeReport: GradeReportData): GradeReport['score'] {
@@ -61,7 +54,7 @@ export function getScoreData(gradeReport: GradeReportData): GradeReport['score']
         })
     }
     
-    return data.sort((a, b) => a.name > b.name ? 1 : -1);
+    return data.sort((a, b) => sortByName(a.name, b.name));
 }
 
 /**
@@ -133,4 +126,22 @@ export function calculateParticipationPercentage(gradeReport: GradeReportData, t
     });
     
     return participationPercentages;
+}
+
+/**
+ * @description - This function sorts the question by name
+ * @param a
+ * @param b
+ */
+function sortByName(a: string, b: string): number {
+    const nameA = a.replace(/[.:]/g, ' ').trim();
+    const nameB = b.replace(/[.:]/g, ' ').trim();
+    
+    const numA = parseInt(nameA.match(/\d+/)?.[0] || "0", 10);
+    const numB = parseInt(nameB.match(/\d+/)?.[0] || "0", 10);
+    
+    const textComparison = nameA.localeCompare(nameB, undefined, { numeric: true, sensitivity: 'base' });
+    if (textComparison !== 0) return textComparison;
+    
+    return numA - numB;
 }
