@@ -29,7 +29,8 @@ export function getInterestData(gradeReport: GradeReportData, totalActive: numbe
     for (const question of questions) {
         data.push({
             name: question.label,
-            'Participation' : Number((participation[question.label] ?? 0).toFixed(2))
+            'Participation': Number((participation[question.label].percentage ?? 0).toFixed(2)),
+            'Utilisateurs': participation[question.label].users
         })
     }
     
@@ -50,7 +51,8 @@ export function getScoreData(gradeReport: GradeReportData): GradeReport['score']
     for (const problem of problems) {
         data.push({
             name: problem.label,
-            'Moyenne': Number((problemAverages[problem.label] ?? 0).toFixed(2))
+            'Moyenne': Number((problemAverages[problem.label]?.average ?? 0).toFixed(2)),
+            'Utilisateurs': problemAverages[problem.label]?.users
         })
     }
     
@@ -83,10 +85,13 @@ export function calculateProblemAverage(gradeReport: GradeReportData) {
         })
     });
     
-    const problemAverages: { [key: string]: number } = {};
+    const problemAverages: { [key: string]: { average: number, users: number }} = {};
     Object.keys(problemStats).forEach((label) => {
         const stats = problemStats[label];
-        problemAverages[label] = stats.score / stats.total * 100;
+        problemAverages[label] = {
+            average: stats.score / stats.total * 100,
+            users: stats.total
+        };
     });
     
     return problemAverages;
@@ -118,11 +123,14 @@ export function calculateParticipationPercentage(gradeReport: GradeReportData, t
         });
     });
     
-    const participationPercentages: { [key: string]: number } = {};
+    const participationPercentages: { [key: string]: { percentage: number, users: number }} = {};
     
     Object.keys(questionStats).forEach(questionLabel => {
         const stats = questionStats[questionLabel];
-        participationPercentages[questionLabel] = (stats.scoreCount / totalActive) * 100;
+        participationPercentages[questionLabel] = {
+            percentage: (stats.scoreCount / totalActive) * 100,
+            users: stats.scoreCount
+        }
     });
     
     return participationPercentages;

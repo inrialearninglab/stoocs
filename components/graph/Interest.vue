@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
+import TooltipPercentage from '~/components/graph/tooltip/Percentage.vue';
 
 defineProps<{
     data: any;
@@ -25,6 +26,7 @@ defineProps<{
                 index="name"
                 :categories="['Participation']"
                 :y-formatter="(value) => `${value}%`"
+                :custom-tooltip="TooltipPercentage"
             />
         </GraphCard>
     </div>

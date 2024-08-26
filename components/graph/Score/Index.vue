@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
+import TooltipPercentage from '~/components/graph/tooltip/Percentage.vue';
 
 const props = defineProps<{
     data: any
@@ -23,7 +24,7 @@ const problems = computed(() => {
     <div class="flex flex-col gap-2">
         <GraphCard
             title="Score"
-            description="Pourcentage de réussite moyen par question. Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions"
+            description="Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions"
             :loading="loading"
             :empty="!data"
             report="grade"
@@ -37,6 +38,7 @@ const problems = computed(() => {
                 :categories="['Moyenne']"
                 :color="color"
                 :y-formatter="(tick, i) => tick + '%'"
+                :custom-tooltip="TooltipPercentage"
             />
 
             <GraphScoreIssuesTable v-if="problems.length" :problems="problems" />

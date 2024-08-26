@@ -8,10 +8,12 @@ export interface GradeReport {
     score: {
         name: string;
         'Moyenne': number;
+        'Utilisateurs': number;
     }[],
     interest: {
         name: string;
         'Participation': number;
+        'Utilisateurs': number;
     }[],
     threshold: {
         threshold: string;

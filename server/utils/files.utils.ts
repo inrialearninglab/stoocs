@@ -31,22 +31,6 @@ export async function readEnrollments(filename: string): Promise<any> {
 
 export async function readGradeReports(gradeReportPath: string, probemGradeReportPath: string): Promise<Omit<GradeReport, 'id'>> {
     let report = await readGradeReport(gradeReportPath);
-    // let reportCopy = JSON.parse(JSON.stringify(report));
-    //
-    // console.time('readProblemGradeReport')
-    // report = await readProblemGradeReport(probemGradeReportPath, report);
-    // console.timeEnd('readProblemGradeReport')
-    //
-    // console.time('readProblemGradeReportOptimized')
-    // reportCopy = await readProblemGradeReportOptimized(probemGradeReportPath, reportCopy);
-    // console.timeEnd('readProblemGradeReportOptimized')
-    //
-    // if (JSON.stringify(report) !== JSON.stringify(reportCopy)) {
-    //     fs.writeFileSync('report1.json', JSON.stringify(report, null, 2));
-    //     fs.writeFileSync('report2.json', JSON.stringify(reportCopy, null, 2));
-    //
-    //     throw new Error('The two methods of reading the problem grade report do not match');
-    // }
     
     report = await readProblemGradeReportOptimized(probemGradeReportPath, report);
     
@@ -102,6 +86,22 @@ export async function readGradeReports(gradeReportPath: string, probemGradeRepor
     };
 }
 
+interface ReadGradeReportLine {
+    id: number;
+    grade: number;
+    certificateEligible: string;
+    certificateDelivered: string;
+    questions: {
+        label: string;
+        score: number;
+    }[];
+    problemGradeReport: {
+        label: string;
+        score?: number;
+        possible?: number;
+    }[];
+}
+
 async function readGradeReport(filename: string): Promise<any> {
     const lines: any[] = []
     
@@ -109,7 +109,7 @@ async function readGradeReport(filename: string): Promise<any> {
         createReadStream(filename)
             .pipe(parse({ columns: true }))
             .on('data', (data) => {
-                const reportLine = {
+                const reportLine: ReadGradeReportLine = {
                     id: Number(data.id),
                     grade: Number(data.grade),
                     certificateEligible: data['Certificate Eligible'],
@@ -137,7 +137,7 @@ async function readGradeReport(filename: string): Promise<any> {
 }
 
 async function readProblemGradeReportOptimized(filename: string, report: any) {
-    const reportMap = new Map(report.map((reportLine: any) => [reportLine.id, reportLine]));
+    const reportMap = new Map(report.map((reportLine: ReadGradeReportLine) => [reportLine.id, reportLine]));
     
     await new Promise((resolve, reject) => {
         createReadStream(filename)
@@ -145,7 +145,7 @@ async function readProblemGradeReportOptimized(filename: string, report: any) {
             .on('data', (data) => {
                 const id = Number(data['Student ID']);
                 
-                const reportLine = reportMap.get(id);
+                const reportLine = reportMap.get(id) as ReadGradeReportLine;
                 if (!reportLine) {
                     console.log('Could not find report line with id', id);
                     return;
