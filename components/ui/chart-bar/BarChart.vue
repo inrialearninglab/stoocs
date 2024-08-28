@@ -5,8 +5,8 @@ import { Axis, GroupedBar, StackedBar } from '@unovis/ts'
 import { type Component, computed, ref } from 'vue'
 import { useMounted } from '@vueuse/core'
 import type { BaseChartProps } from '.'
-import { ChartCrosshair, ChartLegend, defaultColors } from '@/components/ui/chart'
-import { cn } from '@/lib/utils'
+import { ChartCrosshair, ChartLegend, defaultColors } from '~/components/ui/chart'
+import { cn } from '~/lib/utils'
 import type { Labels } from '~/types/graph.type';
 
 const props = withDefaults(defineProps<BaseChartProps<T> & {
@@ -124,7 +124,7 @@ const selectorsBar = computed(() => props.type === 'grouped' ? GroupedBar.select
                 :grid-line="showGridLine"
                 :attributes="{
           [Axis.selectors.grid]: {
-            class: 'text-muted',
+            class: 'text-muted-foreground/60',
           },
         }"
                 tick-text-color="hsl(var(--vis-text-color))"
