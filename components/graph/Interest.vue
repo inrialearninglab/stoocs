@@ -1,11 +1,36 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
 import TooltipPercentage from '~/components/graph/tooltip/Percentage.vue';
+import type { Labels } from '~/types/graph.type';
 
-defineProps<{
+const props = defineProps<{
     data: any;
     loading: boolean;
 }>();
+
+const labels: Ref<Labels | undefined> = ref(undefined)
+
+function initLabels() {
+    labels.value = {}
+    for (const [index, item] of props.data.entries()) {
+        // for the labels to works, we must set a pos property to each item
+        item.pos = index
+
+        labels.value[index] = {
+            label: String(item.Utilisateurs),
+            value: item.Participation,
+            pos: index
+        }
+    }
+}
+
+function handleLabels() {
+    if (!labels.value) {
+        initLabels();
+    } else {
+        labels.value = undefined;
+    }
+}
 
 </script>
 
@@ -18,6 +43,10 @@ defineProps<{
             :empty="!data"
             report="grade"
         >
+            <template #actions>
+                <GraphHideLabels :visible="!!labels" @click="handleLabels" />
+            </template>
+
             <BarChart
                 :percentage="true"
                 :show-legend="false"
@@ -27,6 +56,7 @@ defineProps<{
                 :categories="['Participation']"
                 :y-formatter="(value) => `${value}%`"
                 :custom-tooltip="TooltipPercentage"
+                :labels="labels"
             />
         </GraphCard>
     </div>
