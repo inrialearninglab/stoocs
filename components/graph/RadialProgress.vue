@@ -5,12 +5,6 @@ const props = defineProps<{
     divisor: number;
 }>();
 
-const colors = {
-    red: '#ef4444',
-    yellow: '#f59e0b',
-    green: '#10b981'
-}
-
 const circumference = 45 * 2 * Math.PI;
 const offset = ref(circumference);
 
@@ -30,8 +24,7 @@ watch(() => percentage, (newPercentage) => {
     <svg class="progress" viewBox="0 0 100 100">
         <circle class="progress-background stroke-secondary" cx="50" cy="50" r="45"></circle>
         <circle
-            class="progress-bar"
-            :stroke="percentage < 50 ? colors.red : percentage < 75 ? colors.yellow : colors.green"
+            class="progress-bar stroke-primary"
             cx="50"
             cy="50"
             r="45"
