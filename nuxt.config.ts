@@ -22,7 +22,7 @@ export default defineNuxtConfig({
         componentDir: './components/ui'
     },
     
-    css: ['~/assets/css/typography.css'],
+    css: ['~/assets/css/typography.css', '~/assets/css/themes.css'],
     
     colorMode: {
         classSuffix: ''
