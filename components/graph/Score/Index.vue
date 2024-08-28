@@ -15,7 +15,7 @@ const color = (d: any) => {
 
 const problems = computed(() => {
     if (!props.data) return [];
-    return props.data.filter((d: any) => d['Moyenne'] < 50).sort((a: any, b: any) => a['Moyenne'] - b['Moyenne']);
+    return props.data.filter((d: any) => d['Moyenne'] < 50)
 })
 
 </script>
