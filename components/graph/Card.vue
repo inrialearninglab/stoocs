@@ -13,7 +13,7 @@ defineProps<{
 
 <template>
     <Card>
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between">
             <CardHeader class="pb-3 relative flex-1">
                 <CardTitle>{{ title }}</CardTitle>
                 <CardDescription>

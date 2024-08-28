@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
 import TooltipPercentage from '~/components/graph/tooltip/Percentage.vue';
+import { ChevronRight, ChevronLeft } from 'lucide-vue-next'
 
 const props = defineProps<{
     data: any
@@ -29,7 +30,24 @@ const problems = computed(() => {
             report="grade"
         >
             <template #description>
-                Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions
+                Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions.
+            </template>
+
+            <template #actions>
+                <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
+                    <div class="flex gap-1 items-center">
+                        <div class="size-4 rounded-full bg-green-500" />
+                        <span class="flex items-center"><ChevronRight class="size-4" /> 75%</span>
+                    </div>
+                    <div class="flex gap-1 items-center">
+                        <div class="size-4 rounded-full bg-yellow-500" />
+                        <span class="flex items-center"><ChevronRight class="size-4" /> 50%</span>
+                    </div>
+                    <div class="flex gap-1 items-center">
+                        <div class="size-4 rounded-full bg-red-500" />
+                        <span class="flex items-center"><ChevronLeft class="size-4" /> 50%</span>
+                    </div>
+                </div>
             </template>
 
             <BarChart
