@@ -1,12 +1,13 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
 import type { BulletLegendItemInterface } from '@unovis/ts'
-import { VisAxis, VisGroupedBar, VisStackedBar, VisXYContainer } from '@unovis/vue'
+import { VisAxis, VisGroupedBar, VisStackedBar, VisXYContainer, VisXYLabels } from '@unovis/vue'
 import { Axis, GroupedBar, StackedBar } from '@unovis/ts'
 import { type Component, computed, ref } from 'vue'
 import { useMounted } from '@vueuse/core'
 import type { BaseChartProps } from '.'
 import { ChartCrosshair, ChartLegend, defaultColors } from '@/components/ui/chart'
 import { cn } from '@/lib/utils'
+import type { Labels } from '~/types/graph.type';
 
 const props = withDefaults(defineProps<BaseChartProps<T> & {
     /**
@@ -25,6 +26,7 @@ const props = withDefaults(defineProps<BaseChartProps<T> & {
     roundedCorners?: number
     color?: any
     percentage?: boolean;
+    labels?: Labels;
 }>(), {
     type: 'grouped',
     margin: () => ({ top: 10, bottom: 0, left: 0, right: 0 }),
@@ -94,6 +96,15 @@ const selectorsBar = computed(() => props.type === 'grouped' ? GroupedBar.select
             },
           },
         }"
+            />
+
+            <VisXYLabels
+                v-if="labels"
+                :x="(d: Data) => labels[d.pos]?.pos"
+                :y="(d: Data) => labels[d.pos]?.value / 2"
+                :label="(d: Data) => labels[d.pos]?.label"
+                backgroundColor="hsl(var(--primary))"
+                color="hsl(var(--background))"
             />
 
             <VisAxis

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card';
-import { Upload } from 'lucide-vue-next';
-import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 
 defineProps<{
     title: string;
@@ -15,11 +13,16 @@ defineProps<{
 
 <template>
     <Card>
-       <CardHeader class="pb-3 relative">
-           <CardTitle>{{ title }}</CardTitle>
-           <CardDescription>{{ description }}</CardDescription>
-           <GraphReportChip :report="report" />
-       </CardHeader>
+        <div class="flex justify-between items-center">
+            <CardHeader class="pb-3 relative flex-1">
+                <CardTitle>{{ title }}</CardTitle>
+                <CardDescription>{{ description }}</CardDescription>
+                <GraphReportChip :report="report" />
+            </CardHeader>
+            <div class="p-6">
+                <slot name="actions" />
+            </div>
+        </div>
         <CardContent class="flex flex-col gap-5">
             <div v-if="!loading && empty" class="w-full h-[400px] items-center justify-center flex">
                 <h2>Aucune donnée</h2>
