@@ -16,7 +16,9 @@ defineProps<{
         <div class="flex justify-between items-center">
             <CardHeader class="pb-3 relative flex-1">
                 <CardTitle>{{ title }}</CardTitle>
-                <CardDescription>{{ description }}</CardDescription>
+                <CardDescription>
+                    <slot name="description" />
+                </CardDescription>
                 <GraphReportChip :report="report" />
             </CardHeader>
             <div class="p-6">

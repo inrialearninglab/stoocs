@@ -15,17 +15,21 @@ const props = defineProps<{
 <template>
     <div class="flex flex-col gap-2">
         <GraphCard
-            title="Nombre d'éligibles au badge"
-            :description="`Nombre d'utilisateurs éligibles par seuil de note. Le seuil actuel est de ${cutoffs * 100}%.`"
+            title="Nombre d'apprenants éligibles au badge"
             :loading="loading"
             :empty="!data"
             report="grade"
         >
+            <template #description>
+                Nombre d'apprenants éligibles par seuil de note. Le seuil actuel est de <strong>{{ cutoffs * 100 }}%</strong>,
+                ce qui représente <strong>{{ data.find((d: any) => d.threshold === cutoffs * 100 + "%")?.Eligible }} apprenants</strong>.
+            </template>
+
             <AreaChart
                 :show-legend="false"
                 :data="data"
                 index="threshold"
-                y-label="Utilisateurs éligibles"
+                y-label="Apprenants éligibles"
                 x-label="Seuil de note"
                 :categories="['Eligible']"
             />

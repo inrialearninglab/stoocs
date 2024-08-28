@@ -29,7 +29,7 @@ defineProps<{
             <div v-else class="text-[8rem]">🥸</div>
         </CardContent>
         <CardFooter>
-            <p class="text-xl text-center w-full">{{ dividend?.toLocaleString('fr-FR') }} Utilisateurs</p>
+            <p class="text-xl text-center w-full">{{ dividend?.toLocaleString('fr-FR') }} Apprenants</p>
         </CardFooter>
     </Card>
 </template>

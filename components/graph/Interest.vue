@@ -37,12 +37,16 @@ function handleLabels() {
 <template>
     <div class="flex flex-col gap-2">
         <GraphCard
-            title="Participation"
-            description="Pour chaque séquence, pourcentage d'utilisateurs actifs ayant répondu"
+            title="Engagement"
+            description=""
             :loading="loading"
             :empty="!data"
             report="grade"
         >
+            <template #description>
+               Pour chaque séquence, pourcentage d'apprenants actifs ayant répondu
+            </template>
+
             <template #actions>
                 <GraphHideLabels :visible="!!labels" @click="handleLabels" />
             </template>

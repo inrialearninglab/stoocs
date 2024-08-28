@@ -24,11 +24,14 @@ const problems = computed(() => {
     <div class="flex flex-col gap-2">
         <GraphCard
             title="Score"
-            description="Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions"
             :loading="loading"
             :empty="!data"
             report="grade"
         >
+            <template #description>
+                Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions
+            </template>
+
             <BarChart
                 :show-legend="false"
                 :percentage="true"

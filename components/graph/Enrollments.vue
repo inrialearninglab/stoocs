@@ -74,13 +74,16 @@ const presets = [
             <TabsContent value="day">
                 <GraphCard
                     title="Inscriptions"
-                    description="Nombre de nouvelles inscriptions par jour"
                     :loading="loading"
                     :empty="!details"
                     report="enrollment"
                 >
+                    <template #description>
+                        Nombre de nouvelles inscriptions par jour
+                    </template>
+
                     <div class="flex gap-2 items-center mt-2">
-                        <Label>A partir du</Label>
+                        <Label>À partir du</Label>
                         <InputDatePicker size="sm" v-model="startDateValue" :presets="presets" />
                     </div>
                     <LineChart
@@ -97,13 +100,16 @@ const presets = [
             <TabsContent value="total">
                 <GraphCard
                     title="Inscriptions"
-                    description="Nombre total d'inscriptions"
                     :loading="loading"
                     :empty="!details"
                     report="enrollment"
                 >
+                    <template #description>
+                        Nombre total d'inscriptions
+                    </template>
+
                     <div class="flex gap-2 items-center mt-2">
-                        <Label>A partir du</Label>
+                        <Label>À partir du</Label>
                         <InputDatePicker size="sm" v-model="startDateValue" :presets="presets" />
                     </div>
                     <AreaChart

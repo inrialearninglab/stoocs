@@ -31,7 +31,7 @@ defineProps<{
         <div v-if="gradeReport" class="flex flex-wrap gap-3 w-full justify-center">
             <GraphProgressCard
                 title="Curieux"
-                description="Utilisateurs ayant chargé au moins une page d'exercice"
+                description="Apprenants ayant chargé au moins une page d'exercice"
                 :icon="Eye"
                 :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalCurious"
@@ -40,7 +40,7 @@ defineProps<{
 
             <GraphProgressCard
                 title="Actifs"
-                description="Utilisateurs ayant soumis au moins une réponse à une question"
+                description="Apprenants ayant soumis au moins une réponse à une question"
                 :icon="Speech"
                 :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalActive"
@@ -48,8 +48,8 @@ defineProps<{
             />
 
             <GraphProgressCard
-                title="Eligibles - Actifs"
-                description="Utilisateurs actifs éligibles pour le badge/attestation"
+                title="Éligibles - Actifs"
+                description="Apprenants actifs éligibles pour le badge/attestation"
                 :icon="Award"
                 :loading="sessionStore.session.loading"
                 :dividend="sessionStore.totalEligible"
@@ -57,8 +57,8 @@ defineProps<{
             />
 
             <GraphProgressCard
-                title="Eligibles - Utilisateurs"
-                description="Utilisateurs éligibles pour le badge/attestation"
+                title="Éligibles - Apprenants"
+                description="Apprenants éligibles pour le badge/attestation"
                 :icon="Award"
                 :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalEligible"
