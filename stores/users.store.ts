@@ -67,7 +67,7 @@ export const useUsers = defineStore('users', {
                 
                 toast.success('Profil mis à jour');
                 
-                await navigateTo('/users/profile');
+                await navigateTo('/settings/profile');
             } else {
                 toast.error('Une erreur est survenue lors de la mise à jour du profil');
             }
@@ -78,10 +78,10 @@ export const useUsers = defineStore('users', {
             const { error } = await updatePassword(password);
             
             if (error) {
-                await navigateTo('/users/profile');
+                await navigateTo('/settings/profile');
                 toast.error('Une erreur est survenue lors de la mise à jour du mot de passe');
             } else {
-                await navigateTo('/users/profile');
+                await navigateTo('/settings/profile');
                 toast.success('Mot de passe mis à jour');
             }
         },
