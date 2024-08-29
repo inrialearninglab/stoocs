@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
 import TooltipPercentage from '~/components/graph/tooltip/Percentage.vue';
-import { ChevronRight, ChevronLeft } from 'lucide-vue-next'
+import { ChevronRight, ChevronLeft, Minus } from 'lucide-vue-next'
 
 const props = defineProps<{
     data: any
@@ -10,7 +10,7 @@ const props = defineProps<{
 
 const color = (d: any) => {
     if (d['Moyenne'] < 50) return '#EF4444';
-    else if (d['Moyenne'] < 75) return '#F59E0B';
+    else if (d['Moyenne'] < 60) return '#F59E0B';
     else return '#10B981';
 }
 
@@ -37,11 +37,11 @@ const problems = computed(() => {
                 <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
                     <div class="flex gap-1 items-center">
                         <div class="size-4 rounded-full bg-green-500" />
-                        <span class="flex items-center"><ChevronRight class="size-4" /> 75%</span>
+                        <span class="flex items-center"><ChevronRight class="size-4" /> 60%</span>
                     </div>
                     <div class="flex gap-1 items-center">
                         <div class="size-4 rounded-full bg-yellow-500" />
-                        <span class="flex items-center"><ChevronRight class="size-4" /> 50%</span>
+                        <span class="flex items-center ml-2">50% - 60%</span>
                     </div>
                     <div class="flex gap-1 items-center">
                         <div class="size-4 rounded-full bg-red-500" />
