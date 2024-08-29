@@ -21,7 +21,7 @@ const props = defineProps<{
             report="grade"
         >
             <template #description>
-                Nombre d'apprenants éligibles par seuil de note. Le seuil actuel est de <strong>{{ cutoffs * 100 }}%</strong>,
+                Nombre d'apprenants éligibles selon le seuil de réussite. Le seuil actuel est de <strong>{{ cutoffs * 100 }}%</strong>,
                 ce qui représente <strong>{{ data.find((d: any) => d.threshold === cutoffs * 100 + "%")?.Eligible }} apprenants</strong>.
             </template>
 
