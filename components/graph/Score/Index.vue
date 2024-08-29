@@ -41,7 +41,7 @@ const problems = computed(() => {
                     </div>
                     <div class="flex gap-1 items-center">
                         <div class="size-4 rounded-full bg-yellow-500" />
-                        <span class="flex items-center ml-2">50% - 60%</span>
+                        <span class="flex items-center ml-2">50% à 60%</span>
                     </div>
                     <div class="flex gap-1 items-center">
                         <div class="size-4 rounded-full bg-red-500" />
