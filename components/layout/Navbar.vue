@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import UserActions from '~/components/layout/actions/user/index.vue';
+import type { TabInfo, TabState } from '~/types/navigation.type';
+import type { Ref } from 'vue';
+import { Palette, UserPen } from 'lucide-vue-next';
 
-interface TabInfo {
-    label: string;
-    description: string;
-    to: string;
-    actions?: Component
-}
-
-type TabState = 'moocs' | 'team' | 'profile';
 
 const tabMap: Record<TabState, TabInfo> = {
     moocs: {
@@ -23,12 +18,26 @@ const tabMap: Record<TabState, TabInfo> = {
         to: '/users',
         actions: UserActions
     },
-    profile: {
-        label: 'Profil',
-        description: 'Mon profil',
-        to: '/users/profile'
-    }
-}
+    settings: {
+        label: 'Paramètres',
+        description: 'Gérer vos paramètres',
+        to: '/settings/profile',
+        children: {
+            profile: {
+                label: 'Profil',
+                description: 'Mon profil',
+                to: '/settings/profile',
+                icon: UserPen
+            },
+            themes: {
+                label: 'Thèmes',
+                description: 'Personnaliser l\'apparence de l\'application',
+                to: '/settings/themes',
+                icon: Palette
+            }
+        }
+    },
+};
 
 const route = useRoute();
 
@@ -37,7 +46,14 @@ async function onTabChange(tab: TabState) {
 }
 
 function findCurrentTab(path: string): TabState | null {
-    const entry = Object.entries(tabMap).find(([, value]) => value.to === path)
+    const entry = Object.entries(tabMap).find(([, value]) => {
+        if (value.to === path) {
+            return true;
+        } if (value.children) {
+            return Object.values(value.children).find((child) => child.to === path);
+        }
+    })
+
     if (!entry) return null;
     return entry[0] as TabState;
 }
@@ -89,7 +105,12 @@ watch(() => route.path, () => {
                 </TabsList>
             </nav>
             <TabsContent :value="modelValue">
-                <slot />
+                <div class="flex gap-8">
+                    <LayoutSettingsSidebar v-if="tabMap[activeTab].children" :tabs="tabMap[activeTab].children" :activeTab="activeTab" />
+                    <div class="flex-1">
+                        <slot />
+                    </div>
+                </div>
             </TabsContent>
         </Tabs>
     </div>

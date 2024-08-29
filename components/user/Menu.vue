@@ -29,7 +29,7 @@ async function handleLogout() {
            <DropdownMenuSeparator />
 
            <DropdownMenuItem as-child class="cursor-pointer">
-               <NuxtLink to="/users/profile">
+               <NuxtLink to="/settings/profile">
                    <User class="size-4 mr-2" />
                    <span>Profil</span>
                </NuxtLink>

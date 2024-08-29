@@ -6,7 +6,7 @@ import { ArrowLeft } from 'lucide-vue-next';
 <template>
     <div class="flex flex-col gap-4 max-w-2xl w-full mx-auto">
         <Button as-child size="icon" variant="outline" class="cursor-pointer">
-            <NuxtLink to="/users/profile">
+            <NuxtLink to="/settings/profile">
                 <ArrowLeft class="size-5" />
             </NuxtLink>
         </Button>
