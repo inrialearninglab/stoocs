@@ -1,5 +1,8 @@
 import type { User } from 'lucia';
 import { FetchError } from 'ofetch';
+import { useUsers } from '~/stores/users.store';
+import { useMoocs } from '~/stores/moocs.store';
+import { useSession } from '~/stores/session.store';
 
 export async function login(email: string, password: string): Promise<{ error?: FetchError }> {
     try {
@@ -7,7 +10,7 @@ export async function login(email: string, password: string): Promise<{ error?: 
             method: 'POST',
             body: { email, password }
         });
-        
+
         return {};
     } catch (e) {
         return { error: e as FetchError };
@@ -26,7 +29,7 @@ export async function register(email: string, firstname: string, lastname: strin
                 token
             }
         })
-        
+
         return {};
     } catch (e) {
         return { error: e as FetchError };
@@ -38,7 +41,15 @@ export async function logout(): Promise<{ error?: FetchError }> {
         await $fetch('/api/auth/logout', {
             method: 'POST'
         });
-        
+
+        const usersStore = useUsers();
+        const moocsStore = useMoocs();
+        const sessionStore = useSession();
+
+        usersStore.reset();
+        moocsStore.reset();
+        sessionStore.reset();
+
         return {};
     } catch (e) {
         return { error: e as FetchError };
@@ -51,7 +62,7 @@ export async function updatePassword(password: string): Promise<{ error?: FetchE
             method: 'PUT',
             body: { password }
         });
-        
+
         return {};
     } catch (e) {
         return { error: e as FetchError };
@@ -65,7 +76,7 @@ export async function updateProfile(email: string, firstname: string, lastname: 
             method: 'PUT',
             body: { email, firstname, lastname }
         });
-        
+
         return { data };
     } catch (e) {
         return { error: e as FetchError };
@@ -75,7 +86,7 @@ export async function updateProfile(email: string, firstname: string, lastname: 
 export async function deleteUser(): Promise<{ error?: FetchError }> {
     try {
         await $fetch ('/api/users/delete');
-        
+
         return {};
     } catch (e) {
         return { error: e as FetchError };
