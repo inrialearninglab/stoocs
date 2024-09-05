@@ -6,8 +6,13 @@ import { Upload, Loader2 } from 'lucide-vue-next'
 import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { isEnrollments, isGradeReport, isProblemGradeReport } from '~/utils';
 
+definePageMeta({
+    middleware: 'guest'
+});
+
 const route = useRoute();
 const router = useRouter();
+const user = useUser();
 
 if (!route.params.id) {
     router.push('/sessions');
@@ -108,6 +113,7 @@ function openFileInput(files?: File[]) {
 <template>
     <div @dragenter="handleDragEnter" @dragleave="handleDragLeave" class="flex flex-1 min-h-full">
         <div
+            v-if="user?.rolename === 'ILL'"
             v-show="dragging"
             v-bind="getRootProps()"
             class="w-full border-2 border-dashed rounded-xl text-muted-foreground items-center flex"
@@ -121,7 +127,7 @@ function openFileInput(files?: File[]) {
             </div>
         </div>
 
-        <div v-show="!dragging" class="flex w-full flex-col gap-12" >
+        <div v-show="!dragging || user?.rolename === 'Guest'" class="flex w-full flex-col gap-12" >
             <SessionHeader />
 
             <template v-if="!sessionStore.session.loading">
@@ -143,6 +149,7 @@ function openFileInput(files?: File[]) {
                     </div>
 
                     <MoocAddReport
+                        v-if="user?.rolename === 'ILL'"
                         @open-enrollments="openEnrollmentFileInput()"
                         @open-grades="openGradeReportFileInput()"
                         @open-all="openFileInput()"

@@ -9,10 +9,6 @@ generator client {
     binaryTargets = ["native", "linux-arm64-openssl-3.0.x"]
 }
 
-// generator zod {
-//     provider = "prisma-zod-generator"
-// }
-
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
@@ -34,7 +30,7 @@ model Author {
     id        String        @id @default(cuid())
     firstname String
     lastname  String
-    sessions  MoocSession[]
+    // sessions  MoocSession[]
 }
 
 model TeamMember {
@@ -54,7 +50,6 @@ model MoocSession {
     ended              Boolean       @default(false)
     cutoffs            Float
     gradeReports       GradeReport[]
-    authors            Author[]
     teamMembers        TeamMember[]
     type               SessionType?  @relation(fields: [typeID], references: [id])
     typeID             String?
@@ -90,6 +85,14 @@ model User {
     password    String
     sessions    Session[]
     pinnedMoocs PinnedMooc[]
+    rolename    String?
+    role        Role?        @relation(fields: [rolename], references: [name])
+    moocSessions String[]
+}
+
+model Role {
+    name  String @id
+    users User[]
 }
 
 model PinnedMooc {
@@ -112,5 +115,6 @@ model Session {
 model Invitation {
     tokenHash String   @unique
     email     String
+    isGuest  Boolean
     expiresAt DateTime
 }

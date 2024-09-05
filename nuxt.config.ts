@@ -2,12 +2,12 @@
 export default defineNuxtConfig({
     devtools: {
         enabled: true,
-        
+
         timeline: {
             enabled: true
         }
     },
-    
+
     modules: [
         "@nuxtjs/tailwindcss",
         "shadcn-nuxt",
@@ -16,18 +16,18 @@ export default defineNuxtConfig({
         "@nuxtjs/color-mode",
         "nuxt-security"
     ],
-    
+
     shadcn: {
         prefix: '',
         componentDir: './components/ui'
     },
-    
+
     css: ['~/assets/css/typography.css', '~/assets/css/themes.css'],
-    
+
     colorMode: {
         classSuffix: ''
     },
-    
+
     routeRules: {
         '/api/enrollments/*': {
             security: {
@@ -43,6 +43,12 @@ export default defineNuxtConfig({
             }
         }
     },
-    
+
+    security: {
+        headers: {
+            crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
+        }
+    },
+
     compatibilityDate: "2024-07-12"
 })

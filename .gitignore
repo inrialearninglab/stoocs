@@ -30,4 +30,5 @@ prisma/seed/courses/*.json
 prisma/seed/enrollments/*.csv
 prisma/seed/gradeReports/*.csv
 prisma/seed/initialUser.ts
+prisma/scripts/dev.ts
 nginx/

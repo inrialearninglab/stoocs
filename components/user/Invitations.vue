@@ -25,10 +25,13 @@ async function copyToClipboard(token: string) {
         >
             <p>{{ invitation.email }}</p>
             <div class="flex gap-4 items-center">
+                <Badge variant="outline">
+                    {{ invitation.isGuest ? 'Invité' : 'Learning Lab'}}
+                </Badge>
+
                 <Badge :variant="isWithinExpirationDate(new Date(invitation.expiresAt)) ? 'default' : 'destructive'">
                     {{ isWithinExpirationDate(new Date(invitation.expiresAt)) ? 'Valide' : 'Expirée' }}
                 </Badge>
-
                 <Button @click="usersStore.deleteInvitation(invitation.tokenHash)" variant="outline" size="icon">
                     <Trash class="size-4 stroke-destructive" />
                 </Button>
