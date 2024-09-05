@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import UserActions from '~/components/layout/actions/user/index.vue';
+import MoocActions from '~/components/layout/actions/Moocs.vue';
 import type { TabInfo, TabState } from '~/types/navigation.type';
 import type { Ref } from 'vue';
 import { Palette, UserPen } from 'lucide-vue-next';
@@ -12,7 +13,8 @@ const tabMap: Record<TabState, TabInfo> = {
     moocs: {
         label: 'Cours',
         description: 'Liste des cours',
-        to: '/moocs'
+        to: '/moocs',
+        actions: MoocActions
     },
     team: {
         label: 'Équipe',

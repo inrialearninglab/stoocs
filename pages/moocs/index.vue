@@ -7,6 +7,7 @@ definePageMeta({
 });
 
 const moocsStore = useMoocs()
+const user = useUser();
 </script>
 
 <template>
@@ -17,6 +18,10 @@ const moocsStore = useMoocs()
                 <Search class="size-5 text-muted-foreground" />
             </span>
         </div>
+
+        <p v-if="user?.rolename !== 'ILL' && !user?.moocSessions.length" class="text-lg text-center">
+            Votre compte n'a accès à aucune session.
+        </p>
 
         <div class="flex flex-col gap-5">
             <div v-if="moocsStore.pinnedMoocs.length" class="flex flex-col gap-3">
