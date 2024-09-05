@@ -6,11 +6,12 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator
 } from '~/components/ui/breadcrumb';
-import { Pin } from 'lucide-vue-next';
+import { Pin, UserPen } from 'lucide-vue-next';
 import Refresh from '~/components/utils/Refresh.vue';
 import { Skeleton } from '~/components/ui/skeleton';
 
 const sessionStore = useSession();
+const user = useUser();
 
 function handlePin() {
     if (!sessionStore.session.data) return;
@@ -51,6 +52,8 @@ async function handleRefresh() {
             </Breadcrumb>
 
             <div class="flex gap-2 items-center">
+                <SessionGuests v-if="sessionStore.session.data && user?.rolename === 'ILL'" :sessionId="sessionStore.session.data.id" />
+
                 <Refresh ref="refresh" @refresh="handleRefresh" />
 
                 <Button v-if="!sessionStore.session.loading" @click="handlePin" variant="outline" size="icon">
@@ -63,5 +66,6 @@ async function handleRefresh() {
         <h1 class="text-center">{{ sessionStore?.session?.data?.mooc.title }}</h1>
         <h2 class="text-center text-muted-foreground">{{ sessionStore?.session?.data?.sessionName }}</h2>
         <p class="text-muted-foreground text-center">{{ sessionStore.session.data?.mooc.courseNumber }}</p>
+
     </div>
 </template>

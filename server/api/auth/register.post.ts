@@ -11,23 +11,23 @@ const routeSchema = registerSchema.extend({
 });
 export default defineEventHandler(async (event) => {
     const { email, firstname, lastname, password, token } = await readValidatedBody(event, routeSchema.parse);
-    
+
     const verificationToken = await prisma.invitation.findUnique({
         where: { tokenHash: token }
     });
-    
+
     if (!verificationToken || !isWithinExpirationDate(verificationToken.expiresAt)) {
         throw createError({
             statusCode: 400
         })
     }
-    
+
     if (email !== verificationToken.email) {
         throw createError({
             statusCode: 400
         })
     }
-    
+
     const userId = generateId(15);
     const hashedPassword = await new Argon2id().hash(password);
     const user = await prisma.user.create({
@@ -36,21 +36,26 @@ export default defineEventHandler(async (event) => {
             email,
             firstname,
             lastname,
-            password: hashedPassword
+            password: hashedPassword,
+            role: {
+                connect: {
+                    name: verificationToken.isGuest ? 'Guest' : 'User'
+                }
+            }
         }
     })
-    
+
     if (!user) {
         throw createError({
             statusCode: 500,
             message: 'User not created',
         });
     }
-    
+
     await prisma.invitation.deleteMany({
         where: { tokenHash: token }
     });
-    
+
     setHeader(event, 'Referrer-Policy', 'strict-origin');
     const session = await lucia.createSession(user.id, []);
     const sessionCookie = lucia.createSessionCookie(session.id);
@@ -58,6 +63,6 @@ export default defineEventHandler(async (event) => {
         path: '.',
         ...sessionCookie.attributes
     });
-    
+
     return { user }
 })

@@ -6,5 +6,6 @@ export interface User {
 export interface Invitation {
     tokenHash: string;
     email: string;
+    isGuest: boolean;
     expiresAt: Date;
 }

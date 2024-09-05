@@ -1,6 +1,7 @@
 import type { User } from 'lucia';
 import { createInvitation, deleteInvitation, getInvitations, getUsers } from '~/services/users.service';
 import { updatePassword, updateProfile, deleteUser } from '~/services/auth.service';
+import { updateSessionGuest } from '~/services/sessions.service';
 import { toast } from 'vue-sonner';
 import type { Invitation } from '~/types';
 
@@ -21,6 +22,11 @@ export const useUsers = defineStore('users', {
         invitations: []
     }),
 
+    getters: {
+        ill: (state) => state.users.data.filter(user => user.rolename === 'ILL'),
+        guests: (state) => state.users.data.filter(user => user.rolename === 'Guest'),
+    },
+
     actions: {
         async fetchUsers() {
             this.users.loading = true;
@@ -33,8 +39,8 @@ export const useUsers = defineStore('users', {
             this.users.loading = false;
         },
 
-        async createInvitation(email: string) {
-            const { data, error } = await createInvitation(email);
+        async createInvitation(email: string, isGuest: boolean) {
+            const { data, error } = await createInvitation(email, isGuest);
 
             if (error) {
                 toast.error('Une erreur est survenue lors de la création de l\'invitation');
@@ -94,6 +100,17 @@ export const useUsers = defineStore('users', {
             } else {
                 await navigateTo('/auth/login');
                 toast.info('Votre compte a été supprimé');
+            }
+        },
+
+        async updateSessionGuest(sessionId: string, guestId: string, add: boolean) {
+            const { data, error } = await updateSessionGuest(sessionId, guestId, add);
+
+            if (error) {
+                toast.error('Une erreur est survenue lors de la mise à jour des droits de l\'invité');
+            } else if (data) {
+                this.users.data = this.users.data.map(user => user.id === data.id ? data : user);
+                toast.success('Les droits de l\'invité ont bien été mis à jour');
             }
         },
 

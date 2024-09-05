@@ -26,10 +26,7 @@ const usersStore = useUsers()
 <template>
     <Card>
         <CardHeader class="items-center">
-            <Avatar size="lg" class="mb-4">
-                <!--               <AvatarImage src="https://github.com/radix-vue.png" alt="@radix-vue" />-->
-                <AvatarFallback>{{ user.firstname[0] + user.lastname[0] }}</AvatarFallback>
-            </Avatar>
+            <UserAvatar :user="user" size="lg" class="mb-4" />
 
             <CardTitle>{{ user.firstname }} {{ user.lastname }}</CardTitle>
             <CardDescription>{{ user.email }}</CardDescription>

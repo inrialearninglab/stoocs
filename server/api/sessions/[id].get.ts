@@ -7,7 +7,15 @@ const routeSchema = z.object({
 
 export default defineEventHandler(async (event) => {
     const { id } = await getValidatedRouterParams(event, routeSchema.parse);
-    
+
+    if (event.context.user.rolename === 'Guest') {
+        if (!event.context.user.moocSessions.includes(id)) {
+            throw createError({
+                statusCode: 403,
+            })
+        }
+    }
+
     const session = await prisma.moocSession.findUnique({
         where: {
             id
@@ -39,13 +47,13 @@ export default defineEventHandler(async (event) => {
             }
         }
     })
-    
+
     if (!session) {
         throw createError({
             statusCode: 404,
             message: 'Session not found.'
         })
     }
-    
+
     return session;
 })

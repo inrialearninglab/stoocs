@@ -6,16 +6,18 @@ export default defineEventHandler(async (event) => {
             id: true,
             email: true,
             firstname: true,
-            lastname: true
+            lastname: true,
+            rolename: true,
+            moocSessions: true
         }
     });
-    
+
     if (!users) {
         throw createError({
             statusCode: 404,
             message: 'No users found'
         });
     }
-    
+
     return users;
 })

@@ -5,6 +5,8 @@ import type { TabInfo, TabState } from '~/types/navigation.type';
 import type { Ref } from 'vue';
 import { Palette, UserPen } from 'lucide-vue-next';
 
+const user = useUser();
+
 
 const tabMap: Record<TabState, TabInfo> = {
     moocs: {
@@ -38,6 +40,11 @@ const tabMap: Record<TabState, TabInfo> = {
         }
     },
 };
+
+if (user.value?.rolename === 'Guest') {
+    // @ts-expect-error
+    delete tabMap.team;
+}
 
 const route = useRoute();
 
