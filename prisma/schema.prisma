@@ -39,6 +39,7 @@ model MoocSession {
     typeID             String?
     mooc               Mooc          @relation(fields: [moocID], references: [id])
     moocID             String
+    @@unique([moocID, sessionName])
 }
 
 model GradeReport {
@@ -63,8 +64,8 @@ model User {
     password    String
     sessions    Session[]
     pinnedMoocs PinnedMooc[]
-    rolename    String?
-    role        Role?        @relation(fields: [rolename], references: [name])
+    rolename    String
+    role        Role        @relation(fields: [rolename], references: [name])
     moocSessions String[]
 }
 
