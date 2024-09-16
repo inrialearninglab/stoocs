@@ -26,20 +26,6 @@ model Mooc {
     pinnedBy     PinnedMooc[]
 }
 
-model Author {
-    id        String        @id @default(cuid())
-    firstname String
-    lastname  String
-    // sessions  MoocSession[]
-}
-
-model TeamMember {
-    id        String        @id @default(cuid())
-    firstname String
-    lastname  String
-    sessions  MoocSession[]
-}
-
 model MoocSession {
     id                 String        @id @default(cuid())
     sessionName        String
@@ -50,17 +36,9 @@ model MoocSession {
     ended              Boolean       @default(false)
     cutoffs            Float
     gradeReports       GradeReport[]
-    teamMembers        TeamMember[]
-    type               SessionType?  @relation(fields: [typeID], references: [id])
     typeID             String?
     mooc               Mooc          @relation(fields: [moocID], references: [id])
     moocID             String
-}
-
-model SessionType {
-    id          String        @id @default(cuid())
-    type        String
-    moocSession MoocSession[]
 }
 
 model GradeReport {
