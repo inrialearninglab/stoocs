@@ -4,39 +4,6 @@ import { users } from './initialUser';
 
 const prisma = new PrismaClient();
 
-const teamData = [
-    {
-        firstname: 'Laurence',
-        lastname: 'Farhi'
-    },
-    {
-        firstname: 'Marie',
-        lastname: 'Collin'
-    },
-    {
-        firstname: 'Madeline',
-        lastname: 'Montigny'
-    },
-    {
-        firstname: 'Aurélie',
-        lastname: 'Lagarrigue'
-    },
-    {
-        firstname: 'Shérazade',
-        lastname: 'Djeballah'
-    },
-    {
-        firstname: 'Sabah',
-        lastname: 'Khalfa'
-    }
-];
-
-const sessionTypeData = [
-    { type: 'Session' },
-    { type: 'Self paced' },
-    { type: 'MAOI' }
-];
-
 const { courses, sessions } = await getCourses();
 
 async function seed() {
@@ -81,22 +48,6 @@ async function seed() {
         }
     }
 
-    for (const member of teamData) {
-        const res = await prisma.teamMember.create({
-            data: member,
-        });
-
-        console.log(`created member with id: ${res.id}`)
-    }
-
-    for (const sessionType of sessionTypeData) {
-        const res = await prisma.sessionType.create({
-            data: sessionType,
-        });
-
-        console.log(`created sessionType with id: ${res.id}`)
-    }
-    
     for (const user of users) {
         const res = await prisma.user.create({
             data: user
@@ -116,4 +67,3 @@ seed()
         await prisma.$disconnect();
         process.exit(1)
     });
-
