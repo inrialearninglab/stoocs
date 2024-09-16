@@ -28,7 +28,7 @@ useServerHead({
             </LayoutNavbar>
 
             <!-- Wait for colorMode init -->
-            <Toaster v-if="colorMode.value !== 'system'" rich-colors :theme="colorMode.value" />
+            <Toaster v-if="colorMode.value !== 'system'" rich-colors :theme="colorMode.value as 'light' | 'dark'" />
         </div>
     </div>
 </template>
