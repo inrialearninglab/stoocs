@@ -18,7 +18,8 @@ export default defineEventHandler(async (event) => {
 
         { url: '/api/sessions/.*', method: 'GET' },
 
-        { url: '/api/users/profile', method: 'PUT' }
+        { url: '/api/users/profile', method: 'PUT' },
+        { url: '/api/users/delete', method: 'GET' },
     ]
 
     if (event.path.startsWith('/api')) {
