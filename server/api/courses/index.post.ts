@@ -10,8 +10,8 @@ const sessionSchema = z.object({
     parentCourse: z.string(),
     sessionName: z.string(),
     ended: z.boolean(),
-    startDate: z.date(),
-    endDate: z.date(),
+    startDate: z.string().datetime(),
+    endDate: z.string().datetime(),
     cutoffs: z.number(),
 })
 const routeSchema = z.object({
@@ -45,7 +45,6 @@ export default defineEventHandler(async (event) => {
         if (!parentCourse) return;
 
         await prisma.moocSession.upsert({
-            // @ts-expect-error: Syntax doesn't seem to be recognized
             where: { moocID_sessionName: { moocID: parentCourse.id, sessionName: session.sessionName } },
             update: {
                 ended: session.ended,

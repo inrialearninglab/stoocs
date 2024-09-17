@@ -10,7 +10,7 @@ const routeSchema = z.object({
 
 export default defineEventHandler(async (event) => {
     const { email, password } = await readValidatedBody(event, routeSchema.parse);
-    
+
     const user = await prisma.user.findUnique({
         where: { email }
     });
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
             message: 'Incorrect email or password'
         })
     }
-    
+
     const validPassword = await new Argon2id().verify(user.password, password);
     if (!validPassword) {
         throw createError({
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
             message: 'Incorrect email or password'
         })
     }
-    
+
     const session = await lucia.createSession(user.id, []);
     const sessionCookie = lucia.createSessionCookie(session.id);
     setCookie(event, sessionCookie.name, sessionCookie.value, {

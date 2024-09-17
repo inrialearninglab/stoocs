@@ -33,7 +33,6 @@ const onSubmit = form.handleSubmit(async (values) => {
 
 onMounted(() => {
     const mailInput = document.getElementById('mail');
-    console.log('mailInput', mailInput);
     mailInput?.focus();
 })
 

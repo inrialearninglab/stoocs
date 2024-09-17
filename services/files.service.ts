@@ -8,8 +8,7 @@ export async function postEnrollments(body: FormData, id: string): Promise<{ dat
             method: 'POST',
             body,
         });
-        
-        console.log('data', data);
+
         return { data };
     } catch (e) {
         return { error: e as FetchError };
@@ -23,7 +22,7 @@ export async function postGradeReports(body: FormData, id: string): Promise<{ da
             method: 'POST',
             body,
         });
-        
+
         return { data };
     } catch (e) {
         return { error: e as FetchError };
