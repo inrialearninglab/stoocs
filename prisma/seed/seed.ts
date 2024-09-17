@@ -33,7 +33,6 @@ async function seed() {
 
         if (parentCourse) {
             const res = await prisma.moocSession.upsert({
-                // @ts-expect-error: Syntax doesn't seem to be recognized
                 where: { moocID_sessionName: { moocID: parentCourse.id, sessionName: session.sessionName } },
                 update: {
                     ended: session.ended,

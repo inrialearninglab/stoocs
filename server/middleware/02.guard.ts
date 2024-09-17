@@ -23,6 +23,19 @@ export default defineEventHandler(async (event) => {
     ]
 
     if (event.path.startsWith('/api')) {
+
+        // This route is used by the scrapper to upload courses data
+        if (event.path === '/api/courses' && event.method === 'POST') {
+            const authorization = getHeader(event, 'Authorization');
+            if (authorization !== `Bearer ${process.env.SCRAPPER_TOKEN}`) {
+                throw createError({
+                    statusCode: 403,
+                });
+            }
+
+            return;
+        }
+
         const isGuestRoute = guestRoutes.some(route => new RegExp(`^${route.url}$`).test(event.path) && route.method === event.method);
         const isCourseGuestRoute = courseGuestRoutes.some(route => new RegExp(`^${route.url}$`).test(event.path) && route.method === event.method);
 

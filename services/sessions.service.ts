@@ -28,9 +28,6 @@ export async function fetchGradeReport(id: string): Promise<{ data?: GradeReport
 
 export async function updateSessionGuest(sessionId: string, guestId: string, add: boolean): Promise<{ data?: User, error?: FetchError }> {
     try {
-        console.log('session', sessionId);
-        console.log('guest', guestId);
-        console.log('add', add);
         const data = await $fetch<User>('/api/sessions/guest', {
             method: 'POST',
             body: { sessionId, guestId, add },

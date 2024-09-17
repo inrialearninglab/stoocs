@@ -24,7 +24,7 @@
     "@unovis/ts": "^1.4.3",
     "@unovis/vue": "^1.4.3",
     "@vee-validate/zod": "^4.13.2",
-    "@vueuse/core": "^10.11.0",
+    "@vueuse/core": "^11.1.0",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
