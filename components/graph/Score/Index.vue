@@ -9,7 +9,7 @@ const props = defineProps<{
 }>();
 
 const color = (d: any) => {
-    if (d['Moyenne'] < 50) return '#ff3b30';
+    if (d['Moyenne'] < 50) return '#e11d48';
     else if (d['Moyenne'] < 60) return '#f59e0b';
     else return '#12cc82';
 }

@@ -51,7 +51,7 @@ module.exports = {
         },
         success: '#12cc82',
         warning: '#f59e0b',
-        error: '#ff3b30'
+        error: '#e11d48'
       },
       borderRadius: {
       	xl: "calc(var(--radius) + 4px)",
