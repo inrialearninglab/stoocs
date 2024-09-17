@@ -3,7 +3,6 @@ import { fetchGradeReport, fetchSessionById } from '~/services/sessions.service'
 import { postEnrollments, postGradeReports } from '~/services/files.service';
 import { formatDate, getParsedDate } from '~/utils';
 import { toast } from 'vue-sonner';
-import { pinMooc } from '~/services/moocs.service';
 
 interface SessionDetails extends Session {
     mooc: Mooc;
@@ -145,25 +144,6 @@ export const useSession = defineStore('session', {
                 toast.success('Rapports de notes envoyés');
 
                 console.timeEnd('addGradeReports');
-            }
-        },
-
-        async pinMooc(moocId: string, pinned: boolean) {
-            if (!this.session.data) return;
-            const moocsStore = useMoocs();
-
-            const { data, error } = await pinMooc(moocId, pinned);
-
-            if (error) {
-                toast.error('Erreur lors de l\'épinglage du MOOC');
-            } else if (data) {
-                this.session.data.mooc.pinnedBy = data.pinnedBy ?? [];
-
-                if (!pinned) toast.info('Le MOOC a été épinglé');
-                else toast.warning('Le MOOC a été désépinglé');
-
-                const mooc = moocsStore.moocs.find(mooc => mooc.id === moocId);
-                if (mooc) mooc.pinnedBy = data.pinnedBy ?? [];
             }
         },
 

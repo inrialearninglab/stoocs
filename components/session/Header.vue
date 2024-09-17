@@ -6,18 +6,11 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator
 } from '~/components/ui/breadcrumb';
-import { Pin, UserPen } from 'lucide-vue-next';
 import Refresh from '~/components/utils/Refresh.vue';
 import { Skeleton } from '~/components/ui/skeleton';
 
 const sessionStore = useSession();
 const user = useUser();
-
-function handlePin() {
-    if (!sessionStore.session.data) return;
-
-    sessionStore.pinMooc(sessionStore.session.data.mooc.id, sessionStore.isMoocPinned);
-}
 
 const refresh = ref<InstanceType<typeof Refresh>>();
 async function handleRefresh() {
@@ -31,8 +24,8 @@ async function handleRefresh() {
 </script>
 <template>
     <div class="flex flex-col gap-2">
-        <div class="flex justify-between items-center">
-            <Breadcrumb class="mb-2">
+        <div class="flex justify-between items-center mb-2">
+            <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink as-child>
@@ -55,11 +48,6 @@ async function handleRefresh() {
                 <SessionGuests v-if="sessionStore.session.data && user?.rolename === 'ILL'" :sessionId="sessionStore.session.data.id" />
 
                 <Refresh ref="refresh" @refresh="handleRefresh" />
-
-                <Button v-if="!sessionStore.session.loading" @click="handlePin" variant="outline" size="icon">
-                    <Pin class="size-6" :class="{ 'stroke-yellow-500 fill-yellow-500' : sessionStore.isMoocPinned }" />
-                </Button>
-                <Skeleton v-else class="size-10" />
             </div>
         </div>
 
