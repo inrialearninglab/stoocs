@@ -50,8 +50,8 @@ export const useMoocs = defineStore('moocs', {
                 const mooc = this.moocs.find(mooc => mooc.id === moocId);
                 if (mooc) mooc.pinnedBy = data.pinnedBy ?? [];
 
-                if (pinned) toast.info('MOOC épinglé');
-                else toast.warning('MOOC désépinglé');
+                if (!pinned) toast.info('MOOC ajouté aux favoris');
+                else toast.warning('MOOC retiré des favoris');
             }
         },
 

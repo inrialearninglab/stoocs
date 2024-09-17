@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Mooc } from '~/types';
-import { Pin } from 'lucide-vue-next';
+import { Star } from 'lucide-vue-next';
 
 const props = defineProps<{
     mooc: Mooc;
@@ -46,7 +46,7 @@ const archiveSessions = computed(() => props.mooc.sessions.filter(session => ses
                     </div>
 
                     <Button @click="moocsStore.pin(mooc.id, Boolean(pinned))" variant="outline" size="icon">
-                        <Pin class="size-6" :class="{ 'stroke-yellow-500 fill-yellow-500' : pinned }" />
+                        <Star class="size-6" :class="{ 'stroke-yellow-500 fill-yellow-500' : pinned }" />
                     </Button>
                 </div>
             </CardHeader>

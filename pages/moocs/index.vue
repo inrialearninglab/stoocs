@@ -25,7 +25,7 @@ const user = useUser();
 
         <div class="flex flex-col gap-5">
             <div v-if="moocsStore.pinnedMoocs.length" class="flex flex-col gap-3">
-                <h2>Epinglés</h2>
+                <h2>Favoris</h2>
                 <MoocList :moocs="moocsStore.pinnedMoocs" :pinned="true" />
             </div>
 
