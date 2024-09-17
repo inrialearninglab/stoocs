@@ -9,9 +9,9 @@ const props = defineProps<{
 }>();
 
 const color = (d: any) => {
-    if (d['Moyenne'] < 50) return '#EF4444';
-    else if (d['Moyenne'] < 60) return '#F59E0B';
-    else return '#10B981';
+    if (d['Moyenne'] < 50) return '#ff3b30';
+    else if (d['Moyenne'] < 60) return '#f59e0b';
+    else return '#12cc82';
 }
 
 const problems = computed(() => {
@@ -36,15 +36,15 @@ const problems = computed(() => {
             <template #actions>
                 <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
                     <div class="flex gap-1 items-center">
-                        <div class="size-4 rounded-full bg-green-500" />
+                        <div class="size-4 rounded-full bg-success" />
                         <span class="flex items-center"><ChevronRight class="size-4" /> 60%</span>
                     </div>
                     <div class="flex gap-1 items-center">
-                        <div class="size-4 rounded-full bg-yellow-500" />
+                        <div class="size-4 rounded-full bg-warning" />
                         <span class="flex items-center ml-2">50% à 60%</span>
                     </div>
                     <div class="flex gap-1 items-center">
-                        <div class="size-4 rounded-full bg-red-500" />
+                        <div class="size-4 rounded-full bg-error" />
                         <span class="flex items-center"><ChevronLeft class="size-4" /> 50%</span>
                     </div>
                 </div>

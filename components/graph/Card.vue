@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/com
 
 defineProps<{
     title: string;
-    description: string;
     loading: boolean;
     empty: boolean;
     report: 'enrollment' | 'grade';

@@ -81,8 +81,8 @@ const isDragActive = rest.isDragActive;
             </div>
             <ul class="space-y-1">
                 <li v-for="(value, key) in condition.conditions" class="flex items-center gap-2">
-                    <CircleCheck class="size-5 text-green-500" v-if="value" />
-                    <CircleX class="size-5 text-red-500" v-else />
+                    <CircleCheck class="size-5 text-success" v-if="value" />
+                    <CircleX class="size-5 text-error" v-else />
                     <code>{{ key }}</code>
                 </li>
             </ul>

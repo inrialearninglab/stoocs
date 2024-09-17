@@ -5,7 +5,7 @@ module.exports = {
   darkMode: ["class"],
   safelist: ["dark"],
   prefix: "",
-  
+
   theme: {
     container: {
       center: true,
@@ -49,6 +49,9 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        success: '#12cc82',
+        warning: '#f59e0b',
+        error: '#ff3b30'
       },
       borderRadius: {
       	xl: "calc(var(--radius) + 4px)",

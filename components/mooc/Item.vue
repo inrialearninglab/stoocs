@@ -27,19 +27,19 @@ const archiveSessions = computed(() => props.mooc.sessions.filter(session => ses
                     <div class="flex gap-3">
                         <p
                             v-if="openedSessions"
-                            class="size-7 rounded-full border-2 border-green-500 text-green-500 flex items-center justify-center"
+                            class="size-7 rounded-full border-2 border-success text-success flex items-center justify-center"
                         >
                             {{ openedSessions }}
                         </p>
                         <p
                             v-if="archiveSessions"
-                            class="size-7 rounded-full border-2 border-orange-500 text-orange-500 flex items-center justify-center"
+                            class="size-7 rounded-full border-2 border-warning text-warning flex items-center justify-center"
                         >
                             {{ archiveSessions }}
                         </p>
                         <p
                             v-if="closedSessions"
-                            class="size-7 rounded-full border-2 border-red-500 text-red-500 flex items-center justify-center"
+                            class="size-7 rounded-full border-2 border-error text-error flex items-center justify-center"
                         >
                             {{ closedSessions }}
                         </p>
@@ -55,7 +55,7 @@ const archiveSessions = computed(() => props.mooc.sessions.filter(session => ses
                     <NuxtLink :to="`/sessions/${session.id}`">
                         <div
                             class="size-4 rounded-full"
-                            :class="session.ended ? 'bg-red-500' : session.sessionName === 'archiveouvert' ? 'bg-orange-500' : 'bg-green-500'"
+                            :class="session.ended ? 'bg-error' : session.sessionName === 'archiveouvert' ? 'bg-warning' : 'bg-success'"
                         ></div>
                         {{ session.sessionName }}
                     </NuxtLink>
