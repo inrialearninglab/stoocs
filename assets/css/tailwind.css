@@ -47,6 +47,18 @@
         --vis-secondary-color: 160 81% 40%;
         --vis-text-color: var(--muted-foreground);
 
+        --success-bg: 143 85% 96%;
+        --success-border: 145 92% 91%;
+        --success-text: 140 100% 27%;
+        --info-bg: 208 100% 97%;
+        --info-border: 221 91% 91%;
+        --info-text: 210 92% 45%;
+        --warning-bg: 49 100% 97%;
+        --warning-border: 49 91% 91%;
+        --warning-text: 31 92% 45%;
+        --error-bg: 359 100% 97%;
+        --error-border: 359 100% 94%;
+        --error-text: 360 100% 45%;
     }
 
     .dark {
@@ -79,6 +91,19 @@
         --ring: 240 4.9% 83.9%;
 
         --overlay: rgba(0, 0, 0, 0.5);
+
+        --success-bg: 150 100% 6%;
+        --success-border: 147 100% 12%;
+        --success-text: 150 86% 65%;
+        --info-bg: 215 100% 6%;
+        --info-border: 223 100% 12%;
+        --info-text: 216 87% 65%;
+        --warning-bg: 64 100% 6%;
+        --warning-border: 60 100% 12%;
+        --warning-text: 46 87% 65%;
+        --error-bg: 358 76% 10%;
+        --error-border: 357 89% 16%;
+        --error-text: 358 100% 81%;
     }
 }
 
@@ -95,4 +120,3 @@
 html, body, #__nuxt {
     @apply h-full;
 }
-

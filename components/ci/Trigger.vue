@@ -1,0 +1,78 @@
+<script setup lang="ts">
+import { Button } from '~/components/ui/button';
+import { Loader2, CircleAlert, CircleCheck, CircleX, CircleDot, CirclePause, CircleSlash, CircleDotDashed } from 'lucide-vue-next';
+import type { Status } from '~/types/ci.type';
+
+const statusMap: Record<Status, { icon: Component, color: string }> = {
+    'failed': {
+        icon: CircleX,
+        color: 'error'
+    },
+    'created': {
+        icon: CircleDotDashed,
+        color: 'warning'
+    },
+    'success': {
+        icon: CircleCheck,
+        color: 'success'
+    },
+    'running': {
+        icon: CircleDot,
+        color: 'info'
+    },
+    'pending': {
+        icon: CirclePause,
+        color: 'warning'
+    },
+    'canceled': {
+        icon: CircleSlash,
+        color: 'error'
+    }
+}
+
+const { status, checkStatus, loading } = usePipeline();
+
+async function triggerPipeline() {
+    try {
+        const { pipelineId } = await $fetch<{ pipelineId: string }>('/api/ci/trigger');
+
+        checkStatus(pipelineId);
+    } catch (e) {
+        console.error(e);
+    }
+}
+</script>
+
+<template>
+    <div class="flex gap-2 items-center">
+        <AlertDialog>
+            <AlertDialogTrigger as-child>
+                <Button variant="outline" class="w-fit border-2 border-dashed" :disabled="loading" size="sm">
+                    <Loader2 v-if="loading" class="size-4 mr-2 animate-spin" />
+                    Récolter de nouvelles données
+                </Button>
+            </AlertDialogTrigger>
+
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Lancer la récolte des données</AlertDialogTitle>
+                    <AlertDialogDescription>Cette action va déclencher la fureur de Nathan.</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Annuler</AlertDialogCancel>
+                    <AlertDialogAction @click="triggerPipeline">Je l'affronte</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+
+
+        <div
+            v-if="status"
+            class="flex items-center gap-1.5 h-9 py-2 px-3 border-2 border-dashed rounded-md text-sm"
+            :class="`bg-${statusMap[status].color}-bg text-${statusMap[status].color}-text border-${statusMap[status].color}-border`"
+        >
+            <component :is="statusMap[status].icon" class="size-3.5" />
+            <span>{{ status }}</span>
+        </div>
+    </div>
+</template>

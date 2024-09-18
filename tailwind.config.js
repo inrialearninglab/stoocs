@@ -3,7 +3,13 @@ const animate = require("tailwindcss-animate")
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  safelist: ["dark"],
+  safelist: [
+      "dark",
+      "bg-success-bg", "text-success-text", "border-success-border",
+      "bg-warning-bg", "text-warning-text", "border-warning-border",
+      "bg-error-bg", "text-error-text", "border-error-border",
+      "bg-info-bg", "text-info-text", "border-info-border",
+  ],
   prefix: "",
 
   theme: {
@@ -49,9 +55,29 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        success: '#12cc82',
-        warning: '#f59e0b',
-        error: '#e11d48'
+        success: {
+            DEFAULT: '#12cc82',
+            border: "hsl(var(--success-border))",
+            text: "hsl(var(--success-text))",
+            bg: "hsl(var(--success-bg))",
+        },
+        warning: {
+            DEFAULT: '#f59e0b',
+            border: "hsl(var(--warning-border))",
+            text: "hsl(var(--warning-text))",
+            bg: "hsl(var(--warning-bg))",
+        },
+        error: {
+            DEFAULT: '#e11d48',
+            border: "hsl(var(--error-border))",
+            text: "hsl(var(--error-text))",
+            bg: "hsl(var(--error-bg))",
+        },
+        info: {
+            border: "hsl(var(--info-border))",
+            text: "hsl(var(--info-text))",
+            bg: "hsl(var(--info-bg))",
+        },
       },
       borderRadius: {
       	xl: "calc(var(--radius) + 4px)",
