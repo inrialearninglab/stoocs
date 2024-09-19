@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
 import TooltipPercentage from '~/components/graph/tooltip/Percentage.vue';
-import { ChevronRight, ChevronLeft, Minus } from 'lucide-vue-next'
+import { ChevronRight, ChevronLeft } from 'lucide-vue-next';
+import { Award } from 'lucide-vue-next';
 
 const props = defineProps<{
     data: any
     loading: boolean;
+    cutoffs: number;
 }>();
 
 const color = (d: any) => {
@@ -18,6 +20,39 @@ const problems = computed(() => {
     if (!props.data) return [];
     return props.data.filter((d: any) => d['Moyenne'] < 50)
 })
+
+function toggleThreshold() {
+    const tresholdLine = document.querySelector('.threshold-line')!;
+    if (tresholdLine) {
+        tresholdLine.remove();
+    } else {
+        const scoreChart = document.querySelector('.score-chart')!;
+        const vrz4hl = scoreChart.querySelector('svg')!;
+        // graph component without the x-axis legend
+        const secondAxisComponent = vrz4hl.querySelectorAll('.css-1i6bj7n-axis-component')[1];
+        // y-axis legend
+        const firstGTag = secondAxisComponent.querySelectorAll('g')[0];
+
+        const vrz4hlRect = vrz4hl.getBoundingClientRect();
+        const axisRect = secondAxisComponent.getBoundingClientRect();
+        const firstGTagRect = firstGTag.getBoundingClientRect();
+
+        const x1 = (axisRect.left + firstGTagRect.width) - vrz4hlRect.left;
+        const x2 = axisRect.right - vrz4hlRect.left;
+        const y = axisRect.top - vrz4hlRect.top + (axisRect.height * (1 - props.cutoffs)) ;
+
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', String(x1));
+        line.setAttribute('y1', String(y));
+        line.setAttribute('x2', String(x2));
+        line.setAttribute('y2', String(y));
+        line.setAttribute('stroke', 'red');
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('class', 'threshold-line');
+
+        vrz4hl.appendChild(line);
+    }
+}
 
 </script>
 
@@ -34,23 +69,40 @@ const problems = computed(() => {
             </template>
 
             <template #actions>
-                <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
-                    <div class="flex gap-1 items-center">
-                        <div class="size-4 rounded-full bg-success" />
-                        <span class="flex items-center"><ChevronRight class="size-4" /> 60%</span>
+                <div class="flex gap-5">
+                    <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
+                        <div class="flex gap-1 items-center">
+                            <div class="size-4 rounded-full bg-success" />
+                            <span class="flex items-center"><ChevronRight class="size-4" /> 60%</span>
+                        </div>
+                        <div class="flex gap-1 items-center">
+                            <div class="size-4 rounded-full bg-warning" />
+                            <span class="flex items-center ml-2">50% à 60%</span>
+                        </div>
+                        <div class="flex gap-1 items-center">
+                            <div class="size-4 rounded-full bg-error" />
+                            <span class="flex items-center"><ChevronLeft class="size-4" /> 50%</span>
+                        </div>
                     </div>
-                    <div class="flex gap-1 items-center">
-                        <div class="size-4 rounded-full bg-warning" />
-                        <span class="flex items-center ml-2">50% à 60%</span>
-                    </div>
-                    <div class="flex gap-1 items-center">
-                        <div class="size-4 rounded-full bg-error" />
-                        <span class="flex items-center"><ChevronLeft class="size-4" /> 50%</span>
-                    </div>
+
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger as-child>
+                                <Button size="icon" variant="outline" @click="toggleThreshold">
+                                    <Award />
+                                </Button>
+                            </TooltipTrigger>
+
+                            <TooltipContent>
+                                <p>Afficher le seuil de réussite</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
                 </div>
             </template>
 
             <BarChart
+                class="score-chart"
                 :show-legend="false"
                 :percentage="true"
                 :rounded-corners="4"

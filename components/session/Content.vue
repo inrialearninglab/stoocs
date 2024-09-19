@@ -75,11 +75,11 @@ defineProps<{
 
         <template v-if="gradeReport">
             <GraphInterest :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
-            <GraphScore :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" />
+            <GraphScore :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" :cutoffs="sessionStore.session.data.cutoffs ?? 0" />
             <GraphThreshold
                 :loading="sessionStore.gradeReport.loading"
-                :data="sessionStore.gradeReport.data?.threshold"
-                :cutoffs="sessionStore.session.data.cutoffs"
+                :data="sessionStore.gradeReport.data?.threshold ?? []"
+                :cutoffs="sessionStore.session.data.cutoffs ?? 0"
             />
         </template>
     </template>
