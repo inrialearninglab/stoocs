@@ -8,21 +8,34 @@ definePageMeta({
 
 const moocsStore = useMoocs()
 const user = useUser();
+const searchInput: Ref<HTMLInputElement | null > = ref(null);
+
+onMounted(() => {
+    document.addEventListener('keydown', (e) => {
+        const { key, metaKey } = e;
+        if (key === 'k' && metaKey) {
+            searchInput.value?.focus();
+        }
+    })
+})
 </script>
 
 <template>
     <div class="flex flex-col gap-8">
         <div class="flex justify-between gap-2 items-center">
             <div class="relative w-full max-w-sm items-center">
-                <Input id="search" v-model="moocsStore.search" placeholder="Chercher un MOOC..." class="pl-8"/>
+                <Input ref="searchInput" id="search" v-model="moocsStore.search" placeholder="Chercher un MOOC..." class="pl-8"/>
                 <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
                     <Search class="size-5 text-muted-foreground" />
                 </span>
+
+                <kbd class="pointer-events-none border-border min-h-5 absolute right-2 top-2 hidden select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs font-medium opacity-100 sm:flex">
+                    <!--[--><span class="text-sm">⌘</span>K<!--]-->
+                </kbd>
             </div>
 
             <CiTrigger />
         </div>
-
 
         <p v-if="user?.rolename !== 'ILL' && !user?.moocSessions.length" class="text-lg text-center">
             Votre compte n'a accès à aucune session.

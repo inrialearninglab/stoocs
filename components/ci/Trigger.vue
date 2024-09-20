@@ -49,22 +49,21 @@ async function triggerPipeline() {
             <AlertDialogTrigger as-child>
                 <Button variant="outline" class="w-fit border-2 border-dashed" :disabled="loading" size="sm">
                     <Loader2 v-if="loading" class="size-4 mr-2 animate-spin" />
-                    Récolter de nouvelles données
+                    Mettre à jour la liste des MOOCs
                 </Button>
             </AlertDialogTrigger>
 
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Lancer la récolte des données</AlertDialogTitle>
-                    <AlertDialogDescription>Cette action va déclencher la fureur de Nathan.</AlertDialogDescription>
+                    <AlertDialogTitle>Mettre à jour la liste des MOOCs</AlertDialogTitle>
+                    <AlertDialogDescription>Cette action prends un certain temps (environ 2 minutes). Elle déclenchera le robot de collecte de données et mettra à jour la liste des MOOCs.</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Annuler</AlertDialogCancel>
-                    <AlertDialogAction @click="triggerPipeline">Je l'affronte</AlertDialogAction>
+                    <AlertDialogAction @click="triggerPipeline">Confirmer</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-
 
         <div
             v-if="status"
