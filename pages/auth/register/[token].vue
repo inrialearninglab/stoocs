@@ -35,7 +35,9 @@ const route = useRoute();
 
 const onSubmit = form.handleSubmit(async (values: any) => {
     const { error } = await register(values.email, values.firstname, values.lastname, values.password, route.params.token as string);
-    if (error) console.error(error);
+    if (error) {
+        toast.error('Une erreur est survenue lors de la création du compte');
+    }
     else {
         toast.success('Compte créé avec succès');
         await navigateTo('/moocs');

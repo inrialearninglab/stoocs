@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
             password: hashedPassword,
             role: {
                 connect: {
-                    name: verificationToken.isGuest ? 'Guest' : 'User'
+                    name: verificationToken.isGuest ? 'Guest' : 'ILL'
                 }
             }
         }
