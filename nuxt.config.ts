@@ -52,7 +52,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            scrapperEmail: process.env.SCRAPPER_EMAIL
+            scrapperEmail: 'ill-stoocs@inria.fr'
         }
     },
 
