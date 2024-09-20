@@ -11,8 +11,8 @@ const user = useUser();
 
 const tabMap: Record<TabState, TabInfo> = {
     moocs: {
-        label: 'Cours',
-        description: 'Liste des cours',
+        label: 'MOOCs',
+        description: 'Liste des MOOCs sur FUN',
         to: '/moocs',
         actions: MoocActions
     },

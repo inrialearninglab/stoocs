@@ -50,5 +50,11 @@ export default defineNuxtConfig({
         }
     },
 
+    runtimeConfig: {
+        public: {
+            scrapperEmail: process.env.SCRAPPER_EMAIL
+        }
+    },
+
     compatibilityDate: "2024-07-12"
 })

@@ -41,6 +41,9 @@ async function triggerPipeline() {
         console.error(e);
     }
 }
+
+const config = useRuntimeConfig();
+
 </script>
 
 <template>
@@ -56,7 +59,7 @@ async function triggerPipeline() {
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Mettre à jour la liste des MOOCs</AlertDialogTitle>
-                    <AlertDialogDescription>Cette action prends un certain temps (environ 2 minutes). Elle déclenchera le robot de collecte de données et mettra à jour la liste des MOOCs.</AlertDialogDescription>
+                    <AlertDialogDescription>Cette action prend un certain temps (environ 2 minutes). Elle déclenchera le robot de collecte de données ({{ config.public.scrapperEmail }}) et mettra à jour la liste des MOOCs.</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Annuler</AlertDialogCancel>
