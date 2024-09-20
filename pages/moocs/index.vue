@@ -34,7 +34,7 @@ onMounted(() => {
                 </kbd>
             </div>
 
-            <CiTrigger />
+            <CiTrigger v-if="user?.rolename === 'ILL'" />
         </div>
 
         <p v-if="user?.rolename !== 'ILL' && !user?.moocSessions.length" class="text-lg text-center">
