@@ -41,6 +41,8 @@ function triggerConfetti() {
                             </NuxtLink>
                         </Button>
                     </div>
+
+                    <LayoutLogo class="h-64 w-auto mx-auto mt-12" />
                 </div>
             </div>
         </div>
