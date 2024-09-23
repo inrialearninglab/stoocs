@@ -50,7 +50,7 @@ function triggerConfetti() {
                       <BorderBeam />
                     </div> -->
                     <div class="relative flex h-64 w-fit flex-col mx-auto mt-12 rounded-[5px]">
-                        <BorderBeam />
+                        <BorderBeam :duration="10" />
                         <LayoutLogo class="h-64 w-auto" />
                     </div>
                 </div>

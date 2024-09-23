@@ -60,6 +60,6 @@ const usersStore = useUsers()
                 </AlertDialogContent>
             </AlertDialog>
         </CardFooter>
-        <BorderBeam v-if="user.isAdmin" />
+        <BorderBeam :duration="10" v-if="user.isAdmin" />
     </Card>
 </template>
