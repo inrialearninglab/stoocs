@@ -43,12 +43,6 @@ function triggerConfetti() {
                         </Button>
                     </div>
 
-                    <!-- <div class="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
-                      <span class="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-black to-gray-300/80 bg-clip-text text-center text-8xl font-semibold leading-none text-transparent dark:from-white dark:to-slate-900/10">
-                        Border Beam
-                      </span>
-                      <BorderBeam />
-                    </div> -->
                     <div class="relative flex h-64 w-fit flex-col mx-auto mt-12 rounded-[5px]">
                         <BorderBeam :duration="10" />
                         <LayoutLogo class="h-64 w-auto" />
