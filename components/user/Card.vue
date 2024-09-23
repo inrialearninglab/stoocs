@@ -14,6 +14,7 @@ import {
     AlertDialogTrigger,
 } from '~/components/ui/alert-dialog'
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '~/components/ui/card';
+import BorderBeam from '~/components/ui/BorderBeam.vue';
 
 defineProps<{
     user: User
@@ -24,7 +25,7 @@ const usersStore = useUsers()
 </script>
 
 <template>
-    <Card>
+    <Card class="relative">
         <CardHeader class="items-center">
             <UserAvatar :user="user" size="lg" class="mb-4" />
 
@@ -59,5 +60,6 @@ const usersStore = useUsers()
                 </AlertDialogContent>
             </AlertDialog>
         </CardFooter>
+        <BorderBeam v-if="user.isAdmin" />
     </Card>
 </template>

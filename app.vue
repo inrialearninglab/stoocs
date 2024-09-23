@@ -17,6 +17,7 @@ useServerHead({
 
 <template>
     <NuxtLoadingIndicator />
+    <NuxtRouteAnnouncer />
     <div class="flex flex-col min-h-screen">
         <LayoutHeader v-if="route.path !== '/'" />
         <div class="min-h-full flex-1 flex flex-col" :class="{ 'p-8': route.path !== '/' }">

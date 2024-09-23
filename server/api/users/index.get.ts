@@ -8,7 +8,8 @@ export default defineEventHandler(async (event) => {
             firstname: true,
             lastname: true,
             rolename: true,
-            moocSessions: true
+            moocSessions: true,
+            isAdmin: true
         }
     });
 

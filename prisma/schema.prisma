@@ -67,6 +67,7 @@ model User {
     rolename    String
     role        Role        @relation(fields: [rolename], references: [name])
     moocSessions String[]
+    isAdmin Boolean @default(false)
 }
 
 model Role {

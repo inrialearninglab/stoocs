@@ -19,6 +19,7 @@ export const lucia = new Lucia(adapter, {
             lastname: attributes.lastname,
             rolename: attributes.rolename,
             moocSessions: attributes.moocSessions,
+            isAdmin: attributes.isAdmin,
         };
     },
 });
@@ -37,4 +38,5 @@ interface DatabaseUserAttributes {
     lastname: string;
     rolename: string;
     moocSessions: string[];
+    isAdmin: boolean;
 }
