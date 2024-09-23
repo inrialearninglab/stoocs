@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Button } from '~/components/ui/button';
 import useConfetti from '~/composables/confetti';
+import BorderBeam from '~/components/ui/BorderBeam.vue';
 
 function triggerConfetti() {
     useConfetti({ particleCount: 200, spread: 360, origin: { y: 0.3 }})
@@ -42,7 +43,16 @@ function triggerConfetti() {
                         </Button>
                     </div>
 
-                    <LayoutLogo class="h-64 w-auto mx-auto mt-12" />
+                    <!-- <div class="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
+                      <span class="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-black to-gray-300/80 bg-clip-text text-center text-8xl font-semibold leading-none text-transparent dark:from-white dark:to-slate-900/10">
+                        Border Beam
+                      </span>
+                      <BorderBeam />
+                    </div> -->
+                    <div class="relative flex h-64 w-fit flex-col mx-auto mt-12 rounded-[5px]">
+                        <BorderBeam />
+                        <LayoutLogo class="h-64 w-auto" />
+                    </div>
                 </div>
             </div>
         </div>
