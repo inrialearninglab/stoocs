@@ -10,6 +10,9 @@ export default defineEventHandler(async (event) => {
             rolename: true,
             moocSessions: true,
             isAdmin: true
+        },
+        orderBy: {
+            isAdmin: 'desc'
         }
     });
 
