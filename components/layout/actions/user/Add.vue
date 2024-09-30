@@ -12,7 +12,7 @@ const usersStore = useUsers();
 
 const formSchema = toTypedSchema(z.object({
     email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
-    isGuest: z.boolean().default(false)
+    role: z.enum(['ILL', 'guest'], { message: requiredMessage })
 }));
 
 const { handleSubmit } = useForm({
@@ -20,7 +20,7 @@ const { handleSubmit } = useForm({
 })
 
 const onSubmit = handleSubmit(async (values) => {
-    await usersStore.createInvitation(values.email, values.isGuest);
+    await usersStore.createInvitation(values.email, values.role === 'guest');
     open.value = false;
 })
 
@@ -56,20 +56,33 @@ const open = ref(false);
                     </FormItem>
                 </FormField>
 
-                <FormField v-slot="{ value, handleChange }" name="isGuest">
-                    <FormItem class="flex flex-row items-center justify-between rounded-lg border p-4">
+                <FormField v-slot="{ componentField }" name="role">
+                    <FormItem>
                         <div class="space-y-0 5">
-                            <FormLabel>Invité</FormLabel>
-                            <FormDescription>
+                            <FormLabel>Rôle</FormLabel>
+                            <!-- <FormDescription>
                                 Ce membre est un invité
-                            </FormDescription>
+                            </FormDescription> -->
                         </div>
 
                         <FormControl>
-                            <Switch
-                                :checked="value"
-                                @update:checked="handleChange"
-                            />
+                            <Select v-bind="componentField">
+                                <SelectTrigger>
+                                    <SelectValue placholder="Choisir un rôle" />
+                                </SelectTrigger>
+
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Rôle</SelectLabel>
+                                        <SelectItem value="ILL">
+                                            ILL
+                                        </SelectItem>
+                                        <SelectItem value="guest">
+                                            Invité
+                                        </SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
                         </FormControl>
                         <FormMessage />
                     </FormItem>
