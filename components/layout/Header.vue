@@ -2,6 +2,7 @@
 import { Sun, Moon, UserCog } from 'lucide-vue-next';
 
 const colorMode = useColorMode();
+const user = useUser();
 
 function toggleColorMode() {
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
@@ -18,7 +19,7 @@ function toggleColorMode() {
         </div>
 
         <div class="flex gap-2 items-center">
-            <Button variant="outline" as-child>
+            <Button variant="outline" as-child v-if="user && user.rolename === 'ILL'">
                 <RouterLink to="/users">
                     <UserCog class="mr-2" />
                     Administrer les membres
