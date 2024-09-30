@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
-import { ChevronDown, CircleAlert, Clipboard, Check } from 'lucide-vue-next';
+import { ChevronDown, CircleAlert } from 'lucide-vue-next';
 import { toast } from 'vue-sonner';
 
 
@@ -47,7 +47,7 @@ async function toClipboard() {
                     <div class="flex gap-3 justify-between items-center">
                         <CardTitle class="flex-1 text-lg flex gap-2 items-center">
                             <CircleAlert class="size-5" />
-                            {{ problems.length }} Questions à revoir
+                            {{ problems.length }} questions à revoir (inférieur à 50%)
                         </CardTitle>
                         <Button size="icon" variant="ghost" class="relative">
                             <ChevronDown class="transition-all absolute duration-200" :class="isTableOpen ? 'rotate-180' : '-rotate-0'" />
