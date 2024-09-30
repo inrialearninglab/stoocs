@@ -71,6 +71,7 @@ defineProps<{
             :details="sessionStore.session.data.enrollmentsDetails"
             :loading="sessionStore.session.loading"
             :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
+            :end-date="sessionStore.session.data.endDate?.slice(0, 10)"
         />
 
         <template v-if="gradeReport">
