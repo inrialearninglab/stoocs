@@ -38,7 +38,7 @@ function triggerConfetti() {
 
                         <Button @click="triggerConfetti" size="lg" as-child>
                             <NuxtLink to="/moocs">
-                                Commencer
+                                Voir les MOOCs
                             </NuxtLink>
                         </Button>
                     </div>
