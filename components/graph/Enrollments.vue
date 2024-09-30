@@ -15,10 +15,12 @@ const props = defineProps<{
         enrollments: number
     }[];
     startDate?: string;
+    endDate?: string;
     loading: boolean;
 }>();
 
 const startDateValue = ref<DateValue>(props.startDate ? parseDate(props.startDate) : today(getLocalTimeZone()));
+const endDateValue = ref<DateValue>(props.endDate ? parseDate(props.endDate) > today(getLocalTimeZone()) ? today(getLocalTimeZone()) : parseDate(props.endDate) : today(getLocalTimeZone()));
 
 interface EnrollmentData {
     'Date': string;
@@ -34,6 +36,9 @@ function getFilteredData(mode: 'day' | 'total') {
     props.details.forEach((enrollment) => {
         const enrollmentDate = getParsedDate(enrollment.date);
         const startDate = startDateValue.value.toDate(getLocalTimeZone());
+        const endDate = endDateValue.value.toDate(getLocalTimeZone());
+
+        if (enrollmentDate > endDate) return;
 
         if (mode === 'day') {
             if (enrollmentDate < startDate) return;
@@ -58,8 +63,12 @@ function getFilteredData(mode: 'day' | 'total') {
     return data;
 }
 
-const presets = [
-    { value: props.startDate, label: 'Début de la session' }
+const presetsStart = [
+    { value: props.startDate!, label: 'Début de la session' }
+]
+
+const presetsEnd = [
+    { value: props.endDate!, label: 'Fin de la session' }
 ]
 
 </script>
@@ -82,10 +91,17 @@ const presets = [
                         Nombre de nouvelles inscriptions par jour
                     </template>
 
-                    <div class="flex gap-2 items-center mt-2">
-                        <Label>À partir du</Label>
-                        <InputDatePicker size="sm" v-model="startDateValue" :presets="presets" />
+                    <div class="flex gap-5 items-center">
+                        <div class="flex gap-2 items-center mt-2">
+                            <Label>À partir du</Label>
+                            <InputDatePicker size="sm" v-model="startDateValue" :presets="presetsStart" />
+                        </div>
+                        <div class="flex gap-2 items-center mt-2">
+                            <Label>Jusqu'au</Label>
+                            <InputDatePicker size="sm" v-model="endDateValue" :presets="presetsEnd" />
+                        </div>
                     </div>
+
                     <LineChart
                         :show-legend="false"
                         :data="getFilteredData('day')"
@@ -108,9 +124,15 @@ const presets = [
                         Nombre total d'inscriptions
                     </template>
 
-                    <div class="flex gap-2 items-center mt-2">
-                        <Label>À partir du</Label>
-                        <InputDatePicker size="sm" v-model="startDateValue" :presets="presets" />
+                    <div class="flex gap-5 items-center">
+                        <div class="flex gap-2 items-center mt-2">
+                            <Label>À partir du</Label>
+                            <InputDatePicker size="sm" v-model="startDateValue" :presets="presetsStart" />
+                        </div>
+                        <div class="flex gap-2 items-center mt-2">
+                            <Label>Jusqu'au</Label>
+                            <InputDatePicker size="sm" v-model="endDateValue" :presets="presetsEnd" />
+                        </div>
                     </div>
                     <AreaChart
                         :show-legend="false"
