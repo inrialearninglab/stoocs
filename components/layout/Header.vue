@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Sun, Moon } from 'lucide-vue-next';
+import { Sun, Moon, UserCog } from 'lucide-vue-next';
 
 const colorMode = useColorMode();
 
@@ -18,6 +18,13 @@ function toggleColorMode() {
         </div>
 
         <div class="flex gap-2 items-center">
+            <Button variant="outline" as-child>
+                <RouterLink to="/users">
+                    <UserCog class="mr-2" />
+                    Administrer les membres
+                </RouterLink>
+            </Button>
+
             <Button @click="toggleColorMode" size="icon" variant="ghost">
                 <Moon class="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
                 <Sun class="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
