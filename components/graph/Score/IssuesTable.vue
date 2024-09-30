@@ -47,7 +47,7 @@ async function toClipboard() {
                     <div class="flex gap-3 justify-between items-center">
                         <CardTitle class="flex-1 text-lg flex gap-2 items-center">
                             <CircleAlert class="size-5" />
-                            {{ problems.length }} Problèmes
+                            {{ problems.length }} Questions à revoir
                         </CardTitle>
                         <Button size="icon" variant="ghost" class="relative">
                             <ChevronDown class="transition-all absolute duration-200" :class="isTableOpen ? 'rotate-180' : '-rotate-0'" />
