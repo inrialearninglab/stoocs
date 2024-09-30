@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
             tokenHash,
             email,
             isGuest,
-            expiresAt: createDate(new TimeSpan(2, 'h'))
+            expiresAt: createDate(new TimeSpan(2, 'd'))
         }
     });
 })
