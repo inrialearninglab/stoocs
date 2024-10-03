@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader } from 
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '~/components/ui/sheet';
 import { UserPen, UserMinus, UserPlus } from 'lucide-vue-next';
 import { useUsers } from '~/stores/users.store';
+import { z } from 'zod';
 
 // TODO: refactor this component
 
@@ -46,6 +47,17 @@ const filteredInvitations = computed(() => {
     return otherInvitations.value.filter((invitation) =>
         `${invitation.email.toLowerCase()}`.includes(guestSearch.value.toLowerCase() || '')).slice(0, addWindowLimit)
 });
+
+function isValidEmail(email: string) {
+    const emailSchema = z.string().email();
+
+    try {
+        emailSchema.parse(email);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
 
 </script>
 
@@ -101,6 +113,10 @@ const filteredInvitations = computed(() => {
 
                             <div v-if="!filteredGuests.length && !filteredInvitations.length" class="mt-2 text-center">
                                 <span>Aucun utilisateur ne correspond à votre recherche.</span>
+                                <Button v-if="isValidEmail(guestSearch)" @click="usersStore.createInvitation(guestSearch, true)" variant="outline" class="mt-2">
+                                    <UserPlus class="mr-2" />
+                                    <span>Ajouter comme membre invité</span>
+                                </Button>
                             </div>
                         </DialogContent>
                     </Dialog>
