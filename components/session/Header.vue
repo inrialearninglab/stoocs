@@ -10,6 +10,7 @@ import Refresh from '~/components/utils/Refresh.vue';
 import { Skeleton } from '~/components/ui/skeleton';
 
 const sessionStore = useSession();
+const usersStore = useUsers();
 const user = useUser();
 
 const refresh = ref<InstanceType<typeof Refresh>>();
@@ -18,6 +19,7 @@ async function handleRefresh() {
 
     refresh.value.onStartLoad();
     await sessionStore.getSession(sessionStore.session.data.id);
+    await usersStore.fetchUsers();
     refresh.value.onEndLoad();
 }
 
