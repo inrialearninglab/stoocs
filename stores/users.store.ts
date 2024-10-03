@@ -43,12 +43,14 @@ export const useUsers = defineStore('users', {
             const { data, error } = await createInvitation(email, isGuest);
 
             if (error) {
-                toast.error('Une erreur est survenue lors de la création de l\'invitation');
+                if (error.statusCode === 400) {
+                    toast.error('Cet email est déjà associé à un compte');
+                } else if (error.statusCode === 500) {
+                    toast.error('Une erreur est survenue lors de l\'envoi de l\'invitation');
+                }
             } else if (data) {
                 this.invitations.push(data);
-                const url = `${window.location.origin}/auth/register/${data.tokenHash}`;
-                await navigator.clipboard.writeText(url);
-                toast.success('Lien d\'invitation créée et copié dans le presse papier');
+                toast.success('Invitation envoyée avec succès');
             }
         },
 
