@@ -26,7 +26,7 @@ async function handleLogout() {
             <DropdownMenuLabel>Mon compte</DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem as-child class="cursor-pointer">
+            <DropdownMenuItem v-if="user.rolename === 'ILL'" as-child class="cursor-pointer">
                 <NuxtLink to="/users">
                     <Users class="size-4 mr-2" />
                     <span>Equipe</span>
@@ -40,15 +40,16 @@ async function handleLogout() {
                 </NuxtLink>
             </DropdownMenuItem>
 
-            <DropdownMenuSeparator />
+            <template v-if="user.rolename === 'ILL'">
+                <DropdownMenuSeparator />
 
-            <DropdownMenuItem as-child class="cursor-pointer">
-                <NuxtLink to="https://docs-stoocs.nathan-viaud.xyz">
-                    <BookOpen class="size-4 mr-2" />
-                    <span>Documentation</span>
-                </NuxtLink>
-            </DropdownMenuItem>
-
+                <DropdownMenuItem as-child class="cursor-pointer">
+                    <NuxtLink to="https://docs-stoocs.nathan-viaud.xyz">
+                        <BookOpen class="size-4 mr-2" />
+                        <span>Documentation</span>
+                    </NuxtLink>
+                </DropdownMenuItem>
+            </template>
 
             <DropdownMenuSeparator />
 
