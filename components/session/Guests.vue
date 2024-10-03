@@ -5,6 +5,8 @@ import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescri
 import { UserPen, UserMinus, UserPlus } from 'lucide-vue-next';
 import { useUsers } from '~/stores/users.store';
 
+// TODO: refactor this component
+
 const props = defineProps<{
     sessionId: string
 }>();
@@ -13,6 +15,17 @@ const usersStore = useUsers();
 
 const guests = computed(() => usersStore.guests.filter((guest) => guest.moocSessions.includes(props.sessionId)))
 const otherGuests = computed(() => usersStore.guests.filter((guest) => !guest.moocSessions.includes(props.sessionId)))
+
+const invitations = computed(() => usersStore.invitations.filter((invitation) => invitation.moocSessions.includes(props.sessionId) && invitation.isGuest))
+const otherInvitations = computed(() => usersStore.invitations.filter((invitation) => !invitation.moocSessions.includes(props.sessionId) && invitation.isGuest))
+
+function addPendingGuest(email: string) {
+    usersStore.updateSessionPendingGuest(props.sessionId, email, true);
+}
+
+function removePendingGuest(email: string) {
+    usersStore.updateSessionPendingGuest(props.sessionId, email, false);
+}
 
 function removeGuest(id: string) {
     usersStore.updateSessionGuest(props.sessionId, id, false);
@@ -29,6 +42,11 @@ const filteredGuests = computed(() => {
     return otherGuests.value.filter((guest) =>
         `${guest.firstname.toLowerCase()} ${guest.lastname.toLowerCase()}`.includes(guestSearch.value.toLowerCase() || '')).slice(0, addWindowLimit)
 })
+const filteredInvitations = computed(() => {
+    return otherInvitations.value.filter((invitation) =>
+        `${invitation.email.toLowerCase()}`.includes(guestSearch.value.toLowerCase() || '')).slice(0, addWindowLimit)
+});
+
 </script>
 
 <template>
@@ -71,8 +89,19 @@ const filteredGuests = computed(() => {
                                         <UserPlus class="size-5" />
                                     </Button>
                                 </div>
+
+                                <div v-for="invitation of filteredInvitations" class="border border-dashed rounded-md p-2 flex gap-2 items-center">
+                                    <span class="flex-1">{{ invitation.email }}</span>
+                                    <Button @click="addPendingGuest(invitation.email)" size="icon" variant="ghost">
+                                        <UserPlus class="size-5" />
+                                    </Button>
+                                </div>
+
                             </template>
-                            <span class="mt-2 text-center" v-if="!filteredGuests.length">Aucun utilisateur ne correspond à votre recherche.</span>
+
+                            <div v-if="!filteredGuests.length && !filteredInvitations.length" class="mt-2 text-center">
+                                <span>Aucun utilisateur ne correspond à votre recherche.</span>
+                            </div>
                         </DialogContent>
                     </Dialog>
                 </div>
@@ -86,6 +115,15 @@ const filteredGuests = computed(() => {
                     </Button>
                 </div>
 
+                <Separator class="my-4" />
+                <span class="text-lg font-semibold">Invités en attente</span>
+
+                <div v-for="invitation of invitations" class="border border-dashed rounded-md p-2 flex gap-2 items-center">
+                    <span class="flex-1">{{ invitation.email }}</span>
+                    <Button @click="removePendingGuest(invitation.email)" size="icon" variant="ghost">
+                        <UserMinus class="size-5" />
+                    </Button>
+                </div>
             </SheetHeader>
         </SheetContent>
     </Sheet>

@@ -8,4 +8,5 @@ export interface Invitation {
     email: string;
     isGuest: boolean;
     expiresAt: Date;
+    moocSessions: string[];
 }

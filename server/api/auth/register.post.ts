@@ -12,17 +12,17 @@ const routeSchema = registerSchema.extend({
 export default defineEventHandler(async (event) => {
     const { email, firstname, lastname, password, token } = await readValidatedBody(event, routeSchema.parse);
 
-    const verificationToken = await prisma.invitation.findUnique({
+    const invitation = await prisma.invitation.findUnique({
         where: { tokenHash: token }
     });
 
-    if (!verificationToken || !isWithinExpirationDate(verificationToken.expiresAt)) {
+    if (!invitation || !isWithinExpirationDate(invitation.expiresAt)) {
         throw createError({
             statusCode: 400
         })
     }
 
-    if (email !== verificationToken.email) {
+    if (email !== invitation.email) {
         throw createError({
             statusCode: 400
         })
@@ -39,9 +39,10 @@ export default defineEventHandler(async (event) => {
             password: hashedPassword,
             role: {
                 connect: {
-                    name: verificationToken.isGuest ? 'Guest' : 'ILL'
+                    name: invitation.isGuest ? 'Guest' : 'ILL'
                 }
-            }
+            },
+            moocSessions: invitation.moocSessions,
         }
     })
 

@@ -1,4 +1,4 @@
-import type { GradeReport, Mooc, Session } from '~/types';
+import type { GradeReport, Mooc, Session, Invitation } from '~/types';
 import type { User } from 'lucia';
 import { FetchError } from 'ofetch';
 
@@ -31,6 +31,19 @@ export async function updateSessionGuest(sessionId: string, guestId: string, add
         const data = await $fetch<User>('/api/sessions/guest', {
             method: 'POST',
             body: { sessionId, guestId, add },
+        });
+
+        return { data };
+    } catch(e) {
+        return { error: e as FetchError };
+    }
+}
+
+export async function updateSessionPendingGuest(sessionId: string, email: string, add: boolean): Promise<{ data?: Invitation, error?: FetchError }> {
+    try {
+        const data = await $fetch<Invitation>('/api/sessions/pending-guest', {
+            method: 'POST',
+            body: { sessionId, email, add },
         });
 
         return { data };

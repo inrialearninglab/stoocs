@@ -1,7 +1,7 @@
 import type { User } from 'lucia';
 import { createInvitation, deleteInvitation, getInvitations, getUsers } from '~/services/users.service';
 import { updatePassword, updateProfile, deleteUser } from '~/services/auth.service';
-import { updateSessionGuest } from '~/services/sessions.service';
+import { updateSessionGuest, updateSessionPendingGuest } from '~/services/sessions.service';
 import { toast } from 'vue-sonner';
 import type { Invitation } from '~/types';
 
@@ -114,6 +114,17 @@ export const useUsers = defineStore('users', {
                 this.users.data = this.users.data.map(user => user.id === data.id ? data : user);
                 toast.success('Les droits de l\'invité ont bien été mis à jour');
             }
+        },
+
+        async updateSessionPendingGuest(sessionId: string, email: string, add: boolean) {
+            const { data, error } = await updateSessionPendingGuest(sessionId, email, add)
+
+            if (error) {
+                toast.error('Une erreur est survenue lors de la mise à jour des droits de l\'invité');
+            } else if (data) [
+                this.invitations = this.invitations.map(invitation => invitation.email === email ? data : invitation),
+                toast.success('Les droits de l\'invité ont bien été mis à jour')
+            ]
         },
 
         reset() {

@@ -93,8 +93,10 @@ model Session {
 }
 
 model Invitation {
+    id String @id @default(cuid())
     tokenHash String   @unique
-    email     String
     isGuest  Boolean
+    email     String @unique
     expiresAt DateTime
+    moocSessions String[]
 }
