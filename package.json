@@ -32,6 +32,7 @@
     "lucia": "^3.2.0",
     "lucide-vue-next": "^0.414.0",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.15",
     "nuxt": "^3.12.4",
     "nuxt-security": "latest",
     "oslo": "^1.2.1",

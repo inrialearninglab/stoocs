@@ -6,7 +6,6 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { z } from 'zod';
 import { requiredMessage, emailMessage } from '~/schema/users.schema';
 import { useUsers } from '~/stores/users.store';
-import { Switch } from '~/components/ui/switch';
 
 const usersStore = useUsers();
 
