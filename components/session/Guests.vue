@@ -59,6 +59,11 @@ function isValidEmail(email: string) {
     }
 }
 
+async function createGuest(email: string) {
+    await usersStore.createInvitation(email, true);
+    addPendingGuest(email);
+}
+
 </script>
 
 <template>
@@ -113,7 +118,7 @@ function isValidEmail(email: string) {
 
                             <div v-if="!filteredGuests.length && !filteredInvitations.length" class="mt-2 text-center">
                                 <span>Aucun utilisateur ne correspond à votre recherche.</span>
-                                <Button v-if="isValidEmail(guestSearch)" @click="usersStore.createInvitation(guestSearch, true)" variant="outline" class="mt-2">
+                                <Button v-if="isValidEmail(guestSearch)" @click="createGuest(guestSearch)" variant="outline" class="mt-2">
                                     <UserPlus class="mr-2" />
                                     <span>Ajouter comme membre invité</span>
                                 </Button>
