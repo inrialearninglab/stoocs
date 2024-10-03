@@ -62,6 +62,7 @@ function isValidEmail(email: string) {
 async function createGuest(email: string) {
     await usersStore.createInvitation(email, true);
     addPendingGuest(email);
+    guestSearch.value = '';
 }
 
 </script>
