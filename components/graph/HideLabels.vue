@@ -1,5 +1,5 @@
 <script lang="ts" setup="">
-import { Eye, EyeOff, CircleAlert } from 'lucide-vue-next';
+import { CircleAlert } from 'lucide-vue-next';
 
 defineProps<{
     visible: boolean
@@ -15,9 +15,8 @@ const emits = defineEmits<{
     <TooltipProvider>
         <Tooltip>
             <TooltipTrigger as-child>
-                <Button variant="outline" size="icon" @click="emits('click')">
-                    <Eye v-if="!visible" />
-                    <EyeOff v-else />
+                <Button @click="emits('click')">
+                    <img src="/chart-legend.svg" class="h-12">
                 </Button>
             </TooltipTrigger>
 
