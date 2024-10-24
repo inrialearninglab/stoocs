@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
-import TooltipPercentage from '~/components/graph/tooltip/Percentage.vue';
+import TooltipPercentage from '~/components/metrics/tooltip/Percentage.vue';
 import { ChevronRight, ChevronLeft } from 'lucide-vue-next';
 import { Award } from 'lucide-vue-next';
 
@@ -58,7 +58,7 @@ function toggleThreshold() {
 
 <template>
     <div class="flex flex-col gap-2">
-        <GraphCard
+        <MetricsCard
             title="Score"
             :loading="loading"
             :empty="!data"
@@ -114,8 +114,8 @@ function toggleThreshold() {
                 :custom-tooltip="TooltipPercentage"
             />
 
-            <GraphScoreIssuesTable v-if="problems.length" :problems="problems" />
+            <MetricsChartsScoreIssuesTable v-if="problems.length" :problems="problems" />
 
-        </GraphCard>
+        </MetricsCard>
     </div>
 </template>

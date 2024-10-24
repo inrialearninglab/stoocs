@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
-import TooltipPercentage from '~/components/graph/tooltip/Percentage.vue';
+import TooltipPercentage from '~/components/metrics/tooltip/Percentage.vue';
 import type { Labels } from '~/types/graph.type';
 
 const props = defineProps<{
@@ -36,7 +36,7 @@ function handleLabels() {
 
 <template>
     <div class="flex flex-col gap-2">
-        <GraphCard
+        <MetricsCard
             title="Engagement"
             description=""
             :loading="loading"
@@ -48,7 +48,7 @@ function handleLabels() {
             </template>
 
             <template #actions>
-                <GraphHideLabels :visible="!!labels" @click="handleLabels" />
+                <MetricsHideLabels :visible="!!labels" @click="handleLabels" />
             </template>
 
             <BarChart
@@ -62,6 +62,6 @@ function handleLabels() {
                 :custom-tooltip="TooltipPercentage"
                 :labels="labels"
             />
-        </GraphCard>
+        </MetricsCard>
     </div>
 </template>

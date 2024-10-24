@@ -14,7 +14,7 @@ const props = defineProps<{
 
 <template>
     <div class="flex flex-col gap-2">
-        <GraphCard
+        <MetricsCard
             title="Nombre d'apprenants éligibles au badge"
             :loading="loading"
             :empty="!data"
@@ -33,6 +33,6 @@ const props = defineProps<{
                 x-label="Seuil de note"
                 :categories="['Eligible']"
             />
-        </GraphCard>
+        </MetricsCard>
     </div>
 </template>

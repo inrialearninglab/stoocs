@@ -108,7 +108,7 @@ defineExpose({
             <DialogHeader>
                 <DialogTitle>Ajouter des rapports</DialogTitle>
             </DialogHeader>
-            <InputFileUploaderGlobal :multiple="true" :max-files="3" v-model="files" :conditions="conditions" />
+            <UploadInputGlobal :multiple="true" :max-files="3" v-model="files" :conditions="conditions" />
             <DialogFooter class="mt-4">
                 <Button :disabled="loading || !conditionsFilled" @click="handleSubmit" class="w-full" type="submit" id="submit">
                     <Loader2 v-if="loading" class="size-4 mr-2 animate-spin" />

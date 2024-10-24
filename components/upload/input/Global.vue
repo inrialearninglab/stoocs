@@ -76,7 +76,7 @@ const isDragActive = rest.isDragActive;
 
         <div v-for="condition of conditions" class="flex flex-col gap-2">
             <div class="flex gap-2 items-center">
-                <GraphReportChip :report="condition.type" :static="true" />
+                <MetricsReportChip :report="condition.type" :static="true" />
                 <p>{{ condition.title }}</p>
             </div>
             <ul class="space-y-1">

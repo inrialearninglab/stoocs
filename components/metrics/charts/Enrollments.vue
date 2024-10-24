@@ -81,7 +81,7 @@ const presetsEnd = [
                 <TabsTrigger value="total">Cumul</TabsTrigger>
             </TabsList>
             <TabsContent value="day">
-                <GraphCard
+                <MetricsCard
                     title="Inscriptions"
                     :loading="loading"
                     :empty="!details"
@@ -94,11 +94,11 @@ const presetsEnd = [
                     <div class="flex gap-5 items-center">
                         <div class="flex gap-2 items-center mt-2">
                             <Label>À partir du</Label>
-                            <InputDatePicker size="sm" v-model="startDateValue" :presets="presetsStart" />
+                            <UtilsDatePicker size="sm" v-model="startDateValue" :presets="presetsStart" />
                         </div>
                         <div class="flex gap-2 items-center mt-2">
                             <Label>Jusqu'au</Label>
-                            <InputDatePicker size="sm" v-model="endDateValue" :presets="presetsEnd" />
+                            <UtilsDatePicker size="sm" v-model="endDateValue" :presets="presetsEnd" />
                         </div>
                     </div>
 
@@ -110,11 +110,11 @@ const presetsEnd = [
                         index="Date"
                         :categories="['Inscriptions']"
                     />
-                </GraphCard>
+                </MetricsCard>
             </TabsContent>
 
             <TabsContent value="total">
-                <GraphCard
+                <MetricsCard
                     title="Inscriptions"
                     :loading="loading"
                     :empty="!details"
@@ -127,11 +127,11 @@ const presetsEnd = [
                     <div class="flex gap-5 items-center">
                         <div class="flex gap-2 items-center mt-2">
                             <Label>À partir du</Label>
-                            <InputDatePicker size="sm" v-model="startDateValue" :presets="presetsStart" />
+                            <UtilsDatePicker size="sm" v-model="startDateValue" :presets="presetsStart" />
                         </div>
                         <div class="flex gap-2 items-center mt-2">
                             <Label>Jusqu'au</Label>
-                            <InputDatePicker size="sm" v-model="endDateValue" :presets="presetsEnd" />
+                            <UtilsDatePicker size="sm" v-model="endDateValue" :presets="presetsEnd" />
                         </div>
                     </div>
                     <AreaChart
@@ -142,10 +142,8 @@ const presetsEnd = [
                         index="Date"
                         :categories="['Inscriptions']"
                     />
-                </GraphCard>
+                </MetricsCard>
             </TabsContent>
         </Tabs>
-
-<!--        <FileInputEnrollments ref="fileInput" />-->
     </div>
 </template>

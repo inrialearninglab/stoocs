@@ -21,11 +21,11 @@ defineProps<{
                 <Component :is="icon" class="size-4 text-muted-foreground" />
             </div>
             <CardDescription>{{ description }}</CardDescription>
-            <GraphReportChip report="grade" />
+            <MetricsReportChip report="grade" />
         </CardHeader>
         <CardContent class="justify-center flex flex-1 items-end">
             <Skeleton v-if="loading" class="size-32 rounded-full" />
-            <GraphRadialProgress v-else-if="dividend && divisor" :dividend="dividend" :divisor="divisor" class="size-32"/>
+            <MetricsChartsRadial v-else-if="dividend && divisor" :dividend="dividend" :divisor="divisor" class="size-32"/>
             <div v-else class="text-[8rem]">🥸</div>
         </CardContent>
         <CardFooter>

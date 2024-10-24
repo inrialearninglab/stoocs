@@ -55,7 +55,7 @@ defineExpose({
                 <DialogTitle>Ajouter un rapport d'inscription</DialogTitle>
                 <DialogDescription>Ajouter le fichier "<code>enrollments.csv</code>" du "Course dashboard" de FUN ici</DialogDescription>
             </DialogHeader>
-            <InputFileUploader v-model="files" :conditions="conditions" />
+            <UploadInput v-model="files" :conditions="conditions" />
             <DialogFooter class="mt-4">
                 <Button :disabled="loading || !conditionsFilled" @click="handleSubmit" class="w-full" type="submit" id="submit">
                     <Loader2 v-if="loading" class="w-4 h-4 mr-2 animate-spin" />

@@ -7,5 +7,5 @@ definePageMeta({
 </script>
 
 <template>
-    <UtilsTheme />
+    <SettingsThemes />
 </template>

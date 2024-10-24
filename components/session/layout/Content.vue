@@ -19,7 +19,7 @@ defineProps<{
                     <Users class="size-4 text-muted-foreground" />
                 </div>
                 <CardDescription>Nombre total d'inscrits le {{ sessionStore.enrollmentsReportDate }} (sans compter les désinscrits)</CardDescription>
-                <GraphReportChip report="enrollment" />
+                <MetricsReportChip report="enrollment" />
             </CardHeader>
             <CardContent>
                 <h2 class="text-center">
@@ -29,7 +29,7 @@ defineProps<{
         </Card>
 
         <div v-if="gradeReport" class="flex flex-wrap gap-3 w-full justify-center">
-            <GraphProgressCard
+            <MetricsSmallCard
                 title="Curieux"
                 description="Apprenants ayant chargé au moins une page d'exercice"
                 :icon="Eye"
@@ -38,7 +38,7 @@ defineProps<{
                 :divisor="sessionStore.totalUsers"
             />
 
-            <GraphProgressCard
+            <MetricsSmallCard
                 title="Actifs"
                 description="Apprenants ayant soumis au moins une réponse à une question"
                 :icon="Speech"
@@ -47,7 +47,7 @@ defineProps<{
                 :divisor="sessionStore.totalUsers"
             />
 
-            <GraphProgressCard
+            <MetricsSmallCard
                 title="Éligibles - Actifs"
                 description="Apprenants actifs éligibles pour le badge/attestation"
                 :icon="Award"
@@ -56,7 +56,7 @@ defineProps<{
                 :divisor="sessionStore.totalActive"
             />
 
-            <GraphProgressCard
+            <MetricsSmallCard
                 title="Éligibles - Apprenants"
                 description="Apprenants éligibles pour le badge/attestation"
                 :icon="Award"
@@ -66,7 +66,7 @@ defineProps<{
             />
         </div>
 
-        <GraphEnrollments
+        <MetricsChartsEnrollments
             v-if="enrollmentsReport"
             :details="sessionStore.session.data.enrollmentsDetails"
             :loading="sessionStore.session.loading"
@@ -75,9 +75,9 @@ defineProps<{
         />
 
         <template v-if="gradeReport">
-            <GraphInterest :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
-            <GraphScore :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" :cutoffs="sessionStore.session.data.cutoffs ?? 0" />
-            <GraphThreshold
+            <MetricsChartsInterest :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
+            <MetricsChartsScore :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" :cutoffs="sessionStore.session.data.cutoffs ?? 0" />
+            <MetricsChartsThreshold
                 :loading="sessionStore.gradeReport.loading"
                 :data="sessionStore.gradeReport.data?.threshold ?? []"
                 :cutoffs="sessionStore.session.data.cutoffs ?? 0"

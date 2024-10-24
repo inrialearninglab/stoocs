@@ -17,11 +17,11 @@ import { ArrowLeft } from 'lucide-vue-next';
                 <TabsTrigger value="password">Mot de passe</TabsTrigger>
             </TabsList>
             <TabsContent value="profile">
-                <UserFormProfile />
+                <ProfileFormProfile />
             </TabsContent>
 
             <TabsContent value="password">
-                <UserFormPassword />
+                <ProfileFormPassword />
             </TabsContent>
         </Tabs>
     </div>

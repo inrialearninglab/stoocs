@@ -41,6 +41,6 @@ definePageMeta({
             </TabsContent>
         </Tabs>
         <Separator />
-        <UserInvitations />
+        <TeamInvitations />
     </div>
 </template>

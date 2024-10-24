@@ -24,9 +24,9 @@ useServerHead({
 
             <NuxtPage v-if="!(route.meta.layout === 'dashboard')" />
 
-            <LayoutNavbar v-else class="max-w-8xl w-full mx-auto">
+            <Navbar v-else class="max-w-8xl w-full mx-auto">
                 <NuxtPage />
-            </LayoutNavbar>
+            </Navbar>
 
             <!-- Wait for colorMode init -->
             <Toaster v-if="colorMode.value !== 'system'" rich-colors :theme="colorMode.value as 'light' | 'dark'" />

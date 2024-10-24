@@ -18,7 +18,7 @@ defineProps<{
                 <CardDescription>
                     <slot name="description" />
                 </CardDescription>
-                <GraphReportChip :report="report" />
+                <MetricsReportChip :report="report" />
             </CardHeader>
             <div class="p-6">
                 <slot name="actions" />

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
-import UserActions from '~/components/layout/actions/user/index.vue';
-import MoocActions from '~/components/layout/actions/Moocs.vue';
+import UserActions from '~/components/navbar/actions/users/Index.vue';
+import MoocActions from '~/components/navbar/actions/Moocs.vue';
 import type { TabInfo, TabState } from '~/types/navigation.type';
 import type { Ref } from 'vue';
 import { Palette, UserPen } from 'lucide-vue-next';
@@ -115,7 +115,7 @@ watch(() => route.path, () => {
             </nav>
             <TabsContent :value="modelValue">
                 <div class="flex gap-8">
-                    <LayoutSettingsSidebar v-if="tabMap[activeTab].children" :tabs="tabMap[activeTab].children" :activeTab="activeTab" />
+                    <SettingsSidebar v-if="tabMap[activeTab].children" :tabs="tabMap[activeTab].children" :activeTab="activeTab" />
                     <div class="flex-1">
                         <slot />
                     </div>

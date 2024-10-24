@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import FileInput from '~/components/fileInput/Index.vue'
-import FileInputGradeReports from '~/components/fileInput/GradeReports.vue'
-import FileInputEnrollments from '~/components/fileInput/Enrollments.vue'
+import UploadDialogGlobal from '~/components/upload/dialog/Global.vue'
+import UploadDialogEnrollments from '~/components/upload/dialog/Enrollments.vue'
+import UploadDialogGradeReports from '~/components/upload/dialog/GradeReports.vue'
 import { Upload, Loader2 } from 'lucide-vue-next'
 import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { isEnrollments, isGradeReport, isProblemGradeReport } from '~/utils';
@@ -48,9 +48,9 @@ function handleDragEnter(event: any) {
     }
 }
 
-const globalFileInput: Ref<InstanceType<typeof FileInput> | null > = ref(null);
-const enrollmentFileInput: Ref<InstanceType<typeof FileInputEnrollments> | null> = ref(null);
-const gradeReportFileInput: Ref<InstanceType<typeof FileInputGradeReports> | null> = ref(null);
+const globalDialog: Ref<InstanceType<typeof UploadDialogGlobal> | null > = ref(null);
+const enrollmentsDialog: Ref<InstanceType<typeof UploadDialogEnrollments> | null> = ref(null);
+const gradeReportsDialog: Ref<InstanceType<typeof UploadDialogGradeReports> | null> = ref(null);
 
 function onDrop(acceptFiles: File[], rejectReasons: FileRejectReason[]) {
     dragging.value = false;
@@ -64,11 +64,11 @@ function onDrop(acceptFiles: File[], rejectReasons: FileRejectReason[]) {
     }
 
     if (enrollmentFile && reportFile) {
-        openFileInput(acceptFiles)
+        openGlobalDialog(acceptFiles)
     } else if (enrollmentFile) {
-        openEnrollmentFileInput(acceptFiles);
+        openEnrollmentsDialog(acceptFiles);
     } else if (reportFile) {
-        openGradeReportFileInput(acceptFiles);
+        openGradeReportsDialog(acceptFiles);
     }
 }
 
@@ -78,33 +78,34 @@ const { getRootProps, getInputProps, ...rest } = useDropzone(({
     accept: '.csv'
 }))
 
-function openEnrollmentFileInput(files?: File[]) {
-    if (!enrollmentFileInput.value) return;
+function openEnrollmentsDialog(files?: File[]) {
+    if (!enrollmentsDialog.value) return;
 
-    enrollmentFileInput.value.open = true;
+    enrollmentsDialog.value.open = true;
     if (files) {
-        enrollmentFileInput.value.files = files;
-        enrollmentFileInput.value.focusSubmit();
+        enrollmentsDialog.value.files = files;
+        enrollmentsDialog.value.focusSubmit();
     }
 }
 
-function openGradeReportFileInput(files?: File[]) {
-    if (!gradeReportFileInput.value) return;
+function openGradeReportsDialog(files?: File[]) {
+    if (!gradeReportsDialog.value) return;
 
-    gradeReportFileInput.value.open = true;
+    gradeReportsDialog.value.open = true;
+    console.log('after opened');
     if (files) {
-        gradeReportFileInput.value.files = files;
-        gradeReportFileInput.value.focusSubmit();
+        gradeReportsDialog.value.files = files;
+        gradeReportsDialog.value.focusSubmit();
     }
 }
 
-function openFileInput(files?: File[]) {
-    if (!globalFileInput.value) return;
+function openGlobalDialog(files?: File[]) {
+    if (!globalDialog.value) return;
 
-    globalFileInput.value.open = true;
+    globalDialog.value.open = true;
     if (files) {
-        globalFileInput.value.files = files;
-        globalFileInput.value.focusSubmit();
+        globalDialog.value.files = files;
+        globalDialog.value.focusSubmit();
     }
 }
 
@@ -128,12 +129,12 @@ function openFileInput(files?: File[]) {
         </div>
 
         <div v-show="!dragging || user?.rolename === 'Guest'" class="flex w-full flex-col gap-12" >
-            <SessionHeader />
+            <SessionLayoutHeader />
 
             <template v-if="!sessionStore.session.loading">
                 <div class="flex gap-6 mx-auto">
                     <div class="flex gap-2 items-center">
-                        <GraphReportChip report="enrollment" :static="true" />
+                        <MetricsReportChip report="enrollment" :static="true" />
                         <p>{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p>
                         <UtilsHelp>
                             Ces données sont générées depuis le rapport d'inscription disponible sur le dashboard FUN
@@ -141,18 +142,18 @@ function openFileInput(files?: File[]) {
                     </div>
 
                     <div class="flex gap-2 relative items-center">
-                        <GraphReportChip report="grade" :static="true" />
+                        <MetricsReportChip report="grade" :static="true" />
                         <p>{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
                         <UtilsHelp>
                             Ces données sont générées depuis le &quot;grade report&quot; et le &quot;problem grade report&quot; disponibles dans la vue instructeur de FUN
                         </UtilsHelp>
                     </div>
 
-                    <MoocAddReport
+                    <SessionAddReport
                         v-if="user?.rolename === 'ILL'"
-                        @open-enrollments="openEnrollmentFileInput()"
-                        @open-grades="openGradeReportFileInput()"
-                        @open-all="openFileInput()"
+                        @open-enrollments="openEnrollmentsDialog()"
+                        @open-grades="openGradeReportsDialog()"
+                        @open-all="openGlobalDialog()"
                     />
                 </div>
 
@@ -162,11 +163,11 @@ function openFileInput(files?: File[]) {
                 </div>
 
 
-                <FileInput ref="globalFileInput" />
-                <FileInputGradeReports ref="gradeReportFileInput" />
-                <FileInputEnrollments ref="enrollmentFileInput" />
+                <UploadDialogGlobal ref="globalDialog" />
+                <UploadDialogGradeReports ref="gradeReportsDialog" />
+                <UploadDialogEnrollments ref="enrollmentsDialog" />
 
-                <SessionContent :enrollments-report="enrollmentsReport" :grade-report="gradeReport" />
+                <SessionLayoutContent :enrollments-report="enrollmentsReport" :grade-report="gradeReport" />
             </template>
 
             <Loader2 v-else class="size-12 animate-spin top-1/4 relative mx-auto"/>
