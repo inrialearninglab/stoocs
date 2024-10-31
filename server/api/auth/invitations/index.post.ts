@@ -5,6 +5,7 @@ import { generateIdFromEntropySize } from 'lucia';
 import { prisma } from '~/prisma/db';
 import { z } from 'zod';
 import nodemailer from 'nodemailer';
+import { useCompiler } from '#vue-email';
 
 const routeSchema = z.object({
     email: z.string().email(),
@@ -39,11 +40,19 @@ export default defineEventHandler(async (event) => {
         auth: 'plain'
     });
 
+    const  template = await useCompiler('Invitation.vue', {
+        props: {
+            invitedByUsername: `${event.context.user.firstname} ${event.context.user.lastname}`,
+            invitedByEmail: event.context.user.email,
+            inviteLink: `${process.env.APP_URL}/auth/register/${tokenHash}`
+        }
+    })
+
     let mailOptions = {
         from: `Stoocs <${process.env.APP_EMAIL}>`,
         to: email,
         subject: 'Invitation stoocs',
-        html: `Vous avez été invité sur l'application Stoocs. Cliquez sur le lien suivant pour créer votre compte : ${process.env.APP_URL}/auth/register/${tokenHash}`
+        html: template.html
     }
 
     try {
