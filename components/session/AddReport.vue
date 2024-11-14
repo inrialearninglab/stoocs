@@ -12,7 +12,7 @@ const emits = defineEmits<{
 <template>
    <DropdownMenu>
        <DropdownMenuTrigger as-child>
-           <Button variant="outline" class="flex items-center gap-2">
+           <Button class="flex items-center gap-2">
                <CirclePlus class="size-5" />
                Ajouter des données
            </Button>

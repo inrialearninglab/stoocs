@@ -70,8 +70,8 @@ async function createGuest(email: string) {
 <template>
     <Sheet>
         <SheetTrigger as-child>
-            <Button variant="outline">
-                <UserPen class="mr-2" />
+            <Button>
+                <UserPen class="mr-2 size-5" />
                 <span>{{ guests.length }} invité</span>
             </Button>
         </SheetTrigger>
@@ -86,8 +86,8 @@ async function createGuest(email: string) {
 
                     <Dialog>
                         <DialogTrigger as-child>
-                            <Button variant="outline" class="my-4 w-fit self-end">
-                                <UserPlus class="mr-2" />
+                            <Button class="my-4 w-fit self-end">
+                                <UserPlus class="mr-2 size-5" />
                                 <span>Ajouter</span>
                             </Button>
                         </DialogTrigger>

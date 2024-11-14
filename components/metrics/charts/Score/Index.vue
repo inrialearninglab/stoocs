@@ -88,7 +88,7 @@ function toggleThreshold() {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger as-child>
-                                <Button size="icon" variant="outline" @click="toggleThreshold">
+                                <Button size="icon" @click="toggleThreshold">
                                     <Award />
                                 </Button>
                             </TooltipTrigger>
