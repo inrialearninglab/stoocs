@@ -12,18 +12,18 @@ defineProps<{
 
 <template>
     <template v-if="sessionStore.session.data">
-        <Card v-if="enrollmentsReport" class="w-full max-w-sm mx-auto relative">
+        <Card v-if="gradeReport" class="w-full max-w-sm mx-auto relative">
             <CardHeader>
                 <div class="flex gap-5 justify-between">
                     <CardTitle>Nombre d'inscrits</CardTitle>
                     <Users class="size-4 text-muted-foreground" />
                 </div>
-                <CardDescription>Nombre total d'inscrits le {{ sessionStore.enrollmentsReportDate }} (sans compter les désinscrits)</CardDescription>
-                <MetricsReportChip report="enrollment" />
+                <CardDescription>Nombre total d'inscrits le {{ sessionStore.gradeReportDate }} (sans compter les désinscrits)</CardDescription>
+                <MetricsReportChip report="grade" />
             </CardHeader>
             <CardContent>
                 <h2 class="text-center">
-                    {{ sessionStore.totalEnrollments?.toLocaleString('fr-FR') }} Inscrits
+                    {{ sessionStore.totalUsers?.toLocaleString('fr-FR') }} Inscrits
                 </h2>
             </CardContent>
         </Card>
