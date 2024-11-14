@@ -48,7 +48,7 @@ onMounted(() => {
             </AlertDescription>
         </Alert>
 
-        <Card class="border-0">
+        <Card class="border-none shadow-none">
             <CardHeader>
                 <CardTitle>Connexion</CardTitle>
                 <CardDescription>Entrez votre adresse mail et votre mot de passe pour vous connecter.</CardDescription>

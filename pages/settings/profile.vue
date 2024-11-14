@@ -7,5 +7,5 @@ const user = useUser();
 </script>
 
 <template>
-    <UserCard :user="user" class="max-w-md border-0 mx-auto" :profile="true" />
+    <UserCard :user="user" class="max-w-md border-none shadow-none mx-auto" :profile="true" />
 </template>

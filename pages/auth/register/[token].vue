@@ -75,7 +75,7 @@ else errorMessage.value = true;
         </CardFooter>
     </Card>
 
-    <Card v-else-if="status === 'success'" class="max-w-2xl mx-auto w-full border-0">
+    <Card v-else-if="status === 'success'" class="max-w-2xl mx-auto w-full border-none shadow-none">
         <CardHeader>
             <CardTitle>Inscription</CardTitle>
             <CardDescription>Créer un nouveau compte</CardDescription>
