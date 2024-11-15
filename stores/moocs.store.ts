@@ -19,19 +19,23 @@ export const useMoocs = defineStore('moocs', {
         },
 
         pinnedMoocs(): Mooc[] {
-            return this.filteredMoocs.filter(mooc => {
+            const pinnedMoocs = this.filteredMoocs.filter(mooc => {
                 const user = useUser();
 
-                return mooc.pinnedBy.some(pinnedBy => pinnedBy.userId === user.value?.id);
+                return mooc.pinnedBy.some(pinnedBy => pinnedBy.userId === user.value?.id)
             });
+
+            return pinnedMoocs.sort((a, b) => a.title > b.title ? 1 : -1);
         },
 
         unpinnedMoocs(): Mooc[] {
-            return this.filteredMoocs.filter(mooc => {
+            const unpinnedMoocs = this.filteredMoocs.filter(mooc => {
                 const user = useUser();
 
                 return !mooc.pinnedBy.some(pinnedBy => pinnedBy.userId === user.value?.id);
             });
+
+            return unpinnedMoocs.sort((a, b) => a.title > b.title ? 1 : -1);
         },
     },
 
