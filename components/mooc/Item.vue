@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Mooc } from '~/types';
-import { Star } from 'lucide-vue-next';
+import { Star, ArrowRight } from 'lucide-vue-next';
 
 const props = defineProps<{
     mooc: Mooc;
@@ -50,14 +50,16 @@ const archiveSessions = computed(() => props.mooc.sessions.filter(session => ses
                     </Button>
                 </div>
             </CardHeader>
-            <CardContent class="p-2 flex gap-2">
-                <Button v-for="session of mooc.sessions" variant="ghost" class="flex gap-2 items-center w-fit" as-child>
+            <CardContent class="px-4 pb-4 flex gap-2">
+                <Button v-for="session of mooc.sessions" variant="outline" class="flex gap-2 items-center w-fit" as-child>
                     <NuxtLink :to="`/sessions/${session.id}`">
                         <div
                             class="size-4 rounded-full"
                             :class="session.ended ? 'bg-error' : session.sessionName === 'archiveouvert' ? 'bg-warning' : 'bg-success'"
                         ></div>
                         {{ session.sessionName }}
+
+                        <ArrowRight class="size-5" />
                     </NuxtLink>
                 </Button>
             </CardContent>
