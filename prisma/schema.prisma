@@ -39,7 +39,15 @@ model MoocSession {
     typeID             String?
     mooc               Mooc          @relation(fields: [moocID], references: [id])
     moocID             String
+    forumInstanceName  String?
+    forum              Forum? @relation(fields: [forumInstanceName], references: [instanceName])
     @@unique([moocID, sessionName])
+}
+
+model Forum {
+    instanceName String @unique
+    apiKey String
+    moocSessions MoocSession[]
 }
 
 model GradeReport {

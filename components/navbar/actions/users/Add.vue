@@ -86,11 +86,9 @@ const open = ref(false);
                         <FormMessage />
                     </FormItem>
                 </FormField>
-            </form>
 
-            <DialogFooter>
-                <Button type="submit" @click="onSubmit">Inviter</Button>
-            </DialogFooter>
+                <Button type="submit" class="w-full !mt-5">Inviter</Button>
+            </form>
         </DialogContent>
     </Dialog>
 </template>

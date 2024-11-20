@@ -1,5 +1,5 @@
-import type { GradeReport, Mooc, Session } from '~/types';
-import { fetchGradeReport, fetchSessionById } from '~/services/sessions.service';
+import type { GradeReport, Mooc, Session, ForumInfo } from '~/types';
+import { fetchGradeReport, fetchSessionById, fetchForumInfo, linkForum } from '~/services/sessions.service';
 import { postEnrollments, postGradeReports } from '~/services/files.service';
 import { formatDate, getParsedDate } from '~/utils';
 import { toast } from 'vue-sonner';
@@ -16,13 +16,18 @@ interface SessionState {
     gradeReport: {
         data: GradeReport | null;
         loading: boolean;
-    }
+    },
+    forum: {
+        data: ForumInfo | null;
+        loading: boolean;
+    };
 }
 
 export const useSession = defineStore('session', {
     state: (): SessionState => ({
         session: { data: null, loading: true },
         gradeReport: { data: null, loading: false },
+        forum: { data: null, loading: true },
     }),
 
     getters: {
@@ -90,9 +95,12 @@ export const useSession = defineStore('session', {
 
     actions: {
         async getSession(id: string) {
+            this.session.loading = true
+            this.forum.loading = true;
+
             this.session.data = null
             this.gradeReport.data = null
-            this.session.loading = true
+            this.forum.data = null;
             const { data, error } = await fetchSessionById(id);
             if (!error && data) this.session.data = data;
             this.session.loading = false;
@@ -101,6 +109,28 @@ export const useSession = defineStore('session', {
                 const lastGradeReport = this.session.data.gradeReports[this.session.data.gradeReports.length - 1];
                 this.getGradeReport(lastGradeReport.id);
             }
+
+            const { data: forumData, error: forumError } = await fetchForumInfo(id);
+
+            if (forumData && !forumError) {
+                this.forum.data = forumData;
+            }
+            this.forum.loading = false;
+        },
+
+        async linkForum(instanceName: string, apiKey: string) {
+            if (!this.session?.data?.id) return;
+
+            this.forum.loading = true;
+            const { data, error } = await linkForum(apiKey, this.session.data.id, instanceName)
+
+            if (data && !error) {
+                this.forum.data = data;
+                toast.success('Forum ajouté avec succès');
+            } else {
+                toast.error('Une erreur est survenue lors de l\'ajout du forum');
+            }
+            this.forum.loading = false;
         },
 
         async getGradeReport(id: string) {

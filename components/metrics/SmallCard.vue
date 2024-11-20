@@ -9,6 +9,8 @@ defineProps<{
     dividend?: number;
     divisor?: number;
     loading: boolean;
+    report?: 'enrollment' | 'grade' | 'both';
+    label: string;
 }>();
 
 </script>
@@ -21,7 +23,7 @@ defineProps<{
                 <Component :is="icon" class="size-4 text-muted-foreground" />
             </div>
             <CardDescription>{{ description }}</CardDescription>
-            <MetricsReportChip report="grade" />
+            <MetricsReportChip v-if="report" report="grade" />
         </CardHeader>
         <CardContent class="justify-center flex flex-1 items-end">
             <Skeleton v-if="loading" class="size-32 rounded-full" />
@@ -29,7 +31,7 @@ defineProps<{
             <div v-else class="text-[8rem]">🥸</div>
         </CardContent>
         <CardFooter>
-            <p class="text-xl text-center w-full">{{ dividend?.toLocaleString('fr-FR') }} Apprenants</p>
+            <p class="text-xl text-center w-full">{{ dividend?.toLocaleString('fr-FR') }} {{ label }}</p>
         </CardFooter>
     </Card>
 </template>

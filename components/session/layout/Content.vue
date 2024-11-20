@@ -12,21 +12,17 @@ defineProps<{
 
 <template>
     <template v-if="sessionStore.session.data">
-        <Card v-if="gradeReport" class="w-full max-w-sm mx-auto relative">
-            <CardHeader>
-                <div class="flex gap-5 justify-between">
-                    <CardTitle>Nombre d'inscrits</CardTitle>
-                    <Users class="size-4 text-muted-foreground" />
-                </div>
-                <CardDescription>Nombre total d'inscrits le {{ sessionStore.gradeReportDate }} (sans compter les désinscrits)</CardDescription>
-                <MetricsReportChip report="grade" />
-            </CardHeader>
-            <CardContent>
-                <h2 class="text-center">
-                    {{ sessionStore.totalUsers?.toLocaleString('fr-FR') }} Inscrits
-                </h2>
-            </CardContent>
-        </Card>
+        <MetricsNumberCard
+            v-if="gradeReport && sessionStore.totalUsers"
+            :value="sessionStore.totalUsers"
+            noun="Inscrits"
+            chip="grade"
+            :icon="Users"
+            class="mx-auto"
+        >
+            <template #title>Nombre d'inscrits</template>
+            <template #description>Nombre total d'inscrits le {{ sessionStore.gradeReportDate }} (sans compter les désinscrits)</template>
+        </MetricsNumberCard>
 
         <div v-if="gradeReport" class="flex flex-wrap gap-3 w-full justify-center">
             <MetricsSmallCard
@@ -36,6 +32,8 @@ defineProps<{
                 :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalCurious"
                 :divisor="sessionStore.totalUsers"
+                report="grade"
+                label="Apprenants"
             />
 
             <MetricsSmallCard
@@ -45,6 +43,8 @@ defineProps<{
                 :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalActive"
                 :divisor="sessionStore.totalUsers"
+                report="grade"
+                label="Apprenants"
             />
 
             <MetricsSmallCard
@@ -54,6 +54,8 @@ defineProps<{
                 :loading="sessionStore.session.loading"
                 :dividend="sessionStore.totalEligible"
                 :divisor="sessionStore.totalActive"
+                report="grade"
+                label="Apprenants"
             />
 
             <MetricsSmallCard
@@ -63,6 +65,8 @@ defineProps<{
                 :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalEligible"
                 :divisor="sessionStore.totalUsers"
+                report="grade"
+                label="Apprenants"
             />
         </div>
 
