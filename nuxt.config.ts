@@ -48,9 +48,9 @@ export default defineNuxtConfig({
     security: {
         removeLoggers: !(process.env.NODE_ENV === 'development'),
         headers: {
-            crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp',
+            crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'unsafe-none',
             contentSecurityPolicy: {
-                'img-src': ["'self'", 'data:', 'https://mooc-forums.inria.fr']
+                'img-src': ["'self'", 'data:', process.env.DISCOURSE_URL!],
             }
         }
     },
