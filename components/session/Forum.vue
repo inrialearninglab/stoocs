@@ -4,6 +4,7 @@ import { Users, MessageSquare, MessagesSquare, Loader2 } from 'lucide-vue-next';
 const route = useRoute();
 const sessionStore = useSession();
 const config = useRuntimeConfig();
+const user = useUser();
 
 onMounted(() => {
     if (!sessionStore.session.data || sessionStore.session.data.id !== route.params.id || !sessionStore.forum) {
@@ -19,7 +20,7 @@ onMounted(() => {
 
         <div v-else-if="!sessionStore.forum.data" class="flex flex-col items-center gap-5">
             <h2>Aucune données de forum</h2>
-            <SessionAddForum />
+            <SessionAddForum v-if="user?.rolename === 'ILL'" />
         </div>
 
         <div v-else class="flex flex-col gap-8">
