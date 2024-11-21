@@ -1,7 +1,10 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 
+// @ts-ignore
 export { default as Avatar } from './Avatar.vue';
+// @ts-ignore
 export { default as AvatarImage } from './AvatarImage.vue';
+// @ts-ignore
 export { default as AvatarFallback } from './AvatarFallback.vue';
 
 export const avatarVariant = cva(

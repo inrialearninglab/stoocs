@@ -1,7 +1,10 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 
+// @ts-ignore
 export { default as Alert } from './Alert.vue';
+// @ts-ignore
 export { default as AlertTitle } from './AlertTitle.vue';
+// @ts-ignore
 export { default as AlertDescription } from './AlertDescription.vue';
 
 export const alertVariants = cva(

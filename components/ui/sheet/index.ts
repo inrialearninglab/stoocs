@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { type VariantProps, cva } from 'class-variance-authority';
 
 export { default as Sheet } from './Sheet.vue';

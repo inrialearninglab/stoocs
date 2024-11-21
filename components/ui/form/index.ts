@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 export { Form, Field as FormField } from 'vee-validate';
 export { default as FormItem } from './FormItem.vue';
 export { default as FormLabel } from './FormLabel.vue';

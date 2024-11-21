@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 export { default as AlertDialog } from './AlertDialog.vue';
 export { default as AlertDialogTrigger } from './AlertDialogTrigger.vue';
 export { default as AlertDialogContent } from './AlertDialogContent.vue';

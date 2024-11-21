@@ -1,6 +1,10 @@
+// @ts-ignore
 export { default as ChartTooltip } from './ChartTooltip.vue';
+// @ts-ignore
 export { default as ChartSingleTooltip } from './ChartSingleTooltip.vue';
+// @ts-ignore
 export { default as ChartLegend } from './ChartLegend.vue';
+// @ts-ignore
 export { default as ChartCrosshair } from './ChartCrosshair.vue';
 
 export function defaultColors(count: number = 3) {

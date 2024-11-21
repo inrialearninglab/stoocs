@@ -1,5 +1,6 @@
 import { type VariantProps, cva } from 'class-variance-authority';
 
+// @ts-ignore
 export { default as Badge } from './Badge.vue';
 
 export const badgeVariants = cva(

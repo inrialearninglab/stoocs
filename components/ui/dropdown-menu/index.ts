@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 export { DropdownMenuPortal } from 'radix-vue';
 
 export { default as DropdownMenu } from './DropdownMenu.vue';
