@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, withDefaults } from 'vue'
+import { defineProps } from 'vue'
 
 defineProps<{
     invitedByUsername: string
@@ -20,7 +20,6 @@ const previewText = 'Invitation Stoocs';
           <ESection class="mt-[32px]">
             <EImg src="https://mooc-stats.inria.fr/logo.png" width="80" alt="Stoocs" class="my-0 mx-auto rounded" />
           </ESection>
-          <Hello />
           <EHeading class="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
             Vous avez été invité à rejoindre <strong>Stoocs</strong>
           </EHeading>

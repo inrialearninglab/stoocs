@@ -39,7 +39,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex flex-col gap-4 max-w-2xl w-full mx-auto">
+    <div class="flex flex-col gap-4 max-w-lg w-full mx-auto">
         <Alert v-if="errorAlert" variant="destructive">
             <AlertCircle class="size-4" />
             <AlertTitle>Erreur</AlertTitle>
@@ -49,9 +49,9 @@ onMounted(() => {
         </Alert>
 
         <Card class="border-none shadow-none">
-            <CardHeader>
+            <CardHeader class="text-center items-center">
+                <LayoutLogo class="w-32 h-auto mb-4" />
                 <CardTitle>Connexion</CardTitle>
-                <CardDescription>Entrez votre adresse mail et votre mot de passe pour vous connecter.</CardDescription>
             </CardHeader>
 
             <CardContent>
@@ -60,7 +60,7 @@ onMounted(() => {
                         <FormItem>
                             <FormLabel>Mail</FormLabel>
                             <FormControl>
-                                <Input id="mail" type="email" v-bind="componentField"/>
+                                <Input id="mail" type="email" placeholder="Entrez votre mail" v-bind="componentField"/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -71,7 +71,7 @@ onMounted(() => {
                         <FormItem>
                             <FormLabel>Mot de passe</FormLabel>
                             <FormControl>
-                                <Input type="password" v-bind="componentField"/>
+                                <Input type="password" placeholder="Entrez votre mot de passe" v-bind="componentField"/>
                             </FormControl>
                             <FormMessage />
                         </FormItem>

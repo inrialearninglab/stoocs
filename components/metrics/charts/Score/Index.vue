@@ -69,7 +69,12 @@ function toggleThreshold() {
             </template>
 
             <template #actions>
-                <div class="flex gap-5">
+                <div class="flex gap-5 items-center">
+                    <Button @click="toggleThreshold">
+                        <Award class="mr-2" />
+                        Afficher le seuil de réussite
+                    </Button>
+
                     <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
                         <div class="flex gap-1 items-center">
                             <div class="size-4 rounded-full bg-success" />
@@ -84,20 +89,6 @@ function toggleThreshold() {
                             <span class="flex items-center"><ChevronLeft class="size-4" /> 50%</span>
                         </div>
                     </div>
-
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger as-child>
-                                <Button size="icon" @click="toggleThreshold">
-                                    <Award />
-                                </Button>
-                            </TooltipTrigger>
-
-                            <TooltipContent>
-                                <p>Afficher le seuil de réussite</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
                 </div>
             </template>
 

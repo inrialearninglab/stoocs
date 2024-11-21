@@ -51,7 +51,7 @@ const archiveSessions = computed(() => props.mooc.sessions.filter(session => ses
             </div>
         </CardHeader>
         <CardContent class="px-4 pb-4 flex gap-2">
-            <Button v-for="session of mooc.sessions" variant="outline" class="flex gap-2 items-center w-fit" as-child>
+            <Button v-for="session of mooc.sessions" variant="secondary" class="flex gap-2 items-center w-fit" as-child>
                 <NuxtLink :to="`/sessions/${session.id}`">
                     <div
                         class="size-4 rounded-full"
