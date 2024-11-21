@@ -1,10 +1,8 @@
 <script setup lang="ts">
-
 defineProps<{
     report: 'enrollment' | 'grade' | 'both';
     static?: boolean;
 }>();
-
 </script>
 
 <template>
@@ -21,11 +19,7 @@ defineProps<{
         />
     </div>
     <div v-else-if="!static">
-        <div
-            class="size-[10px] rounded-full absolute left-[6px] top-[6px] bg-blue-500"
-        />
-        <div
-            class="size-[10px] rounded-full absolute left-[22px] top-[6px] bg-purple-600"
-        />
+        <div class="size-[10px] rounded-full absolute left-[6px] top-[6px] bg-blue-500" />
+        <div class="size-[10px] rounded-full absolute left-[22px] top-[6px] bg-purple-600" />
     </div>
 </template>

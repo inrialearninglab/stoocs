@@ -8,11 +8,11 @@ export interface ForumInfo {
         username: string;
         avatar: string;
         title?: string;
-    }[],
+    }[];
     admins: {
         name?: string;
         username: string;
         avatar: string;
         title?: string;
-    }[]
+    }[];
 }

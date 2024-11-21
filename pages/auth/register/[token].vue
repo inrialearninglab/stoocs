@@ -4,11 +4,7 @@ import * as z from 'zod';
 import { useForm } from 'vee-validate';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { Loader2, CircleX } from 'lucide-vue-next';
-import {
-    passwordMatchMessage,
-    registerSchema,
-    requiredMessage
-} from '~/schema/users.schema';
+import { passwordMatchMessage, registerSchema, requiredMessage } from '~/schema/users.schema';
 import { register } from '~/services/auth.service';
 import { toast } from 'vue-sonner';
 
@@ -16,16 +12,18 @@ useHead({
     meta: [
         {
             name: 'referrer',
-            content: 'strict-origin'
-        }
-    ]
+            content: 'strict-origin',
+        },
+    ],
 });
 
-const formSchema: any = toTypedSchema(registerSchema.extend({
-    passwordConfirmation: z.string({ message: requiredMessage }).refine((value) => value === form.values.password, {
-        message: passwordMatchMessage,
+const formSchema: any = toTypedSchema(
+    registerSchema.extend({
+        passwordConfirmation: z.string({ message: requiredMessage }).refine((value) => value === form.values.password, {
+            message: passwordMatchMessage,
+        }),
     }),
-}));
+);
 
 const form = useForm({
     validationSchema: formSchema,
@@ -34,29 +32,32 @@ const form = useForm({
 const route = useRoute();
 
 const onSubmit = form.handleSubmit(async (values: any) => {
-    const { error } = await register(values.email, values.firstname, values.lastname, values.password, route.params.token as string);
+    const { error } = await register(
+        values.email,
+        values.firstname,
+        values.lastname,
+        values.password,
+        route.params.token as string,
+    );
     if (error) {
         toast.error('Une erreur est survenue lors de la création du compte');
-    }
-    else {
+    } else {
         toast.success('Compte créé avec succès');
         await navigateTo('/moocs');
     }
-})
+});
 
 const { data, status } = await useFetch('/api/auth/invitations/email', {
     method: 'POST',
     body: {
-        tokenHash: route.params.token
-    }
+        tokenHash: route.params.token,
+    },
 });
 
 const errorMessage = ref(false);
 
 if (data?.value?.email) form.setValues({ email: data.value.email });
 else errorMessage.value = true;
-
-
 </script>
 
 <template>
@@ -68,9 +69,7 @@ else errorMessage.value = true;
         </CardHeader>
         <CardFooter>
             <Button as-child class="w-full">
-                <NuxtLink to="/auth/login">
-                    Retour
-                </NuxtLink>
+                <NuxtLink to="/auth/login"> Retour </NuxtLink>
             </Button>
         </CardFooter>
     </Card>
@@ -86,7 +85,7 @@ else errorMessage.value = true;
                     <FormItem>
                         <FormLabel>Mail</FormLabel>
                         <FormControl>
-                            <Input type="email" disabled v-bind="componentField"/>
+                            <Input type="email" disabled v-bind="componentField" />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -97,7 +96,7 @@ else errorMessage.value = true;
                         <FormItem class="flex-1">
                             <FormLabel>Prénom</FormLabel>
                             <FormControl>
-                                <Input type="text" v-bind="componentField"/>
+                                <Input type="text" v-bind="componentField" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -107,7 +106,7 @@ else errorMessage.value = true;
                         <FormItem class="flex-1">
                             <FormLabel>Nom</FormLabel>
                             <FormControl>
-                                <Input type="text" v-bind="componentField"/>
+                                <Input type="text" v-bind="componentField" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -118,7 +117,7 @@ else errorMessage.value = true;
                     <FormItem>
                         <FormLabel>Mot de passe</FormLabel>
                         <FormControl>
-                            <Input type="password" v-bind="componentField"/>
+                            <Input type="password" v-bind="componentField" />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -128,7 +127,7 @@ else errorMessage.value = true;
                     <FormItem>
                         <FormLabel>Confirmation du mot de passe</FormLabel>
                         <FormControl>
-                            <Input type="password" v-bind="componentField"/>
+                            <Input type="password" v-bind="componentField" />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -143,6 +142,6 @@ else errorMessage.value = true;
     </Card>
 
     <div v-else-if="status === 'pending'">
-        <Loader2 class="size-12 mx-auto animate-spin"/>
+        <Loader2 class="size-12 mx-auto animate-spin" />
     </div>
 </template>

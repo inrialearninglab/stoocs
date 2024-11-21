@@ -4,45 +4,45 @@ export default defineNuxtConfig({
         enabled: true,
 
         timeline: {
-            enabled: true
-        }
+            enabled: true,
+        },
     },
 
     modules: [
-        "@nuxtjs/tailwindcss",
-        "shadcn-nuxt",
-        "@nuxt/fonts",
-        "@pinia/nuxt",
-        "@nuxtjs/color-mode",
-        "nuxt-security",
-        "@vue-email/nuxt"
+        '@nuxtjs/tailwindcss',
+        'shadcn-nuxt',
+        '@nuxt/fonts',
+        '@pinia/nuxt',
+        '@nuxtjs/color-mode',
+        'nuxt-security',
+        '@vue-email/nuxt',
     ],
 
     shadcn: {
         prefix: '',
-        componentDir: './components/ui'
+        componentDir: './components/ui',
     },
 
     css: ['~/assets/css/typography.css', '~/assets/css/themes.css'],
 
     colorMode: {
-        classSuffix: ''
+        classSuffix: '',
     },
 
     routeRules: {
         '/api/enrollments/*': {
             security: {
-                xssValidator: false
-            }
+                xssValidator: false,
+            },
         },
         '/api/reports/*': {
             security: {
                 xssValidator: false,
                 requestSizeLimiter: {
-                    maxUploadFileRequestInBytes: 1024 * 1024 * 50
-                }
-            }
-        }
+                    maxUploadFileRequestInBytes: 1024 * 1024 * 50,
+                },
+            },
+        },
     },
 
     security: {
@@ -51,16 +51,16 @@ export default defineNuxtConfig({
             crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'unsafe-none',
             contentSecurityPolicy: {
                 'img-src': ["'self'", 'data:', process.env.DISCOURSE_URL!],
-            }
-        }
+            },
+        },
     },
 
     runtimeConfig: {
         public: {
             scrapperEmail: process.env.APP_EMAIL,
             discourseURL: process.env.DISCOURSE_URL,
-        }
+        },
     },
 
-    compatibilityDate: "2024-07-12"
-})
+    compatibilityDate: '2024-07-12',
+});

@@ -8,10 +8,12 @@ import { useSession } from '~/stores/session.store';
 
 const sessionStore = useSession();
 
-const formSchema = toTypedSchema(z.object({
-    instanceName: z.string({ message: requiredMessage }),
-    apiKey: z.string({ message: requiredMessage })
-}));
+const formSchema = toTypedSchema(
+    z.object({
+        instanceName: z.string({ message: requiredMessage }),
+        apiKey: z.string({ message: requiredMessage }),
+    }),
+);
 
 const form = useForm({
     validationSchema: formSchema,
@@ -21,8 +23,7 @@ const open = ref(false);
 const onSubmit = form.handleSubmit(async (values) => {
     await sessionStore.linkForum(values.instanceName, values.apiKey);
     open.value = false;
-})
-
+});
 </script>
 
 <template>
@@ -51,18 +52,24 @@ const onSubmit = form.handleSubmit(async (values) => {
                     </FormItem>
                 </FormField>
 
-
                 <FormField v-slot="{ componentField }" name="apiKey">
                     <FormItem>
                         <FormLabel>Clé d'API</FormLabel>
                         <FormControl>
-                            <Textarea placeholder="dj8ar49ndfsad48tf6pdqfdd4q2nnb9ktv8ms62du26juhp2gd43e86zxvgjse43" v-bind="componentField" />
+                            <Textarea
+                                placeholder="dj8ar49ndfsad48tf6pdqfdd4q2nnb9ktv8ms62du26juhp2gd43e86zxvgjse43"
+                                v-bind="componentField"
+                            />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
                 </FormField>
 
-                <Button :disabled="!form.meta.value.valid || form.isSubmitting.value" type="submit" class="w-full !mt-5">
+                <Button
+                    :disabled="!form.meta.value.valid || form.isSubmitting.value"
+                    type="submit"
+                    class="w-full !mt-5"
+                >
                     <Loader2 v-if="form.isSubmitting.value" class="size-4 mr-2 animate-spin" />
                     Ajouter
                 </Button>

@@ -10,10 +10,12 @@ import { useForm } from 'vee-validate';
 import { emailMessage, requiredMessage } from '~/schema/users.schema';
 import { login } from '~/services/auth.service';
 
-const formSchema = toTypedSchema(z.object({
-    email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
-    password: z.string({ message: requiredMessage })
-}));
+const formSchema = toTypedSchema(
+    z.object({
+        email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
+        password: z.string({ message: requiredMessage }),
+    }),
+);
 
 const form = useForm({
     validationSchema: formSchema,
@@ -34,8 +36,7 @@ const onSubmit = form.handleSubmit(async (values) => {
 onMounted(() => {
     const mailInput = document.getElementById('mail');
     mailInput?.focus();
-})
-
+});
 </script>
 
 <template>
@@ -43,9 +44,7 @@ onMounted(() => {
         <Alert v-if="errorAlert" variant="destructive">
             <AlertCircle class="size-4" />
             <AlertTitle>Erreur</AlertTitle>
-            <AlertDescription>
-                Vos identifiants sont incorrects. Veuillez réessayer.
-            </AlertDescription>
+            <AlertDescription> Vos identifiants sont incorrects. Veuillez réessayer. </AlertDescription>
         </Alert>
 
         <Card class="border-none shadow-none">
@@ -60,18 +59,21 @@ onMounted(() => {
                         <FormItem>
                             <FormLabel>Mail</FormLabel>
                             <FormControl>
-                                <Input id="mail" type="email" placeholder="Entrez votre mail" v-bind="componentField"/>
+                                <Input id="mail" type="email" placeholder="Entrez votre mail" v-bind="componentField" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     </FormField>
 
-
                     <FormField v-slot="{ componentField }" name="password">
                         <FormItem>
                             <FormLabel>Mot de passe</FormLabel>
                             <FormControl>
-                                <Input type="password" placeholder="Entrez votre mot de passe" v-bind="componentField"/>
+                                <Input
+                                    type="password"
+                                    placeholder="Entrez votre mot de passe"
+                                    v-bind="componentField"
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

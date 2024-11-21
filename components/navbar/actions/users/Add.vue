@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CirclePlus } from 'lucide-vue-next';
-import { DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '~/components/ui/dialog';
+import { DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '~/components/ui/dialog';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import { z } from 'zod';
@@ -9,29 +9,30 @@ import { useUsers } from '~/stores/users.store';
 
 const usersStore = useUsers();
 
-const formSchema = toTypedSchema(z.object({
-    email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
-    role: z.enum(['ILL', 'guest'], { message: requiredMessage })
-}));
+const formSchema = toTypedSchema(
+    z.object({
+        email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
+        role: z.enum(['ILL', 'guest'], { message: requiredMessage }),
+    }),
+);
 
 const { handleSubmit } = useForm({
-    validationSchema: formSchema
-})
+    validationSchema: formSchema,
+});
 
 const onSubmit = handleSubmit(async (values) => {
     await usersStore.createInvitation(values.email, values.role === 'guest');
     open.value = false;
-})
+});
 
 const open = ref(false);
-
 </script>
 
 <template>
     <Dialog v-model:open="open">
         <DialogTrigger as-child>
             <Button class="flex items-center gap-2">
-                <CirclePlus class="size-4"/>
+                <CirclePlus class="size-4" />
                 Ajouter un membre
             </Button>
         </DialogTrigger>
@@ -48,9 +49,7 @@ const open = ref(false);
                         <FormControl>
                             <Input type="email" placeholder="Email" v-bind="componentField" />
                         </FormControl>
-                        <FormDescription>
-                            Ce sera l'email du nouvel utilisateur
-                        </FormDescription>
+                        <FormDescription> Ce sera l'email du nouvel utilisateur </FormDescription>
                         <FormMessage />
                     </FormItem>
                 </FormField>
@@ -73,12 +72,8 @@ const open = ref(false);
                                 <SelectContent>
                                     <SelectGroup>
                                         <SelectLabel>Rôle</SelectLabel>
-                                        <SelectItem value="ILL">
-                                            ILL
-                                        </SelectItem>
-                                        <SelectItem value="guest">
-                                            Invité
-                                        </SelectItem>
+                                        <SelectItem value="ILL"> ILL </SelectItem>
+                                        <SelectItem value="guest"> Invité </SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>

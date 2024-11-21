@@ -10,32 +10,32 @@ interface MoocsState {
 export const useMoocs = defineStore('moocs', {
     state: (): MoocsState => ({
         moocs: [],
-        search: ''
+        search: '',
     }),
 
     getters: {
         filteredMoocs(): Mooc[] {
-            return this.moocs.filter(mooc => mooc.title.toLowerCase().includes(this.search.toLowerCase()));
+            return this.moocs.filter((mooc) => mooc.title.toLowerCase().includes(this.search.toLowerCase()));
         },
 
         pinnedMoocs(): Mooc[] {
-            const pinnedMoocs = this.filteredMoocs.filter(mooc => {
+            const pinnedMoocs = this.filteredMoocs.filter((mooc) => {
                 const user = useUser();
 
-                return mooc.pinnedBy.some(pinnedBy => pinnedBy.userId === user.value?.id)
+                return mooc.pinnedBy.some((pinnedBy) => pinnedBy.userId === user.value?.id);
             });
 
-            return pinnedMoocs.sort((a, b) => a.title > b.title ? 1 : -1);
+            return pinnedMoocs.sort((a, b) => (a.title > b.title ? 1 : -1));
         },
 
         unpinnedMoocs(): Mooc[] {
-            const unpinnedMoocs = this.filteredMoocs.filter(mooc => {
+            const unpinnedMoocs = this.filteredMoocs.filter((mooc) => {
                 const user = useUser();
 
-                return !mooc.pinnedBy.some(pinnedBy => pinnedBy.userId === user.value?.id);
+                return !mooc.pinnedBy.some((pinnedBy) => pinnedBy.userId === user.value?.id);
             });
 
-            return unpinnedMoocs.sort((a, b) => a.title > b.title ? 1 : -1);
+            return unpinnedMoocs.sort((a, b) => (a.title > b.title ? 1 : -1));
         },
     },
 
@@ -49,9 +49,9 @@ export const useMoocs = defineStore('moocs', {
             const { data, error } = await pinMooc(moocId, pinned);
 
             if (error) {
-                toast.error('Erreur lors de l\'épinglage du MOOC');
+                toast.error("Erreur lors de l'épinglage du MOOC");
             } else if (data) {
-                const mooc = this.moocs.find(mooc => mooc.id === moocId);
+                const mooc = this.moocs.find((mooc) => mooc.id === moocId);
                 if (mooc) mooc.pinnedBy = data.pinnedBy ?? [];
 
                 if (!pinned) toast.info('MOOC ajouté aux favoris');
@@ -62,6 +62,6 @@ export const useMoocs = defineStore('moocs', {
         reset() {
             this.moocs = [];
             this.search = '';
-        }
-    }
-})
+        },
+    },
+});

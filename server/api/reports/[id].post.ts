@@ -7,11 +7,11 @@ import { z } from 'zod';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/reports')
+        cb(null, 'uploads/reports');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
-    }
+    },
 });
 
 const upload = multer({
@@ -20,51 +20,53 @@ const upload = multer({
         if (file.mimetype !== 'text/csv') {
             return cb(new Error('Only CSV files are allowed'));
         }
-        
+
         if (path.extname(file.originalname) !== '.csv') {
             return cb(new Error('Only CSV files are allowed'));
         }
-        
+
         cb(null, true);
-    }
-})
+    },
+});
 
 const routerSchema = z.object({
     id: z.string(),
-    
 });
 
 export default defineEventHandler(async (event) => {
     const { id } = await getValidatedRouterParams(event, routerSchema.parse);
-    
+
     try {
         await callNodeListener(
             // @ts-expect-error: Nuxt 3
-            upload.fields([{ name: 'gradeReport', maxCount: 1}, { name: 'problemGradeReport', maxCount: 1 }]),
+            upload.fields([
+                { name: 'gradeReport', maxCount: 1 },
+                { name: 'problemGradeReport', maxCount: 1 },
+            ]),
             event.node.req,
-            event.node.res
-        )
-        
+            event.node.res,
+        );
+
         // @ts-expect-error: Nuxt 3
         const gradeReportFile = event.node.req.files.gradeReport[0].path;
         // @ts-expect-error: Nuxt 3
         const problemGradeReportFile = event.node.req.files.problemGradeReport[0].path;
-        
+
         const gradeReport = await readGradeReports(gradeReportFile, problemGradeReportFile);
-        
+
         return prisma.moocSession.update({
             where: { id },
             data: {
                 gradeReports: {
-                    create: [gradeReport]
-                }
+                    create: [gradeReport],
+                },
             },
             select: {
                 id: true,
-                gradeReports: true
-            }
+                gradeReports: true,
+            },
         });
-    } catch(err) {
+    } catch (err) {
         console.log(err);
     }
-})
+});

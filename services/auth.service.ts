@@ -8,7 +8,7 @@ export async function login(email: string, password: string): Promise<{ error?: 
     try {
         await $fetch<User>('/api/auth/login', {
             method: 'POST',
-            body: { email, password }
+            body: { email, password },
         });
 
         return {};
@@ -17,7 +17,13 @@ export async function login(email: string, password: string): Promise<{ error?: 
     }
 }
 
-export async function register(email: string, firstname: string, lastname: string, password: string, token: string): Promise<{ error?: FetchError }> {
+export async function register(
+    email: string,
+    firstname: string,
+    lastname: string,
+    password: string,
+    token: string,
+): Promise<{ error?: FetchError }> {
     try {
         await $fetch('/api/auth/register', {
             method: 'POST',
@@ -26,9 +32,9 @@ export async function register(email: string, firstname: string, lastname: strin
                 firstname,
                 lastname,
                 password,
-                token
-            }
-        })
+                token,
+            },
+        });
 
         return {};
     } catch (e) {
@@ -39,7 +45,7 @@ export async function register(email: string, firstname: string, lastname: strin
 export async function logout(): Promise<{ error?: FetchError }> {
     try {
         await $fetch('/api/auth/logout', {
-            method: 'POST'
+            method: 'POST',
         });
 
         const usersStore = useUsers();
@@ -60,21 +66,24 @@ export async function updatePassword(password: string): Promise<{ error?: FetchE
     try {
         await $fetch('/api/auth/password', {
             method: 'PUT',
-            body: { password }
+            body: { password },
         });
 
         return {};
     } catch (e) {
         return { error: e as FetchError };
     }
-
 }
 
-export async function updateProfile(email: string, firstname: string, lastname: string): Promise<{ data?: User, error?: FetchError }> {
+export async function updateProfile(
+    email: string,
+    firstname: string,
+    lastname: string,
+): Promise<{ data?: User; error?: FetchError }> {
     try {
         const data = await $fetch<User>('/api/users/profile', {
             method: 'PUT',
-            body: { email, firstname, lastname }
+            body: { email, firstname, lastname },
         });
 
         return { data };
@@ -85,7 +94,7 @@ export async function updateProfile(email: string, firstname: string, lastname: 
 
 export async function deleteUser(): Promise<{ error?: FetchError }> {
     try {
-        await $fetch ('/api/users/delete');
+        await $fetch('/api/users/delete');
 
         return {};
     } catch (e) {

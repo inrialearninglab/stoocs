@@ -7,22 +7,22 @@ export interface GradeReport {
     totalEligible: number;
     score: {
         name: string;
-        'Moyenne': number;
-        'Utilisateurs': number;
-    }[],
+        Moyenne: number;
+        Utilisateurs: number;
+    }[];
     interest: {
         name: string;
-        'Participation': number;
-        'Utilisateurs': number;
-    }[],
+        Participation: number;
+        Utilisateurs: number;
+    }[];
     threshold: {
         threshold: string;
-        'Eligible': number;
-    }[]
+        Eligible: number;
+    }[];
 }
 export interface GradeReportData {
     date: Date;
-    gradeReportLines: GradeReportLine[]
+    gradeReportLines: GradeReportLine[];
 }
 
 export interface GradeReportLine {
@@ -30,8 +30,8 @@ export interface GradeReportLine {
     grade: number;
     certificateEligible: string;
     certificateDelivered: string;
-    gradeReportQuestions: GradeReportQuestion[]
-    gradeReportProblems: GradeReportProblem[]
+    gradeReportQuestions: GradeReportQuestion[];
+    gradeReportProblems: GradeReportProblem[];
 }
 
 interface GradeReportQuestion {

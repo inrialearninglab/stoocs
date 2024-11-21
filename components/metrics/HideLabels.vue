@@ -2,13 +2,12 @@
 import { CircleAlert } from 'lucide-vue-next';
 
 defineProps<{
-    visible: boolean
+    visible: boolean;
 }>();
 
 const emits = defineEmits<{
     (e: 'click'): void;
 }>();
-
 </script>
 
 <template>
@@ -16,13 +15,16 @@ const emits = defineEmits<{
         <Tooltip>
             <TooltipTrigger as-child>
                 <Button @click="emits('click')">
-                    <img src="/chart-legend.svg" class="h-12 mr-2">
+                    <img src="/chart-legend.svg" class="h-12 mr-2" />
                     <p>{{ visible ? 'Masquer' : 'Afficher' }} le nombre d'apprenants</p>
                 </Button>
             </TooltipTrigger>
 
             <TooltipContent>
-                <small class="flex items-center gap-1"><CircleAlert class="size-3" /> Des bugs visuels peuvent survenir si le nombre d'apprenants est trop important pour la taille de la barre</small>
+                <small class="flex items-center gap-1"
+                    ><CircleAlert class="size-3" /> Des bugs visuels peuvent survenir si le nombre d'apprenants est trop
+                    important pour la taille de la barre</small
+                >
             </TooltipContent>
         </Tooltip>
     </TooltipProvider>

@@ -7,4 +7,4 @@ export default defineNuxtRouteMiddleware(async (to) => {
     if (!user.value || !sessionId || !user.value.moocSessions.includes(sessionId)) {
         return navigateTo('/moocs');
     }
-})
+});

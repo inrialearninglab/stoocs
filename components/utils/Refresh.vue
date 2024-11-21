@@ -3,7 +3,7 @@ import { Check, RefreshCw } from 'lucide-vue-next';
 import { toast } from 'vue-sonner';
 
 const emits = defineEmits<{
-    (e: 'refresh'): void
+    (e: 'refresh'): void;
 }>();
 
 const icon = ref(RefreshCw);
@@ -27,9 +27,8 @@ function onEndLoad() {
 
 defineExpose({
     onStartLoad,
-    onEndLoad
-})
-
+    onEndLoad,
+});
 </script>
 
 <template>

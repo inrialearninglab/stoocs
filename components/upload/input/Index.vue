@@ -9,14 +9,14 @@ const props = defineProps<{
     multiple?: boolean;
     maxFiles?: number;
     conditions?: Record<string, boolean>;
-}>()
+}>();
 
 const emits = defineEmits<{
-    (e: 'update:modelValue', payload: File | File[]): void
+    (e: 'update:modelValue', payload: File | File[]): void;
 }>();
 
 const modelValue = useVModel(props, 'modelValue', emits, {
-    passive: true
+    passive: true,
 });
 
 function onDrop(acceptFiles: any[], rejectReasons: FileRejectReason[]) {
@@ -25,9 +25,9 @@ function onDrop(acceptFiles: any[], rejectReasons: FileRejectReason[]) {
     if (props.multiple) {
         if (props.maxFiles && modelValue.value.length + acceptFiles.length > props.maxFiles) return;
 
-        modelValue.value.push(...acceptFiles)
-    } else if(acceptFiles.length) {
-        modelValue.value = acceptFiles
+        modelValue.value.push(...acceptFiles);
+    } else if (acceptFiles.length) {
+        modelValue.value = acceptFiles;
     }
 }
 
@@ -39,11 +39,10 @@ const { getRootProps, getInputProps, ...rest } = useDropzone({
     onDrop,
     multiple: props.multiple,
     maxFiles: props.maxFiles,
-    accept: '.csv'
+    accept: '.csv',
 });
 
 const isDragActive = rest.isDragActive;
-
 </script>
 
 <template>
@@ -60,10 +59,10 @@ const isDragActive = rest.isDragActive;
         </div>
         <div class="flex flex-col gap-4">
             <div v-for="(file, index) of modelValue" class="flex items-center">
-               <div class="flex flex-col flex-1">
-                   <p class="text-sm">{{ file.name }}</p>
-                   <small class="text-xs text-muted-foreground">{{ getFormattedSize(file.size) }}</small>
-               </div>
+                <div class="flex flex-col flex-1">
+                    <p class="text-sm">{{ file.name }}</p>
+                    <small class="text-xs text-muted-foreground">{{ getFormattedSize(file.size) }}</small>
+                </div>
                 <Button @click="removeFile(index)" variant="outline" size="icon" class="size-7">
                     <X class="size-4" />
                 </Button>
@@ -83,7 +82,6 @@ const isDragActive = rest.isDragActive;
 </template>
 
 <style scoped>
-
 .dropzone {
     @apply w-full border-2 border-dashed p-5 rounded-lg cursor-pointer hover:bg-muted/25 transition h-52 flex items-center text-muted-foreground;
 }

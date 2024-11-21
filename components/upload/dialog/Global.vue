@@ -10,15 +10,15 @@ const sessionStore = useSession();
 const files = ref<File[]>([]);
 
 function findGradeReport() {
-    return files.value.find(file => isGradeReport(file.name));
+    return files.value.find((file) => isGradeReport(file.name));
 }
 
 function findProblemGradeReport() {
-    return files.value.find(file => isProblemGradeReport(file.name));
+    return files.value.find((file) => isProblemGradeReport(file.name));
 }
 
 function findEnrollments() {
-    return files.value.find(file => isEnrollments(file.name));
+    return files.value.find((file) => isEnrollments(file.name));
 }
 
 const conditions = computed(() => {
@@ -27,23 +27,23 @@ const conditions = computed(() => {
             title: 'Rapport de notes',
             conditions: {
                 'Grade report': findGradeReport(),
-                'Problem grade report': findProblemGradeReport()
+                'Problem grade report': findProblemGradeReport(),
             },
-            type: 'grade'
+            type: 'grade',
         },
         {
-            title: 'Rapport d\'inscription',
+            title: "Rapport d'inscription",
             conditions: {
-                'enrollments.csv': findEnrollments()
+                'enrollments.csv': findEnrollments(),
             },
-            type: 'enrollment'
-        }
-    ]
-})
+            type: 'enrollment',
+        },
+    ];
+});
 
 const conditionsFilled = computed(() => {
-    return conditions.value.some(condition => Object.values(condition.conditions).every(condition => condition));
-})
+    return conditions.value.some((condition) => Object.values(condition.conditions).every((condition) => condition));
+});
 
 async function handleSubmit() {
     loading.value = true;
@@ -62,14 +62,13 @@ async function handleSubmit() {
     }
 
     if (gradeReport && problemGradeReport) {
-
         const gradeReportCourseNumber = extractMetadata(gradeReport.name)?.courseNumber;
         const problemGradeReportCourseNumber = extractMetadata(problemGradeReport.name)?.courseNumber;
 
         if (gradeReportCourseNumber !== problemGradeReportCourseNumber) {
-            toast.error('Les rapports de notes ne semblent pas correspondre entre eux')
+            toast.error('Les rapports de notes ne semblent pas correspondre entre eux');
         } else if (gradeReportCourseNumber !== sessionStore?.session?.data?.mooc.courseNumber) {
-            toast.error('Les rapports de notes ne semblent pas correspondre à la session actuelle')
+            toast.error('Les rapports de notes ne semblent pas correspondre à la session actuelle');
         } else {
             const body = new FormData();
 
@@ -97,9 +96,8 @@ async function focusSubmit() {
 defineExpose({
     open,
     files,
-    focusSubmit
-})
-
+    focusSubmit,
+});
 </script>
 
 <template>
@@ -110,7 +108,13 @@ defineExpose({
             </DialogHeader>
             <UploadInputGlobal :multiple="true" :max-files="3" v-model="files" :conditions="conditions" />
             <DialogFooter class="mt-4">
-                <Button :disabled="loading || !conditionsFilled" @click="handleSubmit" class="w-full" type="submit" id="submit">
+                <Button
+                    :disabled="loading || !conditionsFilled"
+                    @click="handleSubmit"
+                    class="w-full"
+                    type="submit"
+                    id="submit"
+                >
                     <Loader2 v-if="loading" class="size-4 mr-2 animate-spin" />
                     Valider
                 </Button>

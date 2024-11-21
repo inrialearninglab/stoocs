@@ -1,4 +1,4 @@
-import type { GradeReport } from "./gradeReport.type";
+import type { GradeReport } from './gradeReport.type';
 export interface Mooc {
     id: string;
     organization: string;

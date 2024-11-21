@@ -7,7 +7,6 @@ defineProps<{
     empty: boolean;
     report: 'enrollment' | 'grade';
 }>();
-
 </script>
 
 <template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const props = defineProps<{
     dividend: number;
     divisor: number;
@@ -10,14 +9,17 @@ const offset = ref(circumference);
 
 const percentage = computed(() => {
     return Math.round((props.dividend / props.divisor) * 100);
-})
+});
 
-watch(() => percentage, (newPercentage) => {
-    setTimeout(() => {
-        offset.value = circumference - (newPercentage.value / 100) * circumference;
-    })
-}, { immediate: true })
-
+watch(
+    () => percentage,
+    (newPercentage) => {
+        setTimeout(() => {
+            offset.value = circumference - (newPercentage.value / 100) * circumference;
+        });
+    },
+    { immediate: true },
+);
 </script>
 
 <template>
@@ -30,12 +32,9 @@ watch(() => percentage, (newPercentage) => {
             r="45"
             :stroke-dasharray="circumference"
             :stroke-dashoffset="offset"
-        >
-        </circle>
+        ></circle>
 
-        <text x="53" y="57" text-anchor="middle" class="text-lg fill-foreground">
-            {{ percentage }}%
-        </text>
+        <text x="53" y="57" text-anchor="middle" class="text-lg fill-foreground">{{ percentage }}%</text>
     </svg>
 </template>
 
@@ -49,7 +48,6 @@ circle {
     stroke-linecap: round;
     transform-origin: center;
     transform: rotate(-90deg);
-    transition: stroke-dashoffset .5s ease-in-out;
+    transition: stroke-dashoffset 0.5s ease-in-out;
 }
-
 </style>

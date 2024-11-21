@@ -4,8 +4,8 @@ import { z } from 'zod';
 const routeSchema = z.object({
     sessionId: z.string(),
     email: z.string(),
-    add: z.boolean()
-})
+    add: z.boolean(),
+});
 export default defineEventHandler(async (event) => {
     const { sessionId, email, add } = await readValidatedBody(event, routeSchema.parse);
 
@@ -14,19 +14,19 @@ export default defineEventHandler(async (event) => {
     } else {
         return await removePendingGuest(email, sessionId);
     }
-})
+});
 
 async function addPendingGuest(email: string, sessionId: string) {
     const updatedInvitation = await prisma.invitation.update({
         where: { email },
-        data: { moocSessions: { push: sessionId }}
-    })
+        data: { moocSessions: { push: sessionId } },
+    });
 
     if (!updatedInvitation) {
         throw createError({
             statusCode: 500,
-            message: 'Failed to add pending guest to session.'
-        })
+            message: 'Failed to add pending guest to session.',
+        });
     }
 
     return updatedInvitation;
@@ -35,22 +35,22 @@ async function addPendingGuest(email: string, sessionId: string) {
 async function removePendingGuest(email: string, sessionId: string) {
     const invitation = await prisma.invitation.findUnique({
         where: { email },
-        select: { moocSessions: true }
+        select: { moocSessions: true },
     });
 
     if (!invitation) throw createError({ statusCode: 404, message: 'Pending guest not found.' });
 
-    const updatedSessions = invitation.moocSessions.filter(session => session !== sessionId);
+    const updatedSessions = invitation.moocSessions.filter((session) => session !== sessionId);
     const updatedInvitation = await prisma.invitation.update({
         where: { email },
-        data: { moocSessions: updatedSessions}
-    })
+        data: { moocSessions: updatedSessions },
+    });
 
     if (!updatedInvitation) {
         throw createError({
             statusCode: 500,
-            message: 'Failed to remove pending guest from session.'
-        })
+            message: 'Failed to remove pending guest from session.',
+        });
     }
 
     return updatedInvitation;

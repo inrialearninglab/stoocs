@@ -10,9 +10,8 @@ async function copyToClipboard(token: string) {
     const invitationUrl = `${window.location.origin}/auth/register/${token}`;
     await navigator.clipboard.writeText(invitationUrl);
 
-    toast.success('Lien d\'invitation copié dans le presse-papier');
+    toast.success("Lien d'invitation copié dans le presse-papier");
 }
-
 </script>
 
 <template>
@@ -26,7 +25,7 @@ async function copyToClipboard(token: string) {
             <p>{{ invitation.email }}</p>
             <div class="flex gap-4 items-center">
                 <Badge variant="outline">
-                    {{ invitation.isGuest ? 'Invité' : 'Learning Lab'}}
+                    {{ invitation.isGuest ? 'Invité' : 'Learning Lab' }}
                 </Badge>
 
                 <Badge v-if="!isWithinExpirationDate(new Date(invitation.expiresAt))" variant="destructive">
@@ -36,7 +35,7 @@ async function copyToClipboard(token: string) {
                     <Trash class="size-4 stroke-destructive" />
                 </Button>
 
-                <UtilsClipboard @copied="copyToClipboard(invitation.tokenHash)"  />
+                <UtilsClipboard @copied="copyToClipboard(invitation.tokenHash)" />
             </div>
         </div>
     </div>

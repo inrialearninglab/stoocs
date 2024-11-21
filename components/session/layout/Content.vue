@@ -4,10 +4,9 @@ import { Award, Eye, Speech, Users } from 'lucide-vue-next';
 const sessionStore = useSession();
 
 defineProps<{
-    enrollmentsReport: boolean,
-    gradeReport: boolean
+    enrollmentsReport: boolean;
+    gradeReport: boolean;
 }>();
-
 </script>
 
 <template>
@@ -21,7 +20,9 @@ defineProps<{
             class="mx-auto"
         >
             <template #title>Nombre d'inscrits</template>
-            <template #description>Nombre total d'inscrits le {{ sessionStore.gradeReportDate }} (sans compter les désinscrits)</template>
+            <template #description
+                >Nombre total d'inscrits le {{ sessionStore.gradeReportDate }} (sans compter les désinscrits)</template
+            >
         </MetricsNumberCard>
 
         <div v-if="gradeReport" class="flex flex-wrap gap-3 w-full justify-center">
@@ -79,8 +80,15 @@ defineProps<{
         />
 
         <template v-if="gradeReport">
-            <MetricsChartsInterest :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.interest" />
-            <MetricsChartsScore :loading="sessionStore.gradeReport.loading" :data="sessionStore.gradeReport.data?.score" :cutoffs="sessionStore.session.data.cutoffs ?? 0" />
+            <MetricsChartsInterest
+                :loading="sessionStore.gradeReport.loading"
+                :data="sessionStore.gradeReport.data?.interest"
+            />
+            <MetricsChartsScore
+                :loading="sessionStore.gradeReport.loading"
+                :data="sessionStore.gradeReport.data?.score"
+                :cutoffs="sessionStore.session.data.cutoffs ?? 0"
+            />
             <MetricsChartsThreshold
                 :loading="sessionStore.gradeReport.loading"
                 :data="sessionStore.gradeReport.data?.threshold ?? []"

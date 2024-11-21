@@ -1,7 +1,7 @@
 import { readFile } from 'fs';
 
 // read the courses.json file and seed the database with the courses
-export async function getCourses(): Promise<{ courses: Course[], sessions: Session[] }> {
+export async function getCourses(): Promise<{ courses: Course[]; sessions: Session[] }> {
     return new Promise((resolve, reject) => {
         readFile('prisma/seed/courses/courses.json', 'utf8', (err, data) => {
             if (err) {
@@ -14,7 +14,7 @@ export async function getCourses(): Promise<{ courses: Course[], sessions: Sessi
                     title: course['Course Display Name:'],
                     courseNumber: course['Course Number:'],
                     organization: course['Organization:'],
-                }
+                };
             });
 
             const sessions = jsonData.map((session: any) => {
@@ -33,10 +33,10 @@ export async function getCourses(): Promise<{ courses: Course[], sessions: Sessi
                     ended: session['Has the course ended?'] === 'Yes',
                     startDate,
                     endDate,
-                    cutoffs
-                }
-            })
-            resolve({ courses, sessions })
+                    cutoffs,
+                };
+            });
+            resolve({ courses, sessions });
         });
     });
 }

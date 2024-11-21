@@ -16,8 +16,8 @@ const storage = multer.diskStorage({
         // @ts-expect-error: adding id to filename
         originalFilename = `${req.id}-${date}-${file.originalname}`;
         cb(null, originalFilename);
-    }
-})
+    },
+});
 
 const upload = multer({
     storage,
@@ -25,13 +25,13 @@ const upload = multer({
         if (file.mimetype !== 'text/csv') {
             return cb(new Error('Only CSV files are allowed'));
         }
-        
+
         if (path.extname(file.originalname) !== '.csv') {
             return cb(new Error('Only CSV files are allowed'));
         }
-        
+
         cb(null, true);
-    }
+    },
 });
 
 const routeSchema = z.object({
@@ -42,40 +42,40 @@ export default defineEventHandler(async (event) => {
     const { id } = await getValidatedRouterParams(event, routeSchema.parse);
     // @ts-expect-error: adding id to req
     event.node.req.id = id;
-    
+
     try {
         await callNodeListener(
             // @ts-expect-error: Nuxt 3
             upload.single('file'),
             event.node.req,
-            event.node.res
+            event.node.res,
         );
         const filename = `uploads/enrollments/${originalFilename}`;
-        
+
         try {
             const enrollments = await readEnrollments(filename);
-            
+
             return prisma.moocSession.update({
                 where: { id },
                 data: {
-                    enrollmentsDetails: enrollments
+                    enrollmentsDetails: enrollments,
                 },
                 select: {
                     id: true,
-                    enrollmentsDetails: true
-                }
-            })
+                    enrollmentsDetails: true,
+                },
+            });
         } catch {
             return createError({
                 statusCode: 400,
-                statusMessage: 'Invalid CSV Format'
-            })
+                statusMessage: 'Invalid CSV Format',
+            });
         }
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         return createError({
             statusCode: 500,
             statusMessage: 'Something went wrong.',
-        })
+        });
     }
-})
+});

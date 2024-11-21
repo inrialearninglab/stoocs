@@ -1,11 +1,11 @@
-import { z } from "zod";
-import { prisma } from '~/prisma/db'
+import { z } from 'zod';
+import { prisma } from '~/prisma/db';
 
 const courseSchema = z.object({
     title: z.string(),
     courseNumber: z.string(),
     organization: z.string(),
-})
+});
 const sessionSchema = z.object({
     parentCourse: z.string(),
     sessionName: z.string(),
@@ -13,7 +13,7 @@ const sessionSchema = z.object({
     startDate: z.string().datetime(),
     endDate: z.string().datetime(),
     cutoffs: z.number(),
-})
+});
 const routeSchema = z.object({
     courses: z.array(courseSchema),
     sessions: z.array(sessionSchema),
@@ -30,16 +30,16 @@ export default defineEventHandler(async (event) => {
                 organization: course.organization,
             },
             create: {
-               courseNumber: course.courseNumber,
-               title: course.title,
-               organization: course.organization,
-            }
-        })
+                courseNumber: course.courseNumber,
+                title: course.title,
+                organization: course.organization,
+            },
+        });
     }
 
     for (const session of sessions) {
         const parentCourse = await prisma.mooc.findUnique({
-            where: { courseNumber: session.parentCourse }
+            where: { courseNumber: session.parentCourse },
         });
 
         if (!parentCourse) return;
@@ -53,9 +53,9 @@ export default defineEventHandler(async (event) => {
                 cutoffs: session.cutoffs,
                 mooc: {
                     connect: {
-                        id: parentCourse.id
-                    }
-                }
+                        id: parentCourse.id,
+                    },
+                },
             },
             create: {
                 sessionName: session.sessionName,
@@ -65,10 +65,10 @@ export default defineEventHandler(async (event) => {
                 cutoffs: session.cutoffs,
                 mooc: {
                     connect: {
-                        id: parentCourse.id
-                    }
-                }
-            }
-        })
+                        id: parentCourse.id,
+                    },
+                },
+            },
+        });
     }
-})
+});

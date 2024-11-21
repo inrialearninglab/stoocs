@@ -9,7 +9,7 @@ interface UsersState {
     users: {
         data: User[];
         loading: boolean;
-    },
+    };
     invitations: Invitation[];
 }
 
@@ -17,14 +17,14 @@ export const useUsers = defineStore('users', {
     state: (): UsersState => ({
         users: {
             data: [],
-            loading: false
+            loading: false,
         },
-        invitations: []
+        invitations: [],
     }),
 
     getters: {
-        ill: (state) => state.users.data.filter(user => user.rolename === 'ILL'),
-        guests: (state) => state.users.data.filter(user => user.rolename === 'Guest'),
+        ill: (state) => state.users.data.filter((user) => user.rolename === 'ILL'),
+        guests: (state) => state.users.data.filter((user) => user.rolename === 'Guest'),
     },
 
     actions: {
@@ -46,7 +46,7 @@ export const useUsers = defineStore('users', {
                 if (error.statusCode === 400) {
                     toast.error('Cet email est déjà associé à un compte');
                 } else if (error.statusCode === 500) {
-                    toast.error('Une erreur est survenue lors de l\'envoi de l\'invitation');
+                    toast.error("Une erreur est survenue lors de l'envoi de l'invitation");
                 }
             } else if (data) {
                 this.invitations.push(data);
@@ -58,9 +58,9 @@ export const useUsers = defineStore('users', {
             const { data, error } = await deleteInvitation(tokenHash);
 
             if (error) {
-                toast.error('Une erreur est survenue lors de la suppression de l\'invitation');
+                toast.error("Une erreur est survenue lors de la suppression de l'invitation");
             } else if (data) {
-                const index = this.invitations.findIndex(invitation => invitation.tokenHash === tokenHash);
+                const index = this.invitations.findIndex((invitation) => invitation.tokenHash === tokenHash);
                 if (index !== -1) this.invitations.splice(index, 1);
 
                 toast.success('Invitation supprimée');
@@ -71,7 +71,7 @@ export const useUsers = defineStore('users', {
             this.users.loading = true;
             const { data, error } = await updateProfile(email, firstname, lastname);
             if (!error && data) {
-                this.users.data = this.users.data.map(user => user.id === data.id ? data : user);
+                this.users.data = this.users.data.map((user) => (user.id === data.id ? data : user));
 
                 toast.success('Profil mis à jour');
 
@@ -109,27 +109,30 @@ export const useUsers = defineStore('users', {
             const { data, error } = await updateSessionGuest(sessionId, guestId, add);
 
             if (error) {
-                toast.error('Une erreur est survenue lors de la mise à jour des droits de l\'invité');
+                toast.error("Une erreur est survenue lors de la mise à jour des droits de l'invité");
             } else if (data) {
-                this.users.data = this.users.data.map(user => user.id === data.id ? data : user);
-                toast.success('Les droits de l\'invité ont bien été mis à jour');
+                this.users.data = this.users.data.map((user) => (user.id === data.id ? data : user));
+                toast.success("Les droits de l'invité ont bien été mis à jour");
             }
         },
 
         async updateSessionPendingGuest(sessionId: string, email: string, add: boolean) {
-            const { data, error } = await updateSessionPendingGuest(sessionId, email, add)
+            const { data, error } = await updateSessionPendingGuest(sessionId, email, add);
 
             if (error) {
-                toast.error('Une erreur est survenue lors de la mise à jour des droits de l\'invité');
-            } else if (data) [
-                this.invitations = this.invitations.map(invitation => invitation.email === email ? data : invitation),
-                toast.success('Les droits de l\'invité ont bien été mis à jour')
-            ]
+                toast.error("Une erreur est survenue lors de la mise à jour des droits de l'invité");
+            } else if (data)
+                [
+                    (this.invitations = this.invitations.map((invitation) =>
+                        invitation.email === email ? data : invitation,
+                    )),
+                    toast.success("Les droits de l'invité ont bien été mis à jour"),
+                ];
         },
 
         reset() {
             this.users = { data: [], loading: false };
             this.invitations = [];
-        }
-    }
-})
+        },
+    },
+});

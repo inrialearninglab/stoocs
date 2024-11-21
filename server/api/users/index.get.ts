@@ -9,19 +9,19 @@ export default defineEventHandler(async (event) => {
             lastname: true,
             rolename: true,
             moocSessions: true,
-            isAdmin: true
+            isAdmin: true,
         },
         orderBy: {
-            isAdmin: 'desc'
-        }
+            isAdmin: 'desc',
+        },
     });
 
     if (!users) {
         throw createError({
             statusCode: 404,
-            message: 'No users found'
+            message: 'No users found',
         });
     }
 
     return users;
-})
+});

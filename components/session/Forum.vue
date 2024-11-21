@@ -11,12 +11,11 @@ onMounted(() => {
         sessionStore.getSession(route.params.id as string);
     }
 });
-
 </script>
 
 <template>
     <div>
-        <Loader2 v-if="sessionStore.forum.loading" class="size-12 animate-spin mx-auto"/>
+        <Loader2 v-if="sessionStore.forum.loading" class="size-12 animate-spin mx-auto" />
 
         <div v-else-if="!sessionStore.forum.data" class="flex flex-col items-center gap-5">
             <h2>Aucune données de forum</h2>
@@ -30,11 +29,7 @@ onMounted(() => {
             </div>
 
             <div class="flex gap-4 w-full justify-center flex-wrap">
-                <MetricsNumberCard
-                    :value="sessionStore.forum.data.users"
-                    noun="Utilisateurs"
-                    :icon="Users"
-                >
+                <MetricsNumberCard :value="sessionStore.forum.data.users" noun="Utilisateurs" :icon="Users">
                     <template #title>Nombre d'utilisateurs</template>
                     <template #description>Nombre total d'utilisateurs inscrits sur le forum</template>
                 </MetricsNumberCard>
@@ -48,11 +43,7 @@ onMounted(() => {
                     <template #description>Nombre total de fils de discussion sur le forum</template>
                 </MetricsNumberCard>
 
-                <MetricsNumberCard
-                    :value="sessionStore.forum.data.posts"
-                    noun="Messages"
-                    :icon="MessageSquare"
-                >
+                <MetricsNumberCard :value="sessionStore.forum.data.posts" noun="Messages" :icon="MessageSquare">
                     <template #title>Nombre de messages</template>
                     <template #description>Nombre total de messages sur le forum</template>
                 </MetricsNumberCard>
@@ -81,7 +72,9 @@ onMounted(() => {
                             <span>{{ moderator.title }}</span>
                         </div>
                     </div>
-                    <p v-if="sessionStore.forum.data.moderators.length === 0" class="text-muted-foreground">Aucun modérateur</p>
+                    <p v-if="sessionStore.forum.data.moderators.length === 0" class="text-muted-foreground">
+                        Aucun modérateur
+                    </p>
                 </div>
             </div>
 

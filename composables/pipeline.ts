@@ -3,14 +3,14 @@ import { useMoocs } from '~/stores/moocs.store';
 import { toast } from 'vue-sonner';
 
 export const usePipeline = () => {
-    const status = useState<Status | undefined>(`pipeline-status`, () => undefined)
+    const status = useState<Status | undefined>(`pipeline-status`, () => undefined);
     let intervalId: NodeJS.Timeout | undefined;
     const loading = useState<boolean>(`pipeline-loading`, () => false);
 
     const fetchStatus = async (id: string) => {
         const res = await $fetch<{ status: Status }>(`/api/ci/${id}`);
         status.value = res.status;
-    }
+    };
 
     const checkStatus = async (id: string) => {
         await fetchStatus(id);
@@ -23,7 +23,7 @@ export const usePipeline = () => {
                 await stopInterval();
             }
         }, 10000);
-    }
+    };
 
     const stopInterval = async () => {
         const moocsStore = useMoocs();
@@ -39,11 +39,11 @@ export const usePipeline = () => {
             toast.success('Données mises à jour avec succès');
             await moocsStore.fetchMoocs();
         }
-    }
+    };
 
     return {
         status,
         loading,
-        checkStatus
-    }
-}
+        checkStatus,
+    };
+};

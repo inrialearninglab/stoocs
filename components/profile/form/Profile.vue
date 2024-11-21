@@ -15,25 +15,27 @@ onMounted(async () => {
             email: user.value.email,
             firstname: user.value.firstname,
             lastname: user.value.lastname,
-        })
+        });
     } else {
-        await navigateTo('/auth/login')
+        await navigateTo('/auth/login');
     }
-})
+});
 
-const formSchema = toTypedSchema(z.object({
-    email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
-    firstname: z.string({ message: requiredMessage }).min(2, 'Le prénom doit contenir au moins 2 caractères'),
-    lastname: z.string({ message: requiredMessage }).min(2, 'Le nom doit contenir au moins 2 caractères'),
-}));
+const formSchema = toTypedSchema(
+    z.object({
+        email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
+        firstname: z.string({ message: requiredMessage }).min(2, 'Le prénom doit contenir au moins 2 caractères'),
+        lastname: z.string({ message: requiredMessage }).min(2, 'Le nom doit contenir au moins 2 caractères'),
+    }),
+);
 
 const form = useForm({
     validationSchema: formSchema,
 });
 
 const onSubmit = form.handleSubmit(async (values) => {
-    await usersStore.updateProfile(values.email, values.firstname, values.lastname)
-})
+    await usersStore.updateProfile(values.email, values.firstname, values.lastname);
+});
 </script>
 
 <template>
@@ -48,7 +50,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                     <FormItem>
                         <FormLabel>Mail</FormLabel>
                         <FormControl>
-                            <Input type="email" v-bind="componentField"/>
+                            <Input type="email" v-bind="componentField" />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -59,7 +61,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                         <FormItem class="flex-1">
                             <FormLabel>Prénom</FormLabel>
                             <FormControl>
-                                <Input type="text" v-bind="componentField"/>
+                                <Input type="text" v-bind="componentField" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -69,7 +71,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                         <FormItem class="flex-1">
                             <FormLabel>Nom</FormLabel>
                             <FormControl>
-                                <Input type="text" v-bind="componentField"/>
+                                <Input type="text" v-bind="componentField" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

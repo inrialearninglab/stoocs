@@ -1,18 +1,13 @@
 <script setup lang="ts">
-import { LineChart } from '~/components/ui/chart-line'
-import {
-    type DateValue,
-    getLocalTimeZone,
-    parseDate,
-    today
-} from '@internationalized/date';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs'
+import { LineChart } from '~/components/ui/chart-line';
+import { type DateValue, getLocalTimeZone, parseDate, today } from '@internationalized/date';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { formatDate, getParsedDate } from '~/utils/date.utils';
 
 const props = defineProps<{
     details?: {
-        date: string,
-        enrollments: number
+        date: string;
+        enrollments: number;
     }[];
     startDate?: string;
     endDate?: string;
@@ -20,11 +15,17 @@ const props = defineProps<{
 }>();
 
 const startDateValue = ref<DateValue>(props.startDate ? parseDate(props.startDate) : today(getLocalTimeZone()));
-const endDateValue = ref<DateValue>(props.endDate ? parseDate(props.endDate) > today(getLocalTimeZone()) ? today(getLocalTimeZone()) : parseDate(props.endDate) : today(getLocalTimeZone()));
+const endDateValue = ref<DateValue>(
+    props.endDate
+        ? parseDate(props.endDate) > today(getLocalTimeZone())
+            ? today(getLocalTimeZone())
+            : parseDate(props.endDate)
+        : today(getLocalTimeZone()),
+);
 
 interface EnrollmentData {
-    'Date': string;
-    'Inscriptions': number;
+    Date: string;
+    Inscriptions: number;
 }
 
 function getFilteredData(mode: 'day' | 'total') {
@@ -44,18 +45,18 @@ function getFilteredData(mode: 'day' | 'total') {
             if (enrollmentDate < startDate) return;
 
             data.push({
-                'Date': formatDate(enrollmentDate),
-                'Inscriptions': enrollment.enrollments
+                Date: formatDate(enrollmentDate),
+                Inscriptions: enrollment.enrollments,
             });
         } else if (mode === 'total') {
             if (enrollmentDate < startDate) {
-                return enrollments += enrollment.enrollments;
+                return (enrollments += enrollment.enrollments);
             }
 
             enrollments += enrollment.enrollments;
             data.push({
-                'Date': formatDate(enrollmentDate),
-                'Inscriptions': enrollments
+                Date: formatDate(enrollmentDate),
+                Inscriptions: enrollments,
             });
         }
     });
@@ -63,14 +64,9 @@ function getFilteredData(mode: 'day' | 'total') {
     return data;
 }
 
-const presetsStart = [
-    { value: props.startDate!, label: 'Début de la session' }
-]
+const presetsStart = [{ value: props.startDate!, label: 'Début de la session' }];
 
-const presetsEnd = [
-    { value: props.endDate!, label: 'Fin de la session' }
-]
-
+const presetsEnd = [{ value: props.endDate!, label: 'Fin de la session' }];
 </script>
 
 <template>
@@ -81,15 +77,8 @@ const presetsEnd = [
                 <TabsTrigger value="total">Cumul</TabsTrigger>
             </TabsList>
             <TabsContent value="day">
-                <MetricsCard
-                    title="Inscriptions"
-                    :loading="loading"
-                    :empty="!details"
-                    report="enrollment"
-                >
-                    <template #description>
-                        Nombre de nouvelles inscriptions par jour
-                    </template>
+                <MetricsCard title="Inscriptions" :loading="loading" :empty="!details" report="enrollment">
+                    <template #description> Nombre de nouvelles inscriptions par jour </template>
 
                     <div class="flex gap-5 items-center">
                         <div class="flex gap-2 items-center mt-2">
@@ -114,15 +103,8 @@ const presetsEnd = [
             </TabsContent>
 
             <TabsContent value="total">
-                <MetricsCard
-                    title="Inscriptions"
-                    :loading="loading"
-                    :empty="!details"
-                    report="enrollment"
-                >
-                    <template #description>
-                        Nombre total d'inscriptions
-                    </template>
+                <MetricsCard title="Inscriptions" :loading="loading" :empty="!details" report="enrollment">
+                    <template #description> Nombre total d'inscriptions </template>
 
                     <div class="flex gap-5 items-center">
                         <div class="flex gap-2 items-center mt-2">

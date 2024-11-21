@@ -4,16 +4,21 @@ import { Star, ArrowRight } from 'lucide-vue-next';
 
 const props = defineProps<{
     mooc: Mooc;
-    pinned?: boolean
+    pinned?: boolean;
 }>();
 
 const isOpen = ref(Boolean(props.pinned));
 const moocsStore = useMoocs();
 
-const openedSessions = computed(() => props.mooc.sessions.filter(session => !session.ended && session.sessionName !== 'archiveouvert').length);
-const closedSessions = computed(() => props.mooc.sessions.filter(session => session.ended && session.sessionName !== 'archiveouvert').length);
-const archiveSessions = computed(() => props.mooc.sessions.filter(session => session.sessionName === 'archiveouvert').length)
-
+const openedSessions = computed(
+    () => props.mooc.sessions.filter((session) => !session.ended && session.sessionName !== 'archiveouvert').length,
+);
+const closedSessions = computed(
+    () => props.mooc.sessions.filter((session) => session.ended && session.sessionName !== 'archiveouvert').length,
+);
+const archiveSessions = computed(
+    () => props.mooc.sessions.filter((session) => session.sessionName === 'archiveouvert').length,
+);
 </script>
 
 <template>
@@ -46,7 +51,7 @@ const archiveSessions = computed(() => props.mooc.sessions.filter(session => ses
                 </div>
 
                 <Button @click="moocsStore.pin(mooc.id, Boolean(pinned))" variant="outline" size="icon">
-                    <Star class="size-6" :class="{ 'stroke-yellow-500 fill-yellow-500' : pinned }" />
+                    <Star class="size-6" :class="{ 'stroke-yellow-500 fill-yellow-500': pinned }" />
                 </Button>
             </div>
         </CardHeader>
@@ -55,7 +60,13 @@ const archiveSessions = computed(() => props.mooc.sessions.filter(session => ses
                 <NuxtLink :to="`/sessions/${session.id}`">
                     <div
                         class="size-4 rounded-full"
-                        :class="session.ended ? 'bg-error' : session.sessionName === 'archiveouvert' ? 'bg-warning' : 'bg-success'"
+                        :class="
+                            session.ended
+                                ? 'bg-error'
+                                : session.sessionName === 'archiveouvert'
+                                  ? 'bg-warning'
+                                  : 'bg-success'
+                        "
                     ></div>
                     {{ session.sessionName }}
 

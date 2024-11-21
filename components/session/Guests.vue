@@ -9,16 +9,24 @@ import { z } from 'zod';
 // TODO: refactor this component
 
 const props = defineProps<{
-    sessionId: string
+    sessionId: string;
 }>();
 
 const usersStore = useUsers();
 
-const guests = computed(() => usersStore.guests.filter((guest) => guest.moocSessions.includes(props.sessionId)))
-const otherGuests = computed(() => usersStore.guests.filter((guest) => !guest.moocSessions.includes(props.sessionId)))
+const guests = computed(() => usersStore.guests.filter((guest) => guest.moocSessions.includes(props.sessionId)));
+const otherGuests = computed(() => usersStore.guests.filter((guest) => !guest.moocSessions.includes(props.sessionId)));
 
-const invitations = computed(() => usersStore.invitations.filter((invitation) => invitation.moocSessions.includes(props.sessionId) && invitation.isGuest))
-const otherInvitations = computed(() => usersStore.invitations.filter((invitation) => !invitation.moocSessions.includes(props.sessionId) && invitation.isGuest))
+const invitations = computed(() =>
+    usersStore.invitations.filter(
+        (invitation) => invitation.moocSessions.includes(props.sessionId) && invitation.isGuest,
+    ),
+);
+const otherInvitations = computed(() =>
+    usersStore.invitations.filter(
+        (invitation) => !invitation.moocSessions.includes(props.sessionId) && invitation.isGuest,
+    ),
+);
 
 function addPendingGuest(email: string) {
     usersStore.updateSessionPendingGuest(props.sessionId, email, true);
@@ -40,12 +48,18 @@ const addWindowLimit = 5;
 
 const guestSearch = ref('');
 const filteredGuests = computed(() => {
-    return otherGuests.value.filter((guest) =>
-        `${guest.firstname.toLowerCase()} ${guest.lastname.toLowerCase()}`.includes(guestSearch.value.toLowerCase() || '')).slice(0, addWindowLimit)
-})
+    return otherGuests.value
+        .filter((guest) =>
+            `${guest.firstname.toLowerCase()} ${guest.lastname.toLowerCase()}`.includes(
+                guestSearch.value.toLowerCase() || '',
+            ),
+        )
+        .slice(0, addWindowLimit);
+});
 const filteredInvitations = computed(() => {
-    return otherInvitations.value.filter((invitation) =>
-        `${invitation.email.toLowerCase()}`.includes(guestSearch.value.toLowerCase() || '')).slice(0, addWindowLimit)
+    return otherInvitations.value
+        .filter((invitation) => `${invitation.email.toLowerCase()}`.includes(guestSearch.value.toLowerCase() || ''))
+        .slice(0, addWindowLimit);
 });
 
 function isValidEmail(email: string) {
@@ -64,7 +78,6 @@ async function createGuest(email: string) {
     addPendingGuest(email);
     guestSearch.value = '';
 }
-
 </script>
 
 <template>
@@ -99,7 +112,10 @@ async function createGuest(email: string) {
                             <Input v-model="guestSearch" placeholder="Rechercher un utilisateur" />
 
                             <template v-if="guestSearch">
-                                <div v-for="guest of filteredGuests" class="border rounded-md p-2 flex gap-2 items-center">
+                                <div
+                                    v-for="guest of filteredGuests"
+                                    class="border rounded-md p-2 flex gap-2 items-center"
+                                >
                                     <UserAvatar :user="guest" size="sm" />
                                     <span class="flex-1">{{ guest.firstname }} {{ guest.lastname }}</span>
 
@@ -108,18 +124,25 @@ async function createGuest(email: string) {
                                     </Button>
                                 </div>
 
-                                <div v-for="invitation of filteredInvitations" class="border border-dashed rounded-md p-2 flex gap-2 items-center">
+                                <div
+                                    v-for="invitation of filteredInvitations"
+                                    class="border border-dashed rounded-md p-2 flex gap-2 items-center"
+                                >
                                     <span class="flex-1">{{ invitation.email }}</span>
                                     <Button @click="addPendingGuest(invitation.email)" size="icon" variant="ghost">
                                         <UserPlus class="size-5" />
                                     </Button>
                                 </div>
-
                             </template>
 
                             <div v-if="!filteredGuests.length && !filteredInvitations.length" class="mt-2 text-center">
                                 <span>Aucun utilisateur ne correspond à votre recherche.</span>
-                                <Button v-if="isValidEmail(guestSearch)" @click="createGuest(guestSearch)" variant="outline" class="mt-2">
+                                <Button
+                                    v-if="isValidEmail(guestSearch)"
+                                    @click="createGuest(guestSearch)"
+                                    variant="outline"
+                                    class="mt-2"
+                                >
                                     <UserPlus class="mr-2" />
                                     <span>Ajouter comme membre invité</span>
                                 </Button>
@@ -140,7 +163,10 @@ async function createGuest(email: string) {
                 <Separator class="my-4" />
                 <span class="text-lg font-semibold">Invités en attente</span>
 
-                <div v-for="invitation of invitations" class="border border-dashed rounded-md p-2 flex gap-2 items-center">
+                <div
+                    v-for="invitation of invitations"
+                    class="border border-dashed rounded-md p-2 flex gap-2 items-center"
+                >
                     <span class="flex-1">{{ invitation.email }}</span>
                     <Button @click="removePendingGuest(invitation.email)" size="icon" variant="ghost">
                         <UserMinus class="size-5" />

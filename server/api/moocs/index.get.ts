@@ -13,21 +13,21 @@ export default defineEventHandler(async (event) => {
                     select: {
                         id: true,
                         sessionName: true,
-                        ended: true
-                    }
+                        ended: true,
+                    },
                 },
                 pinnedBy: {
                     select: {
-                        userId: true
-                    }
-                }
-            }
+                        userId: true,
+                    },
+                },
+            },
         });
 
         if (!moocs) {
             throw createError({
                 statusCode: 404,
-                message: 'No moocs found'
+                message: 'No moocs found',
             });
         }
 
@@ -37,9 +37,9 @@ export default defineEventHandler(async (event) => {
             where: {
                 sessions: {
                     some: {
-                        id: { in: event.context.user.moocSessions }
-                    }
-                }
+                        id: { in: event.context.user.moocSessions },
+                    },
+                },
             },
             select: {
                 id: true,
@@ -51,23 +51,23 @@ export default defineEventHandler(async (event) => {
                     select: {
                         id: true,
                         sessionName: true,
-                        ended: true
-                    }
+                        ended: true,
+                    },
                 },
                 pinnedBy: {
                     select: {
-                        userId: true
-                    }
-                }
-            }
+                        userId: true,
+                    },
+                },
+            },
         });
 
         if (!moocs) {
             throw createError({
                 status: 404,
-            })
+            });
         }
 
         return moocs;
     }
-})
+});

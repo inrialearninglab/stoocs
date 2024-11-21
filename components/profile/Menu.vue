@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Settings, Users, LogOut, BookOpen } from 'lucide-vue-next';
-import { Avatar, AvatarImage, AvatarFallback } from '~/components/ui/avatar';
 import { logout } from '~/services/auth.service';
 
 const user = useUser();

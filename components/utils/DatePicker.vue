@@ -10,19 +10,19 @@ import { Select, SelectContent, SelectValue } from '~/components/ui/select';
 
 const df = new DateFormatter('fr-FR', {
     dateStyle: 'long',
-})
+});
 
 const props = defineProps<{
     modelValue: DateValue;
-    size?: ButtonVariants['size']
+    size?: ButtonVariants['size'];
     presets?: {
         value: string;
         label: string;
-    }[]
-}>()
+    }[];
+}>();
 
 const emits = defineEmits<{
-    (e: 'update:modelValue', value: DateValue): void
+    (e: 'update:modelValue', value: DateValue): void;
 }>();
 
 const value = useVModel(props, 'modelValue', emits);
@@ -31,13 +31,13 @@ const open = ref(false);
 function getPresetValue(value: string) {
     switch (value) {
         case 'week':
-            return today(getLocalTimeZone()).subtract({ weeks: 1})
+            return today(getLocalTimeZone()).subtract({ weeks: 1 });
         case 'month':
-            return today(getLocalTimeZone()).subtract({ months: 1})
+            return today(getLocalTimeZone()).subtract({ months: 1 });
         case 'year':
-            return today(getLocalTimeZone()).subtract({ years: 1})
+            return today(getLocalTimeZone()).subtract({ years: 1 });
         default:
-            return parseDate(value)
+            return parseDate(value);
     }
 }
 
@@ -45,8 +45,8 @@ const presets = [
     { value: 'week', label: 'La semaine dernière' },
     { value: 'month', label: 'Le mois dernier' },
     { value: 'year', label: 'La dernière année' },
-    ...props.presets ?? []
-]
+    ...(props.presets ?? []),
+];
 </script>
 
 <template>
@@ -55,10 +55,7 @@ const presets = [
             <Button
                 :size="size"
                 variant="outline"
-                :class="cn(
-                'w-[250px] justify-start text-left font-normal',
-                !value && 'text-muted-foreground'
-            )"
+                :class="cn('w-[250px] justify-start text-left font-normal', !value && 'text-muted-foreground')"
             >
                 <CalendarIcon class="mr-2 size-4" />
                 {{ value ? df.format(value.toDate(getLocalTimeZone())) : 'Choisissez une date' }}
@@ -67,11 +64,13 @@ const presets = [
 
         <PopoverContent class="flex w-auto flex-col gap-y-2 p-2">
             <Select
-                @update:model-value="(v) => {
-                    if (!v) return;
-                    value = getPresetValue(v)
-                    open = false
-                }"
+                @update:model-value="
+                    (v) => {
+                        if (!v) return;
+                        value = getPresetValue(v);
+                        open = false;
+                    }
+                "
             >
                 <SelectTrigger>
                     <SelectValue placeholder="Choisir" />
@@ -84,7 +83,7 @@ const presets = [
                 </SelectContent>
             </Select>
 
-            <Calendar @update:model-value="open = false" v-model="value" initial-focus/>
+            <Calendar @update:model-value="open = false" v-model="value" initial-focus />
         </PopoverContent>
     </Popover>
 </template>

@@ -1,12 +1,10 @@
 <script setup lang="ts">
-
 defineProps<{
     value: number;
     noun: string;
-    icon?: Component
+    icon?: Component;
     chip?: 'grade' | 'enrollment';
 }>();
-
 </script>
 
 <template>
@@ -20,9 +18,7 @@ defineProps<{
             <MetricsReportChip v-if="chip" :report="chip" />
         </CardHeader>
         <CardContent>
-            <h2 class="text-center">
-                {{ value.toLocaleString('fr-FR') }} {{ noun }}
-            </h2>
+            <h2 class="text-center">{{ value.toLocaleString('fr-FR') }} {{ noun }}</h2>
         </CardContent>
     </Card>
 </template>

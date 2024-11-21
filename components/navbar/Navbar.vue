@@ -8,19 +8,18 @@ import { Palette, UserPen } from 'lucide-vue-next';
 
 const user = useUser();
 
-
 const tabMap: Record<TabState, TabInfo> = {
     moocs: {
         label: 'MOOCs',
         description: 'Liste des MOOCs sur FUN',
         to: '/moocs',
-        actions: MoocActions
+        actions: MoocActions,
     },
     team: {
         label: 'Équipe',
-        description: 'Liste des membres de l\'équipe',
+        description: "Liste des membres de l'équipe",
         to: '/users',
-        actions: UserActions
+        actions: UserActions,
     },
     settings: {
         label: 'Paramètres',
@@ -31,15 +30,15 @@ const tabMap: Record<TabState, TabInfo> = {
                 label: 'Profil',
                 description: 'Mon profil',
                 to: '/settings/profile',
-                icon: UserPen
+                icon: UserPen,
             },
             themes: {
                 label: 'Thèmes',
-                description: 'Personnaliser l\'apparence de l\'application',
+                description: "Personnaliser l'apparence de l'application",
                 to: '/settings/themes',
-                icon: Palette
-            }
-        }
+                icon: Palette,
+            },
+        },
     },
 };
 
@@ -58,10 +57,11 @@ function findCurrentTab(path: string): TabState | null {
     const entry = Object.entries(tabMap).find(([, value]) => {
         if (value.to === path) {
             return true;
-        } if (value.children) {
+        }
+        if (value.children) {
             return Object.values(value.children).find((child) => child.to === path);
         }
-    })
+    });
 
     if (!entry) return null;
     return entry[0] as TabState;
@@ -70,10 +70,12 @@ function findCurrentTab(path: string): TabState | null {
 const activeTab: Ref<TabState | null> = ref(findCurrentTab(route.path));
 const modelValue = computed(() => activeTab.value);
 
-watch(() => route.path, () => {
-    activeTab.value = findCurrentTab(route.path);
-})
-
+watch(
+    () => route.path,
+    () => {
+        activeTab.value = findCurrentTab(route.path);
+    },
+);
 </script>
 
 <template>
@@ -82,17 +84,15 @@ watch(() => route.path, () => {
             <div class="flex flex-col gap-2">
                 <h1>{{ tabMap[activeTab].label }}</h1>
                 <p class="text-muted-foreground">{{ tabMap[activeTab].description }}</p>
-            </div >
+            </div>
 
             <Component v-if="tabMap[activeTab].actions" :is="tabMap[activeTab].actions" />
         </header>
 
-        <Tabs
-            class="flex flex-col gap-8"
-            v-model="modelValue"
-            @update:model-value="onTabChange"
-        >
-            <nav class="flex flex-row items-center justify-between w-full gap-4 max-sm:overflow-x-auto border-b border-b-divider pb-1">
+        <Tabs class="flex flex-col gap-8" v-model="modelValue" @update:model-value="onTabChange">
+            <nav
+                class="flex flex-row items-center justify-between w-full gap-4 max-sm:overflow-x-auto border-b border-b-divider pb-1"
+            >
                 <TabsList class="bg-transparent relative px-0" as-child>
                     <div>
                         <TabsTrigger
@@ -108,14 +108,17 @@ watch(() => route.path, () => {
                                     <div class="h-0.5 bg-foreground rounded-t-md" />
                                 </div>
                             </Button>
-
                         </TabsTrigger>
                     </div>
                 </TabsList>
             </nav>
             <TabsContent :value="modelValue">
                 <div class="flex gap-8">
-                    <SettingsSidebar v-if="tabMap[activeTab].children" :tabs="tabMap[activeTab].children" :activeTab="activeTab" />
+                    <SettingsSidebar
+                        v-if="tabMap[activeTab].children"
+                        :tabs="tabMap[activeTab].children"
+                        :activeTab="activeTab"
+                    />
                     <div class="flex-1">
                         <slot />
                     </div>
@@ -126,7 +129,7 @@ watch(() => route.path, () => {
 </template>
 
 <style scoped>
-    .tab-button {
-        @apply hover:bg-accent !important;
-    }
+.tab-button {
+    @apply hover:bg-accent !important;
+}
 </style>

@@ -2,10 +2,9 @@
 import type { Mooc } from '~/types';
 
 defineProps<{
-    moocs: Mooc[]
-    pinned?: boolean
+    moocs: Mooc[];
+    pinned?: boolean;
 }>();
-
 </script>
 
 <template>

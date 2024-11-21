@@ -12,16 +12,16 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from '~/components/ui/alert-dialog'
+} from '~/components/ui/alert-dialog';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '~/components/ui/card';
 import BorderBeam from '~/components/ui/BorderBeam.vue';
 
 defineProps<{
-    user: User
-    profile?: boolean
+    user: User;
+    profile?: boolean;
 }>();
 
-const usersStore = useUsers()
+const usersStore = useUsers();
 </script>
 
 <template>
@@ -35,14 +35,14 @@ const usersStore = useUsers()
         <CardFooter class="flex gap-2">
             <Button v-if="profile" variant="outline" class="flex-1" as-child>
                 <NuxtLink to="/users/update" class="flex items-center">
-                    <PenLine class="size-4 mr-2"/>
+                    <PenLine class="size-4 mr-2" />
                     Modifier
                 </NuxtLink>
             </Button>
             <AlertDialog v-if="profile">
                 <AlertDialogTrigger as-child>
                     <Button variant="destructive" class="flex-1">
-                        <Trash2 class="size-4 mr-2"/>
+                        <Trash2 class="size-4 mr-2" />
                         Supprimer
                     </Button>
                 </AlertDialogTrigger>
@@ -50,7 +50,8 @@ const usersStore = useUsers()
                     <AlertDialogHeader>
                         <AlertDialogTitle>Êtes-vous absolument sûr ?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Cette action ne peut pas être annulée. Cela supprimera définitivement votre compte et effacera vos données de nos serveurs.
+                            Cette action ne peut pas être annulée. Cela supprimera définitivement votre compte et
+                            effacera vos données de nos serveurs.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

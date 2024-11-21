@@ -1,34 +1,34 @@
 <script setup lang="ts">
 import { Button } from '~/components/ui/button';
-import { Loader2, CircleAlert, CircleCheck, CircleX, CircleDot, CirclePause, CircleSlash, CircleDotDashed } from 'lucide-vue-next';
+import { Loader2, CircleCheck, CircleX, CircleDot, CirclePause, CircleSlash, CircleDotDashed } from 'lucide-vue-next';
 import type { Status } from '~/types/ci.type';
 
-const statusMap: Record<Status, { icon: Component, color: string }> = {
-    'failed': {
+const statusMap: Record<Status, { icon: Component; color: string }> = {
+    failed: {
         icon: CircleX,
-        color: 'error'
+        color: 'error',
     },
-    'created': {
+    created: {
         icon: CircleDotDashed,
-        color: 'warning'
+        color: 'warning',
     },
-    'success': {
+    success: {
         icon: CircleCheck,
-        color: 'success'
+        color: 'success',
     },
-    'running': {
+    running: {
         icon: CircleDot,
-        color: 'info'
+        color: 'info',
     },
-    'pending': {
+    pending: {
         icon: CirclePause,
-        color: 'warning'
+        color: 'warning',
     },
-    'canceled': {
+    canceled: {
         icon: CircleSlash,
-        color: 'error'
-    }
-}
+        color: 'error',
+    },
+};
 
 const { status, checkStatus, loading } = usePipeline();
 
@@ -43,7 +43,6 @@ async function triggerPipeline() {
 }
 
 const config = useRuntimeConfig();
-
 </script>
 
 <template>
@@ -59,7 +58,11 @@ const config = useRuntimeConfig();
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Mettre à jour la liste des MOOCs</AlertDialogTitle>
-                    <AlertDialogDescription>Cette action prend un certain temps (environ 2 minutes). Elle déclenchera le robot de collecte de données ({{ config.public.scrapperEmail }}) et mettra à jour la liste des MOOCs.</AlertDialogDescription>
+                    <AlertDialogDescription
+                        >Cette action prend un certain temps (environ 2 minutes). Elle déclenchera le robot de collecte
+                        de données ({{ config.public.scrapperEmail }}) et mettra à jour la liste des
+                        MOOCs.</AlertDialogDescription
+                    >
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Annuler</AlertDialogCancel>

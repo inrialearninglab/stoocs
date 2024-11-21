@@ -4,7 +4,7 @@ import {
     BreadcrumbItem,
     BreadcrumbLink,
     BreadcrumbList,
-    BreadcrumbSeparator
+    BreadcrumbSeparator,
 } from '~/components/ui/breadcrumb';
 import Refresh from '~/components/utils/Refresh.vue';
 import { Skeleton } from '~/components/ui/skeleton';
@@ -22,7 +22,6 @@ async function handleRefresh() {
     await usersStore.fetchUsers();
     refresh.value.onEndLoad();
 }
-
 </script>
 <template>
     <div class="flex flex-col gap-2">
@@ -37,8 +36,13 @@ async function handleRefresh() {
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
                         <BreadcrumbLink as-child>
-                            <NuxtLink v-if="!sessionStore?.session?.loading" :to="`/sessions/${sessionStore?.session?.data?.id}`">
-                                {{ sessionStore?.session?.data?.mooc.title }}/{{ sessionStore?.session?.data?.sessionName }}
+                            <NuxtLink
+                                v-if="!sessionStore?.session?.loading"
+                                :to="`/sessions/${sessionStore?.session?.data?.id}`"
+                            >
+                                {{ sessionStore?.session?.data?.mooc.title }}/{{
+                                    sessionStore?.session?.data?.sessionName
+                                }}
                             </NuxtLink>
                             <Skeleton v-else class="w-80 h-6" />
                         </BreadcrumbLink>
@@ -47,7 +51,10 @@ async function handleRefresh() {
             </Breadcrumb>
 
             <div class="flex gap-2 items-center">
-                <SessionGuests v-if="sessionStore.session.data && user?.rolename === 'ILL'" :sessionId="sessionStore.session.data.id" />
+                <SessionGuests
+                    v-if="sessionStore.session.data && user?.rolename === 'ILL'"
+                    :sessionId="sessionStore.session.data.id"
+                />
 
                 <Refresh ref="refresh" @refresh="handleRefresh" />
             </div>
@@ -56,6 +63,5 @@ async function handleRefresh() {
         <h1 class="text-center">{{ sessionStore?.session?.data?.mooc.title }}</h1>
         <h2 class="text-center text-muted-foreground">{{ sessionStore?.session?.data?.sessionName }}</h2>
         <p class="text-muted-foreground text-center">{{ sessionStore.session.data?.mooc.courseNumber }}</p>
-
     </div>
 </template>

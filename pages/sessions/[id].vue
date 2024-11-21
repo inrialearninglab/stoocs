@@ -4,8 +4,8 @@ import SessionReports from '~/components/session/Reports.vue';
 const reports: Ref<InstanceType<typeof SessionReports> | null> = ref(null);
 
 definePageMeta({
-    middleware: 'guest'
-})
+    middleware: 'guest',
+});
 </script>
 
 <template>

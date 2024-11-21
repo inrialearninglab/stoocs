@@ -1,36 +1,36 @@
 <script lang="ts" setup>
-import { Users, Cog, List } from "lucide-vue-next";
-import { BentoGrid, BentoGridItem } from "~/components/inspira/bento";
+import { Users, Cog, List } from 'lucide-vue-next';
+import { BentoGrid, BentoGridItem } from '~/components/inspira/bento';
 
 const items = [
     {
-        title: "Moocs",
-        description: "Voir la liste des moocs",
-        image: "/hero/moocs-dark.png",
-        href: "/moocs",
+        title: 'Moocs',
+        description: 'Voir la liste des moocs',
+        image: '/hero/moocs-dark.png',
+        href: '/moocs',
         icon: List,
-        class: "md:col-span-2"
+        class: 'md:col-span-2',
     },
     {
-        title: "Paramètres",
+        title: 'Paramètres',
         description: "Accéder aux paramètres de l'application",
-        image: "/hero/settings-dark.png",
-        href: "/settings/profile",
+        image: '/hero/settings-dark.png',
+        href: '/settings/profile',
         icon: Cog,
-        class: "",
+        class: '',
     },
 ];
 
 const ILLItems = [
     {
-        title: "Equipe",
+        title: 'Equipe',
         description: "Administrer les membres de l'équipe",
-        image: "/hero/users-dark.png",
-        href: "/users",
+        image: '/hero/users-dark.png',
+        href: '/users',
         icon: Users,
-        class: "",
+        class: '',
     },
-]
+];
 const user = useUser();
 
 if (user?.value?.rolename === 'ILL') items.push(...ILLItems);

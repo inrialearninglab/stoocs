@@ -12,21 +12,20 @@ export default defineEventHandler(async (event) => {
         where: { id },
     });
 
-
     if (!report) {
         throw createError({
             statusCode: 404,
-            message: 'Report not found.'
+            message: 'Report not found.',
         });
     }
 
     if (event.context.user.rolename === 'Guest') {
-       if (!event.context.user.moocSessions.includes(report.moocSessionId)) {
-           throw createError({
+        if (!event.context.user.moocSessions.includes(report.moocSessionId)) {
+            throw createError({
                 statusCode: 403,
-           })
-       }
+            });
+        }
     }
 
     return report;
-})
+});

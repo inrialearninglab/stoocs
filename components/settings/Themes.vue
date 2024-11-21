@@ -21,7 +21,7 @@ const allColors: Theme['name'][] = [
     'yellow',
     'violet',
     'black',
-    'new'
+    'new',
 ];
 
 const RADII = [0, 0.25, 0.5, 0.75, 1] as const;
@@ -37,9 +37,7 @@ watch(radius, () => {
 });
 
 function setClassTheme() {
-    document.documentElement.classList.remove(
-        ...allColors.map(color => `theme-${color}`),
-    );
+    document.documentElement.classList.remove(...allColors.map((color) => `theme-${color}`));
     document.documentElement.classList.add(themeClass.value);
 }
 
@@ -48,7 +46,7 @@ function setStyleRadius() {
 }
 
 function backgroundColor(color: Theme['name']) {
-    const bg = themes.find(theme => theme.name === color);
+    const bg = themes.find((theme) => theme.name === color);
     return `hsl(${bg?.activeColor.light})`;
 }
 
@@ -58,12 +56,8 @@ const colorMode = useColorMode();
 <template>
     <div class="grid gap-6">
         <div class="grid space-y-1">
-            <h1 class="text-lg font-semibold text-foreground">
-                Personnaliser
-            </h1>
-            <p class="text-sm text-muted-foreground">
-                Personnaliser l'apparence de l'application.
-            </p>
+            <h1 class="text-lg font-semibold text-foreground">Personnaliser</h1>
+            <p class="text-sm text-muted-foreground">Personnaliser l'apparence de l'application.</p>
         </div>
         <div class="space-y-1.5">
             <Label>Couleur</Label>
@@ -75,10 +69,12 @@ const colorMode = useColorMode();
                         :class="{ 'border-2 border-primary': theme === color }"
                         @click="setTheme(color)"
                     >
-            <span class="flex size-5 items-center justify-center rounded-full"
-                  :style="{ backgroundColor: backgroundColor(color) }">
-                <Check v-if="theme === color" class="size-4"/>
-            </span>
+                        <span
+                            class="flex size-5 items-center justify-center rounded-full"
+                            :style="{ backgroundColor: backgroundColor(color) }"
+                        >
+                            <Check v-if="theme === color" class="size-4" />
+                        </span>
                         <span class="text-xs capitalize">{{ color }}</span>
                     </Button>
                 </template>
@@ -110,7 +106,7 @@ const colorMode = useColorMode();
                     :class="{ 'border-2 border-primary': colorMode.preference === 'light' }"
                     @click="colorMode.preference = 'light'"
                 >
-                    <Sun class="size-5"/>
+                    <Sun class="size-5" />
                     <span class="text-xs capitalize">Clair</span>
                 </Button>
                 <Button
@@ -119,7 +115,7 @@ const colorMode = useColorMode();
                     :class="{ 'border-2 border-primary': colorMode.preference === 'dark' }"
                     @click="colorMode.preference = 'dark'"
                 >
-                    <Moon class="size-5"/>
+                    <Moon class="size-5" />
                     <span class="text-xs capitalize">Sombre</span>
                 </Button>
                 <Button
@@ -128,7 +124,7 @@ const colorMode = useColorMode();
                     :class="{ 'border-2 border-primary': colorMode.preference === 'system' }"
                     @click="colorMode.preference = 'system'"
                 >
-                    <Monitor class="size-5"/>
+                    <Monitor class="size-5" />
                     <span class="text-xs capitalize">Système</span>
                 </Button>
             </div>

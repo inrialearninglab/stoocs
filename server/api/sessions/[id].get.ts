@@ -2,7 +2,7 @@ import { prisma } from '~/prisma/db';
 import { z } from 'zod';
 
 const routeSchema = z.object({
-    id: z.string()
+    id: z.string(),
 });
 
 export default defineEventHandler(async (event) => {
@@ -12,13 +12,13 @@ export default defineEventHandler(async (event) => {
         if (!event.context.user.moocSessions.includes(id)) {
             throw createError({
                 statusCode: 403,
-            })
+            });
         }
     }
 
     const session = await prisma.moocSession.findUnique({
         where: {
-            id
+            id,
         },
         select: {
             id: true,
@@ -35,25 +35,25 @@ export default defineEventHandler(async (event) => {
                     target: true,
                     sessions: false,
                     courseNumber: true,
-                    pinnedBy: true
-                }
+                    pinnedBy: true,
+                },
             },
             enrollmentsDetails: true,
             gradeReports: {
                 select: {
                     id: true,
-                    date: true
-                }
-            }
-        }
-    })
+                    date: true,
+                },
+            },
+        },
+    });
 
     if (!session) {
         throw createError({
             statusCode: 404,
-            message: 'Session not found.'
-        })
+            message: 'Session not found.',
+        });
     }
 
     return session;
-})
+});

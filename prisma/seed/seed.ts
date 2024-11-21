@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { getCourses } from "./courses/courses.js";
+import { getCourses } from './courses/courses.js';
 import { users } from './initialUser';
 
 const prisma = new PrismaClient();
@@ -20,15 +20,15 @@ async function seed() {
                 courseNumber: course.courseNumber,
                 title: course.title,
                 organization: course.organization,
-            }
-        })
+            },
+        });
 
         console.log(`Created mooc with id ${res.id}`);
     }
 
     for (const session of sessions) {
         const parentCourse = await prisma.mooc.findUnique({
-            where: { courseNumber: session.parentCourse }
+            where: { courseNumber: session.parentCourse },
         });
 
         if (parentCourse) {
@@ -41,9 +41,9 @@ async function seed() {
                     cutoffs: session.cutoffs,
                     mooc: {
                         connect: {
-                            id: parentCourse.id
-                        }
-                    }
+                            id: parentCourse.id,
+                        },
+                    },
                 },
                 create: {
                     sessionName: session.sessionName,
@@ -53,10 +53,10 @@ async function seed() {
                     cutoffs: session.cutoffs,
                     mooc: {
                         connect: {
-                            id: parentCourse.id
-                        }
-                    }
-                }
+                            id: parentCourse.id,
+                        },
+                    },
+                },
             });
             console.log(`Created session with id ${res.id}`);
         }
@@ -64,12 +64,12 @@ async function seed() {
 
     const ILLRole = await prisma.role.create({
         data: {
-            name: "ILL",
+            name: 'ILL',
         },
     });
     await prisma.role.create({
         data: {
-            name: "Guest",
+            name: 'Guest',
         },
     });
 
@@ -83,10 +83,10 @@ async function seed() {
                 lastname: user.lastname,
                 role: {
                     connect: { name: ILLRole.name },
-                }
+                },
             },
         });
-        console.log(`created user with id: ${res.id}`)
+        console.log(`created user with id: ${res.id}`);
     }
     console.log('Seeding finished.');
 }
@@ -98,5 +98,5 @@ seed()
     .catch(async (e) => {
         console.error(e);
         await prisma.$disconnect();
-        process.exit(1)
+        process.exit(1);
     });

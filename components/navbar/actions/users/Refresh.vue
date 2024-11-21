@@ -12,7 +12,6 @@ async function handleRefresh() {
     await usersStore.fetchUsers();
     refresh.value.onEndLoad();
 }
-
 </script>
 
 <template>

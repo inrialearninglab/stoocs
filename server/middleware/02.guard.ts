@@ -22,10 +22,9 @@ export default defineEventHandler(async (event) => {
         { url: '/api/users/delete', method: 'GET' },
 
         { url: '/api/forum/.*', method: 'GET' },
-    ]
+    ];
 
     if (event.path.startsWith('/api')) {
-
         // This route is used by the scrapper to upload courses data
         if (event.path === '/api/courses' && event.method === 'POST') {
             const authorization = getHeader(event, 'Authorization');
@@ -38,21 +37,23 @@ export default defineEventHandler(async (event) => {
             return;
         }
 
-        const isGuestRoute = guestRoutes.some(route => new RegExp(`^${route.url}$`).test(event.path) && route.method === event.method);
-        const isCourseGuestRoute = courseGuestRoutes.some(route => new RegExp(`^${route.url}$`).test(event.path) && route.method === event.method);
+        const isGuestRoute = guestRoutes.some(
+            (route) => new RegExp(`^${route.url}$`).test(event.path) && route.method === event.method,
+        );
+        const isCourseGuestRoute = courseGuestRoutes.some(
+            (route) => new RegExp(`^${route.url}$`).test(event.path) && route.method === event.method,
+        );
 
         if (!isGuestRoute) {
             if (!event.context.user) {
                 throw createError({
-                    statusCode: 403
+                    statusCode: 403,
                 });
-            }
-
-            else if (!isCourseGuestRoute && event.context.user.rolename !== 'ILL') {
+            } else if (!isCourseGuestRoute && event.context.user.rolename !== 'ILL') {
                 throw createError({
-                    statusCode: 403
+                    statusCode: 403,
                 });
             }
         }
     }
-})
+});

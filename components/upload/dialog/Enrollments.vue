@@ -23,14 +23,14 @@ async function handleSubmit() {
 }
 
 const conditions = computed(() => {
-    return  {
+    return {
         'enrollments.csv': files.value.length === 1 && isEnrollments(files.value[0].name),
-    }
-})
+    };
+});
 
 const conditionsFilled = computed(() => {
-    return Object.values(conditions.value).every(condition => condition);
-})
+    return Object.values(conditions.value).every((condition) => condition);
+});
 
 async function focusSubmit() {
     await nextTick();
@@ -44,8 +44,7 @@ defineExpose({
     open,
     files,
     focusSubmit,
-})
-
+});
 </script>
 
 <template>
@@ -53,11 +52,20 @@ defineExpose({
         <DialogContent class="max-w-2xl">
             <DialogHeader>
                 <DialogTitle>Ajouter un rapport d'inscription</DialogTitle>
-                <DialogDescription>Ajouter le fichier "<code>enrollments.csv</code>" du "Course dashboard" de FUN ici</DialogDescription>
+                <DialogDescription
+                    >Ajouter le fichier "<code>enrollments.csv</code>" du "Course dashboard" de FUN
+                    ici</DialogDescription
+                >
             </DialogHeader>
             <UploadInput v-model="files" :conditions="conditions" />
             <DialogFooter class="mt-4">
-                <Button :disabled="loading || !conditionsFilled" @click="handleSubmit" class="w-full" type="submit" id="submit">
+                <Button
+                    :disabled="loading || !conditionsFilled"
+                    @click="handleSubmit"
+                    class="w-full"
+                    type="submit"
+                    id="submit"
+                >
                     <Loader2 v-if="loading" class="w-4 h-4 mr-2 animate-spin" />
                     Valider
                 </Button>

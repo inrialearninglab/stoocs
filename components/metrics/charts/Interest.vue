@@ -8,19 +8,19 @@ const props = defineProps<{
     loading: boolean;
 }>();
 
-const labels: Ref<Labels | undefined> = ref(undefined)
+const labels: Ref<Labels | undefined> = ref(undefined);
 
 function initLabels() {
-    labels.value = {}
+    labels.value = {};
     for (const [index, item] of props.data.entries()) {
         // for the labels to works, we must set a pos property to each item
-        item.pos = index
+        item.pos = index;
 
         labels.value[index] = {
             label: String(item.Utilisateurs),
             value: item.Participation,
-            pos: index
-        }
+            pos: index,
+        };
     }
 }
 
@@ -31,21 +31,12 @@ function handleLabels() {
         labels.value = undefined;
     }
 }
-
 </script>
 
 <template>
     <div class="flex flex-col gap-2">
-        <MetricsCard
-            title="Engagement"
-            description=""
-            :loading="loading"
-            :empty="!data"
-            report="grade"
-        >
-            <template #description>
-               Pour chaque séquence, pourcentage d'apprenants actifs ayant répondu
-            </template>
+        <MetricsCard title="Engagement" description="" :loading="loading" :empty="!data" report="grade">
+            <template #description> Pour chaque séquence, pourcentage d'apprenants actifs ayant répondu </template>
 
             <template #actions>
                 <MetricsHideLabels :visible="!!labels" @click="handleLabels" />

@@ -11,14 +11,10 @@
         <slot name="header" />
         <div class="group-hover/bento:translate-x-2 transition duration-200 flex flex-col items-center">
             <slot name="icon" />
-            <div
-                class="font-sans font-bold mb-2 mt-2"
-            >
+            <div class="font-sans font-bold mb-2 mt-2">
                 <slot name="title" />
             </div>
-            <div
-                class="font-sans font-normal text-muted-foreground text-sm"
-            >
+            <div class="font-sans font-normal text-muted-foreground text-sm">
                 <slot name="description" />
             </div>
         </div>
@@ -26,11 +22,11 @@
 </template>
 
 <script lang="ts" setup>
-import { cn } from "~/lib/utils";
-import type { HTMLAttributes } from "vue";
+import { cn } from '~/lib/utils';
+import type { HTMLAttributes } from 'vue';
 
 interface Props {
-    class?: HTMLAttributes["class"];
+    class?: HTMLAttributes['class'];
     href: string;
 }
 

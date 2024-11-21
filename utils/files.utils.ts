@@ -1,7 +1,7 @@
 interface MetaData {
-    courseNumber: string
-    sessionName: string
-    date: string
+    courseNumber: string;
+    sessionName: string;
+    date: string;
 }
 
 /**
@@ -15,19 +15,19 @@ export function extractMetadata(filename: string): MetaData | null {
     const courseNumber = params[1];
     const sessionName = params[2];
     const dateTime = params.pop();
-    
+
     if (!dateTime) return null;
-   
+
     const parts = dateTime.split('-');
-    const date = parts.slice(0, 3).join('-')
-    
+    const date = parts.slice(0, 3).join('-');
+
     if (!date || !courseNumber || !sessionName) return null;
-    
+
     return {
         courseNumber,
         sessionName,
-        date
-    }
+        date,
+    };
 }
 
 export function getFormattedSize(size: number) {
@@ -55,4 +55,3 @@ export function isProblemGradeReport(filename: string) {
 export function isEnrollments(filename: string) {
     return enrollmentsRegex.test(filename);
 }
-

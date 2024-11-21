@@ -9,10 +9,9 @@ const emits = defineEmits<{
 
 async function copy() {
     icon.value = Check;
-    setTimeout(() => icon.value = Copy, 2000);
+    setTimeout(() => (icon.value = Copy), 2000);
     emits('copied');
 }
-
 </script>
 
 <template>

@@ -1,18 +1,17 @@
 <script setup lang="ts">
-
 type PrimaryData = {
-    name: string
-    color: string
-    value: number
-}
+    name: string;
+    color: string;
+    value: number;
+};
 
 type SecondaryData = {
-    value: number
-}
+    value: number;
+};
 
 const props = defineProps<{
-    title?: string
-    data: (PrimaryData | SecondaryData)[]
+    title?: string;
+    data: (PrimaryData | SecondaryData)[];
 }>();
 
 function isPrimaryData(item: PrimaryData | SecondaryData): item is PrimaryData {
@@ -25,7 +24,6 @@ function isSecondaryData(item: PrimaryData | SecondaryData): item is SecondaryDa
 
 const mainValue = computed(() => props.data.find(isPrimaryData));
 const secondaryValue = computed(() => props.data.find(isSecondaryData));
-
 </script>
 
 <template>

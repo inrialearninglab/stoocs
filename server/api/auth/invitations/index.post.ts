@@ -9,7 +9,7 @@ import { useCompiler } from '#vue-email';
 
 const routeSchema = z.object({
     email: z.string().email(),
-    isGuest: z.boolean()
+    isGuest: z.boolean(),
 });
 
 export default defineEventHandler(async (event) => {
@@ -17,43 +17,42 @@ export default defineEventHandler(async (event) => {
 
     // Invalidate all previous tokens
     await prisma.invitation.deleteMany({
-        where: { email }
-    })
+        where: { email },
+    });
 
     const alreadyRegistered = await prisma.user.findUnique({
-        where: { email }
-    })
-;
+        where: { email },
+    });
     if (alreadyRegistered) {
         throw createError({
             statusCode: 400,
-            message: 'User already registered'
+            message: 'User already registered',
         });
     }
 
     const tokenId = generateIdFromEntropySize(25);
-    const tokenHash = encodeHex(await sha256(new TextEncoder().encode(tokenId)))
+    const tokenHash = encodeHex(await sha256(new TextEncoder().encode(tokenId)));
 
     let transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
         port: process.env.SMTP_PORT,
-        auth: 'plain'
+        auth: 'plain',
     });
 
-    const  template = await useCompiler('Invitation.vue', {
+    const template = await useCompiler('Invitation.vue', {
         props: {
             invitedByUsername: `${event.context.user.firstname} ${event.context.user.lastname}`,
             invitedByEmail: event.context.user.email,
-            inviteLink: `${process.env.APP_URL}/auth/register/${tokenHash}`
-        }
-    })
+            inviteLink: `${process.env.APP_URL}/auth/register/${tokenHash}`,
+        },
+    });
 
     let mailOptions = {
         from: `Stoocs <${process.env.APP_EMAIL}>`,
         to: email,
         subject: 'Invitation stoocs',
-        html: template.html
-    }
+        html: template.html,
+    };
 
     try {
         let info = await transporter.sendMail(mailOptions);
@@ -61,8 +60,8 @@ export default defineEventHandler(async (event) => {
     } catch (error) {
         throw createError({
             statusCode: 500,
-            message: 'mailer error'
-        })
+            message: 'mailer error',
+        });
     }
 
     return prisma.invitation.create({
@@ -70,7 +69,7 @@ export default defineEventHandler(async (event) => {
             tokenHash,
             email,
             isGuest,
-            expiresAt: createDate(new TimeSpan(7, 'd'))
-        }
+            expiresAt: createDate(new TimeSpan(7, 'd')),
+        },
     });
-})
+});

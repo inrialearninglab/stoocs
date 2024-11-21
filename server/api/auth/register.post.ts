@@ -7,25 +7,25 @@ import { registerSchema } from '~/schema/users.schema';
 import { z } from 'zod';
 
 const routeSchema = registerSchema.extend({
-    token: z.string()
+    token: z.string(),
 });
 export default defineEventHandler(async (event) => {
     const { email, firstname, lastname, password, token } = await readValidatedBody(event, routeSchema.parse);
 
     const invitation = await prisma.invitation.findUnique({
-        where: { tokenHash: token }
+        where: { tokenHash: token },
     });
 
     if (!invitation || !isWithinExpirationDate(invitation.expiresAt)) {
         throw createError({
-            statusCode: 400
-        })
+            statusCode: 400,
+        });
     }
 
     if (email !== invitation.email) {
         throw createError({
-            statusCode: 400
-        })
+            statusCode: 400,
+        });
     }
 
     const userId = generateId(15);
@@ -39,12 +39,12 @@ export default defineEventHandler(async (event) => {
             password: hashedPassword,
             role: {
                 connect: {
-                    name: invitation.isGuest ? 'Guest' : 'ILL'
-                }
+                    name: invitation.isGuest ? 'Guest' : 'ILL',
+                },
             },
             moocSessions: invitation.moocSessions,
-        }
-    })
+        },
+    });
 
     if (!user) {
         throw createError({
@@ -54,7 +54,7 @@ export default defineEventHandler(async (event) => {
     }
 
     await prisma.invitation.deleteMany({
-        where: { tokenHash: token }
+        where: { tokenHash: token },
     });
 
     setHeader(event, 'Referrer-Policy', 'strict-origin');
@@ -62,8 +62,8 @@ export default defineEventHandler(async (event) => {
     const sessionCookie = lucia.createSessionCookie(session.id);
     setCookie(event, sessionCookie.name, sessionCookie.value, {
         path: '.',
-        ...sessionCookie.attributes
+        ...sessionCookie.attributes,
     });
 
-    return { user }
-})
+    return { user };
+});

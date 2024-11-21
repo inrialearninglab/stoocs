@@ -12,7 +12,6 @@ defineProps<{
     report?: 'enrollment' | 'grade' | 'both';
     label: string;
 }>();
-
 </script>
 
 <template>
@@ -27,7 +26,12 @@ defineProps<{
         </CardHeader>
         <CardContent class="justify-center flex flex-1 items-end">
             <Skeleton v-if="loading" class="size-32 rounded-full" />
-            <MetricsChartsRadial v-else-if="dividend && divisor" :dividend="dividend" :divisor="divisor" class="size-32"/>
+            <MetricsChartsRadial
+                v-else-if="dividend && divisor"
+                :dividend="dividend"
+                :divisor="divisor"
+                class="size-32"
+            />
             <div v-else class="text-[8rem]">🥸</div>
         </CardContent>
         <CardFooter>

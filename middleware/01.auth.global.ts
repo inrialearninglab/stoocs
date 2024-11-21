@@ -4,4 +4,4 @@ export default defineNuxtRouteMiddleware(async () => {
     if (data) {
         user.value = data;
     }
-})
+});

@@ -5,7 +5,7 @@ import { ChevronRight, ChevronLeft } from 'lucide-vue-next';
 import { Award } from 'lucide-vue-next';
 
 const props = defineProps<{
-    data: any
+    data: any;
     loading: boolean;
     cutoffs: number;
 }>();
@@ -14,12 +14,12 @@ const color = (d: any) => {
     if (d['Moyenne'] < 50) return '#e11d48';
     else if (d['Moyenne'] < 60) return '#f59e0b';
     else return '#12cc82';
-}
+};
 
 const problems = computed(() => {
     if (!props.data) return [];
-    return props.data.filter((d: any) => d['Moyenne'] < 50)
-})
+    return props.data.filter((d: any) => d['Moyenne'] < 50);
+});
 
 function toggleThreshold() {
     const tresholdLine = document.querySelector('.threshold-line')!;
@@ -37,9 +37,9 @@ function toggleThreshold() {
         const axisRect = secondAxisComponent.getBoundingClientRect();
         const firstGTagRect = firstGTag.getBoundingClientRect();
 
-        const x1 = (axisRect.left + firstGTagRect.width) - vrz4hlRect.left;
+        const x1 = axisRect.left + firstGTagRect.width - vrz4hlRect.left;
         const x2 = axisRect.right - vrz4hlRect.left;
-        const y = axisRect.top - vrz4hlRect.top + (axisRect.height * (1 - props.cutoffs)) ;
+        const y = axisRect.top - vrz4hlRect.top + axisRect.height * (1 - props.cutoffs);
 
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         line.setAttribute('x1', String(x1));
@@ -53,19 +53,14 @@ function toggleThreshold() {
         vrz4hl.appendChild(line);
     }
 }
-
 </script>
 
 <template>
     <div class="flex flex-col gap-2">
-        <MetricsCard
-            title="Score"
-            :loading="loading"
-            :empty="!data"
-            report="grade"
-        >
+        <MetricsCard title="Score" :loading="loading" :empty="!data" report="grade">
             <template #description>
-                Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions.
+                Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les apprenants
+                ayant répondu aux questions.
             </template>
 
             <template #actions>
@@ -106,7 +101,6 @@ function toggleThreshold() {
             />
 
             <MetricsChartsScoreIssuesTable v-if="problems.length" :problems="problems" />
-
         </MetricsCard>
     </div>
 </template>

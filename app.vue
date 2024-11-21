@@ -10,9 +10,8 @@ useServerHead({
     htmlAttrs: {
         class: themeClass.value,
         style: `--radius: ${radius.value}rem`,
-    }
+    },
 });
-
 </script>
 
 <template>
@@ -21,7 +20,6 @@ useServerHead({
     <div class="flex flex-col min-h-screen">
         <LayoutHeader v-if="route.path !== '/'" />
         <div class="min-h-full flex-1 flex flex-col" :class="{ 'p-8': route.path !== '/' }">
-
             <NuxtPage v-if="!(route.meta.layout === 'dashboard')" />
 
             <Navbar v-else class="max-w-8xl w-full mx-auto">

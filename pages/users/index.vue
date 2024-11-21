@@ -1,16 +1,11 @@
 <script setup lang="ts">
 import { useUsers } from '~/stores/users.store';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '~/components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
 const usersStore = useUsers();
 
 definePageMeta({
-    layout: 'dashboard'
+    layout: 'dashboard',
 });
 </script>
 

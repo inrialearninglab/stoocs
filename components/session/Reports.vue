@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import UploadDialogGlobal from '~/components/upload/dialog/Global.vue'
-import UploadDialogEnrollments from '~/components/upload/dialog/Enrollments.vue'
-import UploadDialogGradeReports from '~/components/upload/dialog/GradeReports.vue'
-import { Upload, Loader2 } from 'lucide-vue-next'
+import UploadDialogGlobal from '~/components/upload/dialog/Global.vue';
+import UploadDialogEnrollments from '~/components/upload/dialog/Enrollments.vue';
+import UploadDialogGradeReports from '~/components/upload/dialog/GradeReports.vue';
+import { Upload, Loader2 } from 'lucide-vue-next';
 import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { isEnrollments, isGradeReport, isProblemGradeReport } from '~/utils';
 
@@ -22,8 +22,8 @@ onMounted(() => {
     }
 });
 
-const enrollmentsReport = computed(() => Boolean(sessionStore.session.data?.enrollmentsDetails))
-const gradeReport = computed(() => Boolean(sessionStore.gradeReport.data))
+const enrollmentsReport = computed(() => Boolean(sessionStore.session.data?.enrollmentsDetails));
+const gradeReport = computed(() => Boolean(sessionStore.gradeReport.data));
 
 const dragging = ref(false);
 let scrollY = 0;
@@ -31,7 +31,7 @@ function handleDragLeave(event: any) {
     if (event.currentTarget.contains(event.relatedTarget)) return;
 
     dragging.value = false;
-    console.log('scrolling to ', scrollY)
+    console.log('scrolling to ', scrollY);
     window.scrollTo(0, scrollY);
 }
 
@@ -44,7 +44,7 @@ function handleDragEnter(event: any) {
     }
 }
 
-const globalDialog: Ref<InstanceType<typeof UploadDialogGlobal> | null > = ref(null);
+const globalDialog: Ref<InstanceType<typeof UploadDialogGlobal> | null> = ref(null);
 const enrollmentsDialog: Ref<InstanceType<typeof UploadDialogEnrollments> | null> = ref(null);
 const gradeReportsDialog: Ref<InstanceType<typeof UploadDialogGradeReports> | null> = ref(null);
 
@@ -60,7 +60,7 @@ function onDrop(acceptFiles: File[], rejectReasons: FileRejectReason[]) {
     }
 
     if (enrollmentFile && reportFile) {
-        openGlobalDialog(acceptFiles)
+        openGlobalDialog(acceptFiles);
     } else if (enrollmentFile) {
         openEnrollmentsDialog(acceptFiles);
     } else if (reportFile) {
@@ -68,11 +68,11 @@ function onDrop(acceptFiles: File[], rejectReasons: FileRejectReason[]) {
     }
 }
 
-const { getRootProps, getInputProps, ...rest } = useDropzone(({
+const { getRootProps, getInputProps, ...rest } = useDropzone({
     onDrop,
     multiple: true,
-    accept: '.csv'
-}))
+    accept: '.csv',
+});
 
 function openEnrollmentsDialog(files?: File[]) {
     if (!enrollmentsDialog.value) return;
@@ -106,9 +106,8 @@ function openGlobalDialog(files?: File[]) {
 }
 
 defineExpose({
-    dragging
-})
-
+    dragging,
+});
 </script>
 
 <template>
@@ -120,7 +119,7 @@ defineExpose({
             class="w-full border-2 border-dashed rounded-xl text-muted-foreground items-center flex"
         >
             <div class="flex flex-col gap-4 place-items-center w-full">
-                <input v-bind="getInputProps()">
+                <input v-bind="getInputProps()" />
                 <div class="rounded-full border border-dashed p-4 w-fit">
                     <Upload />
                 </div>
@@ -128,7 +127,7 @@ defineExpose({
             </div>
         </div>
 
-        <div v-show="!dragging || user?.rolename === 'Guest'" class="flex w-full flex-col gap-12" >
+        <div v-show="!dragging || user?.rolename === 'Guest'" class="flex w-full flex-col gap-12">
             <SessionLayoutHeader />
 
             <template v-if="!sessionStore.session.loading">
@@ -145,12 +144,14 @@ defineExpose({
                         <MetricsReportChip report="grade" :static="true" />
                         <p>{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
                         <UtilsHelp>
-                            Ces données sont générées depuis le &quot;grade report&quot; et le &quot;problem grade report&quot; disponibles dans la vue instructeur de FUN
+                            Ces données sont générées depuis le &quot;grade report&quot; et le &quot;problem grade
+                            report&quot; disponibles dans la vue instructeur de FUN
                         </UtilsHelp>
                     </div>
 
                     <SessionAddReport
-                   div     v-if="user?.rolename === 'ILL'"
+                        div
+                        v-if="user?.rolename === 'ILL'"
                         @open-enrollments="openEnrollmentsDialog()"
                         @open-grades="openGradeReportsDialog()"
                         @open-all="openGlobalDialog()"
@@ -159,7 +160,10 @@ defineExpose({
 
                 <div v-if="!enrollmentsReport && !gradeReport" class="mx-auto flex flex-col items-center">
                     <h2>Aucune données</h2>
-                    <p class="text-muted-foreground mt-2">Pour ajouter des données glisser-déposer les fichiers sur cette page ou utiliser le bouton ci-dessus</p>
+                    <p class="text-muted-foreground mt-2">
+                        Pour ajouter des données glisser-déposer les fichiers sur cette page ou utiliser le bouton
+                        ci-dessus
+                    </p>
                 </div>
 
                 <UploadDialogGlobal ref="globalDialog" />
@@ -169,7 +173,7 @@ defineExpose({
                 <SessionLayoutContent :enrollments-report="enrollmentsReport" :grade-report="gradeReport" />
             </template>
 
-            <Loader2 v-else class="size-12 animate-spin top-1/4 relative mx-auto"/>
+            <Loader2 v-else class="size-12 animate-spin top-1/4 relative mx-auto" />
         </div>
     </div>
 </template>

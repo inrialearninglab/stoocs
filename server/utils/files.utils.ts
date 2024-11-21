@@ -8,7 +8,7 @@ import { extractMetadata } from '~/utils';
 export async function readEnrollments(filename: string): Promise<any> {
     const results: any[] = [];
     let isHeader = true;
-    
+
     return new Promise((resolve, reject) => {
         createReadStream(filename)
             .pipe(parse({ columns: true }))
@@ -16,7 +16,7 @@ export async function readEnrollments(filename: string): Promise<any> {
                 if (isHeader) {
                     if (!data.date || !data.enrollments) {
                         reject('Invalid CSV Format');
-                        return
+                        return;
                     }
                     isHeader = false;
                 }
@@ -25,53 +25,57 @@ export async function readEnrollments(filename: string): Promise<any> {
                 results.push(data);
             })
             .on('end', () => resolve(results))
-            .on('error', (error) => reject(error))
+            .on('error', (error) => reject(error));
     });
 }
 
-export async function readGradeReports(gradeReportPath: string, probemGradeReportPath: string): Promise<Omit<GradeReport, 'id'>> {
+export async function readGradeReports(
+    gradeReportPath: string,
+    probemGradeReportPath: string,
+): Promise<Omit<GradeReport, 'id'>> {
     let report = await readGradeReport(gradeReportPath);
-    
+
     report = await readProblemGradeReportOptimized(probemGradeReportPath, report);
-    
-    
+
     const metaData = extractMetadata(gradeReportPath);
-    
+
     const gradeReportData: GradeReportData = {
         date: new Date(metaData?.date || Date.now()),
-        gradeReportLines: []
+        gradeReportLines: [],
     };
-    
+
     for (const reportLine of report) {
-        const gradeReportQuestions = reportLine.questions.map((question: { label: string, score: number }) => {
+        const gradeReportQuestions = reportLine.questions.map((question: { label: string; score: number }) => {
             return {
                 userID: reportLine.id,
                 label: question.label,
-                score: question.score
-            }
-        })
-        
-        const gradeReportProblems = reportLine.problemGradeReport.map((problem: { label: string, score: number, possible: number }) => {
-            return {
-                userID: reportLine.id,
-                label: problem.label,
-                score: problem.score,
-                possible: problem.possible
-            }
-        })
-        
+                score: question.score,
+            };
+        });
+
+        const gradeReportProblems = reportLine.problemGradeReport.map(
+            (problem: { label: string; score: number; possible: number }) => {
+                return {
+                    userID: reportLine.id,
+                    label: problem.label,
+                    score: problem.score,
+                    possible: problem.possible,
+                };
+            },
+        );
+
         const gradeReportLine: GradeReportLine = {
             userID: reportLine.id,
             grade: reportLine.grade,
             certificateEligible: reportLine.certificateEligible,
             certificateDelivered: reportLine.certificateDelivered,
             gradeReportQuestions,
-            gradeReportProblems
-        }
-        
+            gradeReportProblems,
+        };
+
         gradeReportData.gradeReportLines.push(gradeReportLine);
     }
-    
+
     const totalActive = gradeReportData.gradeReportLines.filter(isUserActive).length;
 
     return {
@@ -79,10 +83,10 @@ export async function readGradeReports(gradeReportPath: string, probemGradeRepor
         totalUsers: gradeReportData.gradeReportLines.length,
         totalActive: totalActive,
         totalCurious: gradeReportData.gradeReportLines.filter(isUserCurious).length,
-        totalEligible: gradeReportData.gradeReportLines.filter(line => line.certificateEligible === 'Y').length,
+        totalEligible: gradeReportData.gradeReportLines.filter((line) => line.certificateEligible === 'Y').length,
         score: getScoreData(gradeReportData),
         interest: getInterestData(gradeReportData, totalActive),
-        threshold: getPassingThresholdData(gradeReportData)
+        threshold: getPassingThresholdData(gradeReportData),
     };
 }
 
@@ -103,8 +107,8 @@ interface ReadGradeReportLine {
 }
 
 async function readGradeReport(filename: string): Promise<any> {
-    const lines: any[] = []
-    
+    const lines: any[] = [];
+
     await new Promise((resolve, reject) => {
         createReadStream(filename)
             .pipe(parse({ columns: true }))
@@ -115,75 +119,86 @@ async function readGradeReport(filename: string): Promise<any> {
                     certificateEligible: data['Certificate Eligible'],
                     certificateDelivered: data['Certificate Delivered'],
                     questions: [],
-                    problemGradeReport: []
-                }
-                const othersKeys = ['id', 'username', 'grade', 'Enrollment Track', 'Verification Status', 'Certificate Eligible', 'Certificate Delivered', 'Certificate Type'];
-                const questions = Object.keys(data).filter(key => !othersKeys.includes(key));
-                
+                    problemGradeReport: [],
+                };
+                const othersKeys = [
+                    'id',
+                    'username',
+                    'grade',
+                    'Enrollment Track',
+                    'Verification Status',
+                    'Certificate Eligible',
+                    'Certificate Delivered',
+                    'Certificate Type',
+                ];
+                const questions = Object.keys(data).filter((key) => !othersKeys.includes(key));
+
                 questions.forEach((question: any) => {
                     reportLine.questions.push({
                         label: question,
-                        score: Number(data[question])
+                        score: Number(data[question]),
                     });
                 });
-                
+
                 lines.push(reportLine);
             })
             .on('end', () => resolve(lines))
-            .on('error', (error) => reject(error))
-    })
-    
+            .on('error', (error) => reject(error));
+    });
+
     return lines;
 }
 
 async function readProblemGradeReportOptimized(filename: string, report: any) {
     const reportMap = new Map(report.map((reportLine: ReadGradeReportLine) => [reportLine.id, reportLine]));
-    
+
     await new Promise((resolve, reject) => {
         createReadStream(filename)
             .pipe(parse({ columns: true }))
             .on('data', (data) => {
                 const id = Number(data['Student ID']);
-                
+
                 const reportLine = reportMap.get(id) as ReadGradeReportLine;
                 if (!reportLine) {
                     console.log('Could not find report line with id', id);
                     return;
                 }
-                
-                const keys = Object.keys(data).filter((key) => !['Student ID', 'Username', 'Final Grade'].includes(key));
+
+                const keys = Object.keys(data).filter(
+                    (key) => !['Student ID', 'Username', 'Final Grade'].includes(key),
+                );
                 const problemGradeReportLines = keys
                     .filter((_, i) => i % 2 === 0)
                     .map((key, i) => {
                         const score = data[key];
                         const possible = data[keys[i * 2 + 1]];
                         const label = key.replace(/\s*\([^)]*\)\s*$/, '').trim();
-                        
-                        if (possible === undefined) console.log('possible is undefined')
-                        if (score === undefined) console.log('score is undefined')
-                        
+
+                        if (possible === undefined) console.log('possible is undefined');
+                        if (score === undefined) console.log('score is undefined');
+
                         if (Array.isArray(score)) {
                             return score.map((s, j) => ({
                                 label: `${label} ${j + 1}`,
                                 score: getResultValue(s),
-                                possible: getResultValue(possible[j])
+                                possible: getResultValue(possible[j]),
                             }));
                         } else {
                             return {
                                 label,
                                 score: getResultValue(score),
-                                possible: getResultValue(possible)
+                                possible: getResultValue(possible),
                             };
                         }
                     })
                     .flat();
-                
+
                 reportLine.problemGradeReport.push(...problemGradeReportLines);
             })
             .on('end', () => resolve(report))
-            .on('error', (error) => reject(error))
+            .on('error', (error) => reject(error));
     });
-    
+
     return report;
 }
 
@@ -193,32 +208,32 @@ async function readProblemGradeReport(filename: string, report: any) {
             .pipe(parse({ columns: true }))
             .on('data', (data) => {
                 const id = Number(data['Student ID']);
-                
-                delete data['Student ID']
-                delete data['Username']
-                delete data['Final Grade']
-                
+
+                delete data['Student ID'];
+                delete data['Username'];
+                delete data['Final Grade'];
+
                 const cols = Object.keys(data);
-                
+
                 for (let i = 0; i < cols.length; i += 2) {
                     const score = data[cols[i]];
                     const possible = data[cols[i + 1]];
                     const label = cols[i];
-                    
+
                     // in the label i have to remove the parenthesis at the end
                     const labelArray = label.split(' ');
                     labelArray.pop();
                     const labelWithoutParenthesis = labelArray.join(' ').trim();
-                    
+
                     // create multiple problemGradeReportLine if score is an array
                     if (Array.isArray(score)) {
                         for (let i = 0; i < score.length; i++) {
                             const problemGradeReportLine = {
                                 label: labelWithoutParenthesis + ' ' + (i + 1),
                                 score: getResultValue(score[i]),
-                                possible: getResultValue(possible[i])
-                            }
-                            
+                                possible: getResultValue(possible[i]),
+                            };
+
                             const reportLine = report.find((reportLine: any) => reportLine.id === id);
                             if (reportLine) {
                                 reportLine.problemGradeReport.push(problemGradeReportLine);
@@ -230,9 +245,9 @@ async function readProblemGradeReport(filename: string, report: any) {
                         const problemGradeReportLine = {
                             label: labelWithoutParenthesis,
                             score: getResultValue(score),
-                            possible: getResultValue(possible)
-                        }
-                        
+                            possible: getResultValue(possible),
+                        };
+
                         const reportLine = report.find((reportLine: any) => reportLine.id === id);
                         if (reportLine) {
                             reportLine.problemGradeReport.push(problemGradeReportLine);
@@ -243,14 +258,14 @@ async function readProblemGradeReport(filename: string, report: any) {
                 }
             })
             .on('end', () => resolve(report))
-            .on('error', (error) => reject(error))
-    })
-    
+            .on('error', (error) => reject(error));
+    });
+
     return report;
 }
 
 function getResultValue(value: string) {
     if (value === 'N/A') return undefined;
     if (value.endsWith('.0')) return Number(value);
-    return 0
+    return 0;
 }

@@ -8,7 +8,7 @@ export function formatDate(date: Date) {
     const df = new DateFormatter('fr-FR', {
         dateStyle: 'long',
     });
-    
+
     return df.format(date);
 }
 

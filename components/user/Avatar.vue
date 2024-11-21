@@ -3,10 +3,9 @@ import { Avatar, AvatarImage, AvatarFallback, type AvatarVariants } from '~/comp
 import type { User } from 'lucia';
 
 defineProps<{
-    user: User
-    size?: AvatarVariants['size']
+    user: User;
+    size?: AvatarVariants['size'];
 }>();
-
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CircleHelp } from 'lucide-vue-next'
+import { CircleHelp } from 'lucide-vue-next';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip';
 </script>
 

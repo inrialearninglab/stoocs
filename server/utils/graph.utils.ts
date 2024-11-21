@@ -2,60 +2,60 @@ import type { GradeReport, GradeReportData } from '~/types/gradeReport.type';
 
 export function getPassingThresholdData(gradeReport: GradeReportData) {
     const data = [];
-    
+
     const thresholds = [];
     for (let i = 10; i <= 100; i += 5) {
         thresholds.push(i);
     }
     for (const threshold of thresholds) {
         const eligible = gradeReport.gradeReportLines.filter((line) => line.grade >= threshold / 100);
-        
+
         data.push({
             threshold: `${threshold}%`,
-            'Eligible': eligible.length
+            Eligible: eligible.length,
         });
     }
-    
+
     return data;
 }
 
 export function getInterestData(gradeReport: GradeReportData, totalActive: number): GradeReport['interest'] {
     let data = [];
-    
+
     const firstLine = gradeReport.gradeReportLines[0];
     const questions = firstLine.gradeReportQuestions;
-    
+
     const participation = calculateParticipationPercentage(gradeReport, totalActive);
     for (const question of questions) {
         data.push({
             name: question.label,
-            'Participation': Number((participation[question.label].percentage ?? 0).toFixed(2)),
-            'Utilisateurs': participation[question.label].users
-        })
+            Participation: Number((participation[question.label].percentage ?? 0).toFixed(2)),
+            Utilisateurs: participation[question.label].users,
+        });
     }
-    
+
     // Remove the Average because i don't really understand how to use it
     data = data.filter((item) => !item.name.endsWith('Avg'));
-    
+
     // Sorting by name because there is some strange choice of order in the default data
     return data.sort((a, b) => sortByName(a.name, b.name));
 }
 
 export function getScoreData(gradeReport: GradeReportData): GradeReport['score'] {
     let data = [];
-    
+
     const firstLine = gradeReport.gradeReportLines[0];
     const problems = firstLine.gradeReportProblems;
-    
+
     const problemAverages = calculateProblemAverage(gradeReport);
     for (const problem of problems) {
         data.push({
             name: problem.label,
-            'Moyenne': Number((problemAverages[problem.label]?.average ?? 0).toFixed(2)),
-            'Utilisateurs': problemAverages[problem.label]?.users
-        })
+            Moyenne: Number((problemAverages[problem.label]?.average ?? 0).toFixed(2)),
+            Utilisateurs: problemAverages[problem.label]?.users,
+        });
     }
-    
+
     return data.sort((a, b) => sortByName(a.name, b.name));
 }
 
@@ -67,33 +67,33 @@ export function getScoreData(gradeReport: GradeReportData): GradeReport['score']
  * @param gradeReport
  */
 export function calculateProblemAverage(gradeReport: GradeReportData) {
-    const problemStats:{ [key: string]: { total: number, score: number }} = {};
-    
-    gradeReport.gradeReportLines.forEach((reportLine) =>  {
+    const problemStats: { [key: string]: { total: number; score: number } } = {};
+
+    gradeReport.gradeReportLines.forEach((reportLine) => {
         reportLine.gradeReportProblems.forEach((problem) => {
             if (!problemStats[problem.label]) {
                 if (problem.possible && problem.possible > 0) {
                     if (!problem.score) problem.score = 0;
-                    problemStats[problem.label] = { total: 1, score: problem.score / problem.possible }
+                    problemStats[problem.label] = { total: 1, score: problem.score / problem.possible };
                 }
-            } else if(problem.possible && problem.possible > 0) {
-                if(!problem.score) problem.score = 0;
-                
-                problemStats[problem.label].total ++;
+            } else if (problem.possible && problem.possible > 0) {
+                if (!problem.score) problem.score = 0;
+
+                problemStats[problem.label].total++;
                 problemStats[problem.label].score += problem.score / problem.possible;
             }
-        })
+        });
     });
-    
-    const problemAverages: { [key: string]: { average: number, users: number }} = {};
+
+    const problemAverages: { [key: string]: { average: number; users: number } } = {};
     Object.keys(problemStats).forEach((label) => {
         const stats = problemStats[label];
         problemAverages[label] = {
-            average: stats.score / stats.total * 100,
-            users: stats.total
+            average: (stats.score / stats.total) * 100,
+            users: stats.total,
         };
     });
-    
+
     return problemAverages;
 }
 
@@ -104,10 +104,10 @@ export function calculateProblemAverage(gradeReport: GradeReportData) {
  * @param totalActive
  */
 export function calculateParticipationPercentage(gradeReport: GradeReportData, totalActive: number) {
-    const questionStats: { [key: string]: { total: number, scoreCount: number } } = {};
-    
-    gradeReport.gradeReportLines.forEach(reportLine => {
-        reportLine.gradeReportQuestions.forEach(question => {
+    const questionStats: { [key: string]: { total: number; scoreCount: number } } = {};
+
+    gradeReport.gradeReportLines.forEach((reportLine) => {
+        reportLine.gradeReportQuestions.forEach((question) => {
             if (!questionStats[question.label]) {
                 if (question.score > 0) {
                     questionStats[question.label] = { total: 1, scoreCount: 1 };
@@ -122,17 +122,17 @@ export function calculateParticipationPercentage(gradeReport: GradeReportData, t
             }
         });
     });
-    
-    const participationPercentages: { [key: string]: { percentage: number, users: number }} = {};
-    
-    Object.keys(questionStats).forEach(questionLabel => {
+
+    const participationPercentages: { [key: string]: { percentage: number; users: number } } = {};
+
+    Object.keys(questionStats).forEach((questionLabel) => {
         const stats = questionStats[questionLabel];
         participationPercentages[questionLabel] = {
             percentage: (stats.scoreCount / totalActive) * 100,
-            users: stats.scoreCount
-        }
+            users: stats.scoreCount,
+        };
     });
-    
+
     return participationPercentages;
 }
 
@@ -144,12 +144,12 @@ export function calculateParticipationPercentage(gradeReport: GradeReportData, t
 function sortByName(a: string, b: string): number {
     const nameA = a.replace(/[.:]/g, ' ').trim();
     const nameB = b.replace(/[.:]/g, ' ').trim();
-    
-    const numA = parseInt(nameA.match(/\d+/)?.[0] || "0", 10);
-    const numB = parseInt(nameB.match(/\d+/)?.[0] || "0", 10);
-    
+
+    const numA = parseInt(nameA.match(/\d+/)?.[0] || '0', 10);
+    const numB = parseInt(nameB.match(/\d+/)?.[0] || '0', 10);
+
     const textComparison = nameA.localeCompare(nameB, undefined, { numeric: true, sensitivity: 'base' });
     if (textComparison !== 0) return textComparison;
-    
+
     return numA - numB;
 }

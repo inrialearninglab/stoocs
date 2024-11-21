@@ -12,11 +12,11 @@ interface SessionState {
     session: {
         data: SessionDetails | null;
         loading: boolean;
-    },
+    };
     gradeReport: {
         data: GradeReport | null;
         loading: boolean;
-    },
+    };
     forum: {
         data: ForumInfo | null;
         loading: boolean;
@@ -89,17 +89,17 @@ export const useSession = defineStore('session', {
             const user = useUser();
             if (!this.session.data) return false;
 
-            return this.session.data.mooc.pinnedBy.some(pinned => pinned.userId === user.value?.id);
-        }
+            return this.session.data.mooc.pinnedBy.some((pinned) => pinned.userId === user.value?.id);
+        },
     },
 
     actions: {
         async getSession(id: string) {
-            this.session.loading = true
+            this.session.loading = true;
             this.forum.loading = true;
 
-            this.session.data = null
-            this.gradeReport.data = null
+            this.session.data = null;
+            this.gradeReport.data = null;
             this.forum.data = null;
             const { data, error } = await fetchSessionById(id);
             if (!error && data) this.session.data = data;
@@ -122,19 +122,19 @@ export const useSession = defineStore('session', {
             if (!this.session?.data?.id) return;
 
             this.forum.loading = true;
-            const { data, error } = await linkForum(apiKey, this.session.data.id, instanceName)
+            const { data, error } = await linkForum(apiKey, this.session.data.id, instanceName);
 
             if (data && !error) {
                 this.forum.data = data;
                 toast.success('Forum ajouté avec succès');
             } else {
-                toast.error('Une erreur est survenue lors de l\'ajout du forum');
+                toast.error("Une erreur est survenue lors de l'ajout du forum");
             }
             this.forum.loading = false;
         },
 
         async getGradeReport(id: string) {
-            this.gradeReport.loading = true
+            this.gradeReport.loading = true;
             const { data, error } = await fetchGradeReport(id);
             if (!error && data) this.gradeReport.data = data;
             this.gradeReport.loading = false;
@@ -143,27 +143,26 @@ export const useSession = defineStore('session', {
         async addEnrollmentsReport(body: FormData) {
             if (!this.session.data) return;
 
-            const { data, error } = await postEnrollments(body, this.session.data.id)
+            const { data, error } = await postEnrollments(body, this.session.data.id);
 
             if (error) {
-                toast.error('Erreur lors de l\'envoi du rapport d\'inscription');
+                toast.error("Erreur lors de l'envoi du rapport d'inscription");
             } else if (data) {
                 this.session.data.enrollmentsDetails = data.enrollmentsDetails;
-                toast.success('Rapport d\'inscription envoyé');
+                toast.success("Rapport d'inscription envoyé");
             }
-
         },
 
-        async addGradeReports(body: FormData){
+        async addGradeReports(body: FormData) {
             console.time('addGradeReports');
             if (!this.session.data) return;
 
             const { data, error } = await postGradeReports(body, this.session.data.id);
 
             if (error) {
-                toast.error('Erreur lors de l\'envoi des rapports de notes');
+                toast.error("Erreur lors de l'envoi des rapports de notes");
 
-                return
+                return;
             } else if (data && data.gradeReports) {
                 if (!this.session.data.gradeReports) this.session.data.gradeReports = [];
 
@@ -180,6 +179,6 @@ export const useSession = defineStore('session', {
         reset() {
             this.session = { data: null, loading: true };
             this.gradeReport = { data: null, loading: false };
-        }
-    }
-})
+        },
+    },
+});

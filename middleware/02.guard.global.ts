@@ -1,30 +1,23 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-    const authRoutes = [
-        '/auth/login',
-        '/auth/register/*',
-    ]
-    const guestRoutes = [
-       ...authRoutes,
-    ];
+    const authRoutes = ['/auth/login', '/auth/register/*'];
+    const guestRoutes = [...authRoutes];
 
-    const illRoutes = [
-        '/users'
-    ];
+    const illRoutes = ['/users'];
 
     const user = useUser();
 
     const matchesAuthRoute = (route: string) => {
-        return authRoutes.some(authRoute => {
+        return authRoutes.some((authRoute) => {
             const regex = new RegExp(`^${authRoute.replace(/\*/g, '.*')}$`);
             return regex.test(route);
         });
     };
-    if(matchesAuthRoute(to.path) && user.value) {
+    if (matchesAuthRoute(to.path) && user.value) {
         return navigateTo('/moocs');
     }
 
     const matchesGuestRoute = (route: string) => {
-        return guestRoutes.some(guestRoute => {
+        return guestRoutes.some((guestRoute) => {
             const regex = new RegExp(`^${guestRoute.replace(/\*/g, '.*')}$`);
             return regex.test(route);
         });
@@ -34,7 +27,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     }
 
     const matchesIllRoute = (route: string) => {
-        return illRoutes.some(illRoute => {
+        return illRoutes.some((illRoute) => {
             const regex = new RegExp(`^${illRoute.replace(/\*/g, '.*')}$`);
             return regex.test(route);
         });

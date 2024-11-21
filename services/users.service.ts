@@ -2,7 +2,7 @@ import type { User } from 'lucia';
 import type { Invitation } from '~/types';
 import { FetchError } from 'ofetch';
 
-export async function getUsers(): Promise<{ data?: User[], error?: FetchError }> {
+export async function getUsers(): Promise<{ data?: User[]; error?: FetchError }> {
     try {
         const data = await $fetch<User[]>('/api/users');
 
@@ -12,7 +12,7 @@ export async function getUsers(): Promise<{ data?: User[], error?: FetchError }>
     }
 }
 
-export async function getInvitations(): Promise<{ data?: Invitation[], error?: FetchError }> {
+export async function getInvitations(): Promise<{ data?: Invitation[]; error?: FetchError }> {
     try {
         const data = await $fetch<Invitation[]>('/api/auth/invitations');
 
@@ -22,11 +22,14 @@ export async function getInvitations(): Promise<{ data?: Invitation[], error?: F
     }
 }
 
-export async function createInvitation(email: string, isGuest: boolean): Promise<{ data?: Invitation, error?: FetchError }> {
+export async function createInvitation(
+    email: string,
+    isGuest: boolean,
+): Promise<{ data?: Invitation; error?: FetchError }> {
     try {
         const data = await $fetch<Invitation>('/api/auth/invitations', {
             method: 'POST',
-            body: { email, isGuest }
+            body: { email, isGuest },
         });
 
         return { data };
@@ -35,11 +38,11 @@ export async function createInvitation(email: string, isGuest: boolean): Promise
     }
 }
 
-export async function deleteInvitation(tokenHash: string): Promise<{ data?: Invitation, error?: FetchError }> {
+export async function deleteInvitation(tokenHash: string): Promise<{ data?: Invitation; error?: FetchError }> {
     try {
         const data = await $fetch<Invitation>('/api/auth/invitations', {
             method: 'DELETE',
-            body: { tokenHash }
+            body: { tokenHash },
         });
 
         return { data };
