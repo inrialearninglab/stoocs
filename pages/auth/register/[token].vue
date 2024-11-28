@@ -117,9 +117,8 @@ else errorMessage.value = true;
                     <FormItem>
                         <FormLabel>Mot de passe</FormLabel>
                         <FormControl>
-                            <Input type="password" v-bind="componentField" />
+                            <UtilsPasswordStrength v-bind="componentField" />
                         </FormControl>
-                        <FormMessage />
                     </FormItem>
                 </FormField>
 

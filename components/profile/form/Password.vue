@@ -40,9 +40,8 @@ const onSubmit = form.handleSubmit(async (values) => {
                     <FormItem>
                         <FormLabel>Nouveau mot de passe</FormLabel>
                         <FormControl>
-                            <Input type="password" v-bind="componentField" />
+                            <UtilsPasswordStrength v-bind="componentField" />
                         </FormControl>
-                        <FormMessage />
                     </FormItem>
                 </FormField>
 
