@@ -2,7 +2,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import UserActions from '~/components/navbar/actions/users/Index.vue';
 import MoocActions from '~/components/navbar/actions/Moocs.vue';
-import type { TabInfo, TabState } from '~/types/navigation.type';
+import type { TabInfo, TabState, TabChild, TabChildInfo } from '~/types/navigation.type';
 import type { Ref } from 'vue';
 import { Palette, UserPen } from 'lucide-vue-next';
 
@@ -53,7 +53,7 @@ async function onTabChange(tab: TabState) {
     await navigateTo(tabMap[tab].to);
 }
 
-function findCurrentTab(path: string): TabState | null {
+function findCurrentTab(path: string): TabState | undefined {
     const entry = Object.entries(tabMap).find(([, value]) => {
         if (value.to === path) {
             return true;
@@ -63,11 +63,11 @@ function findCurrentTab(path: string): TabState | null {
         }
     });
 
-    if (!entry) return null;
+    if (!entry) return undefined;
     return entry[0] as TabState;
 }
 
-const activeTab: Ref<TabState | null> = ref(findCurrentTab(route.path));
+const activeTab: Ref<TabState | undefined> = ref(findCurrentTab(route.path));
 const modelValue = computed(() => activeTab.value);
 
 watch(
@@ -112,12 +112,12 @@ watch(
                     </div>
                 </TabsList>
             </nav>
-            <TabsContent :value="modelValue">
+            <TabsContent v-if="modelValue" :value="modelValue">
                 <div class="flex gap-8">
                     <SettingsSidebar
                         v-if="tabMap[activeTab].children"
-                        :tabs="tabMap[activeTab].children"
-                        :activeTab="activeTab"
+                        :tabs="tabMap[activeTab].children as Record<TabChild, TabChildInfo>"
+                        :activeTab="activeTab as TabChild"
                     />
                     <div class="flex-1">
                         <slot />

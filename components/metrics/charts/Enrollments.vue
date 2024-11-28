@@ -83,11 +83,11 @@ const presetsEnd = [{ value: props.endDate!, label: 'Fin de la session' }];
                     <div class="flex gap-5 items-center">
                         <div class="flex gap-2 items-center mt-2">
                             <Label>À partir du</Label>
-                            <UtilsDatePicker size="sm" v-model="startDateValue" :presets="presetsStart" />
+                            <UtilsDatePicker size="sm" v-model="startDateValue as DateValue" :presets="presetsStart" />
                         </div>
                         <div class="flex gap-2 items-center mt-2">
                             <Label>Jusqu'au</Label>
-                            <UtilsDatePicker size="sm" v-model="endDateValue" :presets="presetsEnd" />
+                            <UtilsDatePicker size="sm" v-model="endDateValue as DateValue" :presets="presetsEnd" />
                         </div>
                     </div>
 
@@ -109,11 +109,11 @@ const presetsEnd = [{ value: props.endDate!, label: 'Fin de la session' }];
                     <div class="flex gap-5 items-center">
                         <div class="flex gap-2 items-center mt-2">
                             <Label>À partir du</Label>
-                            <UtilsDatePicker size="sm" v-model="startDateValue" :presets="presetsStart" />
+                            <UtilsDatePicker size="sm" v-model="startDateValue as DateValue" :presets="presetsStart" />
                         </div>
                         <div class="flex gap-2 items-center mt-2">
                             <Label>Jusqu'au</Label>
-                            <UtilsDatePicker size="sm" v-model="endDateValue" :presets="presetsEnd" />
+                            <UtilsDatePicker size="sm" v-model="endDateValue as DateValue" :presets="presetsEnd" />
                         </div>
                     </div>
                     <AreaChart

@@ -19,7 +19,7 @@ const formSchema = toTypedSchema(
     }),
 );
 
-const form = useForm({
+const form = useForm<z.infer<typeof formSchema>>({
     validationSchema: formSchema,
 });
 

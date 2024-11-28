@@ -3,16 +3,20 @@ export interface ForumInfo {
     users: number;
     posts: number;
     topics: number;
-    moderators: {
-        name?: string;
-        username: string;
-        avatar: string;
-        title?: string;
-    }[];
-    admins: {
-        name?: string;
-        username: string;
-        avatar: string;
-        title?: string;
-    }[];
+    moderators: ForumUserInfo[];
+    admins: ForumUserInfo[];
+}
+
+export interface ForumUserInfo {
+    name?: string;
+    username: string;
+    avatar: string;
+    title?: string;
+}
+
+export interface DiscourseForumUserInfo {
+    name?: string;
+    username: string;
+    avatar_template: string;
+    title?: string;
 }
