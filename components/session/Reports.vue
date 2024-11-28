@@ -132,21 +132,31 @@ defineExpose({
 
             <template v-if="!sessionStore.session.loading">
                 <div class="flex gap-6 mx-auto">
-                    <div class="flex gap-2 items-center">
-                        <MetricsReportChip report="enrollment" :static="true" />
-                        <p>{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p>
-                        <UtilsHelp>
-                            Ces données sont générées depuis le rapport d'inscription disponible sur le dashboard FUN
-                        </UtilsHelp>
+                    <div class="flex flex-col items-center">
+                        <div class="flex gap-2 items-center">
+                            <MetricsReportChip report="enrollment" :static="true" />
+                            <!-- <p>{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p> -->
+                            <div class="flex flex-col text-center">
+                                <p>Fichier inscriptions</p>
+                            </div>
+                            <UtilsHelp>
+                                Ces données sont générées depuis le rapport d'inscription disponible sur le dashboard
+                                FUN
+                            </UtilsHelp>
+                        </div>
+                        <p class="text-muted-foreground">{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p>
                     </div>
 
-                    <div class="flex gap-2 relative items-center">
-                        <MetricsReportChip report="grade" :static="true" />
-                        <p>{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
-                        <UtilsHelp>
-                            Ces données sont générées depuis le &quot;grade report&quot; et le &quot;problem grade
-                            report&quot; disponibles dans la vue instructeur de FUN
-                        </UtilsHelp>
+                    <div class="flex flex-col items-center">
+                        <div class="flex gap-2 relative items-center">
+                            <MetricsReportChip report="grade" :static="true" />
+                            <p>Rapports de notations</p>
+                            <UtilsHelp>
+                                Ces données sont générées depuis le &quot;grade report&quot; et le &quot;problem grade
+                                report&quot; disponibles dans la vue instructeur de FUN
+                            </UtilsHelp>
+                        </div>
+                        <p class="text-muted-foreground">{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
                     </div>
 
                     <SessionAddReport
