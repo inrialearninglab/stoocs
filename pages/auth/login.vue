@@ -47,7 +47,7 @@ onMounted(() => {
             <AlertDescription> Vos identifiants sont incorrects. Veuillez réessayer. </AlertDescription>
         </Alert>
 
-        <Card class="border-none shadow-none">
+        <Card>
             <CardHeader class="text-center items-center">
                 <LayoutLogo class="w-32 h-auto mb-4" />
                 <CardTitle>Connexion</CardTitle>

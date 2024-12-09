@@ -30,6 +30,9 @@ export default {
             },
         },
         extend: {
+            boxShadow: {
+                'custom-inset': 'inset 0 1px rgba(255, 255, 255, 0.15)',
+            },
             colors: {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',

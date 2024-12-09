@@ -11,4 +11,4 @@ export interface TabChildInfo extends TabInfo {
 }
 
 export type TabState = 'moocs' | 'team' | 'settings';
-export type TabChild = 'profile' | 'themes';
+export type TabChild = 'profile';

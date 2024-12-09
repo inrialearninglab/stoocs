@@ -20,7 +20,7 @@ async function copyToClipboard(token: string) {
         <div
             v-for="invitation in usersStore.invitations"
             :key="invitation.tokenHash"
-            class="flex gap-2 items-center px-5 py-2.5 border rounded-md justify-between"
+            class="flex gap-2 items-center px-5 py-2.5 border rounded-md justify-between bg-card"
         >
             <p>{{ invitation.email }}</p>
             <div class="flex gap-4 items-center">

@@ -111,7 +111,7 @@ const selectorsBar = computed(() => (props.type === 'grouped' ? GroupedBar.selec
                 :y="(d: Data) => labels[d.pos]?.value / 2"
                 :label="(d: Data) => labels[d.pos]?.label"
                 backgroundColor="hsl(var(--primary))"
-                color="hsl(var(--background))"
+                color="hsl(var(--primary-foreground))"
             />
 
             <VisAxis

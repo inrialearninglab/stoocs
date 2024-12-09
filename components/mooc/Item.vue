@@ -22,7 +22,7 @@ const archiveSessions = computed(
 </script>
 
 <template>
-    <Card class="select-none">
+    <Card>
         <CardHeader :class="{ 'rounded-b': !isOpen }" class="transition p-4">
             <div class="flex gap-3 justify-between items-center">
                 <div class="flex flex-col gap-3 flex-1">

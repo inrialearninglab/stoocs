@@ -29,7 +29,7 @@ onMounted(() => {
                     id="search"
                     v-model="moocsStore.search"
                     placeholder="Chercher un MOOC..."
-                    class="pl-8"
+                    class="pl-8 bg-card"
                 />
                 <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
                     <Search class="size-5 text-muted-foreground" />

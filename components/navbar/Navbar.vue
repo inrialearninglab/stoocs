@@ -32,12 +32,6 @@ const tabMap: Record<TabState, TabInfo> = {
                 to: '/settings/profile',
                 icon: UserPen,
             },
-            themes: {
-                label: 'Thèmes',
-                description: "Personnaliser l'apparence de l'application",
-                to: '/settings/themes',
-                icon: Palette,
-            },
         },
     },
 };
@@ -99,7 +93,7 @@ watch(
                             v-for="(tab, key) in tabMap"
                             :key="key"
                             :value="key"
-                            class="data-[state=active]:bg-none"
+                            class="data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none"
                             as-child
                         >
                             <Button variant="ghost" class="relative tab-button text-md font-medium px-5 py-2.5">
@@ -130,6 +124,6 @@ watch(
 
 <style scoped>
 .tab-button {
-    @apply hover:bg-accent !important;
+    @apply hover:bg-secondary/90 !important;
 }
 </style>

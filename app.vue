@@ -3,15 +3,6 @@ import { Toaster } from '~/components/ui/sonner';
 
 const route = useRoute();
 const colorMode = useColorMode();
-
-const { themeClass, radius } = useThemes();
-
-useServerHead({
-    htmlAttrs: {
-        class: themeClass.value,
-        style: `--radius: ${radius.value}rem`,
-    },
-});
 </script>
 
 <template>

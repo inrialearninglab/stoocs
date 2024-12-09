@@ -41,7 +41,7 @@ if (user?.value?.rolename === 'ILL') items.push(...ILLItems);
         <BentoGridItem
             v-for="(item, index) in items"
             :key="index"
-            class="z-10 justify-center text-center"
+            class="z-10 justify-center text-center bg-card"
             :class="item.class"
             :href="item.href"
         >

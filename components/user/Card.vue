@@ -33,7 +33,7 @@ const usersStore = useUsers();
             <CardDescription>{{ user.email }}</CardDescription>
         </CardHeader>
         <CardFooter class="flex gap-2">
-            <Button v-if="profile" variant="outline" class="flex-1" as-child>
+            <Button v-if="profile" variant="secondary" class="flex-1" as-child>
                 <NuxtLink to="/users/update" class="flex items-center">
                     <PenLine class="size-4 mr-2" />
                     Modifier
@@ -56,7 +56,9 @@ const usersStore = useUsers();
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Annuler</AlertDialogCancel>
-                        <AlertDialogAction @click="usersStore.deleteUser()">Continuer</AlertDialogAction>
+                        <Button variant="destructive" as-child>
+                            <AlertDialogAction @click="usersStore.deleteUser()">Continuer</AlertDialogAction>
+                        </Button>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
