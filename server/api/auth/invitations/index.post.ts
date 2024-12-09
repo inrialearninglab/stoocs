@@ -39,19 +39,28 @@ export default defineEventHandler(async (event) => {
         auth: 'plain',
     });
 
-    const template = await useCompiler('Invitation.vue', {
-        props: {
-            invitedByUsername: `${event.context.user.firstname} ${event.context.user.lastname}`,
-            invitedByEmail: event.context.user.email,
-            inviteLink: `${process.env.APP_URL}/auth/register/${tokenHash}`,
-        },
-    });
+    let html;
+    try {
+        const template = await useCompiler('Invitation.vue', {
+            props: {
+                invitedByUsername: `${event.context.user.firstname} ${event.context.user.lastname}`,
+                invitedByEmail: event.context.user.email,
+                inviteLink: `${process.env.APP_URL}/auth/register/${tokenHash}`,
+            },
+        });
+
+        html = template.html;
+    } catch (e) {
+        console.error('error creating mail template');
+
+        html = `Vous avez été invité sur l'application Stoocs. Cliquez sur le lien suivant pour créer votre compte : ${process.env.APP_URL}/auth/register/${tokenHash}`;
+    }
 
     let mailOptions = {
         from: `Stoocs <${process.env.APP_EMAIL}>`,
         to: email,
         subject: 'Invitation stoocs',
-        html: template.html,
+        html,
     };
 
     try {
