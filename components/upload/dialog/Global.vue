@@ -24,7 +24,7 @@ function findEnrollments() {
 const conditions = computed(() => {
     return [
         {
-            title: 'Rapport de notes',
+            title: 'Rapport de notations',
             conditions: {
                 'Grade report': findGradeReport(),
                 'Problem grade report': findProblemGradeReport(),
@@ -32,7 +32,7 @@ const conditions = computed(() => {
             type: 'grade',
         },
         {
-            title: "Rapport d'inscription",
+            title: 'Fichier inscriptions',
             conditions: {
                 'enrollments.csv': findEnrollments(),
             },

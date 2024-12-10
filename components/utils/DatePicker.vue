@@ -55,7 +55,9 @@ const presets = [
             <Button
                 :size="size"
                 variant="outline"
-                :class="cn('w-[250px] justify-start text-left font-normal', !value && 'text-muted-foreground')"
+                :class="
+                    cn('w-[250px] justify-start text-left font-normal bg-background', !value && 'text-muted-foreground')
+                "
             >
                 <CalendarIcon class="mr-2 size-4" />
                 {{ value ? df.format(value.toDate(getLocalTimeZone())) : 'Choisissez une date' }}
