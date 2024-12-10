@@ -5,11 +5,12 @@ const reports: Ref<InstanceType<typeof SessionReports> | null> = ref(null);
 
 definePageMeta({
     middleware: 'guest',
+    layout: 'session',
 });
 </script>
 
 <template>
-    <div class="flex flex-1 flex-col min-h-full gap-12">
+    <div class="flex flex-1 flex-col min-h-full gap-12 mt-16">
         <SessionReports ref="reports" />
 
         <template v-if="!reports?.dragging">

@@ -24,44 +24,38 @@ async function handleRefresh() {
 }
 </script>
 <template>
-    <div class="flex flex-col gap-2">
-        <div class="flex justify-between items-center mb-2">
-            <Breadcrumb>
-                <BreadcrumbList>
-                    <BreadcrumbItem>
-                        <BreadcrumbLink as-child>
-                            <NuxtLink to="/moocs">Moocs</NuxtLink>
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                    <BreadcrumbItem>
-                        <BreadcrumbLink as-child>
-                            <NuxtLink
-                                v-if="!sessionStore?.session?.loading"
-                                :to="`/sessions/${sessionStore?.session?.data?.id}`"
-                            >
-                                {{ sessionStore?.session?.data?.mooc.title }}/{{
-                                    sessionStore?.session?.data?.sessionName
-                                }}
-                            </NuxtLink>
-                            <Skeleton v-else class="w-80 h-6" />
-                        </BreadcrumbLink>
-                    </BreadcrumbItem>
-                </BreadcrumbList>
-            </Breadcrumb>
+    <div
+        class="flex justify-between items-center mb-2 fixed border-b top-16 w-full p-2 bg-background/70 backdrop-blur-lg z-10 h-16"
+    >
+        <Breadcrumb>
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <BreadcrumbLink as-child>
+                        <NuxtLink to="/moocs">Moocs</NuxtLink>
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                    <BreadcrumbLink as-child>
+                        <NuxtLink
+                            v-if="!sessionStore?.session?.loading"
+                            :to="`/sessions/${sessionStore?.session?.data?.id}`"
+                        >
+                            {{ sessionStore?.session?.data?.mooc.title }}/{{ sessionStore?.session?.data?.sessionName }}
+                        </NuxtLink>
+                        <Skeleton v-else class="w-80 h-6" />
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
 
-            <div class="flex gap-2 items-center">
-                <SessionGuests
-                    v-if="sessionStore.session.data && user?.rolename === 'ILL'"
-                    :sessionId="sessionStore.session.data.id"
-                />
+        <div class="flex gap-2 items-center">
+            <SessionGuests
+                v-if="sessionStore.session.data && user?.rolename === 'ILL'"
+                :sessionId="sessionStore.session.data.id"
+            />
 
-                <Refresh ref="refresh" @refresh="handleRefresh" />
-            </div>
+            <Refresh ref="refresh" @refresh="handleRefresh" />
         </div>
-
-        <h1 class="text-center">{{ sessionStore?.session?.data?.mooc.title }}</h1>
-        <h2 class="text-center text-muted-foreground">{{ sessionStore?.session?.data?.sessionName }}</h2>
-        <p class="text-muted-foreground text-center">{{ sessionStore.session.data?.mooc.courseNumber }}</p>
     </div>
 </template>

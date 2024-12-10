@@ -128,7 +128,9 @@ defineExpose({
         </div>
 
         <div v-show="!dragging || user?.rolename === 'Guest'" class="flex w-full flex-col gap-12">
-            <SessionLayoutHeader />
+            <h1 class="text-center">{{ sessionStore?.session?.data?.mooc.title }}</h1>
+            <h2 class="text-center text-muted-foreground">{{ sessionStore?.session?.data?.sessionName }}</h2>
+            <p class="text-muted-foreground text-center">{{ sessionStore.session.data?.mooc.courseNumber }}</p>
 
             <template v-if="!sessionStore.session.loading">
                 <div class="flex gap-6 mx-auto">
