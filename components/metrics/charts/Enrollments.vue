@@ -72,7 +72,7 @@ const presetsEnd = [{ value: props.endDate!, label: 'Fin de la session' }];
 <template>
     <div class="flex flex-col gap-2">
         <Tabs default-value="day">
-            <TabsList class="grid w-full grid-cols-2">
+            <TabsList class="grid w-full max-w-7xl grid-cols-2 mx-auto">
                 <TabsTrigger value="day">Par jour</TabsTrigger>
                 <TabsTrigger value="total">Cumul</TabsTrigger>
             </TabsList>
