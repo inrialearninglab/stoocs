@@ -1,4 +1,5 @@
 export interface ForumInfo {
+    instance: string;
     title: string;
     users: number;
     posts: number;

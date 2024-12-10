@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Users, MessageSquare, MessagesSquare, Loader2 } from 'lucide-vue-next';
+import { Users, MessageSquare, MessagesSquare, Loader2, SquareArrowOutUpRight } from 'lucide-vue-next';
 
 const route = useRoute();
 const sessionStore = useSession();
@@ -23,8 +23,16 @@ onMounted(() => {
         </div>
 
         <div v-else class="flex flex-col gap-8">
-            <div>
-                <h2 class="text-center">Forum Discourse</h2>
+            <div class="items-center flex flex-col gap-2">
+                <Button as-child variant="link">
+                    <NuxtLink
+                        :to="`${config.public.discourseURL}/${sessionStore.forum.data.instance}`"
+                        class="flex items-center gap-3 !mx-auto"
+                    >
+                        <h2 class="pb-0">Forum Discourse</h2>
+                        <SquareArrowOutUpRight />
+                    </NuxtLink>
+                </Button>
                 <h3 class="text-center text-muted-foreground">{{ sessionStore.forum.data.title }}</h3>
             </div>
 

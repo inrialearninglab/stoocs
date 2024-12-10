@@ -38,6 +38,7 @@ export default defineEventHandler(async (event) => {
         });
 
         return {
+            instance: forum.instanceName,
             title: data.about.title,
             users: data.about.stats.user_count,
             posts: data.about.stats.post_count,
