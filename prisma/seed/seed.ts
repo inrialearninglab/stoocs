@@ -82,7 +82,7 @@ async function seed() {
                 firstname: user.firstname,
                 lastname: user.lastname,
                 role: {
-                    connect: { name: ILLRole.name },
+                    connect: { name: user.rolename ?? ILLRole.name },
                 },
             },
         });
