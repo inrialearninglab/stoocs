@@ -27,7 +27,7 @@ onMounted(() => {
                 <Button as-child variant="link">
                     <NuxtLink
                         :to="`${config.public.discourseURL}/${sessionStore.forum.data.instance}`"
-                        class="flex items-center gap-3 !mx-auto"
+                        class="flex gap-3"
                     >
                         <h2 class="pb-0">Forum Discourse</h2>
                         <SquareArrowOutUpRight />
