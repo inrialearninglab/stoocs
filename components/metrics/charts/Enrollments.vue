@@ -45,7 +45,7 @@ function getFilteredData(mode: 'day' | 'total') {
             if (enrollmentDate < startDate) return;
 
             data.push({
-                Date: formatDate(enrollmentDate),
+                Date: formatDate(enrollmentDate, 'short'),
                 Inscriptions: enrollment.enrollments,
             });
         } else if (mode === 'total') {
