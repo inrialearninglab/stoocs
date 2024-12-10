@@ -31,7 +31,6 @@ onMounted(() => {
             <div class="flex gap-4 w-full justify-center flex-wrap">
                 <MetricsNumberCard :value="sessionStore.forum.data.users" noun="Utilisateurs" :icon="Users">
                     <template #title>Nombre d'utilisateurs</template>
-                    <template #description>Nombre total d'utilisateurs inscrits sur le forum</template>
                 </MetricsNumberCard>
 
                 <MetricsNumberCard
@@ -40,23 +39,20 @@ onMounted(() => {
                     :icon="MessagesSquare"
                 >
                     <template #title>Nombre de fils de discussion</template>
-                    <template #description>Nombre total de fils de discussion sur le forum</template>
                 </MetricsNumberCard>
 
                 <MetricsNumberCard :value="sessionStore.forum.data.posts" noun="Messages" :icon="MessageSquare">
                     <template #title>Nombre de messages</template>
-                    <template #description>Nombre total de messages sur le forum</template>
                 </MetricsNumberCard>
             </div>
 
             <div class="flex gap-4 w-full justify-center flex-wrap">
                 <MetricsNumberCard
-                    :value="sessionStore.forum.data.posts / sessionStore.forum.data.users"
+                    :value="Number((sessionStore.forum.data.posts / sessionStore.forum.data.users).toFixed(1))"
                     noun="Messages par utilisateur"
                     class="max-w-md"
                 >
-                    <template #title>Moyenne de messages par utilisateur</template>
-                    <template #description>Moyenne de messages par utilisateur sur le forum</template>
+                    <template #title>Moyenne du nombre de messages par utilisateur</template>
                 </MetricsNumberCard>
             </div>
 
