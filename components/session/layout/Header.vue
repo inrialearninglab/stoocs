@@ -25,7 +25,7 @@ async function handleRefresh() {
 </script>
 <template>
     <div
-        class="flex justify-between items-center mb-2 fixed border-b top-16 w-full p-2 bg-background/70 backdrop-blur-lg z-10 h-16"
+        class="flex justify-between items-center mb-2 sticky border-b top-16 w-full p-2 bg-background/70 backdrop-blur-lg z-10 h-16"
     >
         <Breadcrumb>
             <BreadcrumbList>
