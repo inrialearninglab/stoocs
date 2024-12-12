@@ -23,8 +23,8 @@ logs
 .env.*
 !.env.example
 
-uploads/enrollments
-uploads/reports
+uploads/enrollments/*.csv
+uploads/reports/*.csv
 
 prisma/seed/courses/*.json
 prisma/seed/enrollments/*.csv
