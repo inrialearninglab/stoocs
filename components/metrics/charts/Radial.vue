@@ -8,14 +8,14 @@ const circumference = 45 * 2 * Math.PI;
 const offset = ref(circumference);
 
 const percentage = computed(() => {
-    return Math.round((props.dividend / props.divisor) * 100);
+    return (props.dividend / props.divisor) * 100;
 });
 
 watch(
     () => percentage,
     (newPercentage) => {
         setTimeout(() => {
-            offset.value = circumference - (newPercentage.value / 100) * circumference;
+            offset.value = circumference - (Math.round(newPercentage.value) / 100) * circumference;
         });
     },
     { immediate: true },
@@ -34,7 +34,7 @@ watch(
             :stroke-dashoffset="offset"
         ></circle>
 
-        <text x="53" y="57" text-anchor="middle" class="text-lg fill-foreground">{{ percentage }}%</text>
+        <text x="53" y="57" text-anchor="middle" class="text-lg fill-foreground">{{ percentage.toFixed(1) }}%</text>
     </svg>
 </template>
 
