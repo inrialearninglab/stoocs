@@ -25,7 +25,7 @@ jobs:
 
             - name: Convert reposository owner to lowercase
               id: lowercase
-              run: echo "{name}={owner}" >> $GITHUB_OUTPUT
+              run: echo "owner=${{github.repository_owner}}" >> $GITHUB_OUTPUT
 
             - name: Setup up QEMU
               uses: docker/setup-qemu-action@v3
