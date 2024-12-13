@@ -11,7 +11,7 @@ function toggleColorMode() {
 
 <template>
     <header
-        class="border-b-2 p-3 flex justify-between items-center sticky top-0 z-10 bg-background/70 backdrop-blur-lg h-16"
+        class="border-b p-3 flex justify-between items-center sticky top-0 z-10 bg-background/70 backdrop-blur-lg h-16"
     >
         <div class="flex gap-5 items-center">
             <NuxtLink to="/" class="flex gap-2 items-center">
