@@ -21,6 +21,7 @@ const props = withDefaults(
             curveType?: CurveType;
             xLabel?: string;
             yLabel?: string;
+            showXTickline?: boolean;
         }
     >(),
     {
@@ -32,6 +33,7 @@ const props = withDefaults(
         showTooltip: true,
         showLegend: true,
         showGridLine: true,
+        showXTickline: false,
     },
 );
 
@@ -94,7 +96,7 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
                 label-color="hsl(var(--vis-text-color))"
                 :tick-format="xFormatter ?? ((v: number) => data[v]?.[index])"
                 :grid-line="false"
-                :tick-line="false"
+                :tick-line="showXTickline"
                 tick-text-color="hsl(var(--vis-text-color))"
             />
             <VisAxis

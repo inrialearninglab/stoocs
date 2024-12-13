@@ -98,6 +98,7 @@ const presetsEnd = [{ value: props.endDate!, label: 'Fin de la session' }];
                         y-label="Nombre d'inscrits"
                         index="Date"
                         :categories="['Inscriptions']"
+                        :show-x-tickline="true"
                     />
                 </MetricsCard>
             </TabsContent>
@@ -123,6 +124,7 @@ const presetsEnd = [{ value: props.endDate!, label: 'Fin de la session' }];
                         x-label="Date"
                         index="Date"
                         :categories="['Inscriptions']"
+                        :show-x-tickline="true"
                     />
                 </MetricsCard>
             </TabsContent>
