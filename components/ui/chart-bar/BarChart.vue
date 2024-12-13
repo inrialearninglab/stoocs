@@ -29,6 +29,7 @@ const props = withDefaults(
             color?: any;
             percentage?: boolean;
             labels?: Labels;
+            showXTickline?: boolean;
         }
     >(),
     {
@@ -41,6 +42,7 @@ const props = withDefaults(
         showTooltip: true,
         showLegend: true,
         showGridLine: true,
+        showXTickline: false,
     },
 );
 const emits = defineEmits<{
@@ -119,7 +121,7 @@ const selectorsBar = computed(() => (props.type === 'grouped' ? GroupedBar.selec
                 type="x"
                 :tick-format="xFormatter ?? ((v: number) => data[v]?.[index])"
                 :grid-line="false"
-                :tick-line="false"
+                :tick-line="showXTickline"
                 tick-text-color="hsl(var(--vis-text-color))"
             />
             <VisAxis

@@ -98,6 +98,7 @@ function toggleThreshold() {
                 :color="color"
                 :y-formatter="(tick, i) => tick + '%'"
                 :custom-tooltip="TooltipPercentage"
+                :show-x-tickline="true"
             />
 
             <MetricsChartsScoreIssuesTable v-if="problems.length" :problems="problems" />
