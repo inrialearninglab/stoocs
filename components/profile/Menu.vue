@@ -18,7 +18,7 @@ async function handleLogout() {
 <template>
     <DropdownMenu v-if="user">
         <DropdownMenuTrigger as-child>
-            <UserAvatar :user="user" class="cursor-pointer" />
+            <UserAvatar :user="user" class="cursor-pointer size-9" />
         </DropdownMenuTrigger>
 
         <DropdownMenuContent class="w-56">

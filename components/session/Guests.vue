@@ -83,7 +83,7 @@ async function createGuest(email: string) {
 <template>
     <Sheet>
         <SheetTrigger as-child>
-            <Button>
+            <Button size="sm">
                 <UserPen class="mr-2 size-5" />
                 <span>{{ guests.length }} invité</span>
             </Button>
