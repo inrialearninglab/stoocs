@@ -9,17 +9,9 @@ const colorMode = useColorMode();
     <NuxtLoadingIndicator />
     <NuxtRouteAnnouncer />
     <div class="flex flex-col min-h-screen">
-        <LayoutHeader v-if="route.path !== '/'" />
-        <SessionLayoutHeader v-if="route.meta.layout === 'session'" />
-        <div class="min-h-full flex-1 flex flex-col" :class="{ 'p-8': route.path !== '/' }">
-            <NuxtPage v-if="!(route.meta.layout === 'dashboard')" />
-
-            <Navbar v-else class="max-w-8xl w-full mx-auto">
-                <NuxtPage />
-            </Navbar>
-
-            <!-- Wait for colorMode init -->
-            <Toaster v-if="colorMode.value !== 'system'" rich-colors :theme="colorMode.value as 'light' | 'dark'" />
-        </div>
+        <NuxtLayout>
+            <NuxtPage />
+        </NuxtLayout>
+        <Toaster v-if="colorMode.value !== 'system'" rich-colors :theme="colorMode.value as 'light' | 'dark'" />
     </div>
 </template>

@@ -15,5 +15,7 @@ async function handleRefresh() {
 </script>
 
 <template>
-    <Refresh ref="refresh" @refresh="handleRefresh" />
+    <div class="flex gap-3 items-center">
+        <Refresh ref="refresh" @refresh="handleRefresh" />
+    </div>
 </template>

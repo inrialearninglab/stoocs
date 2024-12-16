@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Sun, Moon, UserCog } from 'lucide-vue-next';
+import { Sun, Moon } from 'lucide-vue-next';
 
 const colorMode = useColorMode();
 const user = useUser();
@@ -7,6 +7,23 @@ const user = useUser();
 function toggleColorMode() {
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
 }
+
+const route = useRoute();
+const routes = [
+    {
+        label: 'MOOCs',
+        path: '/moocs',
+    },
+    {
+        label: 'Équipe',
+        path: '/users',
+        restricted: true,
+    },
+    {
+        label: 'Paramètre',
+        path: '/settings/profile',
+    },
+];
 </script>
 
 <template>
@@ -20,14 +37,18 @@ function toggleColorMode() {
             </NuxtLink>
         </div>
 
-        <div class="flex gap-2 items-center">
-            <Button variant="outline" size="sm" as-child v-if="user && user.rolename === 'ILL'">
-                <RouterLink to="/users">
-                    <UserCog class="mr-2" />
-                    Administrer les membres
-                </RouterLink>
+        <div class="flex items-center">
+            <Button v-for="item of routes" variant="ghost" as-child>
+                <NuxtLink :to="item.path" v-if="!item.restricted || user?.rolename === 'ILL'">
+                    {{ item.label }}
+                    <div v-if="route.path === item.path" class="absolute -bottom-2.5 w-full">
+                        <div class="h-0.5 bg-primary rounded-t-md" />
+                    </div>
+                </NuxtLink>
             </Button>
+        </div>
 
+        <div class="flex gap-2 items-center">
             <Button @click="toggleColorMode" size="icon" variant="outline" class="size-9">
                 <Moon class="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 size-5" />
                 <Sun class="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 size-5" />
@@ -38,3 +59,9 @@ function toggleColorMode() {
         </div>
     </header>
 </template>
+
+<style scoped>
+.router-link-active {
+    @apply text-primary;
+}
+</style>

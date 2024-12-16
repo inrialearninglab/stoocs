@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import type { TabChild, TabChildInfo } from '~/types/navigation.type';
+import { UserPen } from 'lucide-vue-next';
 
-defineProps<{
-    tabs: Record<TabChild, TabChildInfo>;
-    activeTab: TabChild;
-}>();
+const tabs = [
+    {
+        label: 'Profil',
+        icon: UserPen,
+        to: 'profile',
+    },
+];
 </script>
 
 <template>
@@ -13,7 +17,7 @@ defineProps<{
             <li v-for="tab in tabs" :key="tab.to">
                 <NuxtLink
                     :to="tab.to"
-                    class="flex gap-2 items-center hover:bg-accent rounded-md px-3 py-1.5 transition active:scale-[0.98]"
+                    class="flex gap-2 items-center hover:bg-primary rounded-md px-3 py-1.5 transition active:scale-[0.98]"
                 >
                     <component :is="tab.icon" class="size-4" />
                     {{ tab.label }}
@@ -25,6 +29,6 @@ defineProps<{
 
 <style scoped>
 .router-link-active {
-    @apply bg-muted text-foreground;
+    @apply bg-primary text-primary-foreground;
 }
 </style>

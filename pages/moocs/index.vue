@@ -21,7 +21,15 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex flex-col gap-8">
+    <div class="flex flex-col gap-6">
+        <div class="flex justify-between">
+            <div class="space-y-2">
+                <h1>MOOCs</h1>
+                <p class="text-muted-foreground">Liste des MOOCs sur FUN</p>
+            </div>
+            <NavbarActionsMoocs />
+        </div>
+
         <div class="flex justify-between gap-2 items-center">
             <div class="relative w-full max-w-sm items-center">
                 <Input

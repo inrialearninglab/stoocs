@@ -3,7 +3,7 @@ const isDark = computed(() => useColorMode().value == 'dark');
 </script>
 
 <template>
-    <div class="flex flex-col gap-8 mx-auto p-8">
+    <div class="flex flex-col gap-8 mx-auto">
         <InspiraParticlesBg
             class="absolute inset-0"
             :quantity="150"
