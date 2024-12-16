@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
 import TooltipPercentage from '~/components/metrics/tooltip/Percentage.vue';
-import { ChevronRight, ChevronLeft } from 'lucide-vue-next';
-import { Award } from 'lucide-vue-next';
+import { ChevronRight, ChevronLeft, Award, Eye, EyeOff } from 'lucide-vue-next';
 
 const props = defineProps<{
     data: any;
@@ -16,9 +15,18 @@ const color = (d: any) => {
     else return '#12cc82';
 };
 
+const filterZero = ref(true);
+const filteredData = computed(() => {
+    if (filterZero.value) {
+        return props.data.filter((d: any) => d['Moyenne'] > 0);
+    } else {
+        return props.data;
+    }
+});
+
 const problems = computed(() => {
-    if (!props.data) return [];
-    return props.data.filter((d: any) => d['Moyenne'] < 50);
+    if (!filteredData.value) return [];
+    return filteredData.value.filter((d: any) => d['Moyenne'] < 50);
 });
 
 function toggleThreshold() {
@@ -65,10 +73,16 @@ function toggleThreshold() {
 
             <template #actions>
                 <div class="flex gap-5 items-center">
-                    <Button @click="toggleThreshold">
-                        <Award class="mr-2" />
-                        Afficher le seuil de réussite
-                    </Button>
+                    <div class="flex flex-col gap-2">
+                        <Button @click="toggleThreshold">
+                            <Award class="mr-2" />
+                            Afficher le seuil de réussite
+                        </Button>
+                        <Button @click="filterZero = !filterZero">
+                            <component :is="filterZero ? Eye : EyeOff" class="mr-2" />
+                            {{ filterZero ? 'Afficher les 0' : 'Masquer les 0' }}
+                        </Button>
+                    </div>
 
                     <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
                         <div class="flex gap-1 items-center">
@@ -92,7 +106,7 @@ function toggleThreshold() {
                 :show-legend="false"
                 :percentage="true"
                 :rounded-corners="4"
-                :data="data"
+                :data="filteredData"
                 index="name"
                 :categories="['Moyenne']"
                 :color="color"
