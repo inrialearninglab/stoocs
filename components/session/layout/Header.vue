@@ -55,7 +55,7 @@ async function handleRefresh() {
                 :sessionId="sessionStore.session.data.id"
             />
 
-            <Refresh ref="refresh" @refresh="handleRefresh" class="size-9" />
+            <Refresh ref="refresh" @refresh="handleRefresh" class="size-9 [&>svg]:size-5" />
         </div>
     </div>
 </template>

@@ -14,14 +14,14 @@ const props = defineProps<{
     loading: boolean;
 }>();
 
-const startDateValue = ref<DateValue>(props.startDate ? parseDate(props.startDate) : today(getLocalTimeZone()));
-const endDateValue = ref<DateValue>(
-    props.endDate
-        ? parseDate(props.endDate) > today(getLocalTimeZone())
-            ? today(getLocalTimeZone())
+const dates = ref({
+    start: props.startDate ? parseDate(props.startDate) : today(getLocalTimeZone()),
+    end: props.endDate
+        ? props.details
+            ? parseDate(props.details[props.details.length - 1].date)
             : parseDate(props.endDate)
         : today(getLocalTimeZone()),
-);
+});
 
 interface EnrollmentData {
     Date: string;
@@ -35,9 +35,10 @@ function getFilteredData(mode: 'day' | 'total') {
     let enrollments = 0;
 
     props.details.forEach((enrollment) => {
+        if (!dates.value.start) return;
         const enrollmentDate = getParsedDate(enrollment.date);
-        const startDate = startDateValue.value.toDate(getLocalTimeZone());
-        const endDate = endDateValue.value.toDate(getLocalTimeZone());
+        const startDate = dates.value.start.toDate(getLocalTimeZone());
+        const endDate = dates.value.end.toDate(getLocalTimeZone());
 
         if (enrollmentDate > endDate) return;
 
@@ -64,9 +65,12 @@ function getFilteredData(mode: 'day' | 'total') {
     return data;
 }
 
-const presetsStart = [{ value: props.startDate!, label: 'Début de la session' }];
-
-const presetsEnd = [{ value: props.endDate!, label: 'Fin de la session' }];
+const presets = [
+    {
+        value: props.startDate!,
+        label: 'Toute la session',
+    },
+];
 </script>
 
 <template>
@@ -80,16 +84,13 @@ const presetsEnd = [{ value: props.endDate!, label: 'Fin de la session' }];
                 <MetricsCard title="Inscriptions" :loading="loading" :empty="!details" report="enrollment">
                     <template #description> Nombre de nouvelles inscriptions par jour </template>
 
-                    <div class="flex gap-5 items-center">
-                        <div class="flex gap-2 items-center mt-2">
-                            <Label>À partir du</Label>
-                            <UtilsDatePicker size="sm" v-model="startDateValue" :presets="presetsStart" />
-                        </div>
-                        <div class="flex gap-2 items-center mt-2">
-                            <Label>Jusqu'au</Label>
-                            <UtilsDatePicker size="sm" v-model="endDateValue" :presets="presetsEnd" />
-                        </div>
-                    </div>
+                    <UtilsDateRangePicker
+                        v-if="details"
+                        v-model="dates"
+                        :max-date="parseDate(details[details.length - 1].date)"
+                        :min-date="parseDate(details[0].date)"
+                        :presets="presets"
+                    />
 
                     <LineChart
                         :show-legend="false"
@@ -107,16 +108,14 @@ const presetsEnd = [{ value: props.endDate!, label: 'Fin de la session' }];
                 <MetricsCard title="Inscriptions" :loading="loading" :empty="!details" report="enrollment">
                     <template #description> Nombre total d'inscriptions </template>
 
-                    <div class="flex gap-5 items-center">
-                        <div class="flex gap-2 items-center mt-2">
-                            <Label>À partir du</Label>
-                            <UtilsDatePicker size="sm" v-model="startDateValue" :presets="presetsStart" />
-                        </div>
-                        <div class="flex gap-2 items-center mt-2">
-                            <Label>Jusqu'au</Label>
-                            <UtilsDatePicker size="sm" v-model="endDateValue" :presets="presetsEnd" />
-                        </div>
-                    </div>
+                    <UtilsDateRangePicker
+                        v-if="details"
+                        v-model="dates"
+                        :max-date="parseDate(details[details.length - 1].date)"
+                        :min-date="parseDate(details[0].date)"
+                        :presets="presets"
+                    />
+
                     <AreaChart
                         :show-legend="false"
                         :data="getFilteredData('total')"
