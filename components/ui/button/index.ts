@@ -19,9 +19,9 @@ export const buttonVariants = cva(
                 ],
                 outline: ['hover:bg-secondary/90'],
                 secondary: [
-                    'bg-secondary shadow-custom-inset [--button-hover-overlay:theme(colors.secondary.foreground/5%)]',
+                    'bg-secondary shadow [--button-hover-overlay:theme(colors.secondary.foreground/5%)]',
                     "after:content-[''] after:transition after:rounded-md after:absolute after:inset-0 after:bg-[var(--button-hover-overlay)] after:opacity-0 hover:after:opacity-100",
-                    'dark:border-white/5',
+                    'dark:border-white/5 dark:shadow-custom-inset',
                 ],
                 ghost: 'hover:bg-secondary/90 hover:text-accent-foreground border-none',
                 link: 'text-primary underline-offset-4 hover:underline border-none',
