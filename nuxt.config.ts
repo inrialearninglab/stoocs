@@ -53,6 +53,9 @@ export default defineNuxtConfig({
                 'img-src': ["'self'", 'data:', process.env.DISCOURSE_URL!],
             },
         },
+        rateLimiter: {
+            tokensPerInterval: 300,
+        },
     },
 
     runtimeConfig: {
