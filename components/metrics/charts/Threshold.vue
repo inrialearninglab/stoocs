@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { LineChart } from '~/components/ui/chart-line';
+import { saveChartAsPNG } from '~/utils';
+import { Camera } from 'lucide-vue-next';
 
 const props = defineProps<{
     data: {
@@ -9,6 +10,8 @@ const props = defineProps<{
     loading: boolean;
     cutoffs: number;
 }>();
+
+const chartId = 'threshold-chart';
 </script>
 
 <template>
@@ -16,8 +19,16 @@ const props = defineProps<{
         <MetricsCard title="Nombre d'apprenants éligibles au badge" :loading="loading" :empty="!data" report="grade">
             <template #description>
                 Nombre d'apprenants éligibles selon le seuil de réussite. Le seuil actuel est de
-                <strong>{{ cutoffs * 100 }}%</strong>, ce qui représente
-                <strong>{{ data.find((d: any) => d.threshold === cutoffs * 100 + '%')?.Eligible }} apprenants</strong>.
+                <strong class="text-primary">{{ cutoffs * 100 }}%</strong>, ce qui représente
+                <strong class="text-primary"
+                    >{{ data.find((d: any) => d.threshold === cutoffs * 100 + '%')?.Eligible }} apprenants</strong
+                >.
+            </template>
+
+            <template #legend>
+                <Button size="icon" @click="saveChartAsPNG(chartId)">
+                    <Camera />
+                </Button>
             </template>
 
             <AreaChart
@@ -27,6 +38,7 @@ const props = defineProps<{
                 y-label="Apprenants éligibles"
                 x-label="Seuil de note"
                 :categories="['Eligible']"
+                :id="chartId"
             />
         </MetricsCard>
     </div>
