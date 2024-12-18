@@ -4,16 +4,16 @@ import { BentoGrid, BentoGridItem } from '~/components/inspira/bento';
 
 const items = [
     {
-        title: 'Moocs',
-        description: 'Voir la liste des moocs',
+        title: 'home.bento.moocs.title',
+        description: 'home.bento.moocs.description',
         image: '/hero/moocs-dark.png',
         href: '/moocs',
         icon: List,
         class: 'md:col-span-2',
     },
     {
-        title: 'Paramètres',
-        description: "Accéder aux paramètres de l'application",
+        title: 'home.bento.settings.title',
+        description: 'home.bento.settings.description',
         image: '/hero/settings-dark.png',
         href: '/settings/profile',
         icon: Cog,
@@ -23,8 +23,8 @@ const items = [
 
 const ILLItems = [
     {
-        title: 'Equipe',
-        description: "Administrer les membres de l'équipe",
+        title: 'home.bento.team.title',
+        description: 'home.bento.team.description',
         image: '/hero/users-dark.png',
         href: '/users',
         icon: Users,
@@ -46,7 +46,7 @@ if (user?.value?.rolename === 'ILL') items.push(...ILLItems);
             :href="item.href"
         >
             <template #title>
-                <h2>{{ item.title }}</h2>
+                <h2>{{ $t(item.title) }}</h2>
             </template>
 
             <template #icon>
@@ -54,7 +54,7 @@ if (user?.value?.rolename === 'ILL') items.push(...ILLItems);
             </template>
 
             <template #description>
-                <p class="text-lg">{{ item.description }}</p>
+                <p class="text-lg">{{ $t(item.description) }}</p>
             </template>
         </BentoGridItem>
     </BentoGrid>

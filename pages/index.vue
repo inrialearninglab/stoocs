@@ -19,13 +19,13 @@ const isDark = computed(() => useColorMode().value == 'dark');
         </div>
 
         <div class="flex justify-center text-blance">
-            <h1 class="text-2xl font-bold text-center text-balance">
-                Les données des MOOCs,
-                <InspiraTextHighlight class="bg-gradient-to-r from-purple-300 to-orange-300 rounded-lg"
-                    >réinventées</InspiraTextHighlight
-                >
-                pour le plaisir des yeux et des statistiques !
-            </h1>
+            <h2 class="text-2xl font-bold text-center text-balance">
+                {{ $t('home.hero.firstPart') }}
+                <InspiraTextHighlight class="bg-gradient-to-r from-purple-300 to-orange-300 rounded-lg">{{
+                    $t('home.hero.secondPart')
+                }}</InspiraTextHighlight>
+                {{ $t('home.hero.lastPart') }}
+            </h2>
         </div>
 
         <HeroBento />

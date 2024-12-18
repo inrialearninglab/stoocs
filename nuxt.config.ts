@@ -16,6 +16,7 @@ export default defineNuxtConfig({
         '@nuxtjs/color-mode',
         'nuxt-security',
         '@vue-email/nuxt',
+        '@nuxtjs/i18n',
     ],
 
     shadcn: {
@@ -27,6 +28,10 @@ export default defineNuxtConfig({
 
     colorMode: {
         classSuffix: '',
+    },
+
+    i18n: {
+        vueI18n: './i18n.config.ts',
     },
 
     routeRules: {
