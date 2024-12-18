@@ -4,49 +4,49 @@ export default defineI18nConfig(() => ({
     messages: {
         en: {
             welcome: 'Welcome',
+            nav: {
+                moocs: {
+                    title: 'MOOCs',
+                    description: 'MOOCs list on FUN',
+                },
+                settings: {
+                    title: 'Settings',
+                    description: 'Manage application parameters',
+                },
+                team: {
+                    title: 'Team',
+                    description: 'List of team members',
+                },
+            },
             home: {
                 hero: {
                     firstPart: 'MOOCs data',
                     secondPart: 'reinvented',
                     lastPart: 'for the pleasure of the eyes and statistics!',
                 },
-                bento: {
-                    moocs: {
-                        title: 'MOOCs',
-                        description: 'See MOOCs list',
-                    },
-                    settings: {
-                        title: 'Settings',
-                        description: 'Access to application settings',
-                    },
-                    team: {
-                        title: 'Team',
-                        description: 'Administrate team members',
-                    },
-                },
             },
         },
         fr: {
             welcome: 'Bienvenue',
+            nav: {
+                moocs: {
+                    title: 'MOOCs',
+                    description: 'Liste des MOOCs sur FUN',
+                },
+                settings: {
+                    title: 'Paramètres',
+                    description: "Gérer les paramètres de l'application",
+                },
+                team: {
+                    title: 'Équipe',
+                    description: "Liste des membres de l'équipe",
+                },
+            },
             home: {
                 hero: {
                     firstPart: 'Les données des MOOCs',
                     secondPart: 'réinventées',
                     thirdPart: 'pour le plaisir des yeux et des statistiques !',
-                },
-                bento: {
-                    moocs: {
-                        title: 'MOOCs',
-                        description: 'Voir la list des MOOCs',
-                    },
-                    settings: {
-                        title: 'Paramètres',
-                        description: "Accéder aux paramètres de l'application",
-                    },
-                    team: {
-                        title: 'Équipe',
-                        description: "Administrer les membres de l'équipe",
-                    },
                 },
             },
         },

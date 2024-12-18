@@ -4,16 +4,16 @@ import { BentoGrid, BentoGridItem } from '~/components/inspira/bento';
 
 const items = [
     {
-        title: 'home.bento.moocs.title',
-        description: 'home.bento.moocs.description',
+        title: 'nav.moocs.title',
+        description: 'nav.moocs.description',
         image: '/hero/moocs-dark.png',
         href: '/moocs',
         icon: List,
         class: 'md:col-span-2',
     },
     {
-        title: 'home.bento.settings.title',
-        description: 'home.bento.settings.description',
+        title: 'nav.settings.title',
+        description: 'nav.settings.description',
         image: '/hero/settings-dark.png',
         href: '/settings/profile',
         icon: Cog,
@@ -23,8 +23,8 @@ const items = [
 
 const ILLItems = [
     {
-        title: 'home.bento.team.title',
-        description: 'home.bento.team.description',
+        title: 'nav.team.title',
+        description: 'nav.team.description',
         image: '/hero/users-dark.png',
         href: '/users',
         icon: Users,
