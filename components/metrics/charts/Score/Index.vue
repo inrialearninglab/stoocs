@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
 import TooltipPercentage from '~/components/metrics/tooltip/Percentage.vue';
-import { ChevronRight, ChevronLeft, Award, Eye, EyeOff } from 'lucide-vue-next';
+import { ChevronRight, ChevronLeft, Award } from 'lucide-vue-next';
 
 const props = defineProps<{
     data: any;
@@ -15,13 +15,16 @@ const color = (d: any) => {
     else return '#12cc82';
 };
 
-const filterZero = ref(true);
+const displayZero = ref(false);
 const filteredData = computed(() => {
-    if (filterZero.value) {
+    if (!displayZero.value) {
         return props.data.filter((d: any) => d['Moyenne'] > 0);
     } else {
         return props.data;
     }
+});
+watch(displayZero, () => {
+    displayThreshold.value = false;
 });
 
 const problems = computed(() => {
@@ -29,38 +32,59 @@ const problems = computed(() => {
     return filteredData.value.filter((d: any) => d['Moyenne'] < 50);
 });
 
-function toggleThreshold() {
-    const tresholdLine = document.querySelector('.threshold-line')!;
-    if (tresholdLine) {
-        tresholdLine.remove();
+const displayThreshold = ref(false);
+function updateThresholdLine(shouldDisplay: boolean) {
+    const tresholdLine = document.querySelector('.threshold-line');
+    if (shouldDisplay) {
+        if (!tresholdLine) {
+            const scoreChart = document.querySelector('.score-chart')!;
+            const vrz4hl = scoreChart.querySelector('svg')!;
+            // graph component without the x-axis legend
+            const secondAxisComponent = vrz4hl.querySelectorAll('.css-1i6bj7n-axis-component')[1];
+            // y-axis legend
+            const firstGTag = secondAxisComponent.querySelectorAll('g')[0];
+
+            const vrz4hlRect = vrz4hl.getBoundingClientRect();
+            const axisRect = secondAxisComponent.getBoundingClientRect();
+            const firstGTagRect = firstGTag.getBoundingClientRect();
+
+            const x1 = axisRect.left + firstGTagRect.width - vrz4hlRect.left;
+            const x2 = axisRect.right - vrz4hlRect.left;
+            const y = axisRect.top - vrz4hlRect.top + axisRect.height * (1 - props.cutoffs);
+
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', String(x1));
+            line.setAttribute('y1', String(y));
+            line.setAttribute('x2', String(x2));
+            line.setAttribute('y2', String(y));
+            line.setAttribute('stroke', 'red');
+            line.setAttribute('stroke-width', '2');
+            line.setAttribute('class', 'threshold-line');
+
+            vrz4hl.appendChild(line);
+        }
     } else {
-        const scoreChart = document.querySelector('.score-chart')!;
-        const vrz4hl = scoreChart.querySelector('svg')!;
-        // graph component without the x-axis legend
-        const secondAxisComponent = vrz4hl.querySelectorAll('.css-1i6bj7n-axis-component')[1];
-        // y-axis legend
-        const firstGTag = secondAxisComponent.querySelectorAll('g')[0];
-
-        const vrz4hlRect = vrz4hl.getBoundingClientRect();
-        const axisRect = secondAxisComponent.getBoundingClientRect();
-        const firstGTagRect = firstGTag.getBoundingClientRect();
-
-        const x1 = axisRect.left + firstGTagRect.width - vrz4hlRect.left;
-        const x2 = axisRect.right - vrz4hlRect.left;
-        const y = axisRect.top - vrz4hlRect.top + axisRect.height * (1 - props.cutoffs);
-
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', String(x1));
-        line.setAttribute('y1', String(y));
-        line.setAttribute('x2', String(x2));
-        line.setAttribute('y2', String(y));
-        line.setAttribute('stroke', 'red');
-        line.setAttribute('stroke-width', '2');
-        line.setAttribute('class', 'threshold-line');
-
-        vrz4hl.appendChild(line);
+        if (tresholdLine) {
+            tresholdLine.remove();
+        }
     }
 }
+
+watch(displayThreshold, (newValue) => {
+    updateThresholdLine(newValue);
+});
+
+function handleResize() {
+    displayThreshold.value = false;
+}
+
+onMounted(() => {
+    window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', handleResize);
+});
 </script>
 
 <template>
@@ -71,33 +95,30 @@ function toggleThreshold() {
                 ayant répondu aux questions.
             </template>
 
-            <template #actions>
-                <div class="flex gap-5 items-center">
-                    <div class="flex flex-col gap-2">
-                        <Button @click="toggleThreshold">
-                            <Award class="mr-2" />
-                            Afficher le seuil de réussite
-                        </Button>
-                        <Button @click="filterZero = !filterZero">
-                            <component :is="filterZero ? Eye : EyeOff" class="mr-2" />
-                            {{ filterZero ? 'Afficher les 0' : 'Masquer les 0' }}
-                        </Button>
+            <template #legend>
+                <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
+                    <div class="flex gap-1 items-center">
+                        <div class="size-4 rounded-full bg-success" />
+                        <span class="flex items-center"><ChevronRight class="size-4" /> 60%</span>
                     </div>
+                    <div class="flex gap-1 items-center">
+                        <div class="size-4 rounded-full bg-warning" />
+                        <span class="flex items-center ml-2">50% à 60%</span>
+                    </div>
+                    <div class="flex gap-1 items-center">
+                        <div class="size-4 rounded-full bg-error" />
+                        <span class="flex items-center"><ChevronLeft class="size-4" /> 50%</span>
+                    </div>
+                </div>
+            </template>
 
-                    <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
-                        <div class="flex gap-1 items-center">
-                            <div class="size-4 rounded-full bg-success" />
-                            <span class="flex items-center"><ChevronRight class="size-4" /> 60%</span>
-                        </div>
-                        <div class="flex gap-1 items-center">
-                            <div class="size-4 rounded-full bg-warning" />
-                            <span class="flex items-center ml-2">50% à 60%</span>
-                        </div>
-                        <div class="flex gap-1 items-center">
-                            <div class="size-4 rounded-full bg-error" />
-                            <span class="flex items-center"><ChevronLeft class="size-4" /> 50%</span>
-                        </div>
-                    </div>
+            <template #toolbar>
+                <div class="flex gap-2">
+                    <Toggle aria-label="Afficher le seuil de réussite" v-model:pressed="displayThreshold">
+                        <Award class="mr-2" />
+                        Seuil de réussite
+                    </Toggle>
+                    <Toggle aria-label="Display questions at 0" v-model:pressed="displayZero"> Question à 0 </Toggle>
                 </div>
             </template>
 

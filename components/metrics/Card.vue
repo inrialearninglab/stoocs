@@ -19,9 +19,12 @@ defineProps<{
                 </CardDescription>
                 <MetricsReportChip :report="report" />
             </CardHeader>
-            <div class="p-6">
-                <slot name="actions" />
+            <div class="p-6 pb-0">
+                <slot name="legend" />
             </div>
+        </div>
+        <div class="px-6">
+            <slot name="toolbar" />
         </div>
         <CardContent class="flex flex-col gap-5">
             <div v-if="!loading && empty" class="w-full h-[400px] items-center justify-center flex">
