@@ -100,7 +100,10 @@ export const useUsers = defineStore('users', {
             if (error) {
                 toast.error('Une erreur est survenue lors de la suppression de votre compte');
             } else {
+                const user = useUser();
+                user.value = null;
                 await navigateTo('/auth/login');
+
                 toast.info('Votre compte a été supprimé');
             }
         },

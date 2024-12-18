@@ -4,6 +4,8 @@ export default defineEventHandler(async (event) => {
         { url: '/api/auth/user', method: 'GET' },
         { url: '/api/auth/register', method: 'POST' },
         { url: '/api/auth/invitations/email', method: 'POST' },
+        { url: '/api/init/register', method: 'POST' },
+        { url: '/api/init', method: 'GET' },
     ];
 
     const courseGuestRoutes = [

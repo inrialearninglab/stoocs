@@ -6,6 +6,16 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
     const user = useUser();
 
+    // Register page only available on app initialization
+    if (to.path === '/auth/register') {
+        const isInitialized = await $fetch('/api/init');
+        if (isInitialized) {
+            return navigateTo('/auth/login');
+        }
+
+        return;
+    }
+
     const matchesAuthRoute = (route: string) => {
         return authRoutes.some((authRoute) => {
             const regex = new RegExp(`^${authRoute.replace(/\*/g, '.*')}$`);
