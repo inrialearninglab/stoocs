@@ -2,6 +2,8 @@
 import { BarChart } from '~/components/ui/chart-bar';
 import TooltipPercentage from '~/components/metrics/tooltip/Percentage.vue';
 import { ChevronRight, ChevronLeft, Award } from 'lucide-vue-next';
+import { saveChartAsPNG } from '~/utils';
+import { Camera } from 'lucide-vue-next';
 
 const props = defineProps<{
     data: any;
@@ -85,6 +87,8 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize);
 });
+
+const chartId = 'score-chart';
 </script>
 
 <template>
@@ -96,29 +100,41 @@ onUnmounted(() => {
             </template>
 
             <template #legend>
-                <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
-                    <div class="flex gap-1 items-center">
-                        <div class="size-4 rounded-full bg-success" />
-                        <span class="flex items-center"><ChevronRight class="size-4" /> 60%</span>
+                <div class="flex gap-5">
+                    <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
+                        <div class="flex gap-1 items-center">
+                            <div class="size-4 rounded-full bg-success" />
+                            <span class="flex items-center"><ChevronRight class="size-4" /> 60%</span>
+                        </div>
+                        <div class="flex gap-1 items-center">
+                            <div class="size-4 rounded-full bg-warning" />
+                            <span class="flex items-center ml-2">50% à 60%</span>
+                        </div>
+                        <div class="flex gap-1 items-center">
+                            <div class="size-4 rounded-full bg-error" />
+                            <span class="flex items-center"><ChevronLeft class="size-4" /> 50%</span>
+                        </div>
                     </div>
-                    <div class="flex gap-1 items-center">
-                        <div class="size-4 rounded-full bg-warning" />
-                        <span class="flex items-center ml-2">50% à 60%</span>
-                    </div>
-                    <div class="flex gap-1 items-center">
-                        <div class="size-4 rounded-full bg-error" />
-                        <span class="flex items-center"><ChevronLeft class="size-4" /> 50%</span>
-                    </div>
+
+                    <Button size="icon" @click="saveChartAsPNG(chartId)">
+                        <Camera />
+                    </Button>
                 </div>
             </template>
 
             <template #toolbar>
                 <div class="flex gap-2">
-                    <Toggle aria-label="Afficher le seuil de réussite" v-model:pressed="displayThreshold">
+                    <Toggle
+                        variant="outline"
+                        aria-label="Afficher le seuil de réussite"
+                        v-model:pressed="displayThreshold"
+                    >
                         <Award class="mr-2" />
                         Seuil de réussite
                     </Toggle>
-                    <Toggle aria-label="Display questions at 0" v-model:pressed="displayZero"> Question à 0 </Toggle>
+                    <Toggle variant="outline" aria-label="Display questions at 0" v-model:pressed="displayZero">
+                        Question à 0
+                    </Toggle>
                 </div>
             </template>
 
@@ -134,6 +150,7 @@ onUnmounted(() => {
                 :y-formatter="(tick, i) => tick + '%'"
                 :custom-tooltip="TooltipPercentage"
                 :show-x-tickline="true"
+                :id="chartId"
             />
 
             <MetricsChartsScoreIssuesTable v-if="problems.length" :problems="problems" />

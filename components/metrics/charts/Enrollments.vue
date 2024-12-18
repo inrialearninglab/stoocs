@@ -3,6 +3,8 @@ import { LineChart } from '~/components/ui/chart-line';
 import { type DateValue, getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { formatDate, getParsedDate } from '~/utils/date.utils';
+import { Camera } from 'lucide-vue-next';
+import { saveChartAsPNG } from '~/utils';
 
 const props = defineProps<{
     details?: {
@@ -71,6 +73,9 @@ const presets = [
         label: 'Toute la session',
     },
 ];
+
+const dayChartId = 'enrollment-day-chart';
+const totalChartId = 'enrollment-total-chart';
 </script>
 
 <template>
@@ -83,6 +88,12 @@ const presets = [
             <TabsContent value="day">
                 <MetricsCard title="Inscriptions" :loading="loading" :empty="!details" report="enrollment">
                     <template #description> Nombre de nouvelles inscriptions par jour </template>
+
+                    <template #legend>
+                        <Button size="icon" @click="saveChartAsPNG(dayChartId)">
+                            <Camera />
+                        </Button>
+                    </template>
 
                     <UtilsDateRangePicker
                         v-if="details"
@@ -100,6 +111,7 @@ const presets = [
                         index="Date"
                         :categories="['Inscriptions']"
                         :show-x-tickline="true"
+                        :id="dayChartId"
                     />
                 </MetricsCard>
             </TabsContent>
@@ -107,6 +119,10 @@ const presets = [
             <TabsContent value="total">
                 <MetricsCard title="Inscriptions" :loading="loading" :empty="!details" report="enrollment">
                     <template #description> Nombre total d'inscriptions </template>
+
+                    <template #legend>
+                        <Button size="icon" @click="saveChartAsPNG(totalChartId)"> <Camera /> </Button>
+                    </template>
 
                     <UtilsDateRangePicker
                         v-if="details"
@@ -124,6 +140,7 @@ const presets = [
                         index="Date"
                         :categories="['Inscriptions']"
                         :show-x-tickline="true"
+                        :id="totalChartId"
                     />
                 </MetricsCard>
             </TabsContent>

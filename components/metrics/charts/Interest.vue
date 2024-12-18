@@ -2,6 +2,8 @@
 import { BarChart } from '~/components/ui/chart-bar';
 import TooltipPercentage from '~/components/metrics/tooltip/Percentage.vue';
 import type { Labels } from '~/types/graph.type';
+import { saveChartAsPNG } from '~/utils';
+import { Camera } from 'lucide-vue-next';
 
 const props = defineProps<{
     data: any;
@@ -36,6 +38,8 @@ function handleLabels(shouldDisplay: boolean) {
         labels.value = undefined;
     }
 }
+
+const chartId = 'interest-chart';
 </script>
 
 <template>
@@ -43,8 +47,14 @@ function handleLabels(shouldDisplay: boolean) {
         <MetricsCard title="Engagement" description="" :loading="loading" :empty="!data" report="grade">
             <template #description> Pour chaque séquence, pourcentage d'apprenants actifs ayant répondu </template>
 
+            <template #legend>
+                <Button size="icon" @click="saveChartAsPNG(chartId)">
+                    <Camera />
+                </Button>
+            </template>
+
             <template #toolbar>
-                <Toggle aria-label="Afficher le nombre d'apprenants" v-model:pressed="displayLabels">
+                <Toggle variant="outline" aria-label="Afficher le nombre d'apprenants" v-model:pressed="displayLabels">
                     <img src="/chart-legend.svg" class="h-10 mr-2" />
                     Nombre d'apprenants
                 </Toggle>
@@ -60,6 +70,7 @@ function handleLabels(shouldDisplay: boolean) {
                 :y-formatter="(value) => `${value}%`"
                 :custom-tooltip="TooltipPercentage"
                 :labels="labels"
+                :id="chartId"
             />
         </MetricsCard>
     </div>
