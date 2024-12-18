@@ -111,7 +111,7 @@ defineExpose({
 </script>
 
 <template>
-    <div @dragenter="handleDragEnter" @dragleave="handleDragLeave" class="flex flex-1 min-h-full">
+    <div @dragenter="handleDragEnter" @dragleave="handleDragLeave" class="flex flex-1">
         <div
             v-if="user?.rolename === 'ILL'"
             v-show="dragging"

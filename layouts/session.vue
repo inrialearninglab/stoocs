@@ -1,7 +1,7 @@
 <template>
     <LayoutHeader />
     <SessionLayoutHeader />
-    <div class="min-h-full p-8">
+    <div class="p-8 flex-1 flex">
         <slot />
     </div>
 </template>
