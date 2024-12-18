@@ -8,6 +8,7 @@ const props = defineProps<{
     loading: boolean;
 }>();
 
+const displayLabels = ref(false);
 const labels: Ref<Labels | undefined> = ref(undefined);
 
 function initLabels() {
@@ -24,8 +25,12 @@ function initLabels() {
     }
 }
 
-function handleLabels() {
-    if (!labels.value) {
+watch(displayLabels, (newValue) => {
+    handleLabels(newValue);
+});
+
+function handleLabels(shouldDisplay: boolean) {
+    if (shouldDisplay) {
         initLabels();
     } else {
         labels.value = undefined;
@@ -38,8 +43,11 @@ function handleLabels() {
         <MetricsCard title="Engagement" description="" :loading="loading" :empty="!data" report="grade">
             <template #description> Pour chaque séquence, pourcentage d'apprenants actifs ayant répondu </template>
 
-            <template #actions>
-                <MetricsHideLabels :visible="!!labels" @click="handleLabels" />
+            <template #toolbar>
+                <Toggle aria-label="Afficher le nombre d'apprenants" v-model:pressed="displayLabels">
+                    <img src="/chart-legend.svg" class="h-10 mr-2" />
+                    Nombre d'apprenants
+                </Toggle>
             </template>
 
             <BarChart
