@@ -42,6 +42,29 @@ export async function register(
     }
 }
 
+export async function initRegister(
+    email: string,
+    firstname: string,
+    lastname: string,
+    password: string,
+): Promise<{ error?: FetchError }> {
+    try {
+        await $fetch('/api/init/register', {
+            method: 'POST',
+            body: {
+                email,
+                firstname,
+                lastname,
+                password,
+            },
+        });
+
+        return {};
+    } catch (e) {
+        return { error: e as FetchError };
+    }
+}
+
 export async function logout(): Promise<{ error?: FetchError }> {
     try {
         await $fetch('/api/auth/logout', {
@@ -95,6 +118,14 @@ export async function updateProfile(
 export async function deleteUser(): Promise<{ error?: FetchError }> {
     try {
         await $fetch('/api/users/delete');
+
+        const usersStore = useUsers();
+        const moocsStore = useMoocs();
+        const sessionStore = useSession();
+
+        usersStore.reset();
+        moocsStore.reset();
+        sessionStore.reset();
 
         return {};
     } catch (e) {
