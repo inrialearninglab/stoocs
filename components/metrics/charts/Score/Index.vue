@@ -89,6 +89,8 @@ onUnmounted(() => {
 });
 
 const chartId = 'score-chart';
+
+const sessionStore = useSession();
 </script>
 
 <template>
@@ -116,7 +118,17 @@ const chartId = 'score-chart';
                         </div>
                     </div>
 
-                    <Button size="icon" @click="saveChartAsPNG(chartId)">
+                    <Button
+                        size="icon"
+                        @click="
+                            saveChartAsPNG(
+                                chartId,
+                                sessionStore.session!.data!.mooc.title,
+                                sessionStore.session!.data!.sessionName,
+                                sessionStore.gradeReportDate!,
+                            )
+                        "
+                    >
                         <Camera />
                     </Button>
                 </div>
