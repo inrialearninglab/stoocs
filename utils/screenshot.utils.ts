@@ -11,7 +11,7 @@ export function saveChartAsPNG(id: string, moocName: string, sessionName: string
 
     const graph = document.createElement('div');
     const context = document.createElement('h4');
-    context.innerHTML = `Mooc ${moocName} ${sessionName} (données extraite le ${date})`;
+    context.innerHTML = `Mooc ${moocName} ${sessionName} (données extraites le ${date})`;
     context.style.textAlign = 'center';
     context.style.color = 'black';
 
