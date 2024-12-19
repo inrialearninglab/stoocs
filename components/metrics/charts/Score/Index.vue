@@ -91,14 +91,15 @@ onUnmounted(() => {
 const chartId = 'score-chart';
 
 const sessionStore = useSession();
+const title = 'Score';
+const description = `Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions.`;
 </script>
 
 <template>
     <div class="flex flex-col gap-2">
-        <MetricsCard title="Score" :loading="loading" :empty="!data" report="grade">
+        <MetricsCard :title="title" :loading="loading" :empty="!data" report="grade">
             <template #description>
-                Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les apprenants
-                ayant répondu aux questions.
+                {{ description }}
             </template>
 
             <template #legend>
@@ -126,6 +127,8 @@ const sessionStore = useSession();
                                 sessionStore.session!.data!.mooc.title,
                                 sessionStore.session!.data!.sessionName,
                                 sessionStore.gradeReportDate!,
+                                title,
+                                description,
                             )
                         "
                     >

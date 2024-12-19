@@ -42,12 +42,14 @@ function handleLabels(shouldDisplay: boolean) {
 const chartId = 'interest-chart';
 
 const sessionStore = useSession();
+const title = 'Engagement';
+const description = "Pour chaque séquence, pourcentage d'apprenants actifs ayant répondu";
 </script>
 
 <template>
     <div class="flex flex-col gap-2">
-        <MetricsCard title="Engagement" description="" :loading="loading" :empty="!data" report="grade">
-            <template #description> Pour chaque séquence, pourcentage d'apprenants actifs ayant répondu </template>
+        <MetricsCard :title="title" description="" :loading="loading" :empty="!data" report="grade">
+            <template #description> {{ description }} </template>
 
             <template #legend>
                 <Button
@@ -58,6 +60,8 @@ const sessionStore = useSession();
                             sessionStore.session!.data!.mooc.title,
                             sessionStore.session!.data!.sessionName,
                             sessionStore.gradeReportDate!,
+                            title,
+                            description,
                         )
                     "
                 >

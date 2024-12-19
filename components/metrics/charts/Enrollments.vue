@@ -78,6 +78,10 @@ const dayChartId = 'enrollment-day-chart';
 const totalChartId = 'enrollment-total-chart';
 
 const sessionStore = useSession();
+
+const title = 'Inscriptions';
+const dayDescription = 'Nombre de nouvelles inscriptions par jour';
+const totalDescription = '';
 </script>
 
 <template>
@@ -88,8 +92,8 @@ const sessionStore = useSession();
                 <TabsTrigger value="total">Cumul</TabsTrigger>
             </TabsList>
             <TabsContent value="day">
-                <MetricsCard title="Inscriptions" :loading="loading" :empty="!details" report="enrollment">
-                    <template #description> Nombre de nouvelles inscriptions par jour </template>
+                <MetricsCard :title="title" :loading="loading" :empty="!details" report="enrollment">
+                    <template #description> {{ dayDescription }} </template>
 
                     <template #legend>
                         <Button
@@ -100,6 +104,8 @@ const sessionStore = useSession();
                                     sessionStore.session!.data!.mooc.title,
                                     sessionStore.session!.data!.sessionName,
                                     sessionStore.enrollmentsReportDate!,
+                                    title,
+                                    dayDescription,
                                 )
                             "
                         >
@@ -129,8 +135,8 @@ const sessionStore = useSession();
             </TabsContent>
 
             <TabsContent value="total">
-                <MetricsCard title="Inscriptions" :loading="loading" :empty="!details" report="enrollment">
-                    <template #description> Nombre total d'inscriptions </template>
+                <MetricsCard :title="title" :loading="loading" :empty="!details" report="enrollment">
+                    <template #description>{{ totalDescription }}</template>
 
                     <template #legend>
                         <Button
@@ -141,6 +147,8 @@ const sessionStore = useSession();
                                     sessionStore.session!.data!.mooc.title,
                                     sessionStore.session!.data!.sessionName,
                                     sessionStore.enrollmentsReportDate!,
+                                    title,
+                                    totalDescription,
                                 )
                             "
                         >

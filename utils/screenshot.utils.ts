@@ -1,7 +1,14 @@
 import { toast } from 'vue-sonner';
 import { toPng } from 'html-to-image';
 
-export function saveChartAsPNG(id: string, moocName: string, sessionName: string, date: string) {
+export function saveChartAsPNG(
+    id: string,
+    moocName: string,
+    sessionName: string,
+    date: string,
+    graphTitle: string,
+    graphDescription: string,
+) {
     const chart = document.getElementById(id) as HTMLElement;
     const legend = document.getElementById(`${id}-legend`);
     if (!chart) {
@@ -15,7 +22,19 @@ export function saveChartAsPNG(id: string, moocName: string, sessionName: string
     context.style.textAlign = 'center';
     context.style.color = 'black';
 
+    const title = document.createElement('p');
+    title.innerHTML = `<strong>${graphTitle}</strong>`;
+    title.style.textAlign = 'center';
+    title.style.color = 'black';
+
+    const description = document.createElement('p');
+    description.innerHTML = graphDescription;
+    description.style.textAlign = 'center';
+    description.style.color = 'black';
+
     graph.appendChild(context);
+    graph.appendChild(title);
+    graph.appendChild(description);
     if (legend) graph.appendChild(legend.cloneNode(true));
     graph.appendChild(chart.cloneNode(true));
 
