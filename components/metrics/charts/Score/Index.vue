@@ -101,7 +101,7 @@ const chartId = 'score-chart';
 
             <template #legend>
                 <div class="flex gap-5">
-                    <div class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
+                    <div :id="`${chartId}-legend`" class="flex flex-col gap-2 text-sm mt-2 text-muted-foreground">
                         <div class="flex gap-1 items-center">
                             <div class="size-4 rounded-full bg-success" />
                             <span class="flex items-center"><ChevronRight class="size-4" /> 60%</span>
