@@ -1,16 +1,21 @@
 import { toast } from 'vue-sonner';
 import { toPng } from 'html-to-image';
 
-export function saveChartAsPNG(id: string) {
+export function saveChartAsPNG(id: string, moocName: string, sessionName: string, date: string) {
     const chart = document.getElementById(id) as HTMLElement;
     const legend = document.getElementById(`${id}-legend`);
     if (!chart) {
         toast.error("Erreur durant la capture d'écran");
-
         return;
     }
 
     const graph = document.createElement('div');
+    const context = document.createElement('h4');
+    context.innerHTML = `Mooc ${moocName} ${sessionName} (données extraite le ${date})`;
+    context.style.textAlign = 'center';
+    context.style.color = 'black';
+
+    graph.appendChild(context);
     if (legend) graph.appendChild(legend.cloneNode(true));
     graph.appendChild(chart.cloneNode(true));
 
@@ -18,6 +23,8 @@ export function saveChartAsPNG(id: string) {
     graph.style.top = '0';
     graph.style.left = '0';
     graph.style.zIndex = '-9999';
+    graph.style.background = '#fff';
+    graph.style.padding = '1rem';
 
     document.body.appendChild(graph);
 

@@ -40,6 +40,8 @@ function handleLabels(shouldDisplay: boolean) {
 }
 
 const chartId = 'interest-chart';
+
+const sessionStore = useSession();
 </script>
 
 <template>
@@ -48,7 +50,17 @@ const chartId = 'interest-chart';
             <template #description> Pour chaque séquence, pourcentage d'apprenants actifs ayant répondu </template>
 
             <template #legend>
-                <Button size="icon" @click="saveChartAsPNG(chartId)">
+                <Button
+                    size="icon"
+                    @click="
+                        saveChartAsPNG(
+                            chartId,
+                            sessionStore.session!.data!.mooc.title,
+                            sessionStore.session!.data!.sessionName,
+                            sessionStore.gradeReportDate!,
+                        )
+                    "
+                >
                     <Camera />
                 </Button>
             </template>

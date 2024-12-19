@@ -48,7 +48,7 @@ function getFilteredData(mode: 'day' | 'total') {
             if (enrollmentDate < startDate) return;
 
             data.push({
-                Date: formatDate(enrollmentDate, 'short'),
+                Date: formatDate(enrollmentDate),
                 Inscriptions: enrollment.enrollments,
             });
         } else if (mode === 'total') {
@@ -76,6 +76,8 @@ const presets = [
 
 const dayChartId = 'enrollment-day-chart';
 const totalChartId = 'enrollment-total-chart';
+
+const sessionStore = useSession();
 </script>
 
 <template>
@@ -90,7 +92,17 @@ const totalChartId = 'enrollment-total-chart';
                     <template #description> Nombre de nouvelles inscriptions par jour </template>
 
                     <template #legend>
-                        <Button size="icon" @click="saveChartAsPNG(dayChartId)">
+                        <Button
+                            size="icon"
+                            @click="
+                                saveChartAsPNG(
+                                    dayChartId,
+                                    sessionStore.session!.data!.mooc.title,
+                                    sessionStore.session!.data!.sessionName,
+                                    sessionStore.enrollmentsReportDate!,
+                                )
+                            "
+                        >
                             <Camera />
                         </Button>
                     </template>
@@ -121,7 +133,19 @@ const totalChartId = 'enrollment-total-chart';
                     <template #description> Nombre total d'inscriptions </template>
 
                     <template #legend>
-                        <Button size="icon" @click="saveChartAsPNG(totalChartId)"> <Camera /> </Button>
+                        <Button
+                            size="icon"
+                            @click="
+                                saveChartAsPNG(
+                                    totalChartId,
+                                    sessionStore.session!.data!.mooc.title,
+                                    sessionStore.session!.data!.sessionName,
+                                    sessionStore.enrollmentsReportDate!,
+                                )
+                            "
+                        >
+                            <Camera />
+                        </Button>
                     </template>
 
                     <UtilsDateRangePicker
