@@ -1,16 +1,17 @@
-import { DateFormatter, getLocalTimeZone, parseDate } from '@internationalized/date';
+import { getLocalTimeZone, parseDate } from '@internationalized/date';
 
-type DateFormat = 'long' | 'short' | 'full' | 'medium';
 /**
  * Format date to long french format
  * @param date
  */
-export function formatDate(date: Date, format?: DateFormat) {
-    const df = new DateFormatter('fr-FR', {
-        dateStyle: format ?? 'long',
+export function formatDate(date: Date) {
+    const formattedDate = date.toLocaleDateString('fr-FR', {
+        day: 'numeric',
+        month: 'short',
+        year: '2-digit',
     });
 
-    return df.format(date);
+    return formattedDate;
 }
 
 /**

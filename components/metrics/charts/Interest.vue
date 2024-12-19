@@ -71,6 +71,7 @@ const chartId = 'interest-chart';
                 :custom-tooltip="TooltipPercentage"
                 :labels="labels"
                 :id="chartId"
+                :show-x-tickline="true"
             />
         </MetricsCard>
     </div>
