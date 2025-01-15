@@ -10,6 +10,10 @@ jobs:
     build-and-push:
         runs-on: ubuntu-latest
 
+        env:
+            APP_EMAIL: ${{ env.APP_EMAIL }}
+            DISCOURSE_URL: ${{ env.DISCOURSE_URL }}
+
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
