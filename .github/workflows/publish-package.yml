@@ -11,8 +11,8 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            APP_EMAIL: $APP_EMAIL
-            DISCOURSE_URL: $DISCOURSE_URL
+            APP_EMAIL: ${{ secrets.APP_EMAIL }}
+            DISCOURSE_URL: ${{ secrets.DISCOURSE_URL }}
 
         steps:
             - name: Checkout repository
