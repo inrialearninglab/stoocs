@@ -7,6 +7,8 @@ import { useMounted } from '@vueuse/core';
 import type { BaseChartProps } from '.';
 import { ChartCrosshair, ChartLegend, defaultColors } from '~/components/ui/chart';
 import { cn } from '~/lib/utils';
+import { scaleLinear } from 'd3-scale';
+import { useElementSize } from '@vueuse/core';
 
 const props = withDefaults(
     defineProps<
@@ -67,10 +69,30 @@ const isMounted = useMounted();
 function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
     emits('legendItemClick', d, i);
 }
+
+const chartContainer: Ref<HTMLDivElement | null> = ref(null);
+const { width } = useElementSize(chartContainer);
+const tickCount = computed(() => {
+    if (!width.value) return 5;
+
+    return Math.max(2, Math.min(20, Math.floor(width.value / 120)));
+});
+
+const domainStart = 0;
+const domainEnd = computed(() => props.data.length - 1);
+const tickValues = computed(() => {
+    const xScale = scaleLinear().domain([domainStart, domainEnd.value]);
+    let vals = xScale.ticks(tickCount.value);
+
+    if (vals[0] !== domainStart) vals.unshift(domainStart);
+    if (vals[vals.length - 1] !== domainEnd.value) vals[vals.length - 1] = domainEnd.value;
+
+    return vals;
+});
 </script>
 
 <template>
-    <div :class="cn('w-full h-[500px] flex flex-col items-end', $attrs.class ?? '')">
+    <div ref="chartContainer" :class="cn('w-full h-[500px] flex flex-col items-end', $attrs.class ?? '')">
         <ChartLegend v-if="showLegend" v-model:items="legendItems" @legend-item-click="handleLegendItemClick" />
 
         <VisXYContainer :style="{ height: isMounted ? '100%' : 'auto' }" :margin="{ left: 20, right: 20 }" :data="data">
@@ -141,6 +163,7 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
                 :tick-format="xFormatter ?? ((v: number) => data[v]?.[index])"
                 :grid-line="false"
                 :tick-line="showXTickline"
+                :tick-values="tickValues"
                 tick-text-color="hsl(var(--vis-text-color))"
             />
             <VisAxis
