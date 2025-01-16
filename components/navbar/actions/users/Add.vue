@@ -72,8 +72,22 @@ const open = ref(false);
                                 <SelectContent>
                                     <SelectGroup>
                                         <SelectLabel>Rôle</SelectLabel>
-                                        <SelectItem value="ILL"> ILL </SelectItem>
-                                        <SelectItem value="guest"> Invité </SelectItem>
+                                        <SelectItem value="ILL">
+                                            <div class="flex flex-col">
+                                                <span class="font-medium text-sm">ILL</span>
+                                                <span class="text-muted-foreground text-xs hide-class">
+                                                    Peut voir tous les cours et ajouter des données
+                                                </span>
+                                            </div>
+                                        </SelectItem>
+                                        <SelectItem value="guest">
+                                            <div class="flex flex-col">
+                                                <span class="font-medium text-sm">Invité</span>
+                                                <span class="text-muted-foreground text-xs hide-class">
+                                                    Peut voir les cours auxquels il a été invité.
+                                                </span>
+                                            </div>
+                                        </SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
