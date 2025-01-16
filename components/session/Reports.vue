@@ -2,6 +2,7 @@
 import UploadDialogGlobal from '~/components/upload/dialog/Global.vue';
 import UploadDialogEnrollments from '~/components/upload/dialog/Enrollments.vue';
 import UploadDialogGradeReports from '~/components/upload/dialog/GradeReports.vue';
+import UploadDialogProfileInfo from '~/components/upload/dialog/ProfileInfo.vue';
 import { Upload, Loader2 } from 'lucide-vue-next';
 import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { isEnrollments, isGradeReport, isProblemGradeReport } from '~/utils';
@@ -47,6 +48,7 @@ function handleDragEnter(event: any) {
 const globalDialog: Ref<InstanceType<typeof UploadDialogGlobal> | null> = ref(null);
 const enrollmentsDialog: Ref<InstanceType<typeof UploadDialogEnrollments> | null> = ref(null);
 const gradeReportsDialog: Ref<InstanceType<typeof UploadDialogGradeReports> | null> = ref(null);
+const profileInfoDialog: Ref<InstanceType<typeof UploadDialogProfileInfo> | null> = ref(null);
 
 function onDrop(acceptFiles: File[], rejectReasons: FileRejectReason[]) {
     dragging.value = false;
@@ -92,6 +94,17 @@ function openGradeReportsDialog(files?: File[]) {
     if (files) {
         gradeReportsDialog.value.files = files;
         gradeReportsDialog.value.focusSubmit();
+    }
+}
+
+function openProfileDialog(files?: File[]) {
+    if (!profileInfoDialog.value) return;
+
+    profileInfoDialog.value.open = true;
+    console.log('after opened');
+    if (files) {
+        profileInfoDialog.value.files = files;
+        profileInfoDialog.value.focusSubmit();
     }
 }
 
@@ -169,6 +182,7 @@ defineExpose({
                         @open-enrollments="openEnrollmentsDialog()"
                         @open-grades="openGradeReportsDialog()"
                         @open-all="openGlobalDialog()"
+                        @open-profile="openProfileDialog()"
                     />
                 </div>
 
@@ -183,6 +197,7 @@ defineExpose({
                 <UploadDialogGlobal ref="globalDialog" />
                 <UploadDialogGradeReports ref="gradeReportsDialog" />
                 <UploadDialogEnrollments ref="enrollmentsDialog" />
+                <UploadDialogProfileInfo ref="profileInfoDialog" />
 
                 <SessionLayoutContent :enrollments-report="enrollmentsReport" :grade-report="gradeReport" />
             </template>

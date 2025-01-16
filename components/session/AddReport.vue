@@ -5,6 +5,7 @@ const emits = defineEmits<{
     (e: 'open-enrollments'): void;
     (e: 'open-grades'): void;
     (e: 'open-all'): void;
+    (e: 'open-profile'): void;
 }>();
 </script>
 
@@ -23,6 +24,10 @@ const emits = defineEmits<{
 
             <DropdownMenuItem @click="emits('open-grades')" class="cursor-pointer">
                 Rapports de notes
+            </DropdownMenuItem>
+
+            <DropdownMenuItem @click="emits('open-profile')" class="cursor-pointer">
+                Profils des apprenants
             </DropdownMenuItem>
 
             <DropdownMenuItem @click="emits('open-all')" class="cursor-pointer"> Tous les rapports </DropdownMenuItem>
