@@ -32,7 +32,7 @@ defineProps<{
                 :divisor="divisor"
                 class="size-32"
             />
-            <div v-else class="text-[8rem]">🥸</div>
+            <span v-else class="text-2xl font-semibold text-destructive">Données corrompus</span>
         </CardContent>
         <CardFooter>
             <p class="text-xl text-center w-full">{{ dividend?.toLocaleString('fr-FR') }} {{ label }}</p>
