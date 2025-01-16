@@ -75,15 +75,15 @@ const open = ref(false);
                                         <SelectItem value="ILL">
                                             <div class="flex flex-col">
                                                 <span class="font-medium text-sm">ILL</span>
-                                                <span class="text-muted-foreground text-xs hide-class">
+                                                <span class="text-gray-400 text-xs hide-class">
                                                     Peut voir tous les cours et ajouter des données
                                                 </span>
                                             </div>
                                         </SelectItem>
                                         <SelectItem value="guest">
-                                            <div class="flex flex-col">
+                                            <div class="flex flex-col select-item">
                                                 <span class="font-medium text-sm">Invité</span>
-                                                <span class="text-muted-foreground text-xs hide-class">
+                                                <span class="text-gray-400 text-xs hide-class">
                                                     Peut voir les cours auxquels il a été invité.
                                                 </span>
                                             </div>
@@ -101,3 +101,5 @@ const open = ref(false);
         </DialogContent>
     </Dialog>
 </template>
+
+<style scoped></style>
