@@ -40,9 +40,9 @@ export function getFormattedSize(size: number) {
     return `${size.toFixed(2)} ${units[unitIndex]}`;
 }
 
-const gradeReportRegex = /^[\w-]+_\d+_[\w-]+_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
-const problemGradeReportRegex = /^[\w-]+_\d+_[\w-]+_problem_grade_report_\d{4}-\d{2}-\d{2}-\d{4}\.csv$/;
-const enrollmentsRegex = /^enrollments(\s\(\d+\))?\.csv$/;
+const gradeReportRegex = /^[\w-]+_\d+_[\w-]+_grade_report_\d{4}-\d{2}-\d{2}-\d{4}(?:.*)?\.csv$/;
+const problemGradeReportRegex = /^[\w-]+_\d+_[\w-]+_problem_grade_report_\d{4}-\d{2}-\d{2}-\d{4}(?:.*)?\.csv$/;
+const enrollmentsRegex = /^enrollments(?:.*)?\.csv$/;
 
 export function isGradeReport(filename: string) {
     return gradeReportRegex.test(filename) && !problemGradeReportRegex.test(filename);
