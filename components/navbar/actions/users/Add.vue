@@ -58,9 +58,6 @@ const open = ref(false);
                     <FormItem>
                         <div class="space-y-0 5">
                             <FormLabel>Rôle</FormLabel>
-                            <!-- <FormDescription>
-                                Ce membre est un invité
-                            </FormDescription> -->
                         </div>
 
                         <FormControl>
