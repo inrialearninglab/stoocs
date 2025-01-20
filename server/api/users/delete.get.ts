@@ -1,4 +1,5 @@
 import { prisma } from '~/prisma/db';
+import { createBlankSessionCookie, invalidateSession } from '~/server/utils/sessions';
 
 export default defineEventHandler(async (event) => {
     const user = await prisma.user.delete({
@@ -12,6 +13,10 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    await lucia.invalidateSession(event.context.session.id);
-    appendHeader(event, 'Set-Cookie', lucia.createBlankSessionCookie().serialize());
+    await invalidateSession(event.context.session.id);
+    const sessionCookie = createBlankSessionCookie();
+    setCookie(event, sessionCookie.name, sessionCookie.value, {
+        path: '/',
+        ...sessionCookie.attributes,
+    });
 });

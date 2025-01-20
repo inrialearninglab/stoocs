@@ -1,4 +1,4 @@
-import type { User } from 'lucia';
+import type { User } from '@prisma/client';
 import { FetchError } from 'ofetch';
 import { useUsers } from '~/stores/users.store';
 import { useMoocs } from '~/stores/moocs.store';

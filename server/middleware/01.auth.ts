@@ -1,28 +1,26 @@
-import { lucia } from '~/server/utils/auth';
+import { createBlankSessionCookie, createSessionCookie, validateSession } from '../utils/sessions';
 
 export default defineEventHandler(async (event) => {
-    const sessionId = getCookie(event, lucia.sessionCookieName);
+    const token = getCookie(event, 'session');
 
-    if (!sessionId) {
+    if (!token) {
         event.context.user = null;
         event.context.session = null;
 
         return;
     }
 
-    const { session, user } = await lucia.validateSession(sessionId);
-    if (session && session.fresh) {
-        const sessionCookie = lucia.createSessionCookie(session.id);
+    const { session, user } = await validateSession(token);
+    if (session) {
+        const sessionCookie = createSessionCookie(token, session.expiresAt);
         setCookie(event, sessionCookie.name, sessionCookie.value, {
-            path: '.',
+            path: '/',
             ...sessionCookie.attributes,
         });
-    }
-
-    if (!session) {
-        const sessionCookie = lucia.createBlankSessionCookie();
+    } else {
+        const sessionCookie = createBlankSessionCookie();
         setCookie(event, sessionCookie.name, sessionCookie.value, {
-            path: '.',
+            path: '/',
             ...sessionCookie.attributes,
         });
     }

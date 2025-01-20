@@ -17,10 +17,9 @@
 3. Add the users to the file `prisma/seed/initialUser.ts` in the following format:
     ```typescript
    import { Argon2id } from 'oslo/password';
-   import { generateId } from 'lucia';
    export const users = [
-     { 
-       id: generateId(15),
+     {
+       id: generateIdFromEntropySize(15),
        email: 'john.doe@mail.com',
        password: await new Argon2id().hash('password'),
        firstname: 'John',

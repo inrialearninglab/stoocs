@@ -1,4 +1,4 @@
-import type { User } from 'lucia';
+import type { User } from '@prisma/client';
 import type { Invitation } from '~/types';
 import { FetchError } from 'ofetch';
 

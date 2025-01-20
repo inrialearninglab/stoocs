@@ -1,7 +1,12 @@
 import { registerSchema } from '~/schema/users.schema';
 import { prisma } from '~/prisma/db';
-import { generateId } from 'lucia';
 import { Argon2id } from 'oslo/password';
+import {
+    createSession,
+    createSessionCookie,
+    generateIdFromEntropySize,
+    generateSessionToken,
+} from '~/server/utils/sessions';
 
 export default defineEventHandler(async (event) => {
     const nitroApp = useNitroApp();
@@ -16,7 +21,7 @@ export default defineEventHandler(async (event) => {
 
     const { email, firstname, lastname, password } = await readValidatedBody(event, registerSchema.parse);
 
-    const userId = generateId(15);
+    const userId = await generateIdFromEntropySize(15);
     const hashedPassword = await new Argon2id().hash(password);
     const user = await prisma.user.create({
         data: {
@@ -53,10 +58,11 @@ export default defineEventHandler(async (event) => {
     nitroApp.locals.initialized = true;
 
     setHeader(event, 'Referrer-Policy', 'strict-origin');
-    const session = await lucia.createSession(user.id, []);
-    const sessionCookie = lucia.createSessionCookie(session.id);
+    const token = await generateSessionToken();
+    const session = await createSession(token, user.id);
+    const sessionCookie = createSessionCookie(session.id, session.expiresAt);
     setCookie(event, sessionCookie.name, sessionCookie.value, {
-        path: '.',
+        path: '/',
         ...sessionCookie.attributes,
     });
 

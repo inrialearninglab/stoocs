@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Avatar, AvatarImage, AvatarFallback, type AvatarVariants } from '~/components/ui/avatar';
-import type { User } from 'lucia';
+import type { User } from '@prisma/client';
 
 defineProps<{
     user: User;

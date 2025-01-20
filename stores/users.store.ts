@@ -1,4 +1,4 @@
-import type { User } from 'lucia';
+import type { User } from '@prisma/client';
 import { createInvitation, deleteInvitation, getInvitations, getUsers } from '~/services/users.service';
 import { updatePassword, updateProfile, deleteUser } from '~/services/auth.service';
 import { updateSessionGuest, updateSessionPendingGuest } from '~/services/sessions.service';
