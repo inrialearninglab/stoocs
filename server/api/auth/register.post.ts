@@ -1,10 +1,14 @@
 import { isWithinExpirationDate } from 'oslo';
 import { prisma } from '~/prisma/db';
-import { generateId } from 'lucia';
 import { Argon2id } from 'oslo/password';
-import { lucia } from '~/server/utils/auth';
 import { registerSchema } from '~/schema/users.schema';
 import { z } from 'zod';
+import {
+    createSession,
+    createSessionCookie,
+    generateIdFromEntropySize,
+    generateSessionToken,
+} from '~/server/utils/sessions';
 
 const routeSchema = registerSchema.extend({
     token: z.string(),
@@ -28,7 +32,7 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    const userId = generateId(15);
+    const userId = await generateIdFromEntropySize(15);
     const hashedPassword = await new Argon2id().hash(password);
     const user = await prisma.user.create({
         data: {
@@ -58,10 +62,11 @@ export default defineEventHandler(async (event) => {
     });
 
     setHeader(event, 'Referrer-Policy', 'strict-origin');
-    const session = await lucia.createSession(user.id, []);
-    const sessionCookie = lucia.createSessionCookie(session.id);
+    const sessionToken = await generateSessionToken();
+    const session = await createSession(sessionToken, user.id);
+    const sessionCookie = createSessionCookie(token, session.expiresAt);
     setCookie(event, sessionCookie.name, sessionCookie.value, {
-        path: '.',
+        path: '/',
         ...sessionCookie.attributes,
     });
 

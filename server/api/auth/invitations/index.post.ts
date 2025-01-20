@@ -1,11 +1,11 @@
 import { createDate, TimeSpan } from 'oslo';
 import { sha256 } from 'oslo/crypto';
 import { encodeHex } from 'oslo/encoding';
-import { generateIdFromEntropySize } from 'lucia';
 import { prisma } from '~/prisma/db';
 import { z } from 'zod';
 import nodemailer from 'nodemailer';
 import { useCompiler } from '#vue-email';
+import { generateIdFromEntropySize } from '~/server/utils/sessions';
 
 const routeSchema = z.object({
     email: z.string().email(),
@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    const tokenId = generateIdFromEntropySize(25);
+    const tokenId = await generateIdFromEntropySize(25);
     const tokenHash = encodeHex(await sha256(new TextEncoder().encode(tokenId)));
 
     let transporter = nodemailer.createTransport({

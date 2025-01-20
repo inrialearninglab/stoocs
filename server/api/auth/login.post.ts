@@ -1,7 +1,7 @@
 import { prisma } from '~/prisma/db';
-import { lucia } from '~/server/utils/auth';
 import { Argon2id } from 'oslo/password';
 import { z } from 'zod';
+import { createSession, createSessionCookie, generateSessionToken } from '~/server/utils/sessions';
 
 const routeSchema = z.object({
     email: z.string().email(),
@@ -29,10 +29,11 @@ export default defineEventHandler(async (event) => {
         });
     }
 
-    const session = await lucia.createSession(user.id, []);
-    const sessionCookie = lucia.createSessionCookie(session.id);
+    const token = await generateSessionToken();
+    const session = await createSession(token, user.id);
+    const sessionCookie = createSessionCookie(token, session.expiresAt);
     setCookie(event, sessionCookie.name, sessionCookie.value, {
-        path: '.',
+        path: '/',
         ...sessionCookie.attributes,
     });
 });

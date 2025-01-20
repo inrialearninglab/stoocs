@@ -1,5 +1,5 @@
 import type { GradeReport, Mooc, Session, Invitation, ForumInfo } from '~/types';
-import type { User } from 'lucia';
+import type { User } from '@prisma/client';
 import { FetchError } from 'ofetch';
 
 interface SessionData extends Session {

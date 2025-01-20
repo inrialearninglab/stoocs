@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { User } from 'lucia';
+import type { User } from '@prisma/client';
 import { Trash2, PenLine } from 'lucide-vue-next';
 import { useUsers } from '~/stores/users.store';
 import {
