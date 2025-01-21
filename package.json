@@ -16,6 +16,8 @@
     "dependencies": {
         "@nuxt/fonts": "latest",
         "@nuxtjs/tailwindcss": "^6.12.2",
+        "@oslojs/crypto": "^1.0.1",
+        "@oslojs/encoding": "^1.1.0",
         "@pinia/nuxt": "^0.5.5",
         "@prisma/client": "^5.22.0",
         "@types/multer": "^1.4.12",
