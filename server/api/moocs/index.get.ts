@@ -17,6 +17,9 @@ export default defineEventHandler(async (event) => {
                         startDate: true,
                         endDate: true,
                     },
+                    orderBy: {
+                        startDate: 'asc',
+                    },
                 },
                 pinnedBy: {
                     select: {
