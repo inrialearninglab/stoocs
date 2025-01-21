@@ -7,7 +7,6 @@ const props = defineProps<{
     pinned?: boolean;
 }>();
 
-const isOpen = ref(Boolean(props.pinned));
 const moocsStore = useMoocs();
 
 const openedSessions = computed(
@@ -23,7 +22,7 @@ const archiveSessions = computed(
 
 <template>
     <Card>
-        <CardHeader :class="{ 'rounded-b': !isOpen }" class="transition p-4">
+        <CardHeader class="p-4">
             <div class="flex gap-3 justify-between items-center">
                 <div class="flex flex-col gap-3 flex-1">
                     <CardTitle class="text-xl">{{ mooc.title }}</CardTitle>

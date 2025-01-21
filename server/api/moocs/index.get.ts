@@ -14,6 +14,8 @@ export default defineEventHandler(async (event) => {
                         id: true,
                         sessionName: true,
                         ended: true,
+                        startDate: true,
+                        endDate: true,
                     },
                 },
                 pinnedBy: {

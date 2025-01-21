@@ -7,11 +7,12 @@ export interface Mooc {
     theme?: string;
     target?: string;
     courseNumber: string;
-    sessions: Pick<Session, 'id' | 'sessionName' | 'ended'>[];
+    sessions: MoocSession[];
     pinnedBy: {
         userId: string;
     }[];
 }
+export interface MoocSession extends Pick<Session, 'id' | 'sessionName' | 'ended' | 'startDate' | 'endDate'> {}
 
 export interface Session {
     id: string;
@@ -28,7 +29,6 @@ export interface Session {
     gradeReports?: Pick<GradeReport, 'id' | 'date'>[];
     authors?: Author[];
     teamMembers?: TeamMember[];
-    //type
 }
 
 export interface Author {
