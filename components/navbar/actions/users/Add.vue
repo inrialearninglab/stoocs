@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CirclePlus } from 'lucide-vue-next';
+import { CirclePlus, Loader2 } from 'lucide-vue-next';
 import { DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '~/components/ui/dialog';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
@@ -16,7 +16,7 @@ const formSchema = toTypedSchema(
     }),
 );
 
-const { handleSubmit } = useForm({
+const { handleSubmit, isSubmitting, meta } = useForm({
     validationSchema: formSchema,
 });
 
@@ -93,7 +93,10 @@ const open = ref(false);
                     </FormItem>
                 </FormField>
 
-                <Button type="submit" class="w-full !mt-5">Inviter</Button>
+                <Button type="submit" class="w-full !mt-5" :disabled="isSubmitting || !meta.valid">
+                    <Loader2 v-if="isSubmitting" class="animate-spin mr-2" />
+                    Inviter
+                </Button>
             </form>
         </DialogContent>
     </Dialog>
