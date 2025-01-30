@@ -50,7 +50,7 @@ export default defineNuxtConfig({
         headers: {
             crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'unsafe-none',
             contentSecurityPolicy: {
-                'img-src': ["'self'", 'data:', process.env.DISCOURSE_URL!],
+                'img-src': ["'self'", 'data:', 'https://mooc-forums.inria.fr'],
             },
         },
         rateLimiter: {
