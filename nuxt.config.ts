@@ -58,12 +58,5 @@ export default defineNuxtConfig({
         },
     },
 
-    runtimeConfig: {
-        public: {
-            scrapperEmail: process.env.APP_EMAIL,
-            discourseURL: process.env.DISCOURSE_URL,
-        },
-    },
-
     compatibilityDate: '2024-07-12',
 });
