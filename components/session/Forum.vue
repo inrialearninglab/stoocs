@@ -34,8 +34,6 @@ const { data: discourseURL } = await useFetch<string>('/api/env/discourseUrl');
                 <h3 class="text-center text-muted-foreground">{{ sessionStore.forum.data.title }}</h3>
             </div>
 
-            <pre>{{ discourseURL }}</pre>
-
             <div class="flex gap-4 w-full justify-center flex-wrap">
                 <MetricsNumberCard :value="sessionStore.forum.data.users" noun="Utilisateurs" :icon="Users">
                     <template #title>Nombre d'utilisateurs</template>
