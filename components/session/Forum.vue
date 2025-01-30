@@ -3,7 +3,6 @@ import { Users, MessageSquare, MessagesSquare, Loader2, SquareArrowOutUpRight } 
 
 const route = useRoute();
 const sessionStore = useSession();
-const config = useRuntimeConfig();
 const user = useUser();
 
 onMounted(() => {
@@ -11,6 +10,8 @@ onMounted(() => {
         sessionStore.getSession(route.params.id as string);
     }
 });
+
+const { data: discourseURL } = await useFetch<string>('/api/env/discourseUrl');
 </script>
 
 <template>
@@ -25,16 +26,15 @@ onMounted(() => {
         <div v-else class="flex flex-col gap-8">
             <div class="items-center flex flex-col gap-2">
                 <Button as-child variant="link">
-                    <NuxtLink
-                        :to="`${config.public.discourseURL}/${sessionStore.forum.data.instance}`"
-                        class="flex gap-3"
-                    >
+                    <NuxtLink :to="`${discourseURL}/${sessionStore.forum.data.instance}`" class="flex gap-3">
                         <h2 class="pb-0">Forum Discourse</h2>
                         <SquareArrowOutUpRight />
                     </NuxtLink>
                 </Button>
                 <h3 class="text-center text-muted-foreground">{{ sessionStore.forum.data.title }}</h3>
             </div>
+
+            <pre>{{ discourseURL }}</pre>
 
             <div class="flex gap-4 w-full justify-center flex-wrap">
                 <MetricsNumberCard :value="sessionStore.forum.data.users" noun="Utilisateurs" :icon="Users">
@@ -69,7 +69,7 @@ onMounted(() => {
                 <div class="flex gap-5 flex-wrap">
                     <div v-for="moderator in sessionStore.forum.data.moderators" class="flex items-center gap-2">
                         <Avatar>
-                            <AvatarImage :src="config.public.discourseURL + moderator.avatar" />
+                            <AvatarImage :src="discourseURL + moderator.avatar" />
                         </Avatar>
                         <div class="flex flex-col">
                             <span>{{ moderator.name || moderator.username }}</span>
@@ -87,7 +87,7 @@ onMounted(() => {
                 <div class="flex gap-5 flex-wrap">
                     <div v-for="admin in sessionStore.forum.data.admins" class="flex items-center gap-2">
                         <Avatar>
-                            <AvatarImage :src="config.public.discourseURL + admin.avatar" />
+                            <AvatarImage :src="discourseURL + admin.avatar" />
                         </Avatar>
                         <div class="flex flex-col">
                             <span>{{ admin.name || admin.username }}</span>
