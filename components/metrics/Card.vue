@@ -5,7 +5,7 @@ defineProps<{
     title: string;
     loading: boolean;
     empty: boolean;
-    report: 'enrollment' | 'grade';
+    report?: 'enrollment' | 'grade';
 }>();
 </script>
 
@@ -17,7 +17,7 @@ defineProps<{
                 <CardDescription>
                     <slot name="description" />
                 </CardDescription>
-                <MetricsReportChip :report="report" />
+                <MetricsReportChip v-if="report" :report="report" />
             </CardHeader>
             <div class="p-6 pb-0">
                 <slot name="legend" />
