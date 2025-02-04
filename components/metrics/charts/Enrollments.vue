@@ -16,14 +16,23 @@ const props = defineProps<{
     loading: boolean;
 }>();
 
-const dates = computed(() => ({
+const dates = ref({
     start: props.startDate ? parseDate(props.startDate) : today(getLocalTimeZone()),
     end: props.endDate
         ? props.details
             ? parseDate(props.details[props.details.length - 1].date)
             : parseDate(props.endDate)
         : today(getLocalTimeZone()),
-}));
+});
+
+watch(
+    () => props.details,
+    (newDetails) => {
+        if (newDetails && newDetails.length > 0) {
+            dates.value.end = parseDate(newDetails[newDetails.length - 1].date);
+        }
+    },
+);
 
 interface EnrollmentData {
     Date: string;
