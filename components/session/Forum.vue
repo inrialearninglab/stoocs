@@ -96,7 +96,10 @@ const { data: discourseURL } = await useFetch<string>('/api/env/discourseUrl');
             </div>
 
             <MetricsForumSignups
-                :loading="false"
+                :start-date="sessionStore.session.data?.startDate?.slice(0, 10)"
+                :end-date="new Date().toISOString().slice(0, 10)"
+            />
+            <MetricsForumPosts
                 :start-date="sessionStore.session.data?.startDate?.slice(0, 10)"
                 :end-date="new Date().toISOString().slice(0, 10)"
             />

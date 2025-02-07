@@ -6,7 +6,7 @@ const props = defineProps<{
 
 const sessionStore = useSession();
 
-const { data: details, status } = await useFetch('/api/forum/signups', {
+const { data: details, status } = await useFetch('/api/forum/posts', {
     method: 'POST',
     body: {
         instanceName: sessionStore?.forum?.data?.instance,
@@ -18,10 +18,10 @@ const { data: details, status } = await useFetch('/api/forum/signups', {
 
 <template>
     <MetricsForumStandard
-        title="Inscriptions sur le forum"
-        description="Nombre d'inscription sur le forum par jour"
-        label="Inscriptions"
-        y-label="Nombre d'inscrits"
+        title="Posts sur le forum"
+        description="Nombre de posts sur le forum par jour"
+        label="Posts"
+        y-label="Nombre de posts"
         :start-date="startDate"
         :end-date="endDate"
         :loading="status === 'pending'"

@@ -25,6 +25,7 @@ export default defineEventHandler(async (event) => {
 
         { url: '/api/forum/.*', method: 'GET' },
         { url: '/api/forum/signups', method: 'POST' },
+        { url: '/api/forum/posts', method: 'POST' },
         { url: '/api/env/.*', method: 'GET' },
     ];
 
