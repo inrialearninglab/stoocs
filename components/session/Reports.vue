@@ -88,7 +88,6 @@ function openGradeReportsDialog(files?: File[]) {
     if (!gradeReportsDialog.value) return;
 
     gradeReportsDialog.value.open = true;
-    console.log('after opened');
     if (files) {
         gradeReportsDialog.value.files = files;
         gradeReportsDialog.value.focusSubmit();
