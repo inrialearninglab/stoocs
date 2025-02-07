@@ -10,7 +10,7 @@ defineProps<{
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead class="w-[7rem]">Avatar</TableHead>
+                    <TableHead class="w-[6rem]">Avatar</TableHead>
                     <TableHead>Nom</TableHead>
                     <TableHead>Email</TableHead>
                     <TableHead class="w-[10rem]">Rôle</TableHead>
@@ -19,7 +19,7 @@ defineProps<{
             <TableBody>
                 <TableRow v-for="user of users">
                     <TableCell><UserAvatar :user="user" size="xs" /></TableCell>
-                    <TableCell>{{ user.firstname }} {{ user.lastname }}</TableCell>
+                    <TableCell class="font-semibold">{{ user.firstname }} {{ user.lastname }}</TableCell>
                     <TableCell>{{ user.email }}</TableCell>
                     <TableCell class="w-min"><UserRole :rolename="user.rolename" /></TableCell>
                 </TableRow>
