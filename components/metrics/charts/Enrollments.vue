@@ -39,11 +39,14 @@ interface EnrollmentData {
     Inscriptions: number;
 }
 
+const periodEnrollments = ref(0);
+
 function getFilteredData(mode: 'day' | 'total') {
     const data: EnrollmentData[] = [];
     if (!props.details) return [];
 
     let enrollments = 0;
+    let tmpPeriod = 0;
 
     props.details.forEach((enrollment) => {
         if (!dates.value.start) return;
@@ -55,23 +58,29 @@ function getFilteredData(mode: 'day' | 'total') {
 
         if (mode === 'day') {
             if (enrollmentDate < startDate) return;
+            tmpPeriod += enrollment.enrollments;
 
             data.push({
                 Date: formatDate(enrollmentDate),
                 Inscriptions: enrollment.enrollments,
             });
         } else if (mode === 'total') {
+            enrollments += enrollment.enrollments;
+
             if (enrollmentDate < startDate) {
-                return (enrollments += enrollment.enrollments);
+                return;
             }
 
-            enrollments += enrollment.enrollments;
+            tmpPeriod += enrollment.enrollments;
+
             data.push({
                 Date: formatDate(enrollmentDate),
                 Inscriptions: enrollments,
             });
         }
     });
+
+    periodEnrollments.value = tmpPeriod;
 
     return data;
 }
@@ -89,8 +98,9 @@ const totalChartId = 'enrollment-total-chart';
 const sessionStore = useSession();
 
 const title = 'Inscriptions';
-const dayDescription = 'Nombre de nouvelles inscriptions par jour';
-const totalDescription = '';
+const description = computed(
+    () => `${periodEnrollments.value.toLocaleString('fr-FR')} inscriptions sur la période sélectionnée`,
+);
 </script>
 
 <template>
@@ -102,7 +112,7 @@ const totalDescription = '';
             </TabsList>
             <TabsContent value="day">
                 <MetricsCard :title="title" :loading="loading" :empty="!details" report="enrollment">
-                    <template #description> {{ dayDescription }} </template>
+                    <template #description>{{ description }}</template>
 
                     <template #legend>
                         <Button
@@ -114,7 +124,7 @@ const totalDescription = '';
                                     sessionStore.session!.data!.sessionName,
                                     sessionStore.enrollmentsReportDate!,
                                     title,
-                                    dayDescription,
+                                    description,
                                 )
                             "
                         >
@@ -145,7 +155,7 @@ const totalDescription = '';
 
             <TabsContent value="total">
                 <MetricsCard :title="title" :loading="loading" :empty="!details" report="enrollment">
-                    <template #description>{{ totalDescription }}</template>
+                    <template #description>{{ description }}</template>
 
                     <template #legend>
                         <Button
@@ -157,7 +167,7 @@ const totalDescription = '';
                                     sessionStore.session!.data!.sessionName,
                                     sessionStore.enrollmentsReportDate!,
                                     title,
-                                    totalDescription,
+                                    description,
                                 )
                             "
                         >

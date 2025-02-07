@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { Camera } from 'lucide-vue-next';
 import { formatDate, getParsedDate } from '~/utils/date.utils';
 import { type DateValue, getLocalTimeZone, parseDate, today } from '@internationalized/date';
 
 const props = defineProps<{
+    id: string;
     title: string;
-    description: string;
+    descriptionLabel: string;
     label: string;
     yLabel: string;
     startDate?: string;
@@ -15,6 +17,8 @@ const props = defineProps<{
         value: number;
     }[];
 }>();
+
+const sessionStore = useSession();
 
 const dates = ref({
     start: props.startDate ? parseDate(props.startDate) : today(getLocalTimeZone()),
@@ -30,11 +34,14 @@ interface GraphData {
     [key: string]: number | string;
 }
 
+const periodValue = ref(0);
+
 function getFilteredData(mode: 'day' | 'total') {
     const data: GraphData[] = [];
     if (!props.details) return [];
 
     let total = 0;
+    let tmpPeriod = 0;
 
     props.details.forEach((item) => {
         if (!dates.value.start) return;
@@ -47,6 +54,7 @@ function getFilteredData(mode: 'day' | 'total') {
         if (enrollmentDate > endDate) return;
         if (mode === 'day') {
             if (enrollmentDate < startDate) return;
+            tmpPeriod += item.value;
 
             data.push({
                 Date: formatDate(signupDate),
@@ -55,6 +63,7 @@ function getFilteredData(mode: 'day' | 'total') {
         } else if (mode === 'total') {
             total += item.value;
             if (enrollmentDate < startDate) return;
+            tmpPeriod += item.value;
 
             data.push({
                 Date: formatDate(signupDate),
@@ -62,12 +71,14 @@ function getFilteredData(mode: 'day' | 'total') {
             });
         }
     });
+    periodValue.value = tmpPeriod;
 
     return data;
 }
 
-const dayChartId = 'signups-day-chart';
-const totalChartId = 'signups-total-chart';
+const dayChartId = `forum-${props.id}-day-chart`;
+const totalChartId = `forum-${props.id}-total-chart`;
+const description = computed(() => `${periodValue.value.toLocaleString('fr-FR')} ${props.descriptionLabel}`);
 
 const presets = [
     {
@@ -87,6 +98,24 @@ const presets = [
             <TabsContent value="day">
                 <MetricsCard :title="title" :loading="loading" :empty="!details">
                     <template #description>{{ description }}</template>
+                    <template #legend>
+                        <Button
+                            size="icon"
+                            @click="
+                                saveChartAsPNG(
+                                    dayChartId,
+                                    sessionStore.session!.data!.mooc.title,
+                                    sessionStore.session!.data!.sessionName,
+                                    new Date().toISOString().slice(0, 10),
+                                    title,
+                                    description,
+                                )
+                            "
+                        >
+                            <Camera />
+                        </Button>
+                    </template>
+
                     <UtilsDateRangePicker
                         v-if="details"
                         v-model="dates"
@@ -111,6 +140,24 @@ const presets = [
             <TabsContent value="total">
                 <MetricsCard :title="title" :loading="loading" :empty="!details">
                     <template #description>{{ description }}</template>
+                    <template #legend>
+                        <Button
+                            size="icon"
+                            @click="
+                                saveChartAsPNG(
+                                    totalChartId,
+                                    sessionStore.session!.data!.mooc.title,
+                                    sessionStore.session!.data!.sessionName,
+                                    new Date().toISOString().slice(0, 10),
+                                    title,
+                                    description,
+                                )
+                            "
+                        >
+                            <Camera />
+                        </Button>
+                    </template>
+
                     <UtilsDateRangePicker
                         v-if="details"
                         v-model="dates"
