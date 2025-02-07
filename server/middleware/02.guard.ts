@@ -24,6 +24,8 @@ export default defineEventHandler(async (event) => {
         { url: '/api/users/delete', method: 'GET' },
 
         { url: '/api/forum/.*', method: 'GET' },
+        { url: '/api/forum/signups', method: 'POST' },
+        { url: '/api/env/.*', method: 'GET' },
     ];
 
     if (event.path.startsWith('/api')) {
