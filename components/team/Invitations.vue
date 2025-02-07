@@ -24,9 +24,7 @@ async function copyToClipboard(token: string) {
         >
             <p>{{ invitation.email }}</p>
             <div class="flex gap-4 items-center">
-                <Badge variant="outline">
-                    {{ invitation.isGuest ? 'Invité' : 'Learning Lab' }}
-                </Badge>
+                <UserRole variant="outline" :rolename="invitation.isGuest ? 'Guest' : 'ILL'" />
 
                 <Badge v-if="!isWithinExpirationDate(new Date(invitation.expiresAt))" variant="destructive">
                     Expirée
