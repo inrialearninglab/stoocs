@@ -16,13 +16,11 @@ export default defineEventHandler(async (event) => {
         });
 
         if (!instance) {
-            throw createError({
-                status: 404,
-            });
+            throw createError({ status: 404 });
         }
 
         const res = await $fetch(
-            `${process.env.DISCOURSE_URL}/${instanceName}/admin/reports/signups.json?chart_grouping=daily&end_date=${endDate}&mode=chart&start_date=${startDate}`,
+            `${process.env.DISCOURSE_URL}/${instanceName}/admin/reports/posts.json?chart_grouping=daily&end_date=${endDate}&mode=chart&start_date=${startDate}`,
             {
                 method: 'GET',
                 headers: {
@@ -39,9 +37,6 @@ export default defineEventHandler(async (event) => {
             };
         });
     } catch (e) {
-        console.log('error', e);
-        throw createError({
-            status: 500,
-        });
+        throw createError({ status: 500 });
     }
 });
