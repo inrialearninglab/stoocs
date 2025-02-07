@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import { Users, Cog, List } from 'lucide-vue-next';
+import { Users, Cog, List, BookOpen } from 'lucide-vue-next';
 import { BentoGrid, BentoGridItem } from '~/components/inspira/bento';
 
 const items = [
     {
         title: 'Moocs',
         description: 'Voir la liste des moocs',
-        image: '/hero/moocs-dark.png',
         href: '/moocs',
         icon: List,
         class: 'md:col-span-2',
@@ -14,7 +13,6 @@ const items = [
     {
         title: 'Paramètres',
         description: "Accéder aux paramètres de l'application",
-        image: '/hero/settings-dark.png',
         href: '/settings/profile',
         icon: Cog,
         class: '',
@@ -25,10 +23,16 @@ const ILLItems = [
     {
         title: 'Equipe',
         description: "Administrer les membres de l'équipe",
-        image: '/hero/users-dark.png',
         href: '/users',
         icon: Users,
         class: '',
+    },
+    {
+        title: 'Documentation',
+        description: 'Consulter la documentation',
+        href: 'https://docs-stoocs.nathan-viaud.xyz/user/add',
+        icon: BookOpen,
+        class: 'md:col-span-2',
     },
 ];
 const user = useUser();
