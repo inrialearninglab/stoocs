@@ -20,7 +20,7 @@ const { data: details, status } = await useFetch('/api/forum/signups', {
     <MetricsForumStandard
         id="signups"
         title="Inscriptions sur le forum"
-        description-label="inscription sur la forum pour la période selectionnée"
+        description-label="inscriptions sur le forum pour la période selectionnée"
         label="Inscriptions"
         y-label="Nombre d'inscrits"
         :start-date="startDate"

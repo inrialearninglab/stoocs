@@ -20,7 +20,7 @@ const { data: details, status } = await useFetch('/api/forum/posts', {
     <MetricsForumStandard
         id="posts"
         title="Posts sur le forum"
-        description-label="posts sur la forum pour la période selectionnée"
+        description-label="posts sur le forum pour la période selectionnée"
         label="Posts"
         y-label="Nombre de posts"
         :start-date="startDate"
