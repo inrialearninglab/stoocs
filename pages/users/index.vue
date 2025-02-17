@@ -19,7 +19,7 @@ definePageMeta({
         </div>
 
         <div class="flex flex-col gap-4">
-            <TeamTable :users="usersStore.users.data" />
+            <TeamList :users="usersStore.users.data" />
             <Separator />
             <TeamInvitations />
         </div>
