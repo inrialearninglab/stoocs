@@ -3,8 +3,8 @@ const props = defineProps<{
     rolename: string;
 }>();
 
-const color = props.rolename === 'ILL' ? 'success' : 'info';
-const classList = `border-${color}-border text-${color}-text bg-${color}-bg`;
+const color = computed(() => (props.rolename === 'ILL' ? 'success' : 'info'));
+const classList = computed(() => `border-${color.value}-border text-${color.value}-text bg-${color.value}-bg`);
 </script>
 
 <template>
