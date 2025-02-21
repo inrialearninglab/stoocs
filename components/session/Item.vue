@@ -6,6 +6,12 @@ import { formatDate } from '~/utils';
 defineProps<{
     session: MoocSession;
 }>();
+
+function isSesssionEnded(endDate?: string) {
+    if (!endDate) return false;
+
+    return new Date(endDate) < new Date();
+}
 </script>
 
 <template>
@@ -19,7 +25,7 @@ defineProps<{
                 <div
                     class="size-4 rounded-full absolute -top-1 -right-1"
                     :class="
-                        session.ended
+                        isSesssionEnded(session.endDate)
                             ? 'bg-error'
                             : session.sessionName === 'archiveouvert'
                               ? 'bg-warning'

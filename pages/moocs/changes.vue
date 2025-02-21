@@ -24,6 +24,17 @@ async function handleSubmit() {
         await navigateTo('/moocs');
     }
 }
+
+const changesEmpty = computed(() => {
+    return (
+        courses.value.insertions.length === 0 &&
+        courses.value.deletions.length === 0 &&
+        courses.value.updates.length === 0 &&
+        sessions.value.insertions.length === 0 &&
+        sessions.value.deletions.length === 0 &&
+        sessions.value.updates.length === 0
+    );
+});
 </script>
 
 <template>
@@ -34,13 +45,14 @@ async function handleSubmit() {
     </Alert>
 
     <div v-else class="space-y-8">
-        <h1>Valider les changements</h1>
-        <ChangesList :courses="courses" :sessions="sessions" />
+        <h1>Valider les modifications</h1>
+        <h2 v-if="changesEmpty">Aucune modification détectées</h2>
+        <ChangesList v-else :courses="courses" :sessions="sessions" />
         <div class="flex gap-4">
             <Button as-child class="flex-1" variant="secondary">
                 <NuxtLink to="/moocs"> Annuler </NuxtLink>
             </Button>
-            <Button @click="handleSubmit" class="flex-1"> Valider </Button>
+            <Button @click="handleSubmit" class="flex-1" :disabled="changesEmpty"> Valider </Button>
         </div>
     </div>
 </template>
