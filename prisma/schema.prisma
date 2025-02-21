@@ -23,14 +23,12 @@ model Mooc {
     id           String        @id @default(cuid())
     organization String
     title        String
-    courseNumber String
+    courseNumber String        @unique
     description  String?
     theme        String?
     target       String?
     sessions     MoocSession[]
     pinnedBy     PinnedMooc[]
-
-    @@unique([courseNumber, title])
 }
 
 model MoocSession {

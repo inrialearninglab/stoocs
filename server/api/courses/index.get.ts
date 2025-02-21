@@ -1,18 +1,5 @@
-import { Dir } from 'fs';
-import { z } from 'zod';
 import { prisma } from '~/prisma/db';
-
-const courseSchema = z.object({
-    organization: z.string(),
-    id: z.string(),
-    session: z.string(),
-    name: z.string(),
-    start: z.string(),
-    end: z.string(),
-    gradeCutoffs: z.number(),
-});
-
-const coursesSchema = z.array(courseSchema);
+import { coursesSchema } from '~/schema/courses.schema';
 
 export default defineEventHandler(async (event) => {
     const res = await $fetch(process.env.COURSES_URL!);
@@ -24,45 +11,46 @@ export default defineEventHandler(async (event) => {
         const presentSessions = [];
         for (const course of courses) {
             const mooc = await prisma.mooc.upsert({
-                where: { courseNumber_title: { courseNumber: course.id, title: course.name } },
+                where: { courseNumber: course.id },
                 update: {
-                    title: course.name,
+                    title: course.title,
                     organization: course.organization,
                 },
                 create: {
                     courseNumber: course.id,
-                    title: course.name,
+                    title: course.title,
                     organization: course.organization,
                 },
             });
-            const startDate = course.start ? new Date(course.start) : null;
-            const endDate = course.end ? new Date(course.end) : null;
-            presentCourses.push(mooc.id);
+            for (const session of course.sessions) {
+                const startDate = session.start ? new Date(session.start) : null;
+                const endDate = session.end ? new Date(session.end) : null;
+                presentCourses.push(mooc.id);
 
-            const session = await prisma.moocSession.upsert({
-                where: { moocID_sessionName: { moocID: mooc.id, sessionName: course.session } },
-                update: {
-                    startDate,
-                    endDate,
-                    cutoffs: course.gradeCutoffs,
-                },
-                create: {
-                    sessionName: course.session,
-                    startDate,
-                    endDate,
-                    cutoffs: course.gradeCutoffs,
-                    mooc: {
-                        connect: {
-                            courseNumber_title: { courseNumber: course.id, title: course.name },
+                const res = await prisma.moocSession.upsert({
+                    where: { moocID_sessionName: { moocID: mooc.id, sessionName: session.name } },
+                    update: {
+                        startDate,
+                        endDate,
+                        cutoffs: session.gradecutoffs,
+                    },
+                    create: {
+                        sessionName: session.name,
+                        startDate,
+                        endDate,
+                        cutoffs: session.gradecutoffs,
+                        mooc: {
+                            connect: {
+                                courseNumber: course.id,
+                            },
                         },
                     },
-                },
-            });
+                });
 
-            presentSessions.push(session.id);
+                presentSessions.push(res.id);
+            }
         }
 
-        // delete all the courses & sessions that are not in the list
         await prisma.moocSession.deleteMany({
             where: {
                 NOT: {

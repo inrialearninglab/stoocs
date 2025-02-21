@@ -1,189 +1,117 @@
-import { z } from 'zod';
 import { prisma } from '~/prisma/db';
+import { coursesSchema } from '~/schema/courses.schema';
 
-const courseSchema = z.object({
-    organization: z.string(),
-    id: z.string(),
-    session: z.string(),
-    name: z.string(),
-    start: z.string(),
-    end: z.string(),
-    gradeCutoffs: z.number(),
-});
+function getUpdatedFields(existing: any, newData: any) {
+    const updatedFields: any = {};
+    for (const key in newData) {
+        if (existing[key] !== newData[key]) {
+            updatedFields[key] = { old: existing[key], new: newData[key] };
+        }
+    }
+    return updatedFields;
+}
 
-const coursesSchema = z.array(courseSchema);
+function formatDate(date: Date | null) {
+    if (!date) return '';
+    return date ? date.toISOString().split('T')[0] : null;
+}
 
-/*
- * This route is used to get a list of changes between the state of the db & the MOOC list file in GitLab
- */
 export default defineEventHandler(async (event) => {
     const res = await $fetch(process.env.COURSES_URL!);
+    const { data: courses, success } = coursesSchema.safeParse(res);
+
+    if (!success || !courses) {
+        throw createError({ status: 400, message: 'Invalid courses data' });
+    }
 
     try {
-        const courses = coursesSchema.parse(res);
-
         const coursesUpdates = [];
         const coursesInserts = [];
-
         const sessionUpdates = [];
         const sessionInserts = [];
-
         const presentCourses = [];
         const presentSessions = [];
 
         for (const course of courses) {
             const existingCourse = await prisma.mooc.findUnique({
-                where: { courseNumber_title: { courseNumber: course.id, title: course.name } },
+                where: { courseNumber: course.id },
             });
 
             if (existingCourse) {
                 presentCourses.push(existingCourse.id);
-
-                const isNameUpdated = existingCourse.title !== course.name;
-                const isOrganizationUpdated = existingCourse.organization !== course.organization;
-
-                if (isNameUpdated || isOrganizationUpdated) {
-                    const courseUpdate: {
-                        courseNumber: string;
-                        title?: {
-                            old: string;
-                            new: string;
-                        };
-                        organization?: {
-                            old: string;
-                            new: string;
-                        };
-                    } = {
-                        courseNumber: course.id,
-                    };
-
-                    if (isNameUpdated) {
-                        courseUpdate.title = {
-                            old: existingCourse.title,
-                            new: course.name,
-                        };
-                    }
-
-                    if (isOrganizationUpdated) {
-                        courseUpdate.organization = {
-                            old: existingCourse.organization,
-                            new: course.organization,
-                        };
-                    }
-
-                    coursesUpdates.push(courseUpdate);
-                }
-
-                const existingSession = await prisma.moocSession.findUnique({
-                    where: { moocID_sessionName: { moocID: existingCourse.id, sessionName: course.session } },
+                const courseUpdates = getUpdatedFields(existingCourse, {
+                    title: course.title,
+                    organization: course.organization,
                 });
-
-                if (existingSession) {
-                    presentSessions.push(existingSession.id);
-
-                    const isStartDateUpdated = existingSession.startDate?.toISOString().slice(0, 10) !== course.start;
-                    const isEndDateUpdated = existingSession.endDate?.toISOString().slice(0, 10) !== course.end;
-                    const isCutoffUpdated = existingSession.cutoffs !== course.gradeCutoffs;
-
-                    if (isStartDateUpdated || isEndDateUpdated || isCutoffUpdated) {
-                        const sessionUpdate: {
-                            courseNumber: string;
-                            sessionName: string;
-                            startDate?: {
-                                old: string;
-                                new: string;
-                            };
-                            endDate?: {
-                                old: string;
-                                new: string;
-                            };
-                            cutoffs?: {
-                                old: number;
-                                new: number;
-                            };
-                        } = {
-                            courseNumber: course.id,
-                            sessionName: course.session,
-                        };
-
-                        if (isStartDateUpdated) {
-                            sessionUpdate.startDate = {
-                                old: existingSession.startDate?.toISOString().slice(0, 10) || '',
-                                new: course.start,
-                            };
-                        }
-
-                        if (isEndDateUpdated) {
-                            sessionUpdate.endDate = {
-                                old: existingSession.startDate?.toISOString().slice(0, 10) || '',
-                                new: course.end,
-                            };
-                        }
-
-                        if (isCutoffUpdated) {
-                            sessionUpdate.cutoffs = {
-                                old: existingSession.cutoffs,
-                                new: course.gradeCutoffs,
-                            };
-                        }
-
-                        sessionUpdates.push(sessionUpdate);
-                    }
-                } else {
-                    sessionInserts.push({
-                        courseNumber: course.id,
-                        sessionName: course.session,
-                        startDate: course.start,
-                        endDate: course.end,
-                        cutoffs: course.gradeCutoffs,
-                    });
+                if (Object.keys(courseUpdates).length > 0) {
+                    coursesUpdates.push({ courseNumber: course.id, ...courseUpdates });
                 }
             } else {
                 coursesInserts.push({
                     courseNumber: course.id,
-                    title: course.name,
+                    title: course.title,
                     organization: course.organization,
                 });
-                sessionInserts.push({
-                    courseNumber: course.id,
-                    sessionName: course.session,
-                    startDate: course.start,
-                    endDate: course.end,
-                    cutoffs: course.gradeCutoffs,
-                });
+            }
+
+            for (const session of course.sessions) {
+                if (!existingCourse) {
+                    sessionInserts.push({
+                        courseNumber: course.id,
+                        sessionName: session.name,
+                        startDate: session.start,
+                        endDate: session.end,
+                        cutoffs: session.gradecutoffs,
+                    });
+                } else {
+                    const existingSession = await prisma.moocSession.findUnique({
+                        where: { moocID_sessionName: { moocID: existingCourse.id, sessionName: session.name } },
+                    });
+
+                    if (existingSession) {
+                        presentSessions.push(existingSession.id);
+                        const sessionUpdatesFields = getUpdatedFields(
+                            {
+                                startDate: formatDate(existingSession.startDate),
+                                endDate: formatDate(existingSession.endDate),
+                                cutoffs: existingSession.cutoffs,
+                            },
+                            {
+                                startDate: session.start,
+                                endDate: session.end || '',
+                                cutoffs: session.gradecutoffs,
+                            },
+                        );
+                        if (Object.keys(sessionUpdatesFields).length > 0) {
+                            sessionUpdates.push({
+                                courseNumber: course.id,
+                                sessionName: session.name,
+                                ...sessionUpdatesFields,
+                            });
+                        }
+                    } else {
+                        sessionInserts.push({
+                            courseNumber: course.id,
+                            sessionName: session.name,
+                            startDate: session.start,
+                            endDate: session.end,
+                            cutoffs: session.gradecutoffs,
+                        });
+                    }
+                }
             }
         }
 
         const coursesToDelete = await prisma.mooc.findMany({
-            where: {
-                NOT: {
-                    id: {
-                        in: presentCourses,
-                    },
-                },
-            },
-            select: {
-                courseNumber: true,
-                title: true,
-            },
+            where: { id: { notIn: presentCourses } },
+            select: { courseNumber: true, title: true },
         });
 
         const sessionsToDelete = await prisma.moocSession.findMany({
-            where: {
-                NOT: {
-                    id: {
-                        in: presentSessions,
-                    },
-                },
-            },
+            where: { id: { notIn: presentSessions } },
             select: {
                 sessionName: true,
-                mooc: {
-                    select: {
-                        courseNumber: true,
-                        title: true,
-                    },
-                },
+                mooc: { select: { courseNumber: true, title: true } },
             },
         });
 
@@ -192,7 +120,6 @@ export default defineEventHandler(async (event) => {
             sessions: { updates: sessionUpdates, insertions: sessionInserts, deletions: sessionsToDelete },
         };
     } catch (e) {
-        console.log('error', e);
         throw createError({ status: 500 });
     }
 });
