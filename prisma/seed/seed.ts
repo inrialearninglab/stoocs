@@ -11,7 +11,7 @@ async function seed() {
 
     for (const course of courses) {
         const res = await prisma.mooc.upsert({
-            where: { courseNumber_title: { courseNumber: course.courseNumber, title: course.title } },
+            where: { courseNumber: course.courseNumber },
             update: {
                 title: course.title,
                 organization: course.organization,
@@ -28,7 +28,7 @@ async function seed() {
 
     for (const session of sessions) {
         const parentCourse = await prisma.mooc.findUnique({
-            where: { courseNumber_title: { courseNumber: session.parentCourse, title: session.parentCourseName } },
+            where: { courseNumber: session.parentCourse },
         });
 
         if (parentCourse) {

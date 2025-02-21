@@ -9,11 +9,23 @@ const props = defineProps<{
 
 const moocsStore = useMoocs();
 
+function isSesssionEnded(endDate?: string) {
+    if (!endDate) return false;
+
+    return new Date(endDate) < new Date();
+}
+
 const openedSessions = computed(
-    () => props.mooc.sessions.filter((session) => !session.ended && session.sessionName !== 'archiveouvert').length,
+    () =>
+        props.mooc.sessions.filter(
+            (session) => !isSesssionEnded(session.endDate) && session.sessionName !== 'archiveouvert',
+        ).length,
 );
 const closedSessions = computed(
-    () => props.mooc.sessions.filter((session) => session.ended && session.sessionName !== 'archiveouvert').length,
+    () =>
+        props.mooc.sessions.filter(
+            (session) => isSesssionEnded(session.endDate) && session.sessionName !== 'archiveouvert',
+        ).length,
 );
 const archiveSessions = computed(
     () => props.mooc.sessions.filter((session) => session.sessionName === 'archiveouvert').length,
@@ -60,7 +72,7 @@ const archiveSessions = computed(
                     <div
                         class="size-4 rounded-full"
                         :class="
-                            session.ended
+                            isSesssionEnded(session.endDate)
                                 ? 'bg-error'
                                 : session.sessionName === 'archiveouvert'
                                   ? 'bg-warning'
