@@ -35,7 +35,10 @@ const searchInput: Ref<HTMLInputElement | null> = ref(null);
                 </span>
             </div>
 
-            <CiTrigger v-if="user?.rolename === 'ILL'" />
+            <!-- <CiTrigger v-if="user?.rolename === 'ILL'" /> -->
+            <Button as-child v-if="user?.rolename === 'ILL'">
+                <NuxtLink to="moocs/changes"> Mettre à jour la liste des MOOCs </NuxtLink>
+            </Button>
         </div>
 
         <p v-if="user?.rolename !== 'ILL' && !user?.moocSessions.length" class="text-lg text-center">

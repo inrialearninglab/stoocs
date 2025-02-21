@@ -29,6 +29,7 @@ export async function getCourses(): Promise<{ courses: Course[]; sessions: Sessi
 
                 return {
                     parentCourse: session['Course Number:'],
+                    parentCourseName: session['Course Display Name:'],
                     sessionName: session['Course Name:'],
                     ended: session['Has the course ended?'] === 'Yes',
                     startDate,
@@ -49,6 +50,7 @@ interface Course {
 
 interface Session {
     parentCourse: string;
+    parentCourseName: string;
     sessionName: string;
     ended: boolean;
     startDate: Date;

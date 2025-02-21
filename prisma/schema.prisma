@@ -15,7 +15,7 @@ datasource db {
 }
 
 model App {
-    id Int @id @default(autoincrement())
+    id          Int     @id @default(autoincrement())
     initialized Boolean @default(false)
 }
 
@@ -23,12 +23,14 @@ model Mooc {
     id           String        @id @default(cuid())
     organization String
     title        String
-    courseNumber String        @unique
+    courseNumber String
     description  String?
     theme        String?
     target       String?
     sessions     MoocSession[]
     pinnedBy     PinnedMooc[]
+
+    @@unique([courseNumber, title])
 }
 
 model MoocSession {
@@ -45,13 +47,14 @@ model MoocSession {
     mooc               Mooc          @relation(fields: [moocID], references: [id])
     moocID             String
     forumInstanceName  String?
-    forum              Forum? @relation(fields: [forumInstanceName], references: [instanceName])
+    forum              Forum?        @relation(fields: [forumInstanceName], references: [instanceName])
+
     @@unique([moocID, sessionName])
 }
 
 model Forum {
-    instanceName String @unique
-    apiKey String
+    instanceName String        @unique
+    apiKey       String
     moocSessions MoocSession[]
 }
 
@@ -70,17 +73,17 @@ model GradeReport {
 }
 
 model User {
-    id          String       @id
-    email       String       @unique
-    firstname   String
-    lastname    String
-    password    String
-    sessions    Session[]
-    pinnedMoocs PinnedMooc[]
-    rolename    String
-    role        Role        @relation(fields: [rolename], references: [name])
+    id           String       @id
+    email        String       @unique
+    firstname    String
+    lastname     String
+    password     String
+    sessions     Session[]
+    pinnedMoocs  PinnedMooc[]
+    rolename     String
+    role         Role         @relation(fields: [rolename], references: [name])
     moocSessions String[]
-    isAdmin Boolean @default(false)
+    isAdmin      Boolean      @default(false)
 }
 
 model Role {
@@ -106,10 +109,10 @@ model Session {
 }
 
 model Invitation {
-    id String @id @default(cuid())
-    tokenHash String   @unique
-    isGuest  Boolean
-    email     String @unique
-    expiresAt DateTime
+    id           String   @id @default(cuid())
+    tokenHash    String   @unique
+    isGuest      Boolean
+    email        String   @unique
+    expiresAt    DateTime
     moocSessions String[]
 }
