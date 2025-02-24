@@ -99,7 +99,11 @@ const sessionStore = useSession();
 
 const title = `Inscriptions (${sessionStore.totalEnrollments?.toLocaleString('fr-FR')})`;
 const description = computed(
-    () => `${periodEnrollments.value.toLocaleString('fr-FR')} inscriptions sur la période sélectionnée`,
+    () => `
+        ${sessionStore.totalEnrollments?.toLocaleString('fr-FR')} inscriptions au total.
+        <br />
+        ${periodEnrollments.value.toLocaleString('fr-FR')} inscriptions sur la période sélectionnée.
+    `,
 );
 </script>
 
@@ -112,7 +116,7 @@ const description = computed(
             </TabsList>
             <TabsContent value="day">
                 <MetricsCard :title="title" :loading="loading" :empty="!details" report="enrollment">
-                    <template #description>{{ description }}</template>
+                    <template #description><div v-html="description" /></template>
 
                     <template #legend>
                         <Button
