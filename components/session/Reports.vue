@@ -143,7 +143,6 @@ defineExpose({
                     <div class="flex flex-col items-center">
                         <div class="flex gap-2 items-center">
                             <MetricsReportChip report="enrollment" :static="true" />
-                            <!-- <p>{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p> -->
                             <div class="flex flex-col text-center">
                                 <p>Fichier inscriptions</p>
                             </div>
@@ -153,17 +152,15 @@ defineExpose({
                             </UtilsHelp>
                         </div>
                         <p class="text-muted-foreground">{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p>
-                        <div class="flex gap-2 mt-2">
-                            <Button size="icon" as-child>
-                                <NuxtLink
-                                    :to="`${sessionStore.session.data?.url}fun/dashboard/enrollments/?format=csv`"
-                                >
-                                    <Download />
+                        <div class="flex gap-2 mt-2" v-if="sessionStore.session.data?.url">
+                            <Button size="icon" as-child class="size-9">
+                                <NuxtLink :to="`${sessionStore.session.data.url}fun/dashboard/enrollments/?format=csv`">
+                                    <Download class="size-5" />
                                 </NuxtLink>
                             </Button>
-                            <Button variant="secondary" size="icon" as-child>
+                            <Button variant="secondary" size="icon" as-child class="size-9">
                                 <NuxtLink :to="`${sessionStore.session.data?.url}fun/dashboard`">
-                                    <SquareArrowOutUpRight />
+                                    <SquareArrowOutUpRight class="size-5" />
                                 </NuxtLink>
                             </Button>
                         </div>
@@ -179,9 +176,12 @@ defineExpose({
                             </UtilsHelp>
                         </div>
                         <p class="text-muted-foreground">{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
-                        <Button variant="secondary" size="icon" as-child class="mt-2">
-                            <NuxtLink :to="`${sessionStore.session.data?.url}instructor#view-data_download`">
-                                <SquareArrowOutUpRight />
+                        <Button variant="secondary" size="icon" as-child class="mt-2 size-9">
+                            <NuxtLink
+                                v-if="sessionStore.session.data?.url"
+                                :to="`${sessionStore.session.data.url}instructor#view-data_download`"
+                            >
+                                <SquareArrowOutUpRight class="size-5" />
                             </NuxtLink>
                         </Button>
                     </div>
