@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Globe } from 'lucide-vue-next';
+import { FileWarning } from 'lucide-vue-next';
 import type { MoocSession } from '~/types';
 import { formatDate } from '~/utils';
 
@@ -20,7 +20,7 @@ function isSesssionEnded(endDate?: string) {
             <CardHeader class="relative">
                 <CardTitle class="flex gap-4 justify-between items-center">
                     <span>{{ session.sessionName }}</span>
-                    <Globe class="text-muted-foreground" />
+                    <FileWarning v-if="session.createdAt === session.updatedAt" class="text-warning-text" />
                 </CardTitle>
                 <div
                     class="size-4 rounded-full absolute -top-1 -right-1"

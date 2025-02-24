@@ -12,7 +12,8 @@ export interface Mooc {
         userId: string;
     }[];
 }
-export interface MoocSession extends Pick<Session, 'id' | 'sessionName' | 'ended' | 'startDate' | 'endDate'> {}
+export interface MoocSession
+    extends Pick<Session, 'id' | 'sessionName' | 'ended' | 'startDate' | 'endDate' | 'updatedAt' | 'createdAt'> {}
 
 export interface Session {
     id: string;
@@ -28,6 +29,8 @@ export interface Session {
     cutoffs?: number;
     gradeReports?: Pick<GradeReport, 'id' | 'date'>[];
     url: string;
+    updatedAt: string;
+    createdAt: string;
     authors?: Author[];
     teamMembers?: TeamMember[];
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Mooc } from '~/types';
-import { Star, ArrowRight } from 'lucide-vue-next';
+import { Star, ArrowRight, FileWarning } from 'lucide-vue-next';
 
 const props = defineProps<{
     mooc: Mooc;
@@ -69,6 +69,8 @@ const archiveSessions = computed(
         <CardContent class="px-4 pb-4 flex gap-2">
             <Button v-for="session of mooc.sessions" variant="secondary" class="flex gap-2 items-center w-fit" as-child>
                 <NuxtLink :to="`/sessions/${session.id}`">
+                    <FileWarning class="text-warning-text size-5" v-if="session.createdAt === session.updatedAt" />
+
                     <div
                         class="size-4 rounded-full"
                         :class="
