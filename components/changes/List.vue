@@ -176,6 +176,10 @@ defineProps<{
                         <span class="font-bold">Seuil de réussite :&nbsp</span>
                         <span>{{ insert.cutoffs }} </span>
                     </p>
+                    <p class="flex">
+                        <span class="font-bold">URL :&nbsp</span>
+                        <span>{{ insert.url }} </span>
+                    </p>
                 </Card>
             </div>
         </template>
