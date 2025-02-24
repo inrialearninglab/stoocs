@@ -8,6 +8,7 @@ export const sessionSchema = z.object({
         .regex(/^\d{4}-\d{2}-\d{2}$/, 'Invalid date format, should be YYYY-MM-DD')
         .optional(),
     gradecutoffs: z.number(),
+    url: z.string(),
 });
 
 export const courseSchema = z.object({

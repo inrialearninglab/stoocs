@@ -46,6 +46,7 @@ model MoocSession {
     moocID             String
     forumInstanceName  String?
     forum              Forum?        @relation(fields: [forumInstanceName], references: [instanceName])
+    url                String?
 
     @@unique([moocID, sessionName])
 }

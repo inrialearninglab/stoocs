@@ -33,12 +33,14 @@ export default defineEventHandler(async (event) => {
                         startDate,
                         endDate,
                         cutoffs: session.gradecutoffs,
+                        url: session.url,
                     },
                     create: {
                         sessionName: session.name,
                         startDate,
                         endDate,
                         cutoffs: session.gradecutoffs,
+                        url: session.url,
                         mooc: {
                             connect: {
                                 courseNumber: course.id,
