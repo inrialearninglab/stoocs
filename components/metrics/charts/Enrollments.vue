@@ -97,7 +97,7 @@ const totalChartId = 'enrollment-total-chart';
 
 const sessionStore = useSession();
 
-const title = 'Inscriptions';
+const title = `Inscriptions (${sessionStore.totalEnrollments?.toLocaleString('fr-FR')})`;
 const description = computed(
     () => `${periodEnrollments.value.toLocaleString('fr-FR')} inscriptions sur la période sélectionnée`,
 );
