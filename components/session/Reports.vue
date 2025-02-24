@@ -2,7 +2,7 @@
 import UploadDialogGlobal from '~/components/upload/dialog/Global.vue';
 import UploadDialogEnrollments from '~/components/upload/dialog/Enrollments.vue';
 import UploadDialogGradeReports from '~/components/upload/dialog/GradeReports.vue';
-import { Upload, Loader2 } from 'lucide-vue-next';
+import { Upload, Loader2, Download, SquareArrowOutUpRight } from 'lucide-vue-next';
 import { type FileRejectReason, useDropzone } from 'vue3-dropzone';
 import { isEnrollments, isGradeReport, isProblemGradeReport } from '~/utils';
 
@@ -128,7 +128,12 @@ defineExpose({
 
         <div v-show="!dragging || user?.rolename === 'Guest'" class="flex w-full flex-col gap-12">
             <div class="flex flex-col">
-                <h1 class="text-center mb-2">{{ sessionStore?.session?.data?.mooc.title }}</h1>
+                <Button as-child variant="link" v-if="sessionStore.session.data">
+                    <NuxtLink :to="sessionStore.session.data?.url" class="flex mb-2 text-center gap-3">
+                        <h1>{{ sessionStore?.session?.data?.mooc.title }}</h1>
+                        <SquareArrowOutUpRight />
+                    </NuxtLink>
+                </Button>
                 <h2 class="text-center text-muted-foreground">{{ sessionStore?.session?.data?.sessionName }}</h2>
                 <p class="text-muted-foreground text-center">{{ sessionStore.session.data?.mooc.courseNumber }}</p>
             </div>
@@ -148,6 +153,20 @@ defineExpose({
                             </UtilsHelp>
                         </div>
                         <p class="text-muted-foreground">{{ sessionStore.enrollmentsReportDate || 'Aucune donnée' }}</p>
+                        <div class="flex gap-2 mt-2">
+                            <Button size="icon" as-child>
+                                <NuxtLink
+                                    :to="`${sessionStore.session.data?.url}fun/dashboard/enrollments/?format=csv`"
+                                >
+                                    <Download />
+                                </NuxtLink>
+                            </Button>
+                            <Button variant="secondary" size="icon" as-child>
+                                <NuxtLink :to="`${sessionStore.session.data?.url}fun/dashboard`">
+                                    <SquareArrowOutUpRight />
+                                </NuxtLink>
+                            </Button>
+                        </div>
                     </div>
 
                     <div class="flex flex-col items-center">
@@ -160,6 +179,11 @@ defineExpose({
                             </UtilsHelp>
                         </div>
                         <p class="text-muted-foreground">{{ sessionStore.gradeReportDate || 'Aucune donnée' }}</p>
+                        <Button variant="secondary" size="icon" as-child class="mt-2">
+                            <NuxtLink :to="`${sessionStore.session.data?.url}instructor#view-data_download`">
+                                <SquareArrowOutUpRight />
+                            </NuxtLink>
+                        </Button>
                     </div>
 
                     <SessionAddReport

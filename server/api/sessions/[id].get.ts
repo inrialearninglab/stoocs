@@ -26,6 +26,7 @@ export default defineEventHandler(async (event) => {
             startDate: true,
             endDate: true,
             cutoffs: true,
+            url: true,
             mooc: {
                 select: {
                     id: true,

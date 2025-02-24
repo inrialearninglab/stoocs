@@ -27,6 +27,7 @@ export interface Session {
     ended: boolean;
     cutoffs?: number;
     gradeReports?: Pick<GradeReport, 'id' | 'date'>[];
+    url: string;
     authors?: Author[];
     teamMembers?: TeamMember[];
 }
