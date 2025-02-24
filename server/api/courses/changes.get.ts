@@ -62,6 +62,7 @@ export default defineEventHandler(async (event) => {
                         startDate: session.start,
                         endDate: session.end,
                         cutoffs: session.gradecutoffs,
+                        url: session.url,
                     });
                 } else {
                     const existingSession = await prisma.moocSession.findUnique({
@@ -75,17 +76,20 @@ export default defineEventHandler(async (event) => {
                                 startDate: formatDate(existingSession.startDate),
                                 endDate: formatDate(existingSession.endDate),
                                 cutoffs: existingSession.cutoffs,
+                                url: existingSession.url,
                             },
                             {
                                 startDate: session.start,
                                 endDate: session.end || '',
                                 cutoffs: session.gradecutoffs,
+                                url: session.url,
                             },
                         );
                         if (Object.keys(sessionUpdatesFields).length > 0) {
                             sessionUpdates.push({
                                 courseNumber: course.id,
                                 sessionName: session.name,
+                                url: session.url,
                                 ...sessionUpdatesFields,
                             });
                         }
@@ -96,6 +100,7 @@ export default defineEventHandler(async (event) => {
                             startDate: session.start,
                             endDate: session.end,
                             cutoffs: session.gradecutoffs,
+                            url: session.url,
                         });
                     }
                 }

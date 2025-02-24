@@ -44,6 +44,10 @@ export interface SessionsChanges {
             old: string;
             new: string;
         };
+        url: {
+            old: string;
+            new: string;
+        };
     }[];
     insertions: {
         courseNumber: string;

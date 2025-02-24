@@ -114,6 +114,12 @@ defineProps<{
                             {{ update.cutoffs.old }} <ArrowRight class="size-5" /> {{ update.cutoffs.new }}
                         </span>
                     </p>
+                    <p class="flex" v-if="update.url">
+                        <span class="font-bold">URL :&nbsp</span>
+                        <span class="flex gap-2 items-center">
+                            {{ update.url.old }} <ArrowRight class="size-5" /> {{ update.url.new }}
+                        </span>
+                    </p>
                 </Card>
             </div>
         </template>
