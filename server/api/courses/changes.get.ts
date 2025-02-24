@@ -89,7 +89,6 @@ export default defineEventHandler(async (event) => {
                             sessionUpdates.push({
                                 courseNumber: course.id,
                                 sessionName: session.name,
-                                url: session.url,
                                 ...sessionUpdatesFields,
                             });
                         }
