@@ -23,7 +23,7 @@ defineProps<{
                 <slot name="legend" />
             </div>
         </div>
-        <div class="px-6">
+        <div class="px-6 text-end items-end">
             <slot name="toolbar" />
         </div>
         <CardContent class="flex flex-col gap-5">

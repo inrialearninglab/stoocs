@@ -138,17 +138,23 @@ const description = `Note moyenne en pourcentage par question. Dans ce cas la mo
             </template>
 
             <template #toolbar>
-                <div class="flex gap-2">
+                <div class="flex gap-2 text-end items-end justify-end mt-4">
                     <Toggle
                         variant="outline"
                         aria-label="Afficher le seuil de réussite"
                         v-model:pressed="displayThreshold"
+                        class="border-2 border-dashed"
                     >
                         <Award class="mr-2" />
-                        Seuil de réussite
+                        {{ displayThreshold ? 'Cacher le' : 'Afficher le' }} seuil de réussite
                     </Toggle>
-                    <Toggle variant="outline" aria-label="Display questions at 0" v-model:pressed="displayZero">
-                        Question à 0
+                    <Toggle
+                        variant="outline"
+                        aria-label="Display questions at 0"
+                        v-model:pressed="displayZero"
+                        class="border-2 border-dashed"
+                    >
+                        {{ displayZero ? 'Cacher les' : 'Afficher les' }} Question à 0
                     </Toggle>
                 </div>
             </template>
