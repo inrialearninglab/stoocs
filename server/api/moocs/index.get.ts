@@ -16,6 +16,8 @@ export default defineEventHandler(async (event) => {
                         ended: true,
                         startDate: true,
                         endDate: true,
+                        createdAt: true,
+                        updatedAt: true,
                     },
                     orderBy: {
                         startDate: 'asc',
@@ -57,6 +59,10 @@ export default defineEventHandler(async (event) => {
                         id: true,
                         sessionName: true,
                         ended: true,
+                        startDate: true,
+                        endDate: true,
+                        createdAt: true,
+                        updatedAt: true,
                     },
                 },
                 pinnedBy: {
