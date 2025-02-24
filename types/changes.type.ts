@@ -55,5 +55,6 @@ export interface SessionsChanges {
         startDate: string;
         endDate: string;
         cutoffs: string;
+        url: string;
     }[];
 }
