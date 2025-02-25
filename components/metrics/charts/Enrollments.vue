@@ -159,7 +159,7 @@ const description = computed(
 
             <TabsContent value="total">
                 <MetricsCard :title="title" :loading="loading" :empty="!details" report="enrollment">
-                    <template #description>{{ description }}</template>
+                    <template #description><div v-html="description" /></template>
 
                     <template #legend>
                         <Button
