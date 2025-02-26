@@ -13,7 +13,11 @@ export interface Mooc {
     }[];
 }
 export interface MoocSession
-    extends Pick<Session, 'id' | 'sessionName' | 'ended' | 'startDate' | 'endDate' | 'updatedAt' | 'createdAt'> {}
+    extends Pick<Session, 'id' | 'sessionName' | 'ended' | 'startDate' | 'endDate' | 'updatedAt' | 'createdAt'> {
+    title: string;
+    courseNumber: string;
+    totalEnrollments?: number;
+}
 
 export interface Session {
     id: string;

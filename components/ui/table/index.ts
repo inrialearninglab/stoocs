@@ -8,3 +8,4 @@ export { default as TableHeader } from './TableHeader.vue';
 export { default as TableRow } from './TableRow.vue';
 export { default as TableCaption } from './TableCaption.vue';
 export { default as TableEmpty } from './TableEmpty.vue';
+export { default as TableFooter } from './TableFooter.vue';
