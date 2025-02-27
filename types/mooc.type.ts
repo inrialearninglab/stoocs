@@ -50,7 +50,10 @@ export interface Session {
 
 export interface MoocFilter {
     search: string;
-    sortBy: 'name' | 'enrollments' | 'status' | 'start' | 'end' | 'updateDate' | 'eligible';
+    sortBy: {
+        value: 'name' | 'enrollments' | 'status' | 'start' | 'end' | 'updateDate' | 'eligible';
+        order: 'asc' | 'desc';
+    };
     status: Set<string>;
     moocs: Set<string>;
     startDate: {

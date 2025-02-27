@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ArrowDownUp, ArrowDown } from 'lucide-vue-next';
+import { ArrowDownUp, ArrowDown, ArrowUp } from 'lucide-vue-next';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from '~/components/ui/table';
 import type { MoocFilter } from '~/types';
 
 const moocsStore = useMoocs();
 
-const heads: { label: string; sort?: MoocFilter['sortBy'] }[] = [
+const heads: { label: string; sort?: MoocFilter['sortBy']['value'] }[] = [
     {
         label: 'ID MOOC',
     },
@@ -41,6 +41,15 @@ const heads: { label: string; sort?: MoocFilter['sortBy'] }[] = [
         sort: 'updateDate',
     },
 ];
+
+function sortBy(value: MoocFilter['sortBy']['value']) {
+    if (moocsStore.filters.sortBy.value === value) {
+        moocsStore.filters.sortBy.order = moocsStore.filters.sortBy.order === 'asc' ? 'desc' : 'asc';
+    } else {
+        moocsStore.filters.sortBy.value = value;
+        moocsStore.filters.sortBy.order = 'asc';
+    }
+}
 </script>
 
 <template>
@@ -51,9 +60,10 @@ const heads: { label: string; sort?: MoocFilter['sortBy'] }[] = [
                 <TableHeader>
                     <TableRow>
                         <TableHead v-for="head of heads">
-                            <Button v-if="head.sort" @click="moocsStore.filters.sortBy = head.sort" variant="ghost">
+                            <Button v-if="head.sort" @click="sortBy(head.sort)" variant="ghost">
                                 {{ head.label }}
-                                <ArrowDownUp v-if="moocsStore.filters.sortBy !== head.sort" class="size-5 ml-2" />
+                                <ArrowDownUp v-if="moocsStore.filters.sortBy.value !== head.sort" class="size-5 ml-2" />
+                                <ArrowUp v-else-if="moocsStore.filters.sortBy.order === 'asc'" class="size-5 ml-2" />
                                 <ArrowDown v-else class="size-5 ml-2" />
                             </Button>
                             <template v-else>

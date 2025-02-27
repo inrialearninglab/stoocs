@@ -12,7 +12,10 @@ export const useMoocs = defineStore('moocs', {
         moocs: [],
         filters: {
             search: '',
-            sortBy: 'name',
+            sortBy: {
+                value: 'name',
+                order: 'asc',
+            },
             status: new Set(),
             moocs: new Set(),
             startDate: {},
@@ -101,41 +104,48 @@ export const useMoocs = defineStore('moocs', {
             );
 
             const sortSessions = (sessions: MoocSession[]) => {
-                switch (this.filters.sortBy) {
+                let sortedSessions = sessions;
+                switch (this.filters.sortBy.value) {
                     case 'name':
-                        return sessions.sort((a, b) => a.title.localeCompare(b.title));
+                        sortedSessions = sessions.sort((a, b) => a.title.localeCompare(b.title));
+                        break;
                     case 'enrollments':
-                        return sessions.sort(
-                            (a, b) => Number(b.totalEnrollments ?? 0) - Number(a.totalEnrollments ?? 0),
+                        sortedSessions = sessions.sort(
+                            (a, b) => Number(a.totalEnrollments ?? 0) - Number(b.totalEnrollments ?? 0),
                         );
+                        break;
                     case 'status':
-                        const statusOrder = ['open', 'archived', 'closed'];
-                        return sessions.sort(
+                        const statusOrder = ['closed', 'archived', 'open'];
+                        sortedSessions = sessions.sort(
                             (a, b) =>
                                 // @ts-expect-error
                                 statusOrder.indexOf(this.getSessionStatus(a)) -
                                 // @ts-expect-error
                                 statusOrder.indexOf(this.getSessionStatus(b)),
                         );
+                        break;
                     case 'start':
-                        return sessions.sort(
+                        sortedSessions = sessions.sort(
                             // @ts-expect-error
                             (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
                         );
+                        break;
                     case 'end':
-                        return sessions.sort((a, b) => {
+                        sortedSessions = sessions.sort((a, b) => {
                             const dateA = a.endDate ? new Date(a.endDate).getTime() : Infinity;
                             const dateB = b.endDate ? new Date(b.endDate).getTime() : Infinity;
                             return dateA - dateB;
                         });
+                        break;
                     case 'updateDate':
-                        return sessions.sort((a, b) => {
+                        sortedSessions = sessions.sort((a, b) => {
                             const dateA = a.updateDate ? new Date(a.updateDate).getTime() : 0;
                             const dateB = b.updateDate ? new Date(b.updateDate).getTime() : 0;
                             return dateA - dateB;
                         });
+                        break;
                     case 'eligible':
-                        return sessions.sort(
+                        sortedSessions = sessions.sort(
                             (a, b) =>
                                 (a.gradeReports[0]
                                     ? a.gradeReports[0].totalEligible / a.gradeReports[0].totalUsers
@@ -144,9 +154,16 @@ export const useMoocs = defineStore('moocs', {
                                     ? b.gradeReports[0].totalEligible / b.gradeReports[0].totalUsers
                                     : 0),
                         );
+                        break;
                     default:
-                        return sessions;
+                        break;
                 }
+
+                if (this.filters.sortBy.order === 'desc') {
+                    sortedSessions = sortedSessions.reverse();
+                }
+
+                return sortedSessions;
             };
 
             return sortSessions(filteredSessions);

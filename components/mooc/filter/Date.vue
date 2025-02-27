@@ -33,6 +33,7 @@ const conditions = computed(() => [to, from].filter((v) => v.value !== undefined
                 <CalendarIcon class="size-4" />
                 {{ label }}
                 <template v-if="conditions">
+                    <!-- @vue-expect-error  -->
                     : {{ from ? formatDate(new Date(from)) : '' }} - {{ to ? formatDate(new Date(to)) : '' }}
                     <Separator orientation="vertical" class="h-4" />
                     <Badge class="px-2 rounded-sm">{{ conditions }}</Badge>
