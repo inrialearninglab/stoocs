@@ -1,24 +1,10 @@
-import { type Mooc, type MoocSession } from '~/types';
+import type { Mooc, MoocSession, MoocFilter } from '~/types';
 import { fetchMoocs, pinMooc } from '~/services/moocs.service';
 import { toast } from 'vue-sonner';
-import type { DateValue } from '@internationalized/date';
 
 interface MoocsState {
     moocs: Mooc[];
-    filters: {
-        search: string;
-        sortBy: 'name' | 'enrollments' | 'status' | 'start' | 'end';
-        status: Set<string>;
-        moocs: Set<string>;
-        startDate: {
-            from?: DateValue;
-            to?: DateValue;
-        };
-        endDate: {
-            to?: DateValue;
-            from?: DateValue;
-        };
-    };
+    filters: MoocFilter;
 }
 
 export const useMoocs = defineStore('moocs', {
@@ -71,7 +57,11 @@ export const useMoocs = defineStore('moocs', {
             };
 
             const matchesSearch = (session: MoocSession) => {
-                return session.title.toLowerCase().includes(this.filters.search.toLowerCase());
+                return (
+                    session.title.toLowerCase().includes(this.filters.search.toLowerCase()) ||
+                    session.courseNumber.toLowerCase().includes(this.filters.search.toLowerCase()) ||
+                    session.sessionName.toLowerCase().includes(this.filters.search.toLowerCase())
+                );
             };
 
             const matchesMooc = (session: MoocSession) => {
@@ -138,12 +128,38 @@ export const useMoocs = defineStore('moocs', {
                             const dateB = b.endDate ? new Date(b.endDate).getTime() : Infinity;
                             return dateA - dateB;
                         });
+                    case 'updateDate':
+                        return sessions.sort((a, b) => {
+                            const dateA = a.updateDate ? new Date(a.updateDate).getTime() : 0;
+                            const dateB = b.updateDate ? new Date(b.updateDate).getTime() : 0;
+                            return dateA - dateB;
+                        });
+                    case 'eligible':
+                        return sessions.sort(
+                            (a, b) =>
+                                (a.gradeReports[0]
+                                    ? a.gradeReports[0].totalEligible / a.gradeReports[0].totalUsers
+                                    : 0) -
+                                (b.gradeReports[0]
+                                    ? b.gradeReports[0].totalEligible / b.gradeReports[0].totalUsers
+                                    : 0),
+                        );
                     default:
                         return sessions;
                 }
             };
 
             return sortSessions(filteredSessions);
+        },
+
+        filteredMoocsCount(): number {
+            const moocs = new Set();
+
+            this.filteredSessions.forEach((session) => {
+                moocs.add(session.courseNumber);
+            });
+
+            return moocs.size;
         },
 
         pinnedMoocs(): Mooc[] {

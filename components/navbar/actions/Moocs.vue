@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { DatabaseBackup } from 'lucide-vue-next';
 import Refresh from '~/components/utils/Refresh.vue';
 import { useMoocs } from '~/stores/moocs.store';
 
@@ -19,7 +20,10 @@ async function handleRefresh() {
 <template>
     <div class="flex gap-3 items-center">
         <Button as-child v-if="user?.rolename === 'ILL'">
-            <NuxtLink to="moocs/changes"> Mettre à jour la liste des MOOCs </NuxtLink>
+            <NuxtLink to="moocs/changes">
+                <DatabaseBackup class="mr-2" />
+                Mettre à jour la liste des MOOCs
+            </NuxtLink>
         </Button>
         <Refresh ref="refresh" @refresh="handleRefresh" />
     </div>

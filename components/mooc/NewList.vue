@@ -1,8 +1,46 @@
 <script setup lang="ts">
 import { ArrowDownUp, ArrowDown } from 'lucide-vue-next';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, TableFooter } from '~/components/ui/table';
+import type { MoocFilter } from '~/types';
 
 const moocsStore = useMoocs();
+
+const heads: { label: string; sort?: MoocFilter['sortBy'] }[] = [
+    {
+        label: 'ID MOOC',
+    },
+    {
+        label: 'Nom MOOC',
+        sort: 'name',
+    },
+    {
+        label: 'Nom session',
+    },
+    {
+        label: 'Apprenants',
+        sort: 'enrollments',
+    },
+    {
+        label: 'Date début',
+        sort: 'start',
+    },
+    {
+        label: 'Date fin',
+        sort: 'end',
+    },
+    {
+        label: 'Eligible',
+        sort: 'eligible',
+    },
+    {
+        label: 'Status',
+        sort: 'status',
+    },
+    {
+        label: 'Mise à jour',
+        sort: 'updateDate',
+    },
+];
 </script>
 
 <template>
@@ -12,42 +50,15 @@ const moocsStore = useMoocs();
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead class="w-[6rem]">ID MOOC</TableHead>
-                        <TableHead>
-                            <Button variant="ghost" @click="moocsStore.filters.sortBy = 'name'">
-                                Nom MOOC
-                                <ArrowDownUp v-if="moocsStore.filters.sortBy !== 'name'" class="size-5 ml-2" />
+                        <TableHead v-for="head of heads">
+                            <Button v-if="head.sort" @click="moocsStore.filters.sortBy = head.sort" variant="ghost">
+                                {{ head.label }}
+                                <ArrowDownUp v-if="moocsStore.filters.sortBy !== head.sort" class="size-5 ml-2" />
                                 <ArrowDown v-else class="size-5 ml-2" />
                             </Button>
-                        </TableHead>
-                        <TableHead>Nom session</TableHead>
-                        <TableHead>
-                            <Button variant="ghost" @click="moocsStore.filters.sortBy = 'enrollments'">
-                                Apprenants
-                                <ArrowDownUp v-if="moocsStore.filters.sortBy !== 'enrollments'" class="size-5 ml-2" />
-                                <ArrowDown v-else class="size-5 ml-2" />
-                            </Button>
-                        </TableHead>
-                        <TableHead>
-                            <Button variant="ghost" @click="moocsStore.filters.sortBy = 'start'">
-                                Date début
-                                <ArrowDownUp v-if="moocsStore.filters.sortBy !== 'start'" class="size-5 ml-2" />
-                                <ArrowDown v-else class="size-5 ml-2" />
-                            </Button>
-                        </TableHead>
-                        <TableHead>
-                            <Button variant="ghost" @click="moocsStore.filters.sortBy = 'end'">
-                                Date fin
-                                <ArrowDownUp v-if="moocsStore.filters.sortBy !== 'end'" class="size-5 ml-2" />
-                                <ArrowDown v-else class="size-5 ml-2" />
-                            </Button>
-                        </TableHead>
-                        <TableHead class="w-[10rem]" @click="moocsStore.filters.sortBy = 'status'">
-                            <Button variant="ghost">
-                                Status
-                                <ArrowDownUp v-if="moocsStore.filters.sortBy !== 'status'" class="size-5 ml-2" />
-                                <ArrowDown v-else class="size-5 ml-2" />
-                            </Button>
+                            <template v-else>
+                                {{ head.label }}
+                            </template>
                         </TableHead>
                     </TableRow>
                 </TableHeader>
@@ -62,33 +73,47 @@ const moocsStore = useMoocs();
                             {{
                                 session.totalEnrollments
                                     ? Number(session?.totalEnrollments).toLocaleString('fr-FR')
-                                    : ''
+                                    : '-'
                             }}
                         </TableCell>
                         <TableCell>
-                            {{ session.startDate ? formatDate(new Date(session.startDate)) : '' }}
+                            {{ session.startDate ? formatDate(new Date(session.startDate)) : '-' }}
                         </TableCell>
                         <TableCell>
-                            {{ session.endDate ? formatDate(new Date(session.endDate)) : '' }}
+                            {{ session.endDate ? formatDate(new Date(session.endDate)) : '-' }}
+                        </TableCell>
+                        <TableCell>
+                            {{
+                                session.gradeReports[0]
+                                    ? (
+                                          (session.gradeReports[0].totalEligible / session.gradeReports[0].totalUsers) *
+                                          100
+                                      ).toFixed(1) + ' %'
+                                    : '-'
+                            }}
                         </TableCell>
                         <TableCell class="w-min">
                             <MoocStatusBadge :status="moocsStore.getSessionStatus(session)" />
-                            <!-- <Badge variant="outline" :class="getClass(moocsStore.getSessionStatus(session))">{{
-                            moocsStore.getSessionStatus(session)
-                        }}</Badge> -->
+                        </TableCell>
+                        <TableCell>
+                            {{ session.updateDate ? formatDate(new Date(session.updateDate)) : '-' }}
                         </TableCell>
                     </TableRow>
                 </TableBody>
                 <TableFooter>
                     <TableRow>
                         <TableCell>Total</TableCell>
+                        <TableCell>{{ moocsStore.filteredMoocsCount }} MOOC</TableCell>
                         <TableCell>{{ moocsStore.filteredSessions.length }} Sessions</TableCell>
+                        <TableCell>
+                            {{
+                                moocsStore.filteredSessions
+                                    .reduce((acc, session) => acc + (session?.totalEnrollments ?? 0), 0)
+                                    .toLocaleString('fr-FR')
+                            }}
+                        </TableCell>
                         <TableCell></TableCell>
-                        <TableCell>{{
-                            moocsStore.filteredSessions
-                                .reduce((acc, session) => acc + (session?.totalEnrollments ?? 0), 0)
-                                .toLocaleString('fr-FR')
-                        }}</TableCell>
+                        <TableCell></TableCell>
                         <TableCell></TableCell>
                         <TableCell></TableCell>
                         <TableCell></TableCell>

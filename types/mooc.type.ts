@@ -1,4 +1,6 @@
 import type { GradeReport } from './gradeReport.type';
+import type { DateValue } from '@internationalized/date';
+
 export interface Mooc {
     id: string;
     organization: string;
@@ -17,6 +19,13 @@ export interface MoocSession
     title: string;
     courseNumber: string;
     totalEnrollments?: number;
+    updateDate?: string;
+    gradeReports: {
+        id: string;
+        date: string;
+        totalUsers: number;
+        totalEligible: number;
+    }[];
 }
 
 export interface Session {
@@ -37,6 +46,21 @@ export interface Session {
     createdAt: string;
     authors?: Author[];
     teamMembers?: TeamMember[];
+}
+
+export interface MoocFilter {
+    search: string;
+    sortBy: 'name' | 'enrollments' | 'status' | 'start' | 'end' | 'updateDate' | 'eligible';
+    status: Set<string>;
+    moocs: Set<string>;
+    startDate: {
+        from?: DateValue;
+        to?: DateValue;
+    };
+    endDate: {
+        to?: DateValue;
+        from?: DateValue;
+    };
 }
 
 export interface Author {
