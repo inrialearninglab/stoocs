@@ -49,7 +49,7 @@ defineProps<{
             />
 
             <MetricsSmallCard
-                title="Éligibles - Actifs"
+                title="Éligibles / Actifs"
                 description="Apprenants actifs éligibles pour le badge/attestation"
                 :icon="Award"
                 :loading="sessionStore.session.loading"
@@ -60,7 +60,7 @@ defineProps<{
             />
 
             <MetricsSmallCard
-                title="Éligibles - Apprenants"
+                title="Éligibles / Inscrits"
                 description="Apprenants éligibles pour le badge/attestation"
                 :icon="Award"
                 :loading="sessionStore.gradeReport.loading"

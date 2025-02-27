@@ -129,7 +129,7 @@ defineExpose({
         <div v-show="!dragging || user?.rolename === 'Guest'" class="flex w-full flex-col gap-12">
             <div class="flex flex-col">
                 <Button as-child variant="link" v-if="sessionStore.session.data">
-                    <NuxtLink :to="sessionStore.session.data?.url" class="flex mb-2 text-center gap-3">
+                    <NuxtLink :to="sessionStore.session.data?.url" class="flex mb-2 text-center gap-3" target="_blank">
                         <h1>{{ sessionStore?.session?.data?.mooc.title }}</h1>
                         <SquareArrowOutUpRight />
                     </NuxtLink>
@@ -159,7 +159,7 @@ defineExpose({
                                 </NuxtLink>
                             </Button>
                             <Button variant="secondary" size="icon" as-child class="size-9">
-                                <NuxtLink :to="`${sessionStore.session.data?.url}fun/dashboard`">
+                                <NuxtLink :to="`${sessionStore.session.data?.url}fun/dashboard`" target="_blank">
                                     <SquareArrowOutUpRight class="size-5" />
                                 </NuxtLink>
                             </Button>
@@ -180,6 +180,7 @@ defineExpose({
                             <NuxtLink
                                 v-if="sessionStore.session.data?.url"
                                 :to="`${sessionStore.session.data.url}instructor#view-data_download`"
+                                target="_blank"
                             >
                                 <SquareArrowOutUpRight class="size-5" />
                             </NuxtLink>
