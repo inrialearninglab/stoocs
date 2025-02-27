@@ -1,34 +1,51 @@
+import { Prisma } from '@prisma/client';
 import { prisma } from '~/prisma/db';
 
 export default defineEventHandler(async (event) => {
-    if (event.context.user.rolename === 'ILL') {
-        const moocs = await prisma.mooc.findMany({
+    let moocs = [];
+    const selectStatement: Prisma.MoocSelect = {
+        id: true,
+        courseNumber: true,
+        title: true,
+        description: true,
+        theme: true,
+        target: true,
+        sessions: {
             select: {
                 id: true,
-                title: true,
-                description: true,
-                theme: true,
-                target: true,
-                sessions: {
+                sessionName: true,
+                ended: true,
+                startDate: true,
+                endDate: true,
+                createdAt: true,
+                updatedAt: true,
+                enrollmentsDetails: true,
+                gradeReports: {
                     select: {
                         id: true,
-                        sessionName: true,
-                        ended: true,
-                        startDate: true,
-                        endDate: true,
-                        createdAt: true,
-                        updatedAt: true,
+                        date: true,
+                        totalUsers: true,
+                        totalEligible: true,
                     },
                     orderBy: {
-                        startDate: 'asc',
+                        date: 'desc',
                     },
-                },
-                pinnedBy: {
-                    select: {
-                        userId: true,
-                    },
+                    take: 1,
                 },
             },
+            orderBy: {
+                startDate: 'asc',
+            },
+        },
+        pinnedBy: {
+            select: {
+                userId: true,
+            },
+        },
+    };
+    if (event.context.user.rolename === 'ILL') {
+        moocs = await prisma.mooc.findMany({
+            select: selectStatement,
         });
 
         if (!moocs) {
@@ -37,10 +54,8 @@ export default defineEventHandler(async (event) => {
                 message: 'No moocs found',
             });
         }
-
-        return moocs;
     } else {
-        const moocs = await prisma.mooc.findMany({
+        moocs = await prisma.mooc.findMany({
             where: {
                 sessions: {
                     some: {
@@ -48,29 +63,7 @@ export default defineEventHandler(async (event) => {
                     },
                 },
             },
-            select: {
-                id: true,
-                title: true,
-                description: true,
-                theme: true,
-                target: true,
-                sessions: {
-                    select: {
-                        id: true,
-                        sessionName: true,
-                        ended: true,
-                        startDate: true,
-                        endDate: true,
-                        createdAt: true,
-                        updatedAt: true,
-                    },
-                },
-                pinnedBy: {
-                    select: {
-                        userId: true,
-                    },
-                },
-            },
+            select: selectStatement,
         });
 
         if (!moocs) {
@@ -78,7 +71,28 @@ export default defineEventHandler(async (event) => {
                 status: 404,
             });
         }
-
-        return moocs;
     }
+
+    moocs.forEach((mooc) => {
+        mooc.sessions.forEach((session) => {
+            session.totalEnrollments = calculateTotalEnrollments(session.enrollmentsDetails);
+            const updateDate = (session.enrollmentsDetails as Array<{ date: string; value: number }>)?.pop()?.date;
+            // @ts-expect-error
+            session.updateDate = updateDate ?? undefined;
+            // @ts-expect-error
+            delete session.enrollmentsDetails;
+        });
+    });
+
+    return moocs;
 });
+
+function calculateTotalEnrollments(details: any) {
+    if (!details) return undefined;
+    try {
+        return details.reduce((total: number, entry: { enrollments: number }) => total + entry.enrollments, 0);
+    } catch (error) {
+        console.error('Error parsing enrollmentsDetails:', error);
+        return 0;
+    }
+}
