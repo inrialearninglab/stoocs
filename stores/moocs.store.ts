@@ -246,7 +246,10 @@ export const useMoocs = defineStore('moocs', {
         resetFilters() {
             this.filters = {
                 search: '',
-                sortBy: 'name',
+                sortBy: {
+                    value: 'name',
+                    order: 'asc',
+                },
                 status: new Set(),
                 moocs: new Set(),
                 startDate: {},
