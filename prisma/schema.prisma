@@ -117,3 +117,10 @@ model Invitation {
     expiresAt    DateTime
     moocSessions String[]
 }
+
+model PasswordReset {
+    id        String   @id @default(cuid())
+    tokenHash String   @unique
+    email     String   @unique
+    expiresAt DateTime
+}

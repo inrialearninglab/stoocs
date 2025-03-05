@@ -67,7 +67,14 @@ onMounted(() => {
 
                     <FormField v-slot="{ componentField }" name="password">
                         <FormItem>
-                            <FormLabel>Mot de passe</FormLabel>
+                            <div class="flex mt-1 mb-3">
+                                <FormLabel class="flex-1">Mot de passe </FormLabel>
+                                <NuxtLink
+                                    to="/auth/reset-password"
+                                    class="hover:underline text-sm font-medium leading-none"
+                                    >Mot de passe oublié ?</NuxtLink
+                                >
+                            </div>
                             <FormControl>
                                 <Input
                                     type="password"

@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-    const authRoutes = ['/auth/login', '/auth/register/*'];
+    const authRoutes = ['/auth/login', '/auth/register/*', '/auth/reset-password*', '/auth/verify-email/*'];
     const guestRoutes = [...authRoutes];
 
     const illRoutes = ['/users'];
