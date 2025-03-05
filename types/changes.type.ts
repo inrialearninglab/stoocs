@@ -31,6 +31,7 @@ export interface SessionsChanges {
     }[];
     updates: {
         courseNumber: string;
+        title: string;
         sessionName: string;
         startDate: {
             old: string;
@@ -51,6 +52,7 @@ export interface SessionsChanges {
     }[];
     insertions: {
         courseNumber: string;
+        title: string;
         sessionName: string;
         startDate: string;
         endDate: string;

@@ -58,6 +58,7 @@ export default defineEventHandler(async (event) => {
                 if (!existingCourse) {
                     sessionInserts.push({
                         courseNumber: course.id,
+                        title: course.title,
                         sessionName: session.name,
                         startDate: session.start,
                         endDate: session.end,
@@ -88,6 +89,7 @@ export default defineEventHandler(async (event) => {
                         if (Object.keys(sessionUpdatesFields).length > 0) {
                             sessionUpdates.push({
                                 courseNumber: course.id,
+                                title: course.title,
                                 sessionName: session.name,
                                 ...sessionUpdatesFields,
                             });
