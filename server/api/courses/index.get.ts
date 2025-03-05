@@ -53,6 +53,17 @@ export default defineEventHandler(async (event) => {
             }
         }
 
+        // Delete linked grade reports
+        await prisma.gradeReport.deleteMany({
+            where: {
+                NOT: {
+                    moocSessionId: {
+                        in: presentSessions,
+                    },
+                },
+            },
+        });
+
         await prisma.moocSession.deleteMany({
             where: {
                 NOT: {
