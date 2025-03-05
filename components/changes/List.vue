@@ -91,6 +91,10 @@ defineProps<{
                         <span class="font-bold">Numéro du MOOC :&nbsp</span>
                         <span>{{ update.courseNumber }}</span>
                     </p>
+                    <p class="flex">
+                        <span class="font-bold">Nom du MOOC :&nbsp</span>
+                        <span>{{ update.title }}</span>
+                    </p>
                     <p class="flex mb-3">
                         <span class="font-bold">Nom de la session :&nbsp</span>
                         <span>{{ update.sessionName }}</span>
@@ -158,6 +162,10 @@ defineProps<{
                     <p class="flex">
                         <span class="font-bold">Numéro du MOOC :&nbsp</span>
                         <span>{{ insert.courseNumber }}</span>
+                    </p>
+                    <p class="flex">
+                        <span class="font-bold">Nom du MOOC :&nbsp</span>
+                        <span>{{ insert.title }}</span>
                     </p>
                     <p class="flex mb-3">
                         <span class="font-bold">Nom de la session :&nbsp</span>
