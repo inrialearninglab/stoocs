@@ -59,7 +59,13 @@ onMounted(() => {
                         <FormItem>
                             <FormLabel>Mail</FormLabel>
                             <FormControl>
-                                <Input id="mail" type="email" placeholder="Entrez votre mail" v-bind="componentField" />
+                                <Input
+                                    tabindex="1"
+                                    id="mail"
+                                    type="email"
+                                    placeholder="Entrez votre mail"
+                                    v-bind="componentField"
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -67,9 +73,13 @@ onMounted(() => {
 
                     <FormField v-slot="{ componentField }" name="password">
                         <FormItem>
-                            <FormLabel>Mot de passe</FormLabel>
+                            <div class="flex mt-1 mb-3">
+                                <FormLabel class="flex-1">Mot de passe </FormLabel>
+                                <ProfileFormReset />
+                            </div>
                             <FormControl>
                                 <Input
+                                    tabindex="2"
                                     type="password"
                                     placeholder="Entrez votre mot de passe"
                                     v-bind="componentField"

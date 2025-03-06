@@ -75,10 +75,12 @@ else errorMessage.value = true;
     </Card>
 
     <Card v-else-if="status === 'success'" class="max-w-2xl mx-auto w-full">
-        <CardHeader>
-            <CardTitle>Inscription</CardTitle>
+        <CardHeader class="text-center items-center">
+            <LayoutLogo class="w-32 h-auto mb-4" />
+            <CardTitle>Connexion</CardTitle>
             <CardDescription>Créer un nouveau compte</CardDescription>
         </CardHeader>
+
         <CardContent>
             <form @submit="onSubmit" class="flex flex-col gap-3">
                 <FormField v-slot="{ componentField }" name="email">

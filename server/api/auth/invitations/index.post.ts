@@ -3,9 +3,9 @@ import { sha256 } from 'oslo/crypto';
 import { encodeHex } from 'oslo/encoding';
 import { prisma } from '~/prisma/db';
 import { z } from 'zod';
-import nodemailer from 'nodemailer';
 import { useCompiler } from '#vue-email';
 import { generateIdFromEntropySize } from '~/server/utils/sessions';
+import { sendMail } from '~/server/utils/mails.utils';
 
 const routeSchema = z.object({
     email: z.string().email(),
@@ -33,45 +33,33 @@ export default defineEventHandler(async (event) => {
     const tokenId = await generateIdFromEntropySize(25);
     const tokenHash = encodeHex(await sha256(new TextEncoder().encode(tokenId)));
 
-    let transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: process.env.SMTP_PORT,
-        auth: 'plain',
-    });
-
-    let html;
+    const html = `Vous avez été invité sur l'application Stoocs. Cliquez sur le lien suivant pour créer votre compte : ${process.env.APP_URL}/auth/register/${tokenHash}`;
     try {
-        const template = await useCompiler('Invitation.vue', {
-            props: {
-                invitedByUsername: `${event.context.user.firstname} ${event.context.user.lastname}`,
-                invitedByEmail: event.context.user.email,
-                inviteLink: `${process.env.APP_URL}/auth/register/${tokenHash}`,
-            },
-        });
-
-        html = template.html;
-    } catch (e) {
-        console.error('error creating mail template');
-
-        html = `Vous avez été invité sur l'application Stoocs. Cliquez sur le lien suivant pour créer votre compte : ${process.env.APP_URL}/auth/register/${tokenHash}`;
-    }
-
-    let mailOptions = {
-        from: `Stoocs <${process.env.APP_EMAIL}>`,
-        to: email,
-        subject: 'Invitation stoocs',
-        html,
-    };
-
-    try {
-        let info = await transporter.sendMail(mailOptions);
-        console.log('Message sent : %s', info.messageId);
+        await sendMail(html, email, 'Invitation stoocs');
     } catch (error) {
+        console.log('error sending mail', error);
         throw createError({
             statusCode: 500,
             message: 'mailer error',
         });
     }
+
+    // let html;
+    // try {
+    //     const template = await useCompiler('Invitation.vue', {
+    //         props: {
+    //             invitedByUsername: `${event.context.user.firstname} ${event.context.user.lastname}`,
+    //             invitedByEmail: event.context.user.email,
+    //             inviteLink: `${process.env.APP_URL}/auth/register/${tokenHash}`,
+    //         },
+    //     });
+
+    //     html = template.html;
+    // } catch (e) {
+    //     console.error('error creating mail template');
+
+    //     html = `Vous avez été invité sur l'application Stoocs. Cliquez sur le lien suivant pour créer votre compte : ${process.env.APP_URL}/auth/register/${tokenHash}`;
+    // }
 
     return prisma.invitation.create({
         data: {

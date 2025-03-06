@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { ArrowLeft } from 'lucide-vue-next';
+
+const usersStore = useUsers();
+async function updatePassword(password: string) {
+    await usersStore.updatePassword(password);
+}
 </script>
 
 <template>
@@ -20,7 +25,7 @@ import { ArrowLeft } from 'lucide-vue-next';
             </TabsContent>
 
             <TabsContent value="password">
-                <ProfileFormPassword />
+                <ProfileFormPassword @submit="updatePassword" />
             </TabsContent>
         </Tabs>
     </div>

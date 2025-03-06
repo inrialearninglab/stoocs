@@ -132,3 +132,29 @@ export async function deleteUser(): Promise<{ error?: FetchError }> {
         return { error: e as FetchError };
     }
 }
+
+export async function resetPassword(newPassword: string, tokenHash: string): Promise<{ error?: FetchError }> {
+    try {
+        await $fetch('/api/auth/password/reset', {
+            method: 'POST',
+            body: { newPassword, tokenHash },
+        });
+
+        return {};
+    } catch (e) {
+        return { error: e as FetchError };
+    }
+}
+
+export async function createResetToken(email: string): Promise<{ error?: FetchError }> {
+    try {
+        await $fetch<string>('/api/auth/password/token', {
+            method: 'POST',
+            body: { email },
+        });
+
+        return {};
+    } catch (e) {
+        return { error: e as FetchError };
+    }
+}
