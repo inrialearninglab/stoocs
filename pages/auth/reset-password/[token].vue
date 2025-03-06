@@ -1,28 +1,37 @@
 <script setup lang="ts">
-import { emailMessage, requiredMessage } from '~/schema/users.schema';
-import { toTypedSchema } from '@vee-validate/zod';
-import { z } from 'zod';
-import { useForm } from 'vee-validate';
+import { resetPassword } from '~/services/auth.service';
+import { AlertCircle } from 'lucide-vue-next';
+import { toast } from 'vue-sonner';
 
-const formSchema = toTypedSchema(
-    z.object({
-        email: z.string({ message: requiredMessage }).email({ message: emailMessage }),
-    }),
-);
+const route = useRoute();
 
-const form = useForm({
-    validationSchema: formSchema,
-});
-
-const onSubmit = form.handleSubmit(async (values) => {
-    console.log(values);
-});
+const errorMessage = ref('');
+async function updatePassword(password: string) {
+    const { error } = await resetPassword(password, route.params.token as string);
+    if (error) {
+        console.log('error', error);
+        if (error.status === 404) {
+            errorMessage.value = 'Le lien actuel est invalide';
+        } else if (error.status === 400) {
+            errorMessage.value = 'Le lien actuel a expiré';
+        } else {
+            errorMessage.value = 'Une erreur est survenue';
+        }
+    } else {
+        toast.success('Votre mot de passe à été modifié avec succès');
+        await navigateTo('/login');
+    }
+}
 </script>
 
 <template>
-    <Alert v-if="errorAlert" variant="destructive">
-        <AlertCircle class="size-4" />
-        <AlertTitle>Erreur</AlertTitle>
-        <AlertDescription> Vos identifiants sont incorrects. Veuillez réessayer. </AlertDescription>
-    </Alert>
+    <div class="max-w-2xl mx-auto w-full space-y-4">
+        <Alert v-if="errorMessage" variant="destructive">
+            <AlertCircle class="size-4" />
+            <AlertTitle>Erreur</AlertTitle>
+            <AlertDescription> {{ errorMessage }} </AlertDescription>
+        </Alert>
+
+        <ProfileFormPassword @submit="updatePassword" />
+    </div>
 </template>

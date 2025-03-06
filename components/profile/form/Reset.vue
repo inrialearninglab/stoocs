@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { emailMessage, requiredMessage } from '~/schema/users.schema';
+import { Loader2 } from 'lucide-vue-next';
 import { toTypedSchema } from '@vee-validate/zod';
 import { z } from 'zod';
 import { useForm } from 'vee-validate';
 import { toast } from 'vue-sonner';
+import { createResetToken } from '~/services/auth.service';
 
 const formSchema = toTypedSchema(
     z.object({
@@ -16,19 +18,28 @@ const form = useForm({
 });
 
 const onSubmit = form.handleSubmit(async (values) => {
-    console.log(values);
+    const { error } = await createResetToken(values.email);
+
+    if (error) {
+        toast.error('Une erreur est survenue');
+        return;
+    }
+
     toast.success('Si un compte existe avec cet email, un email de réinitialisation vous a été envoyé');
 });
 </script>
 
 <template>
-    <Card class="max-w-lg mx-auto w-full">
-        <CardHeader class="text-center items-center">
-            <LayoutLogo class="w-32 h-auto mb-4" />
-            <CardTitle>Réinitialisation du mot de passe</CardTitle>
-        </CardHeader>
+    <Dialog>
+        <DialogTrigger class="hover:underline text-sm font-medium leading-none"> Mot de passe oublié ? </DialogTrigger>
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle> Réinitialisation du mot de passe </DialogTitle>
+                <DialogDescription>
+                    Entrez votre adresse email pour réinitialiser votre mot de passe
+                </DialogDescription>
+            </DialogHeader>
 
-        <CardContent>
             <form @submit="onSubmit" class="flex flex-col gap-3">
                 <FormField v-slot="{ componentField }" name="email">
                     <FormItem>
@@ -40,11 +51,13 @@ const onSubmit = form.handleSubmit(async (values) => {
                     </FormItem>
                 </FormField>
 
-                <Button :disabled="!form.meta.value.valid || form.isSubmitting.value" type="submit" class="mt-3">
-                    <Loader2 v-if="form.isSubmitting.value" class="size-4 mr-2 animate-spin" />
-                    Valider
-                </Button>
+                <DialogClose as-child>
+                    <Button :disabled="!form.meta.value.valid || form.isSubmitting.value" type="submit" class="mt-3">
+                        <Loader2 v-if="form.isSubmitting.value" class="size-4 mr-2 animate-spin" />
+                        Valider
+                    </Button>
+                </DialogClose>
             </form>
-        </CardContent>
-    </Card>
+        </DialogContent>
+    </Dialog>
 </template>

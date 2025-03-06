@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
-import * as z from 'zod';
+import { z } from 'zod';
 import { useForm } from 'vee-validate';
-import { useUsers } from '~/stores/users.store';
 import { passwordMatchMessage, passwordMessage, passwordRequirements, requiredMessage } from '~/schema/users.schema';
 
-const usersStore = useUsers();
+const emits = defineEmits<{
+    (e: 'submit', password: string): void;
+}>();
 
+// @ts-expect-error
 const formSchema = toTypedSchema(
     z.object({
         password: z
@@ -19,12 +21,13 @@ const formSchema = toTypedSchema(
     }),
 );
 
+// @ts-expect-error
 const form = useForm<z.infer<typeof formSchema>>({
     validationSchema: formSchema,
 });
 
-const onSubmit = form.handleSubmit(async (values) => {
-    await usersStore.updatePassword(values.password);
+const onSubmit = form.handleSubmit(async (values: z.infer<typeof formSchema>) => {
+    emits('submit', values.password);
 });
 </script>
 
