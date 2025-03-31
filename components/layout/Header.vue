@@ -15,12 +15,16 @@ const routes = [
         path: '/moocs',
     },
     {
+        label: 'Tableau de bord',
+        path: '/dashboard',
+    },
+    {
         label: 'Équipe',
         path: '/users',
         restricted: true,
     },
     {
-        label: 'Paramètre',
+        label: 'Paramètres',
         path: '/settings/profile',
     },
 ];
