@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
         { url: '/api/moocs', method: 'GET' },
         { url: '/api/moocs/pin', method: 'DELETE' },
         { url: '/api/moocs/pin', method: 'POST' },
+        { url: '/api/moocs/dashboard', method: 'GET' },
 
         { url: '/api/reports/.*', method: 'GET' },
 

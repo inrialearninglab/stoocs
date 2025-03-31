@@ -100,7 +100,7 @@ const sessionStore = useSession();
 const title = 'Inscriptions';
 const description = computed(
     () => `
-        ${sessionStore.totalEnrollments?.toLocaleString('fr-FR')} inscriptions au total.
+        ${props.details?.reduce((acc, curr) => acc + curr.enrollments, 0).toLocaleString('fr-FR')} inscriptions au total.
         <br />
         ${periodEnrollments.value.toLocaleString('fr-FR')} inscriptions sur la période sélectionnée.
     `,
