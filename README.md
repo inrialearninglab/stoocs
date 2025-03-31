@@ -1,4 +1,5 @@
 # Stoocs
+An app to display stats from MOOCs on FUN MOOC.
 
 ## First time setup
 1. Fill the `.env` file with the following content and replace the placeholders with the actual values:
@@ -7,58 +8,77 @@
    POSTGRES_USER=
    POSTGRES_PASSWORD=
    POSTGRES_DB=
+   COURSES_URL=
+   ```
+   `COURSES_URL` is the path to the json containing the list of all the courses that will be displayed in the app, the file should looks like this:
+   
+   ```json
+   [
+     {
+       "course_id": "string",
+       "course_title": "string",
+       "organization": "string",
+       "sessions": [
+         {
+           "session_name": "string",
+           "start_date": "YYYY-MM-DD",
+           "end_date": "YYYY-MM-DD",
+           "grade_cutoffs": float,
+           "session_url": "string"
+         }
+       ]
+     }
+   ]
    ```
 
-2. Create the file containing the initial users
-    ```shell
-   touch prisma/seed/initialUser.ts
-    ```
-
-3. Add the users to the file `prisma/seed/initialUser.ts` in the following format:
-    ```typescript
-   import { Argon2id } from 'oslo/password';
-   export const users = [
-     {
-       id: generateIdFromEntropySize(15),
-       email: 'john.doe@mail.com',
-       password: await new Argon2id().hash('password'),
-       firstname: 'John',
-       lastname: 'Doe',
-     },
-   ]
-    ```
-
-4. Put the `courses.json` file in the `prisma/seed/courses` directory.
-
-5. Create the uploads directories
-    ```shell
-   mkdir -p uploads/enrollments uploads/reports
-    ```
-
-6. Start the application:
-    ```shell
-    docker compose up
-    ```
-
-7. Once started to fill the db with initial values execute the following command in the application container:
-    ```shell
-    bunx prisma migrate reset
-    ```
-
-## Restart the application
-1. Restart the application:
-    ```shell
-    docker compose up -d
-    ```
-
-2. You can access the application at this url: [http://localhost](http://localhost)
-
-## Pull changes from the repository
-1. Pull the changes from the repository:
-    ```shell
-   git pull
-    ```
-2. Rebuild the application:
-    ```shell
-   docker compose build && docker compose up -d
+2. create the `docker-compose.yml` file
+   Here is an example:
+   
+   ```yml
+   services:
+       db:
+           container_name: 'stoocs-db'
+           image: postgres
+           restart: always
+           environment:
+               POSTGRES_USER: ${POSTGRES_USER}
+               POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+               POSTGRES_DB: ${POSTGRES_DB}
+           volumes:
+               - db-data:/var/lib/postgresql/data
+           healthcheck:
+               test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+               interval: 10s
+               timeout: 10s
+               retries: 5
+               start_period: 30s
+   
+       app:
+           container_name: 'stoocs'
+           restart: always
+           env_file:
+               - .env
+           depends_on:
+               db:
+                   condition: service_healthy
+           build: .
+           command: ['/usr/local/bin/startup.sh']
+   
+       nginx:
+           container_name: 'stooocs-nginx'
+           image: nginx
+           restart: always
+           volumes:
+               - ./nginx.conf:/etc/nginx/conf.d/default.conf
+               # Uncomment the following line to enable SSL
+               # - ${SSL_CERT_PATH}:/etc/nginx/ssl:ro
+           ports:
+               - '80:80'
+               - '443:443'
+           depends_on:
+               - app
+   
+   volumes:
+       db-data:
+   
    ```
