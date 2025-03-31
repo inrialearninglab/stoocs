@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Users, Cog, List, BookOpen } from 'lucide-vue-next';
+import { Users, Cog, List, BookOpen, ChartLine } from 'lucide-vue-next';
 import { BentoGrid, BentoGridItem } from '~/components/inspira/bento';
 
 const items = [
@@ -9,6 +9,13 @@ const items = [
         href: '/moocs',
         icon: List,
         class: 'md:col-span-2',
+    },
+    {
+        title: 'Tableau de bord',
+        description: 'Accéder au tableau de bord global',
+        href: '/dashboard',
+        icon: ChartLine,
+        class: 'md:col-span-1',
     },
     {
         title: 'Paramètres',
@@ -32,7 +39,7 @@ const ILLItems = [
         description: 'Consulter la documentation',
         href: 'https://docs-stoocs.nathan-viaud.xyz/user/add',
         icon: BookOpen,
-        class: 'md:col-span-2',
+        class: 'md:col-span-1',
     },
 ];
 const user = useUser();
