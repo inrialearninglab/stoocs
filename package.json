@@ -35,6 +35,7 @@
         "html-to-image": "^1.11.11",
         "html2canvas": "^1.4.1",
         "lucide-vue-next": "^0.476.0",
+        "motion-v": "^1.0.0-alpha.4",
         "multer": "^1.4.5-lts.1",
         "nodemailer": "^6.9.16",
         "nuxt": "^3.14.159",

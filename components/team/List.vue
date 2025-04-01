@@ -43,7 +43,14 @@ const sortedUsers = computed(() => {
             <TableBody>
                 <TableRow v-for="user of sortedUsers">
                     <TableCell><UserAvatar :user="user" size="xs" /></TableCell>
-                    <TableCell class="font-semibold">{{ user.firstname }} {{ user.lastname }}</TableCell>
+                    <TableCell class="font-semibold">
+                        <InspiraSparklesText
+                            :text="`${user.firstname} ${user.lastname}`"
+                            v-if="user.isAdmin"
+                            class="text-base font-md"
+                        />
+                        <template v-else> {{ user.firstname }} {{ user.lastname }} </template>
+                    </TableCell>
                     <TableCell>{{ user.email }}</TableCell>
                     <TableCell class="w-min"><UserRole :rolename="user.rolename" /></TableCell>
                 </TableRow>
