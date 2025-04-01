@@ -3,6 +3,14 @@ import { useMagicKeys } from '@vueuse/core';
 import { ref, watch } from 'vue';
 import { Circle, FileText } from 'lucide-vue-next';
 
+defineProps<{
+    pages: {
+        label: string;
+        path: string;
+        restricted: boolean;
+    }[];
+}>();
+
 const open = ref(false);
 
 const { Meta_K, Ctrl_K } = useMagicKeys({
@@ -43,14 +51,8 @@ const moocsStore = useMoocs();
             <CommandList>
                 <CommandEmpty>Aucun résultat</CommandEmpty>
                 <CommandGroup heading="Pages">
-                    <CommandItem value="moocs" @click="navigate('/moocs')">
-                        <Circle class="mr-2 size-4" /> MOOCs
-                    </CommandItem>
-                    <CommandItem value="équipe" @click="navigate('/users')">
-                        <Circle class="mr-2 size-4" /> Équipe
-                    </CommandItem>
-                    <CommandItem value="paramètre" @click="navigate('/settings/profile')">
-                        <Circle class="mr-2 size-4" /> Paramètres
+                    <CommandItem v-for="page of pages" :value="page.label" @click="navigate(page.path)">
+                        <Circle class="mr-2 size-4" /> {{ page.label }}
                     </CommandItem>
                 </CommandGroup>
                 <CommandSeparator />
