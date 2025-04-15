@@ -3,7 +3,7 @@ import { buttonVariants, type ButtonVariants } from '~/components/ui/button';
 
 import { cn } from '~/lib/utils';
 import { CalendarDate, type DateValue, isEqualMonth, parseDate } from '@internationalized/date';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-vue-next';
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next';
 import { type DateRange, RangeCalendarRoot, useDateFormatter } from 'radix-vue';
 import { createMonth, type Grid, toDate } from 'radix-vue/date';
 import { type Ref, ref, watch } from 'vue';
@@ -58,6 +58,16 @@ function updateMonth(reference: 'first' | 'second', months: number) {
     } else {
         secondMonthPlaceholder.value = secondMonthPlaceholder.value.add({
             months,
+        });
+    }
+}
+
+function updateYear(reference: 'first' | 'second', years: number) {
+    if (reference === 'first') {
+        placeholder.value = placeholder.value.add({ years });
+    } else {
+        secondMonthPlaceholder.value = secondMonthPlaceholder.value.add({
+            years,
         });
     }
 }
@@ -177,31 +187,61 @@ const presets = [
                 <div class="flex flex-col gap-y-4 mt-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
                     <div class="flex flex-col gap-4">
                         <div class="flex items-center justify-between">
-                            <button
-                                :class="
-                                    cn(
-                                        buttonVariants({ variant: 'outline' }),
-                                        'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
-                                    )
-                                "
-                                @click="updateMonth('first', -1)"
-                            >
-                                <ChevronLeft class="h-4 w-4" />
-                            </button>
+                            <div class="flex gap-1">
+                                <button
+                                    :class="
+                                        cn(
+                                            buttonVariants({ variant: 'outline' }),
+                                            'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+                                        )
+                                    "
+                                    @click="updateYear('first', -1)"
+                                >
+                                    <ChevronsLeft class="h-4 w-4" />
+                                </button>
+
+                                <button
+                                    :class="
+                                        cn(
+                                            buttonVariants({ variant: 'outline' }),
+                                            'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+                                        )
+                                    "
+                                    @click="updateMonth('first', -1)"
+                                >
+                                    <ChevronLeft class="h-4 w-4" />
+                                </button>
+                            </div>
+
                             <div :class="cn('text-sm font-medium')">
                                 {{ formatter.fullMonthAndYear(toDate(firstMonth.value)) }}
                             </div>
-                            <button
-                                :class="
-                                    cn(
-                                        buttonVariants({ variant: 'outline' }),
-                                        'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
-                                    )
-                                "
-                                @click="updateMonth('first', 1)"
-                            >
-                                <ChevronRight class="h-4 w-4" />
-                            </button>
+
+                            <div class="flex gap-1">
+                                <button
+                                    :class="
+                                        cn(
+                                            buttonVariants({ variant: 'outline' }),
+                                            'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+                                        )
+                                    "
+                                    @click="updateMonth('first', 1)"
+                                >
+                                    <ChevronRight class="h-4 w-4" />
+                                </button>
+
+                                <button
+                                    :class="
+                                        cn(
+                                            buttonVariants({ variant: 'outline' }),
+                                            'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+                                        )
+                                    "
+                                    @click="updateYear('first', 1)"
+                                >
+                                    <ChevronsRight class="h-4 w-4" />
+                                </button>
+                            </div>
                         </div>
                         <RangeCalendarGrid>
                             <RangeCalendarGridHead>
@@ -230,32 +270,60 @@ const presets = [
                     </div>
                     <div class="flex flex-col gap-4">
                         <div class="flex items-center justify-between">
-                            <button
-                                :class="
-                                    cn(
-                                        buttonVariants({ variant: 'outline' }),
-                                        'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
-                                    )
-                                "
-                                @click="updateMonth('second', -1)"
-                            >
-                                <ChevronLeft class="h-4 w-4" />
-                            </button>
+                            <div class="flex gap-1">
+                                <button
+                                    :class="
+                                        cn(
+                                            buttonVariants({ variant: 'outline' }),
+                                            'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+                                        )
+                                    "
+                                    @click="updateYear('second', -1)"
+                                >
+                                    <ChevronsLeft class="h-4 w-4" />
+                                </button>
+                                <button
+                                    :class="
+                                        cn(
+                                            buttonVariants({ variant: 'outline' }),
+                                            'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+                                        )
+                                    "
+                                    @click="updateMonth('second', -1)"
+                                >
+                                    <ChevronLeft class="h-4 w-4" />
+                                </button>
+                            </div>
+
                             <div :class="cn('text-sm font-medium')">
                                 {{ formatter.fullMonthAndYear(toDate(secondMonth.value)) }}
                             </div>
 
-                            <button
-                                :class="
-                                    cn(
-                                        buttonVariants({ variant: 'outline' }),
-                                        'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
-                                    )
-                                "
-                                @click="updateMonth('second', 1)"
-                            >
-                                <ChevronRight class="h-4 w-4" />
-                            </button>
+                            <div class="flex gap-1">
+                                <button
+                                    :class="
+                                        cn(
+                                            buttonVariants({ variant: 'outline' }),
+                                            'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+                                        )
+                                    "
+                                    @click="updateMonth('second', 1)"
+                                >
+                                    <ChevronRight class="h-4 w-4" />
+                                </button>
+
+                                <button
+                                    :class="
+                                        cn(
+                                            buttonVariants({ variant: 'outline' }),
+                                            'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
+                                        )
+                                    "
+                                    @click="updateYear('second', 1)"
+                                >
+                                    <ChevronsRight class="h-4 w-4" />
+                                </button>
+                            </div>
                         </div>
                         <RangeCalendarGrid>
                             <RangeCalendarGridHead>

@@ -13,6 +13,8 @@ import {
     CalendarHeading,
     CalendarNextButton,
     CalendarPrevButton,
+    CalendarPrevYearButton,
+    CalendarNextYearButton,
 } from '.';
 import { cn } from '~/lib/utils';
 
@@ -32,9 +34,15 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
 <template>
     <CalendarRoot v-slot="{ grid, weekDays }" locale="fr" :class="cn('p-3', props.class)" v-bind="forwarded">
         <CalendarHeader>
-            <CalendarPrevButton />
+            <div class="flex gap-1">
+                <CalendarPrevYearButton />
+                <CalendarPrevButton />
+            </div>
             <CalendarHeading />
-            <CalendarNextButton />
+            <div class="flex gap-1">
+                <CalendarNextButton />
+                <CalendarNextYearButton />
+            </div>
         </CalendarHeader>
 
         <div class="flex flex-col gap-y-4 mt-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
