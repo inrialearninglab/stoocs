@@ -55,12 +55,12 @@ const moocs = computed(() => {
         />
 
         <MoocFilterDate
-            label="Date début"
+            label="Date ouverture"
             v-model:from="moocsStore.filters.startDate.from"
             v-model:to="moocsStore.filters.startDate.to"
         />
         <MoocFilterDate
-            label="Date fin"
+            label="Date fermeture"
             v-model:from="moocsStore.filters.endDate.from"
             v-model:to="moocsStore.filters.endDate.to"
         />
