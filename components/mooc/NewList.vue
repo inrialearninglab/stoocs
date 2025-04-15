@@ -21,11 +21,11 @@ const heads: { label: string; sort?: MoocFilter['sortBy']['value'] }[] = [
         sort: 'enrollments',
     },
     {
-        label: 'Date début',
+        label: 'Date ouverture',
         sort: 'start',
     },
     {
-        label: 'Date fin',
+        label: 'Date fermeture',
         sort: 'end',
     },
     {
