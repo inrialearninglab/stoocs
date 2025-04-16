@@ -116,6 +116,7 @@ const presets = [
                         </Button>
                     </template>
 
+                    <!-- @vue-expect-error -->
                     <UtilsDateRangePicker
                         v-if="details"
                         v-model="dates"
@@ -158,6 +159,7 @@ const presets = [
                         </Button>
                     </template>
 
+                    <!-- @vue-expect-error -->
                     <UtilsDateRangePicker
                         v-if="details"
                         v-model="dates"

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useMoocs } from '~/stores/moocs.store';
-import { Search } from 'lucide-vue-next';
 
 definePageMeta({
     layout: 'dashboard',
@@ -25,6 +24,6 @@ const searchInput: Ref<HTMLInputElement | null> = ref(null);
             Votre compte n'a accès à aucune session.
         </p>
 
-        <MoocNewList v-else />
+        <MoocList v-else />
     </div>
 </template>

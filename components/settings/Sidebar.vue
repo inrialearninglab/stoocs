@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { TabChild, TabChildInfo } from '~/types/navigation.type';
 import { UserPen } from 'lucide-vue-next';
 
 const tabs = [
@@ -27,7 +26,7 @@ const tabs = [
     </nav>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .router-link-active {
     @apply bg-primary text-primary-foreground;
 }

@@ -28,7 +28,6 @@
         "@vue-email/nuxt": "^0.8.19",
         "@vueuse/core": "^11.2.0",
         "@vueuse/motion": "^2.2.6",
-        "canvas-confetti": "^1.9.3",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "csv": "^6.3.10",
@@ -43,6 +42,7 @@
         "oslo": "^1.2.1",
         "papaparse": "^5.4.1",
         "pinia": "^2.2.6",
+        "postcss": "^8.5.3",
         "prisma": "^5.22.0",
         "radix-vue": "^1.9.9",
         "reka-ui": "^2.0.0",
@@ -62,6 +62,7 @@
     },
     "devDependencies": {
         "@inspira-ui/plugins": "^0.0.1",
-        "@nuxtjs/color-mode": "^3.5.2"
+        "@nuxtjs/color-mode": "^3.5.2",
+        "@types/nodemailer": "^6.4.17"
     }
 }

@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { Users } from 'lucide-vue-next';
+// import type { Session } from '~/types';
+import type { Mooc, MoocSession } from '@prisma/client';
+import type { JsonValue } from '@prisma/client/runtime/library';
 
 definePageMeta({
     layout: 'dashboard',
 });
 
-const { data, status } = await useFetch('/api/moocs/dashboard');
+type ExtendedMooc = Mooc & {
+    sessions: MoocSession[];
+};
+
+const { data, status } = await useFetch<ExtendedMooc[]>('/api/moocs/dashboard');
 
 const aggregatedEnrollments: Record<string, number> = {};
 const globalReport: Ref<
@@ -19,7 +26,7 @@ if (data.value) {
     data.value.forEach((item) => {
         item.sessions.forEach((session) => {
             if (session.enrollmentsDetails) {
-                session.enrollmentsDetails.forEach((detail) => {
+                (session.enrollmentsDetails as Array<any>).forEach((detail) => {
                     if (aggregatedEnrollments[detail.date]) {
                         aggregatedEnrollments[detail.date] += detail.enrollments;
                     } else {

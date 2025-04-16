@@ -136,6 +136,7 @@ const description = computed(
                         </Button>
                     </template>
 
+                    <!-- @vue-expect-error  -->
                     <UtilsDateRangePicker
                         v-if="details"
                         v-model="dates"
@@ -179,6 +180,7 @@ const description = computed(
                         </Button>
                     </template>
 
+                    <!-- @vue-expect-error  -->
                     <UtilsDateRangePicker
                         v-if="details"
                         v-model="dates"

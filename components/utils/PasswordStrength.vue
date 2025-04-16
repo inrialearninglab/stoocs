@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core';
-import { cn } from '~/lib/utils';
+import type { HTMLAttributes } from 'vue';
 import { CircleCheck, CircleX } from 'lucide-vue-next';
 
 const props = defineProps<{
@@ -18,19 +18,17 @@ const modelValue = useVModel(props, 'modelValue', emits, {
     defaultValue: props.defaultValue,
 });
 
-const characters = computed(() => +(props.modelValue?.length >= 8));
-const maj = computed(() => +/[A-Z]/.test(props.modelValue));
-const min = computed(() => +/[a-z]/.test(props.modelValue || ''));
-const special = computed(() => +/[!@#$%^&*(),.?":{}|<>]/.test(props.modelValue));
-
-const minChar = 8;
+const characters = computed(() => +(String(props.modelValue)?.length >= 8));
+const maj = computed(() => +/[A-Z]/.test(String(props.modelValue)));
+const min = computed(() => +/[a-z]/.test(String(props.modelValue) || ''));
+const special = computed(() => +/[!@#$%^&*(),.?":{}|<>]/.test(String(props.modelValue)));
 
 const progress = computed(() => (characters.value + maj.value + min.value + special.value) * 25);
 </script>
 
 <template>
     <div class="space-y-2">
-        <Input type="password" ref="input" class="mb-3" v-model="modelValue" :class="class" />
+        <Input type="password" ref="input" v-model="modelValue" :class="`mb-3 ${props.class}`" />
         <Progress
             v-model="progress"
             class="h-2 text-amber-500"

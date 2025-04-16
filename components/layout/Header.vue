@@ -65,7 +65,7 @@ const routes = [
     </header>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .router-link-active {
     @apply text-primary;
 }

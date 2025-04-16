@@ -7,7 +7,7 @@ defineProps<{
     pages: {
         label: string;
         path: string;
-        restricted: boolean;
+        restricted?: boolean;
     }[];
 }>();
 

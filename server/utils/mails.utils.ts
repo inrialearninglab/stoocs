@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 
 export async function sendMail(html: string, email: string, subject: string) {
     let transporter = nodemailer.createTransport({
+        // @ts-ignore
         host: process.env.SMTP_HOST,
         port: process.env.SMTP_PORT,
         auth: 'plain',

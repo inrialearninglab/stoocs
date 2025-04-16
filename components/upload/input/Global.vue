@@ -12,7 +12,7 @@ const props = defineProps<{
         title: string;
         type: 'grade' | 'enrollment';
         conditions: Record<string, boolean>;
-    };
+    }[];
 }>();
 
 const emits = defineEmits<{
@@ -89,7 +89,7 @@ const isDragActive = rest.isDragActive;
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="postcss">
 .dropzone {
     @apply w-full border-2 border-dashed p-5 rounded-lg cursor-pointer hover:bg-muted/25 transition h-52 flex items-center text-muted-foreground;
 }

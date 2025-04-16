@@ -2,7 +2,7 @@
 import { saveChartAsPNG } from '~/utils';
 import { Camera } from 'lucide-vue-next';
 
-const props = defineProps<{
+defineProps<{
     data: {
         threshold: string;
         Eligible: number;

@@ -32,7 +32,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
 </script>
 
 <template>
-    <CalendarRoot v-slot="{ grid, weekDays }" locale="fr" :class="cn('p-3', props.class)" v-bind="forwarded">
+    <CalendarRoot v-slot="{ grid, weekDays }" :class="cn('p-3', props.class)" v-bind="forwarded">
         <CalendarHeader>
             <div class="flex gap-1">
                 <CalendarPrevYearButton />

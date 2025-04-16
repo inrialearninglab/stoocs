@@ -26,15 +26,15 @@ const conditions = computed(() => {
         {
             title: 'Rapport de notations',
             conditions: {
-                'Grade report': findGradeReport(),
-                'Problem grade report': findProblemGradeReport(),
+                'Grade report': Boolean(findGradeReport()),
+                'Problem grade report': Boolean(findProblemGradeReport()),
             },
             type: 'grade',
         },
         {
             title: 'Fichier inscriptions',
             conditions: {
-                'enrollments.csv': findEnrollments(),
+                'enrollments.csv': Boolean(findEnrollments()),
             },
             type: 'enrollment',
         },
@@ -106,6 +106,7 @@ defineExpose({
             <DialogHeader>
                 <DialogTitle>Ajouter des rapports</DialogTitle>
             </DialogHeader>
+            <!-- @vue-expect-error -->
             <UploadInputGlobal :multiple="true" :max-files="3" v-model="files" :conditions="conditions" />
             <DialogFooter class="mt-4">
                 <Button

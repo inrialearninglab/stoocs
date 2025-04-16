@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Toaster } from '~/components/ui/sonner';
 
-const route = useRoute();
 const colorMode = useColorMode();
 </script>
 

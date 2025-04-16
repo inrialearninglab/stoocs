@@ -54,11 +54,13 @@ const moocs = computed(() => {
             v-model="moocsStore.filters.status"
         />
 
+        <!-- @vue-expect-error -->
         <MoocFilterDate
             label="Date ouverture"
             v-model:from="moocsStore.filters.startDate.from"
             v-model:to="moocsStore.filters.startDate.to"
         />
+        <!-- @vue-expect-error -->
         <MoocFilterDate
             label="Date fermeture"
             v-model:from="moocsStore.filters.endDate.from"
