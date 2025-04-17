@@ -174,7 +174,7 @@ const description = `Note moyenne en pourcentage par question. Dans ce cas la mo
                 :id="chartId"
             />
 
-            <MetricsChartsScoreIssuesTable v-if="problems.length" :problems="problems" />
+            <MetricsChartsScoreList :questions="data" />
         </MetricsCard>
     </div>
 </template>
