@@ -80,6 +80,7 @@ function exportToCSV() {
                                     <Download class="mr-2 size-5" /> Exporter en CSV
                                 </Button>
                             </TableCell>
+                            <TableCell> </TableCell>
                         </TableFooter>
                     </Table>
                 </CardContent>
