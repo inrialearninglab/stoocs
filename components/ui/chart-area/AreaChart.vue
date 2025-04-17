@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import { type BulletLegendItemInterface, CurveType } from '@unovis/ts';
-import { VisArea, VisAxis, VisLine, VisXYContainer } from '@unovis/vue';
+import { type BulletLegendItemInterface, CurveType, type FreeBrushSelection } from '@unovis/ts';
+import { VisArea, VisAxis, VisFreeBrush, VisLine, VisXYContainer } from '@unovis/vue';
 import { Area, Axis, Line } from '@unovis/ts';
 import { type Component, computed, ref } from 'vue';
 import { useMounted } from '@vueuse/core';
@@ -30,6 +30,7 @@ const props = withDefaults(
             xLabel?: string;
             yLabel?: string;
             showXTickline?: boolean;
+            brush?: boolean;
         }
     >(),
     {
@@ -43,11 +44,13 @@ const props = withDefaults(
         showGridLine: true,
         showGradiant: true,
         showXTickline: false,
+        brush: false,
     },
 );
 
 const emits = defineEmits<{
     legendItemClick: [d: BulletLegendItemInterface, i: number];
+    brushEnd: [start: number, end: number];
 }>();
 
 type KeyOfT = Extract<keyof T, string>;
@@ -89,6 +92,11 @@ const tickValues = computed(() => {
 
     return vals;
 });
+
+function onBrushEnd(selection: FreeBrushSelection) {
+    const [start, end] = toRaw(selection) as [number, number];
+    emits('brushEnd', start, end);
+}
 </script>
 
 <template>
@@ -183,6 +191,8 @@ const tickValues = computed(() => {
                 }"
                 tick-text-color="hsl(var(--vis-text-color))"
             />
+
+            <VisFreeBrush v-if="brush" mode="x" @brush-end="onBrushEnd" />
 
             <slot />
         </VisXYContainer>

@@ -48,6 +48,10 @@
 
         --vis-axis-tick-color: hsl(var(--vis-text-color)) !important;
 
+        --vis-free-brush-selection-fill-color: hsl(var(--primary)) !important;
+        --vis-free-brush-selection-fill-opacity: 0.4 !important;
+        --vis-free-brush-handle-fill-color: hsl(var(--foreground)) !important;
+
         --success-bg: 143 85% 96%;
         --success-border: 145 92% 91%;
         --success-text: 140 100% 27%;

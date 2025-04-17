@@ -75,8 +75,8 @@ defineProps<{
             v-if="enrollmentsReport"
             :details="sessionStore.session.data.enrollmentsDetails"
             :loading="sessionStore.session.loading"
-            :start-date="sessionStore.session.data.startDate?.slice(0, 10)"
-            :end-date="sessionStore.session.data.endDate?.slice(0, 10)"
+            :start-date="sessionStore.session.data.startDate?.split('T')[0]"
+            :end-date="sessionStore.session.data.endDate?.split('T')[0]"
         />
 
         <template v-if="gradeReport">
