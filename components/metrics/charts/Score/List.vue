@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
-import { ChevronDown, List } from 'lucide-vue-next';
+import { Ban, ChevronDown, Download, List } from 'lucide-vue-next';
 
-defineProps<{
+const props = defineProps<{
     questions: {
         name: string;
         Moyenne: number;
@@ -19,6 +19,20 @@ function getQuestionClass(score: number) {
     } else {
         return 'bg-warning-bg text-warning-text';
     }
+}
+
+function exportToCSV() {
+    const csvContent = 'data:text/csv;charset=utf-8,';
+    const headers = 'Question;Moyenne\n';
+    const rows = props.questions.map((question) => `${question.name};${question.Moyenne}\n`).join('');
+    const csvData = headers + rows;
+    const encodedUri = encodeURI(csvContent + csvData);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'questions.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 </script>
 
@@ -60,6 +74,13 @@ function getQuestionClass(score: number) {
                                 <TableCell>{{ question['Moyenne'] }} %</TableCell>
                             </TableRow>
                         </TableBody>
+                        <TableFooter>
+                            <TableCell>
+                                <Button variant="secondary" @click="exportToCSV">
+                                    <Download class="mr-2 size-5" /> Exporter en CSV
+                                </Button>
+                            </TableCell>
+                        </TableFooter>
                     </Table>
                 </CardContent>
             </CollapsibleContent>
