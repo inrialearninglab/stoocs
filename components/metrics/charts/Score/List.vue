@@ -1,56 +1,44 @@
 <script setup lang="ts">
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
-import { ChevronDown, CircleAlert } from 'lucide-vue-next';
-import { toast } from 'vue-sonner';
+import { ChevronDown, List } from 'lucide-vue-next';
 
-const props = defineProps<{
-    problems: {
+defineProps<{
+    questions: {
         name: string;
         Moyenne: number;
     }[];
 }>();
 
-const isTableOpen = ref(false);
+const open = ref(false);
 
-const copied = ref(false);
-
-async function toClipboard() {
-    try {
-        let markdown = '| Question | Moyenne |\n| --- | --- |\n';
-
-        props.problems.forEach((problem) => {
-            markdown += `| ${problem.name} | ${problem['Moyenne']}% |\n`;
-        });
-
-        await navigator.clipboard.writeText(markdown);
-
-        copied.value = true;
-        setTimeout(() => (copied.value = false), 2000);
-        toast.success('Tableau copié dans le presse-papier');
-    } catch (error) {
-        console.error('Failed to copy to clipboard', error);
-        toast.error('Impossible de copier le tableau');
+function getQuestionClass(score: number) {
+    if (score > 60) {
+        return 'bg-success-bg text-success-text';
+    } else if (score < 50) {
+        return 'bg-error-bg text-error-text';
+    } else {
+        return 'bg-warning-bg text-warning-text';
     }
 }
 </script>
 
 <template>
-    <Card class="select-none">
-        <Collapsible v-model:open="isTableOpen">
+    <Card class="overflow-hidden">
+        <Collapsible v-model:open="open">
             <CollapsibleTrigger as-child>
                 <CardHeader
-                    :class="{ 'border-b': isTableOpen, 'rounded-b': !isTableOpen }"
+                    :class="{ 'border-b': open, 'rounded-b': !open }"
                     class="cursor-pointer hover:bg-muted hover:rounded-t p-4 transition"
                 >
                     <div class="flex gap-3 justify-between items-center">
                         <CardTitle class="flex-1 text-lg flex gap-2 items-center">
-                            <CircleAlert class="size-5" />
-                            {{ problems.length }} questions à revoir (inférieur à 50%)
+                            <List class="size-5" />
+                            Liste des questions ({{ questions.length }} questions)
                         </CardTitle>
                         <Button size="icon" variant="ghost" class="relative">
                             <ChevronDown
                                 class="transition-all absolute duration-200"
-                                :class="isTableOpen ? 'rotate-180' : '-rotate-0'"
+                                :class="open ? 'rotate-180' : '-rotate-0'"
                             />
                         </Button>
                     </div>
@@ -67,16 +55,13 @@ async function toClipboard() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            <TableRow v-for="problem of problems">
-                                <TableCell>{{ problem.name }}</TableCell>
-                                <TableCell>{{ problem['Moyenne'] }}%</TableCell>
+                            <TableRow v-for="question of questions" :class="getQuestionClass(question['Moyenne'])">
+                                <TableCell>{{ question.name }}</TableCell>
+                                <TableCell>{{ question['Moyenne'] }} %</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
                 </CardContent>
-                <CardFooter class="border-t p-4">
-                    <UtilsClipboard @copied="toClipboard" />
-                </CardFooter>
             </CollapsibleContent>
         </Collapsible>
     </Card>
