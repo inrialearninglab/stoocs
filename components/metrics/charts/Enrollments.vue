@@ -3,7 +3,7 @@ import { LineChart } from '~/components/ui/chart-line';
 import { type DateValue, getLocalTimeZone, parseDate, today } from '@internationalized/date';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { formatDate, getParsedDate } from '~/utils/date.utils';
-import { Camera } from 'lucide-vue-next';
+import { Camera, Crosshair } from 'lucide-vue-next';
 import { saveChartAsPNG } from '~/utils';
 
 const props = defineProps<{
@@ -14,6 +14,7 @@ const props = defineProps<{
     startDate?: string;
     endDate?: string;
     loading: boolean;
+    hideChip?: boolean;
 }>();
 
 const dates = ref({
@@ -105,6 +106,24 @@ const description = computed(
         ${periodEnrollments.value.toLocaleString('fr-FR')} inscriptions sur la période sélectionnée.
     `,
 );
+
+const brush = ref(false);
+
+async function onBrushEnd(start: number, end: number) {
+    if (!brush.value) return;
+
+    const startDate = dates.value.start.toDate(getLocalTimeZone());
+
+    const newStartDate = new Date(startDate);
+    const newEndDate = new Date(startDate);
+
+    newStartDate.setDate(startDate.getDate() + Math.round(start));
+    newEndDate.setDate(startDate.getDate() + Math.round(end));
+
+    dates.value.start = parseDate(newStartDate.toISOString().split('T')[0]);
+    dates.value.end = parseDate(newEndDate.toISOString().split('T')[0]);
+    brush.value = false;
+}
 </script>
 
 <template>
@@ -115,7 +134,12 @@ const description = computed(
                 <TabsTrigger value="total">Cumul</TabsTrigger>
             </TabsList>
             <TabsContent value="day">
-                <MetricsCard :title="title" :loading="loading" :empty="!details" report="enrollment">
+                <MetricsCard
+                    :title="title"
+                    :loading="loading"
+                    :empty="!details"
+                    :report="hideChip ? undefined : 'enrollment'"
+                >
                     <template #description><div v-html="description" /></template>
 
                     <template #legend>
@@ -136,14 +160,26 @@ const description = computed(
                         </Button>
                     </template>
 
-                    <!-- @vue-expect-error  -->
-                    <UtilsDateRangePicker
-                        v-if="details"
-                        v-model="dates"
-                        :max-date="parseDate(details[details.length - 1].date)"
-                        :min-date="parseDate(details[0].date)"
-                        :presets="presets"
-                    />
+                    <div class="flex justify-between">
+                        <!-- @vue-expect-error  -->
+                        <UtilsDateRangePicker
+                            v-if="details"
+                            v-model="dates"
+                            :max-date="parseDate(details[details.length - 1].date)"
+                            :min-date="parseDate(details[0].date)"
+                            :presets="presets"
+                        />
+
+                        <Toggle
+                            variant="outline"
+                            aria-label="Activer le pinceau de selection"
+                            v-model:pressed="brush"
+                            class="border-2 border-dashed"
+                        >
+                            <Crosshair class="mr-2" />
+                            Selectionner une plage de dates
+                        </Toggle>
+                    </div>
 
                     <LineChart
                         :show-legend="false"
@@ -154,12 +190,19 @@ const description = computed(
                         :categories="['Inscriptions']"
                         :show-x-tickline="true"
                         :id="dayChartId"
+                        :brush="brush"
+                        @brush-end="onBrushEnd"
                     />
                 </MetricsCard>
             </TabsContent>
 
             <TabsContent value="total">
-                <MetricsCard :title="title" :loading="loading" :empty="!details" report="enrollment">
+                <MetricsCard
+                    :title="title"
+                    :loading="loading"
+                    :empty="!details"
+                    :report="hideChip ? undefined : 'enrollment'"
+                >
                     <template #description><div v-html="description" /></template>
 
                     <template #legend>
@@ -180,14 +223,26 @@ const description = computed(
                         </Button>
                     </template>
 
-                    <!-- @vue-expect-error  -->
-                    <UtilsDateRangePicker
-                        v-if="details"
-                        v-model="dates"
-                        :max-date="parseDate(details[details.length - 1].date)"
-                        :min-date="parseDate(details[0].date)"
-                        :presets="presets"
-                    />
+                    <div class="flex justify-between">
+                        <!-- @vue-expect-error  -->
+                        <UtilsDateRangePicker
+                            v-if="details"
+                            v-model="dates"
+                            :max-date="parseDate(details[details.length - 1].date)"
+                            :min-date="parseDate(details[0].date)"
+                            :presets="presets"
+                        />
+
+                        <Toggle
+                            variant="outline"
+                            aria-label="Activer le pinceau de selection"
+                            v-model:pressed="brush"
+                            class="border-2 border-dashed"
+                        >
+                            <Crosshair class="mr-2" />
+                            Selectionner une plage de dates
+                        </Toggle>
+                    </div>
 
                     <AreaChart
                         :show-legend="false"
@@ -198,6 +253,8 @@ const description = computed(
                         :categories="['Inscriptions']"
                         :show-x-tickline="true"
                         :id="totalChartId"
+                        :brush="brush"
+                        @brush-end="onBrushEnd"
                     />
                 </MetricsCard>
             </TabsContent>

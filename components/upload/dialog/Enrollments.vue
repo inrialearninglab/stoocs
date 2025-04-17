@@ -52,10 +52,9 @@ defineExpose({
         <DialogContent class="max-w-2xl">
             <DialogHeader>
                 <DialogTitle>Ajouter un rapport d'inscription</DialogTitle>
-                <DialogDescription
-                    >Ajouter le fichier "<code>enrollments.csv</code>" du "Course dashboard" de FUN
-                    ici</DialogDescription
-                >
+                <DialogDescription>
+                    Ajouter le fichier "<code>enrollments.csv</code>" du "Course dashboard" de FUN ici
+                </DialogDescription>
             </DialogHeader>
             <UploadInput v-model="files" :conditions="conditions" />
             <DialogFooter class="mt-4">

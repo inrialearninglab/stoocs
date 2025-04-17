@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { Users } from 'lucide-vue-next';
-// import type { Session } from '~/types';
 import type { Mooc, MoocSession } from '@prisma/client';
-import type { JsonValue } from '@prisma/client/runtime/library';
 
 definePageMeta({
-    layout: 'dashboard',
+    layout: 'fullpage',
 });
 
 type ExtendedMooc = Mooc & {
@@ -63,6 +61,7 @@ const totalEnrollments = computed(() => globalReport.value.reduce((acc, curr) =>
             :details="globalReport"
             :loading="status === 'pending'"
             :start-date="globalReport[0].date"
+            :hide-chip="true"
         />
     </div>
 </template>
