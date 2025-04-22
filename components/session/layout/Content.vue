@@ -12,18 +12,28 @@ defineProps<{
 <template>
     <template v-if="sessionStore.session.data">
         <MetricsNumberCard
-            v-if="gradeReport && sessionStore.totalUsers"
-            :value="sessionStore.totalUsers"
+            v-if="gradeReport && sessionStore.totalEnrollments"
+            :value="sessionStore.totalEnrollments"
             noun="Inscrits"
-            chip="grade"
+            chip="enrollment"
             :icon="Users"
             class="mx-auto"
         >
             <template #title>Nombre d'inscrits</template>
             <template #description
-                >Nombre total d'inscrits le {{ sessionStore.gradeReportDate }} (sans compter les désinscrits)</template
+                >Nombre total d'inscrits le {{ sessionStore.enrollmentsReportDate }} (sans compter les
+                désinscrits)</template
             >
         </MetricsNumberCard>
+
+        <Separator />
+        <div>
+            <h2 class="text-center">Activité du MOOC</h2>
+            <p class="text-center text-muted-foreground">
+                Calculé à partir des rapports de notations sur une base de
+                <strong>{{ sessionStore.totalUsers?.toLocaleString('fr-FR') }}</strong> inscrits
+            </p>
+        </div>
 
         <div v-if="gradeReport" class="flex flex-wrap gap-3 w-full justify-center">
             <MetricsSmallCard
@@ -69,6 +79,12 @@ defineProps<{
                 report="grade"
                 label="Inscrits"
             />
+        </div>
+
+        <Separator />
+        <div>
+            <h2 class="text-center">Graphiques</h2>
+            <p class="text-center text-muted-foreground">Graphiques sur différents aspects de la session</p>
         </div>
 
         <MetricsChartsEnrollments

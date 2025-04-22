@@ -17,7 +17,7 @@ const heads: { label: string; sort?: MoocFilter['sortBy']['value'] }[] = [
         label: 'Nom session',
     },
     {
-        label: 'Inscrits',
+        label: 'Nb inscrits',
         sort: 'enrollments',
     },
     {
@@ -29,7 +29,7 @@ const heads: { label: string; sort?: MoocFilter['sortBy']['value'] }[] = [
         sort: 'end',
     },
     {
-        label: 'Eligible',
+        label: '% éligibles',
         sort: 'eligible',
     },
     {

@@ -128,59 +128,54 @@ async function onBrushEnd(start: number, end: number) {
 
 <template>
     <div class="flex flex-col gap-2">
-        <Tabs default-value="day">
-            <TabsList class="grid w-full max-w-7xl grid-cols-2 mx-auto">
-                <TabsTrigger value="day">Par jour</TabsTrigger>
-                <TabsTrigger value="total">Cumul</TabsTrigger>
-            </TabsList>
-            <TabsContent value="day">
-                <MetricsCard
-                    :title="title"
-                    :loading="loading"
-                    :empty="!details"
-                    :report="hideChip ? undefined : 'enrollment'"
+        <MetricsCard :title="title" :loading="loading" :empty="!details" :report="hideChip ? undefined : 'enrollment'">
+            <template #description><div v-html="description" /></template>
+
+            <template #legend>
+                <Button
+                    size="icon"
+                    @click="
+                        saveChartAsPNG(
+                            dayChartId,
+                            sessionStore.session!.data!.mooc.title,
+                            sessionStore.session!.data!.sessionName,
+                            sessionStore.enrollmentsReportDate!,
+                            title,
+                            description,
+                        )
+                    "
                 >
-                    <template #description><div v-html="description" /></template>
+                    <Camera />
+                </Button>
+            </template>
 
-                    <template #legend>
-                        <Button
-                            size="icon"
-                            @click="
-                                saveChartAsPNG(
-                                    dayChartId,
-                                    sessionStore.session!.data!.mooc.title,
-                                    sessionStore.session!.data!.sessionName,
-                                    sessionStore.enrollmentsReportDate!,
-                                    title,
-                                    description,
-                                )
-                            "
-                        >
-                            <Camera />
-                        </Button>
-                    </template>
+            <div class="flex justify-between">
+                <!-- @vue-expect-error  -->
+                <UtilsDateRangePicker
+                    v-if="details"
+                    v-model="dates"
+                    :max-date="parseDate(details[details.length - 1].date)"
+                    :min-date="parseDate(details[0].date)"
+                    :presets="presets"
+                />
 
-                    <div class="flex justify-between">
-                        <!-- @vue-expect-error  -->
-                        <UtilsDateRangePicker
-                            v-if="details"
-                            v-model="dates"
-                            :max-date="parseDate(details[details.length - 1].date)"
-                            :min-date="parseDate(details[0].date)"
-                            :presets="presets"
-                        />
+                <Toggle
+                    variant="outline"
+                    aria-label="Activer le pinceau de selection"
+                    v-model:pressed="brush"
+                    class="border-2 border-dashed"
+                >
+                    <Crosshair class="mr-2" />
+                    Selectionner une plage de dates
+                </Toggle>
+            </div>
 
-                        <Toggle
-                            variant="outline"
-                            aria-label="Activer le pinceau de selection"
-                            v-model:pressed="brush"
-                            class="border-2 border-dashed"
-                        >
-                            <Crosshair class="mr-2" />
-                            Selectionner une plage de dates
-                        </Toggle>
-                    </div>
-
+            <Tabs default-value="day">
+                <TabsList class="grid w-full grid-cols-2 mb-4">
+                    <TabsTrigger value="day">Par jour</TabsTrigger>
+                    <TabsTrigger value="total">Cumul</TabsTrigger>
+                </TabsList>
+                <TabsContent value="day">
                     <LineChart
                         :show-legend="false"
                         :data="getFilteredData('day')"
@@ -193,57 +188,8 @@ async function onBrushEnd(start: number, end: number) {
                         :brush="brush"
                         @brush-end="onBrushEnd"
                     />
-                </MetricsCard>
-            </TabsContent>
-
-            <TabsContent value="total">
-                <MetricsCard
-                    :title="title"
-                    :loading="loading"
-                    :empty="!details"
-                    :report="hideChip ? undefined : 'enrollment'"
-                >
-                    <template #description><div v-html="description" /></template>
-
-                    <template #legend>
-                        <Button
-                            size="icon"
-                            @click="
-                                saveChartAsPNG(
-                                    totalChartId,
-                                    sessionStore.session!.data!.mooc.title,
-                                    sessionStore.session!.data!.sessionName,
-                                    sessionStore.enrollmentsReportDate!,
-                                    title,
-                                    description,
-                                )
-                            "
-                        >
-                            <Camera />
-                        </Button>
-                    </template>
-
-                    <div class="flex justify-between">
-                        <!-- @vue-expect-error  -->
-                        <UtilsDateRangePicker
-                            v-if="details"
-                            v-model="dates"
-                            :max-date="parseDate(details[details.length - 1].date)"
-                            :min-date="parseDate(details[0].date)"
-                            :presets="presets"
-                        />
-
-                        <Toggle
-                            variant="outline"
-                            aria-label="Activer le pinceau de selection"
-                            v-model:pressed="brush"
-                            class="border-2 border-dashed"
-                        >
-                            <Crosshair class="mr-2" />
-                            Selectionner une plage de dates
-                        </Toggle>
-                    </div>
-
+                </TabsContent>
+                <TabsContent value="total">
                     <AreaChart
                         :show-legend="false"
                         :data="getFilteredData('total')"
@@ -256,8 +202,8 @@ async function onBrushEnd(start: number, end: number) {
                         :brush="brush"
                         @brush-end="onBrushEnd"
                     />
-                </MetricsCard>
-            </TabsContent>
-        </Tabs>
+                </TabsContent>
+            </Tabs>
+        </MetricsCard>
     </div>
 </template>
