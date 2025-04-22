@@ -92,7 +92,7 @@ const chartId = 'score-chart';
 
 const sessionStore = useSession();
 const title = 'Score';
-const description = `Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les apprenants ayant répondu aux questions.`;
+const description = `Note moyenne en pourcentage par question. Dans ce cas la moyenne ne prend en compte que les inscrits ayant répondu aux questions.`;
 </script>
 
 <template>

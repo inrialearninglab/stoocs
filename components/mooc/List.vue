@@ -17,7 +17,7 @@ const heads: { label: string; sort?: MoocFilter['sortBy']['value'] }[] = [
         label: 'Nom session',
     },
     {
-        label: 'Apprenants',
+        label: 'Inscrits',
         sort: 'enrollments',
     },
     {
