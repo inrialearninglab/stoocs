@@ -51,8 +51,8 @@ const totalEnrollments = computed(() => globalReport.value.reduce((acc, curr) =>
         <h1 class="text-center">Tableau de bord global</h1>
 
         <div class="flex gap-4 mx-auto w-fit">
-            <MetricsNumberCard :value="totalEnrollments" noun="Apprenants" :icon="Users">
-                <template #title>Nombre total d'apprenants</template>
+            <MetricsNumberCard :value="totalEnrollments" noun="Inscrits" :icon="Users">
+                <template #title>Nombre total d'inscrits</template>
             </MetricsNumberCard>
         </div>
 

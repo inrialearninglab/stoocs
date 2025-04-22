@@ -50,7 +50,7 @@ const secondaryValue = computed(() => props.data.find(isSecondaryData));
                 </div>
                 <span class="font-semibold ml-4">{{ mainValue.value }}%</span>
             </div>
-            <span class="self-end">{{ secondaryValue.value.toLocaleString('fr-FR') }} Apprenants</span>
+            <span class="self-end">{{ secondaryValue.value.toLocaleString('fr-FR') }} Inscrits</span>
         </CardContent>
     </Card>
 </template>
