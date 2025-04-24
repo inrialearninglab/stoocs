@@ -34,16 +34,32 @@ async function handleRefresh() {
                         <NuxtLink to="/moocs">Moocs</NuxtLink>
                     </BreadcrumbLink>
                 </BreadcrumbItem>
+
                 <BreadcrumbSeparator />
+
+                <BreadcrumbItem>
+                    <BreadcrumbLink as-child>
+                        <NuxtLink
+                            v-if="!sessionStore?.session.loading"
+                            :to="`/moocs/${sessionStore.session.data?.mooc.id}`"
+                        >
+                            {{ sessionStore.session.data?.mooc.title }}
+                        </NuxtLink>
+                        <Skeleton v-else class="w-60 h-6" />
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbSeparator />
+
                 <BreadcrumbItem>
                     <BreadcrumbLink as-child>
                         <NuxtLink
                             v-if="!sessionStore?.session?.loading"
                             :to="`/sessions/${sessionStore?.session?.data?.id}`"
                         >
-                            {{ sessionStore?.session?.data?.mooc.title }}/{{ sessionStore?.session?.data?.sessionName }}
+                            {{ sessionStore?.session?.data?.sessionName }}
                         </NuxtLink>
-                        <Skeleton v-else class="w-80 h-6" />
+                        <Skeleton v-else class="w-40 h-6" />
                     </BreadcrumbLink>
                 </BreadcrumbItem>
             </BreadcrumbList>
