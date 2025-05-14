@@ -93,8 +93,7 @@ const presets = [
     },
 ];
 
-const dayChartId = 'enrollment-day-chart';
-const totalChartId = 'enrollment-total-chart';
+const chartId = 'enrollment-chart';
 
 const sessionStore = useSession();
 
@@ -136,7 +135,7 @@ async function onBrushEnd(start: number, end: number) {
                     size="icon"
                     @click="
                         saveChartAsPNG(
-                            dayChartId,
+                            chartId,
                             sessionStore.session!.data!.mooc.title,
                             sessionStore.session!.data!.sessionName,
                             sessionStore.enrollmentsReportDate!,
@@ -184,7 +183,7 @@ async function onBrushEnd(start: number, end: number) {
                         index="Date"
                         :categories="['Inscriptions']"
                         :show-x-tickline="true"
-                        :id="dayChartId"
+                        :id="chartId"
                         :brush="brush"
                         @brush-end="onBrushEnd"
                     />
@@ -198,7 +197,7 @@ async function onBrushEnd(start: number, end: number) {
                         index="Date"
                         :categories="['Inscriptions']"
                         :show-x-tickline="true"
-                        :id="totalChartId"
+                        :id="chartId"
                         :brush="brush"
                         @brush-end="onBrushEnd"
                     />
