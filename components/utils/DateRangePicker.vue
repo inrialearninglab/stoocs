@@ -118,10 +118,14 @@ const presets = [
     { value: 'year', label: 'La dernière année' },
     ...(props.presets ?? []),
 ];
+
+function onModalOpen(isOpen: boolean) {
+    if (isOpen) secondMonthPlaceholder.value = value.value.end;
+}
 </script>
 
 <template>
-    <Popover v-model:open="open">
+    <Popover v-model:open="open" @update:open="onModalOpen">
         <PopoverTrigger as-child>
             <Button
                 variant="secondary"
