@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
 import { Ban, ChevronDown, Download, List } from 'lucide-vue-next';
+import { columns, type Question } from './columns';
 
 const props = defineProps<{
-    questions: {
-        name: string;
-        Moyenne: number;
-    }[];
+    questions: Question[];
 }>();
 
 const open = ref(false);
@@ -61,7 +59,8 @@ function exportToCSV() {
 
             <CollapsibleContent>
                 <CardContent class="p-0">
-                    <Table>
+                    <DataTable :columns="columns" :data="questions" />
+                    <!-- <Table>
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Question</TableHead>
@@ -82,7 +81,7 @@ function exportToCSV() {
                             </TableCell>
                             <TableCell> </TableCell>
                         </TableFooter>
-                    </Table>
+                    </Table> -->
                 </CardContent>
             </CollapsibleContent>
         </Collapsible>
