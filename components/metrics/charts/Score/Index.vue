@@ -29,11 +29,6 @@ watch(displayZero, () => {
     displayThreshold.value = false;
 });
 
-const problems = computed(() => {
-    if (!filteredData.value) return [];
-    return filteredData.value.filter((d: any) => d['Moyenne'] < 50);
-});
-
 const displayThreshold = ref(false);
 function updateThresholdLine(shouldDisplay: boolean) {
     const tresholdLine = document.querySelector('.threshold-line');

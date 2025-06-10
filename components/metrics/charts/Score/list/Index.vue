@@ -1,30 +1,19 @@
 <script setup lang="ts">
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table';
-import { Ban, ChevronDown, Download, List } from 'lucide-vue-next';
+import { ChevronDown, Download, List } from 'lucide-vue-next';
+import { columns, type Question } from './columns';
 
 const props = defineProps<{
-    questions: {
-        name: string;
-        Moyenne: number;
-    }[];
+    questions: Question[];
 }>();
 
 const open = ref(false);
 
-function getQuestionClass(score: number) {
-    if (score > 60) {
-        return 'bg-success-bg text-success-text';
-    } else if (score < 50) {
-        return 'bg-error-bg text-error-text';
-    } else {
-        return 'bg-warning-bg text-warning-text';
-    }
-}
-
 function exportToCSV() {
     const csvContent = 'data:text/csv;charset=utf-8,';
-    const headers = 'Question;Moyenne\n';
-    const rows = props.questions.map((question) => `${question.name};${question.Moyenne}\n`).join('');
+    const headers = 'Question;Utilisateurs;Moyenne\n';
+    const rows = props.questions
+        .map((question) => `${question.name};${question.Utilisateurs};${question.Moyenne}\n`)
+        .join('');
     const csvData = headers + rows;
     const encodedUri = encodeURI(csvContent + csvData);
     const link = document.createElement('a');
@@ -61,7 +50,20 @@ function exportToCSV() {
 
             <CollapsibleContent>
                 <CardContent class="p-0">
-                    <Table>
+                    <DataTable :columns="columns" :data="questions">
+                        <template #footer>
+                            <TableFooter>
+                                <TableCell>
+                                    <Button variant="secondary" @click="exportToCSV">
+                                        <Download class="mr-2 size-5" /> Exporter en CSV
+                                    </Button>
+                                </TableCell>
+                                <TableCell />
+                                <TableCell />
+                            </TableFooter>
+                        </template>
+                    </DataTable>
+                    <!-- <Table>
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Question</TableHead>
@@ -82,7 +84,7 @@ function exportToCSV() {
                             </TableCell>
                             <TableCell> </TableCell>
                         </TableFooter>
-                    </Table>
+                    </Table> -->
                 </CardContent>
             </CollapsibleContent>
         </Collapsible>

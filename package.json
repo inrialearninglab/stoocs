@@ -20,6 +20,7 @@
         "@oslojs/encoding": "^1.1.0",
         "@pinia/nuxt": "^0.5.5",
         "@prisma/client": "^5.22.0",
+        "@tanstack/vue-table": "^8.21.3",
         "@types/multer": "^1.4.12",
         "@types/node": "^20.17.6",
         "@unovis/ts": "^1.5.0",
