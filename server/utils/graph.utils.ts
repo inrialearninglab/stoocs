@@ -142,14 +142,5 @@ export function calculateParticipationPercentage(gradeReport: GradeReportData, t
  * @param b
  */
 function sortByName(a: string, b: string): number {
-    const nameA = a.replace(/[.:]/g, ' ').trim();
-    const nameB = b.replace(/[.:]/g, ' ').trim();
-
-    const numA = parseInt(nameA.match(/\d+/)?.[0] || '0', 10);
-    const numB = parseInt(nameB.match(/\d+/)?.[0] || '0', 10);
-
-    const textComparison = nameA.localeCompare(nameB, undefined, { numeric: true, sensitivity: 'base' });
-    if (textComparison !== 0) return textComparison;
-
-    return numA - numB;
+    return a.trim().localeCompare(b.trim(), undefined, { numeric: true, sensitivity: 'base' });
 }
