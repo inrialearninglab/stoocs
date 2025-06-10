@@ -66,5 +66,7 @@ function getRowClass(row: any) {
                 </TableRow>
             </template>
         </TableBody>
+
+        <slot name="footer" />
     </Table>
 </template>
