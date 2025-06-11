@@ -1,6 +1,6 @@
 import type { ColumnDef } from '@tanstack/vue-table';
-import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-vue-next';
 import { Button } from '~/components/ui/button';
+import { getSortIcon } from '~/components/ui/data-table';
 
 export interface Question {
     name: string;
@@ -13,8 +13,7 @@ export const columns: ColumnDef<Question>[] = [
     {
         accessorKey: 'name',
         header: ({ column }) => {
-            const Icon =
-                column.getIsSorted() === 'asc' ? ArrowUp : column.getIsSorted() === 'desc' ? ArrowDown : ArrowUpDown;
+            const Icon = getSortIcon(column.getIsSorted());
 
             return h(
                 Button,
@@ -29,8 +28,7 @@ export const columns: ColumnDef<Question>[] = [
     {
         accessorKey: 'Utilisateurs',
         header: ({ column }) => {
-            const Icon =
-                column.getIsSorted() === 'asc' ? ArrowUp : column.getIsSorted() === 'desc' ? ArrowDown : ArrowUpDown;
+            const Icon = getSortIcon(column.getIsSorted());
 
             return h(
                 Button,
@@ -45,8 +43,7 @@ export const columns: ColumnDef<Question>[] = [
     {
         accessorKey: 'Moyenne',
         header: ({ column }) => {
-            const Icon =
-                column.getIsSorted() === 'asc' ? ArrowUp : column.getIsSorted() === 'desc' ? ArrowDown : ArrowUpDown;
+            const Icon = getSortIcon(column.getIsSorted());
 
             return h(
                 Button,

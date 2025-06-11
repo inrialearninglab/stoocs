@@ -1,14 +1,17 @@
 <script setup lang="ts" generic="TData, TValue">
-import type { ColumnDef, SortingState } from '@tanstack/vue-table';
-import { FlexRender, getCoreRowModel, useVueTable, getSortedRowModel } from '@tanstack/vue-table';
+import type { ColumnDef, SortingState, ColumnFiltersState } from '@tanstack/vue-table';
+import { FlexRender, getCoreRowModel, useVueTable, getSortedRowModel, getFilteredRowModel } from '@tanstack/vue-table';
 import { valueUpdater } from '~/lib/utils';
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    enableFiltering?: boolean;
+    border?: boolean;
 }>();
 
 const sorting = ref<SortingState>([]);
+const columnFilters = ref<ColumnFiltersState>([]);
 
 const table = useVueTable({
     get data() {
@@ -19,10 +22,17 @@ const table = useVueTable({
     },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: props.enableFiltering ? getFilteredRowModel() : undefined,
     onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
+    onColumnFiltersChange: props.enableFiltering
+        ? (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters)
+        : undefined,
     state: {
         get sorting() {
             return sorting.value;
+        },
+        get columnFilters() {
+            return props.enableFiltering ? columnFilters.value : [];
         },
     },
 });
@@ -30,43 +40,54 @@ const table = useVueTable({
 function getRowClass(row: any) {
     return (row.original as any)._rowClass || '';
 }
+
+defineExpose({
+    table,
+    columnFilters,
+});
 </script>
 
 <template>
-    <Table>
-        <TableHeader>
-            <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
-                <TableHead v-for="header in headerGroup.headers" :key="header.id">
-                    <FlexRender
-                        v-if="!header.isPlaceholder"
-                        :render="header.column.columnDef.header"
-                        :props="header.getContext()"
-                    />
-                </TableHead>
-            </TableRow>
-        </TableHeader>
+    <div class="space-y-3">
+        <slot name="filters" :table="table" :columnFilters="columnFilters" />
 
-        <TableBody>
-            <template v-if="table.getRowModel().rows?.length">
-                <TableRow
-                    v-for="row in table.getRowModel().rows"
-                    :key="row.id"
-                    :data-state="row.getIsSelected() ? 'selected' : undefined"
-                    :class="getRowClass(row)"
-                >
-                    <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-                        <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
-                    </TableCell>
-                </TableRow>
-            </template>
+        <div :class="{ 'border rounded-md': border }">
+            <Table>
+                <TableHeader>
+                    <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
+                        <TableHead v-for="header in headerGroup.headers" :key="header.id">
+                            <FlexRender
+                                v-if="!header.isPlaceholder"
+                                :render="header.column.columnDef.header"
+                                :props="header.getContext()"
+                            />
+                        </TableHead>
+                    </TableRow>
+                </TableHeader>
 
-            <template v-else>
-                <TableRow>
-                    <TableCell :colspan="columns.length" class="h-24 text-center"> No results. </TableCell>
-                </TableRow>
-            </template>
-        </TableBody>
+                <TableBody>
+                    <template v-if="table.getRowModel().rows?.length">
+                        <TableRow
+                            v-for="row in table.getRowModel().rows"
+                            :key="row.id"
+                            :data-state="row.getIsSelected() ? 'selected' : undefined"
+                            :class="getRowClass(row)"
+                        >
+                            <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
+                                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+                            </TableCell>
+                        </TableRow>
+                    </template>
 
-        <slot name="footer" />
-    </Table>
+                    <template v-else>
+                        <TableRow>
+                            <TableCell :colspan="columns.length" class="h-24 text-center"> No results. </TableCell>
+                        </TableRow>
+                    </template>
+                </TableBody>
+
+                <slot name="footer" />
+            </Table>
+        </div>
+    </div>
 </template>
