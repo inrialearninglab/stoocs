@@ -43,7 +43,7 @@ const chartId = 'interest-chart';
 
 const sessionStore = useSession();
 const title = 'Engagement';
-const description = "Pour chaque séquence, pourcentage d'inscrits actifs ayant répondu";
+const description = "Pour chaque séquence, pourcentage d'apprenants actifs ayant répondu";
 </script>
 
 <template>
@@ -72,12 +72,12 @@ const description = "Pour chaque séquence, pourcentage d'inscrits actifs ayant 
             <template #toolbar>
                 <Toggle
                     variant="outline"
-                    aria-label="Afficher le nombre d'inscrits"
+                    aria-label="Afficher le nombre d'apprenants"
                     v-model:pressed="displayLabels"
                     class="border-2 border-dashed"
                 >
                     <img src="/chart-legend.svg" class="h-10 mr-2" />
-                    {{ displayLabels ? 'Cacher le' : 'Afficher le' }} le nombre d'inscrits
+                    {{ displayLabels ? 'Cacher le' : 'Afficher le' }} le nombre d'apprenants
                 </Toggle>
             </template>
 

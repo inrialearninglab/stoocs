@@ -14,7 +14,7 @@ defineProps<{
 const chartId = 'threshold-chart';
 
 const sessionStore = useSession();
-const title = "Nombre d'inscrits éligibles au badge";
+const title = "Nombre d'apprenants éligibles au badge";
 const description: Ref<HTMLDivElement | null> = ref(null);
 </script>
 
@@ -23,10 +23,10 @@ const description: Ref<HTMLDivElement | null> = ref(null);
         <MetricsCard :title="title" :loading="loading" :empty="!data" report="grade">
             <template #description>
                 <div ref="description">
-                    Nombre d'inscrits éligibles selon le seuil de réussite. Le seuil actuel est de
+                    Nombre d'apprenants éligibles selon le seuil de réussite. Le seuil actuel est de
                     <strong class="text-primary">{{ cutoffs * 100 }}%</strong>, ce qui représente
                     <strong class="text-primary"
-                        >{{ data.find((d: any) => d.threshold === cutoffs * 100 + '%')?.Eligible }} inscrits</strong
+                        >{{ data.find((d: any) => d.threshold === cutoffs * 100 + '%')?.Eligible }} apprenants</strong
                     >.
                 </div>
             </template>
@@ -53,7 +53,7 @@ const description: Ref<HTMLDivElement | null> = ref(null);
                 :show-legend="false"
                 :data="data"
                 index="threshold"
-                y-label="Inscrits éligibles"
+                y-label="Apprenants éligibles"
                 x-label="Seuil de note"
                 :categories="['Eligible']"
                 :id="chartId"

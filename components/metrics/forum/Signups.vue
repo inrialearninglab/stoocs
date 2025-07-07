@@ -22,7 +22,7 @@ const { data: details, status } = await useFetch('/api/forum/signups', {
         title="Inscriptions sur le forum"
         description-label="inscriptions sur le forum pour la période selectionnée"
         label="Inscriptions"
-        y-label="Nombre d'inscrits"
+        y-label="Nombre d'inscriptions"
         :start-date="startDate"
         :end-date="endDate"
         :loading="status === 'pending'"

@@ -38,46 +38,46 @@ defineProps<{
         <div v-if="gradeReport" class="flex flex-wrap gap-3 w-full justify-center">
             <MetricsSmallCard
                 title="Curieux"
-                description="Inscrits ayant chargé au moins une page d'exercice"
+                description="Apprenants ayant chargé au moins une page d'exercice"
                 :icon="Eye"
                 :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalCurious"
                 :divisor="sessionStore.totalUsers"
                 report="grade"
-                label="Inscrits"
+                label="Apprenants"
             />
 
             <MetricsSmallCard
                 title="Actifs"
-                description="Inscrits ayant soumis au moins une réponse à une question"
+                description="Apprenants ayant soumis au moins une réponse à une question"
                 :icon="Speech"
                 :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalActive"
                 :divisor="sessionStore.totalUsers"
                 report="grade"
-                label="Inscrits"
+                label="Apprenants"
             />
 
             <MetricsSmallCard
                 title="Éligibles / Actifs"
-                description="Inscrits actifs éligibles pour le badge/attestation"
+                description="Apprenants actifs éligibles pour le badge/attestation"
                 :icon="Award"
                 :loading="sessionStore.session.loading"
                 :dividend="sessionStore.totalEligible"
                 :divisor="sessionStore.totalActive"
                 report="grade"
-                label="Inscrits"
+                label="Apprenants"
             />
 
             <MetricsSmallCard
                 title="Éligibles / Inscrits"
-                description="Inscrits éligibles pour le badge/attestation"
+                description="Apprenants éligibles pour le badge/attestation"
                 :icon="Award"
                 :loading="sessionStore.gradeReport.loading"
                 :dividend="sessionStore.totalEligible"
                 :divisor="sessionStore.totalUsers"
                 report="grade"
-                label="Inscrits"
+                label="Apprenants"
             />
         </div>
 
