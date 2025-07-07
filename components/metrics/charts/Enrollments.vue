@@ -179,7 +179,7 @@ async function onBrushEnd(start: number, end: number) {
                         :show-legend="false"
                         :data="getFilteredData('day')"
                         x-label="Date"
-                        y-label="Nombre d'inscrits"
+                        y-label="Nombre d'inscriptions"
                         index="Date"
                         :categories="['Inscriptions']"
                         :show-x-tickline="true"
@@ -192,7 +192,7 @@ async function onBrushEnd(start: number, end: number) {
                     <AreaChart
                         :show-legend="false"
                         :data="getFilteredData('total')"
-                        y-label="Nombre d'inscrits"
+                        y-label="Nombre d'inscriptions"
                         x-label="Date"
                         index="Date"
                         :categories="['Inscriptions']"
