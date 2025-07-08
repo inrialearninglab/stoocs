@@ -36,7 +36,7 @@ export const columns: ColumnDef<Question>[] = [
                     variant: 'ghost',
                     onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
                 },
-                () => ['Inscrits', h(Icon, { class: 'ml-2 size-4' })],
+                () => ['Apprenants', h(Icon, { class: 'ml-2 size-4' })],
             );
         },
     },
