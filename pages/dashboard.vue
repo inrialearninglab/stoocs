@@ -44,16 +44,32 @@ if (data.value) {
 }
 
 const totalEnrollments = computed(() => globalReport.value.reduce((acc, curr) => acc + curr.enrollments, 0));
+
+const { data: total } = await useFetch<number>('/api/grafana/total');
+const { data: enrollmentsByYear, status: enrollmentsStatus } = await useFetch('/api/grafana/by-year');
 </script>
 
 <template>
     <div class="space-y-8">
         <h1 class="text-center">Tableau de bord global</h1>
 
-        <div class="flex gap-4 mx-auto w-fit">
-            <MetricsNumberCard :value="totalEnrollments" noun="Inscrits" :icon="Users">
-                <template #title>Nombre total d'inscrits</template>
-            </MetricsNumberCard>
+        <div class="flex flex-wrap gap-3 w-full justify-center">
+            <div v-if="total" class="flex gap-4 w-fit">
+                <MetricsNumberCard :value="total" noun="Inscrits" :icon="Users">
+                    <template #title>Nombre total d'inscrits (Potsie)</template>
+                    <template #description>Valeur provenant de Potsie (prends en compte les désinscrit)</template>
+                </MetricsNumberCard>
+            </div>
+
+            <div class="flex gap-4 w-fit">
+                <MetricsNumberCard :value="totalEnrollments" noun="Inscrits" :icon="Users">
+                    <template #title>Nombre total d'inscrits (Stoocs)</template>
+                    <template #description>
+                        Valeur calculée depuis les données importées sur Stoocs (ne prends pas en compte les
+                        désinscrits)
+                    </template>
+                </MetricsNumberCard>
+            </div>
         </div>
 
         <MetricsChartsEnrollments
@@ -62,6 +78,12 @@ const totalEnrollments = computed(() => globalReport.value.reduce((acc, curr) =>
             :loading="status === 'pending'"
             :start-date="globalReport[0].date"
             :hide-chip="true"
+        />
+        <pre>{{ enrollmentsByYear }}</pre>
+        <MetricsChartsEnrollmentsByYear
+            v-if="enrollmentsByYear"
+            :data="enrollmentsByYear"
+            :loading="enrollmentsStatus === 'pending'"
         />
     </div>
 </template>

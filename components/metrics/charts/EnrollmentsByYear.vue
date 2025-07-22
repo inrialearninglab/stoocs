@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { BarChart } from '~/components/ui/chart-bar';
-import TooltipPercentage from '~/components/metrics/tooltip/Percentage.vue';
 import type { Labels } from '~/types/graph.type';
 import { saveChartAsPNG } from '~/utils';
 import { Camera } from 'lucide-vue-next';
@@ -20,8 +19,8 @@ function initLabels() {
         item.pos = index;
 
         labels.value[index] = {
-            label: String(item.Utilisateurs),
-            value: item.Participation,
+            label: String(item.year),
+            value: item.value,
             pos: index,
         };
     }
@@ -48,7 +47,7 @@ const description = "Pour chaque séquence, pourcentage d'apprenants actifs ayan
 
 <template>
     <div class="flex flex-col gap-2">
-        <MetricsCard :title="title" description="" :loading="loading" :empty="!data" report="grade">
+        <MetricsCard :title="title" :description="description" :loading="loading" :empty="!data" report="grade">
             <template #description> {{ description }} </template>
 
             <template #legend>
@@ -82,18 +81,14 @@ const description = "Pour chaque séquence, pourcentage d'apprenants actifs ayan
             </template>
 
             <BarChart
-                :percentage="true"
                 :show-legend="false"
                 :rounded-corners="4"
                 :data="data"
-                index="name"
-                :categories="['Participation']"
-                :y-formatter="(value) => `${value}%`"
-                :custom-tooltip="TooltipPercentage"
+                index="year"
+                :categories="['value']"
                 :labels="labels"
                 :id="chartId"
                 :show-x-tickline="true"
-                :y-domain="[0, 100]"
             />
         </MetricsCard>
     </div>

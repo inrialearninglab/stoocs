@@ -167,6 +167,7 @@ const description = `Note moyenne en pourcentage par question. Dans ce cas la mo
                 :custom-tooltip="TooltipPercentage"
                 :show-x-tickline="true"
                 :id="chartId"
+                :y-domain="[0, 100]"
             />
 
             <MetricsChartsScoreList :questions="data" />

@@ -10,7 +10,7 @@ defineProps<{
 <template>
     <Card class="w-full max-w-sm relative">
         <CardHeader>
-            <div class="flex gap-5 justify-between">
+            <div class="flex gap-5 justify-between items-center">
                 <CardTitle><slot name="title" /></CardTitle>
                 <component :is="icon" class="size-4 text-muted-foreground" />
             </div>

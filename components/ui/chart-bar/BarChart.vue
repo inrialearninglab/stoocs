@@ -30,6 +30,7 @@ const props = withDefaults(
             percentage?: boolean;
             labels?: Labels;
             showXTickline?: boolean;
+            yDomain?: [number, number];
         }
     >(),
     {
@@ -80,7 +81,7 @@ const selectorsBar = computed(() => (props.type === 'grouped' ? GroupedBar.selec
             :data="data"
             :style="{ height: isMounted ? '100%' : 'auto' }"
             :margin="margin"
-            :yDomain="[0, 100]"
+            :yDomain="yDomain"
         >
             <ChartCrosshair
                 v-if="showTooltip"
