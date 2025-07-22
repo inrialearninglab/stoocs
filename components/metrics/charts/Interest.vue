@@ -77,7 +77,7 @@ const description = "Pour chaque séquence, pourcentage d'apprenants actifs ayan
                     class="border-2 border-dashed"
                 >
                     <img src="/chart-legend.svg" class="h-10 mr-2" />
-                    {{ displayLabels ? 'Cacher le' : 'Afficher le' }} le nombre d'apprenants
+                    {{ displayLabels ? 'Cacher' : 'Afficher' }} le nombre d'apprenants
                 </Toggle>
             </template>
 
