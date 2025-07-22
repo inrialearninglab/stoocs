@@ -86,7 +86,7 @@ defineExpose({
                     </template>
                 </TableBody>
 
-                <slot name="footer" />
+                <slot name="footer" :table="table" />
             </Table>
         </div>
     </div>
