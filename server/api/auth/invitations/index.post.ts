@@ -1,11 +1,8 @@
 import { createDate, TimeSpan } from 'oslo';
 import { sha256 } from 'oslo/crypto';
 import { encodeHex } from 'oslo/encoding';
-import { prisma } from '~/prisma/db';
+import { prisma } from '#shared/prisma/db';
 import { z } from 'zod';
-import { useCompiler } from '#vue-email';
-import { generateIdFromEntropySize } from '~/server/utils/sessions';
-import { sendMail } from '~/server/utils/mails.utils';
 
 const routeSchema = z.object({
     email: z.string().email(),

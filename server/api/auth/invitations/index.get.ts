@@ -1,4 +1,4 @@
-import { prisma } from '~/prisma/db';
+import { prisma } from '#shared/prisma/db';
 
 export default defineEventHandler(async (event) => {
     const invitations = await prisma.invitation.findMany();

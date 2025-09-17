@@ -1,8 +1,8 @@
-import { prisma } from '~/prisma/db';
+import { prisma } from '#shared/prisma/db';
 import { z } from 'zod';
 import { encodeHex } from 'oslo/encoding';
 import { sha256 } from 'oslo/crypto';
-import { sendMail } from '~/server/utils/mails.utils';
+import { sendMail } from '~~/server/utils/mails.utils';
 
 const routeSchema = z.object({
     email: z.string().email(),

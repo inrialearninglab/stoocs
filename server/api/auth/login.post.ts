@@ -1,7 +1,6 @@
-import { prisma } from '~/prisma/db';
+import { prisma } from '#shared/prisma/db';
 import { Argon2id } from 'oslo/password';
 import { z } from 'zod';
-import { createSession, createSessionCookie, generateSessionToken } from '~/server/utils/sessions';
 
 const routeSchema = z.object({
     email: z.string().email(),

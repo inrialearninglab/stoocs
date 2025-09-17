@@ -1,14 +1,8 @@
 import { isWithinExpirationDate } from 'oslo';
-import { prisma } from '~/prisma/db';
+import { prisma } from '#shared/prisma/db';
 import { Argon2id } from 'oslo/password';
-import { registerSchema } from '~/schema/users.schema';
+import { registerSchema } from '#shared/schema/users.schema';
 import { z } from 'zod';
-import {
-    createSession,
-    createSessionCookie,
-    generateIdFromEntropySize,
-    generateSessionToken,
-} from '~/server/utils/sessions';
 
 const routeSchema = registerSchema.extend({
     token: z.string(),

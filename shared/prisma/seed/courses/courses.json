@@ -1,0 +1,211 @@
+[
+    {
+        "Organization:": "Inria",
+        "Course Number:": "41009",
+        "Course Name:": "archiveouvert",
+        "Course Display Name:": "Défis technologiques des villes intelligentes participatives",
+        "Course Start Date:": "Apr 17, 2024 at 07:00 UTC",
+        "Course End Date:": "Dec 31, 2024 at 22:59 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "No",
+        "Number of sections:": "7",
+        "Grade Cutoffs:": "Pass: 0.5",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "2271",
+            "Professional": "0",
+            "Total": "2271"
+        }
+    },
+    {
+        "Organization:": "inria",
+        "Course Number:": "41028",
+        "Course Name:": "session01",
+        "Course Display Name:": "Numérique et Sciences Informatiques : les fondamentaux",
+        "Course Start Date:": "Feb 07, 2022 at 11:00 UTC",
+        "Course End Date:": "Dec 31, 2024 at 22:00 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "No",
+        "Number of sections:": "21",
+        "Grade Cutoffs:": "Pass: 0.5",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "17090",
+            "Professional": "0",
+            "Total": "17090"
+        }
+    },
+    {
+        "Organization:": "inria",
+        "Course Number:": "41027",
+        "Course Name:": "session01",
+        "Course Display Name:": "Apprendre à enseigner le Numérique et les Sciences Informatiques",
+        "Course Start Date:": "Feb 07, 2022 at 11:00 UTC",
+        "Course End Date:": "Dec 31, 2024 at 22:00 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "No",
+        "Number of sections:": "20",
+        "Grade Cutoffs:": "Pass: 0.5",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "10399",
+            "Professional": "0",
+            "Total": "10399"
+        }
+    },
+    {
+        "Organization:": "inria",
+        "Course Number:": "41025",
+        "Course Name:": "session01",
+        "Course Display Name:": "Impacts environnementaux du numérique",
+        "Course Start Date:": "Nov 16, 2021 at 09:00 UTC",
+        "Course End Date:": "Dec 31, 2024 at 12:00 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "No",
+        "Number of sections:": "6",
+        "Grade Cutoffs:": "Pass: 0.5",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "29139",
+            "Professional": "0",
+            "Total": "29139"
+        }
+    },
+    {
+        "Organization:": "inria",
+        "Course Number:": "41016",
+        "Course Name:": "self-paced",
+        "Course Display Name:": "Recherche reproductible : principes méthodologiques pour une science transparente",
+        "Course Start Date:": "Mar 20, 2020 at 09:00 UTC",
+        "Course End Date:": "Dec 31, 2024 at 22:00 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "No",
+        "Number of sections:": "7",
+        "Grade Cutoffs:": "Pass: 0.5",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "17289",
+            "Professional": "0",
+            "Total": "17289"
+        }
+    },
+    {
+        "Organization:": "UCA",
+        "Course Number:": "107001",
+        "Course Name:": "session02",
+        "Course Display Name:": "Python : des fondamentaux aux concepts avancés du langage",
+        "Course Start Date:": "Sep 17, 2018 at 08:00 UTC",
+        "Course End Date:": "Dec 31, 2024 at 22:59 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "No",
+        "Number of sections:": "12",
+        "Grade Cutoffs:": "Pass: 0.6",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "96976",
+            "Professional": "0",
+            "Total": "96976"
+        }
+    },
+    {
+        "Organization:": "inria",
+        "Course Number:": "41031",
+        "Course Name:": "session01",
+        "Course Display Name:": "Advanced object oriented design and development with Pharo",
+        "Course Start Date:": "Jun 17, 2024 at 06:00 UTC",
+        "Course End Date:": "Jun 16, 2025 at 06:00 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "No",
+        "Number of sections:": "13",
+        "Grade Cutoffs:": "Pass: 0.6",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "1430",
+            "Professional": "0",
+            "Total": "1430"
+        }
+    },
+    {
+        "Organization:": "inria",
+        "Course Number:": "41032",
+        "Course Name:": "session01",
+        "Course Display Name:": "Intelligence artificielle pour et par les enseignants",
+        "Course Start Date:": "Nov 16, 2023 at 09:00 UTC",
+        "Course End Date:": "Dec 31, 2024 at 22:59 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "No",
+        "Number of sections:": "9",
+        "Grade Cutoffs:": "Pass: 0.5",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "31181",
+            "Professional": "0",
+            "Total": "31181"
+        }
+    },
+    {
+        "Organization:": "inria",
+        "Course Number:": "41002",
+        "Course Name:": "self-paced",
+        "Course Display Name:": "Web sémantique et Web de données",
+        "Course Start Date:": "Feb 04, 2019 at 09:00 UTC",
+        "Course End Date:": "Dec 31, 2024 at 22:00 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "No",
+        "Number of sections:": "10",
+        "Grade Cutoffs:": "Pass: 0.5",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "22171",
+            "Professional": "0",
+            "Total": "22171"
+        }
+    },
+    {
+        "Organization:": "inria",
+        "Course Number:": "41026",
+        "Course Name:": "session04",
+        "Course Display Name:": "Machine learning in Python with scikit-learn",
+        "Course Start Date:": "Nov 08, 2023 at 08:00 UTC",
+        "Course End Date:": "Nov 07, 2024 at 21:59 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "No",
+        "Number of sections:": "11",
+        "Grade Cutoffs:": "Pass: 0.6",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "14279",
+            "Professional": "0",
+            "Total": "14279"
+        }
+    },
+    {
+        "Organization:": "inria",
+        "Course Number:": "41023",
+        "Course Name:": "session01",
+        "Course Display Name:": "Reproducible Research II: Practices and tools for managing computations and data",
+        "Course Start Date:": "May 16, 2024 at 09:00 UTC",
+        "Course End Date:": "Sep 26, 2024 at 21:59 UTC",
+        "Has the course started?": "Yes",
+        "Has the course ended?": "Yes",
+        "Number of sections:": "5",
+        "Grade Cutoffs:": "Pass: 0.5",
+        "stats": {
+            "Verified": "0",
+            "Audit": "0",
+            "Honor": "1999",
+            "Professional": "0",
+            "Total": "1999"
+        }
+    }
+]

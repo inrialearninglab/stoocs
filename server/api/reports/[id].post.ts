@@ -1,8 +1,7 @@
 import multer from 'multer';
 import { callNodeListener } from 'h3';
 import path from 'node:path';
-import { prisma } from '~/prisma/db';
-import { readGradeReports } from '~/server/utils/files.utils';
+import { prisma } from '#shared/prisma/db';
 import { z } from 'zod';
 
 const storage = multer.diskStorage({
