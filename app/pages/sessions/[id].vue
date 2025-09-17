@@ -11,7 +11,7 @@ definePageMeta({
 
 <template>
     <div class="flex flex-1 flex-col min-h-full gap-12">
-        <!-- <SessionReports ref="reports" /> -->
+        <SessionReports ref="reports" />
 
         <template v-if="!reports?.dragging">
             <Separator class="border-2" />
