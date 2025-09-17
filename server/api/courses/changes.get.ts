@@ -1,5 +1,5 @@
-import { prisma } from '~/prisma/db';
-import { coursesSchema } from '~/schema/courses.schema';
+import { prisma } from '#shared/prisma/db';
+import { coursesSchema } from '#shared/schema/courses.schema';
 
 function getUpdatedFields(existing: any, newData: any) {
     const updatedFields: any = {};

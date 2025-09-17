@@ -1,12 +1,6 @@
-import { registerSchema } from '~/schema/users.schema';
-import { prisma } from '~/prisma/db';
+import { registerSchema } from '#shared/schema/users.schema';
+import { prisma } from '#shared/prisma/db';
 import { Argon2id } from 'oslo/password';
-import {
-    createSession,
-    createSessionCookie,
-    generateIdFromEntropySize,
-    generateSessionToken,
-} from '~/server/utils/sessions';
 
 export default defineEventHandler(async (event) => {
     const nitroApp = useNitroApp();

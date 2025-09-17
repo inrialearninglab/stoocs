@@ -1,8 +1,5 @@
 import { createReadStream } from 'fs';
 import { parse } from 'csv';
-import type { GradeReport, GradeReportData, GradeReportLine } from '~/types';
-import { isUserActive, isUserCurious } from '~/server/utils/usersStatus.utils';
-import { getInterestData, getPassingThresholdData, getScoreData } from '~/server/utils/graph.utils';
 import { extractMetadata } from '~/utils';
 
 export async function readEnrollments(filename: string): Promise<any> {

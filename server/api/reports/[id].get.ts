@@ -1,4 +1,4 @@
-import { prisma } from '~/prisma/db';
+import { prisma } from '#shared/prisma/db';
 import { z } from 'zod';
 
 const routeSchema = z.object({

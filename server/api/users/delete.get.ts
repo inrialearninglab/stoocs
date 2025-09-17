@@ -1,5 +1,4 @@
-import { prisma } from '~/prisma/db';
-import { createBlankSessionCookie, invalidateSession } from '~/server/utils/sessions';
+import { prisma } from '#shared/prisma/db';
 
 export default defineEventHandler(async (event) => {
     const user = await prisma.user.delete({

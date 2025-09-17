@@ -1,4 +1,4 @@
-import { prisma } from '~/prisma/db';
+import { prisma } from '#shared/prisma/db';
 
 export default defineNitroPlugin(async (nitroApp) => {
     let app = await prisma.app.findFirst();
