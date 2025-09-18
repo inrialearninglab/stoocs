@@ -1,7 +1,5 @@
 <script setup lang="ts">
-// import SessionReports from '~/components/session/Reports.vue';
-
-const reports: Ref<InstanceType<typeof SessionReports> | null> = ref(null);
+const reports = useTemplateRef('reports');
 
 definePageMeta({
     middleware: 'guest',

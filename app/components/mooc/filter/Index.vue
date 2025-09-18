@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { Search, X } from 'lucide-vue-next';
-import type { DateValue } from '@internationalized/date';
+import { type DateValue, parseDate } from '@internationalized/date';
 import type { Table } from '@tanstack/vue-table';
 import type { MoocSession } from '@prisma/client';
+import { useUrlSearchParams } from '@vueuse/core';
 
 const props = defineProps<{
     table: Table<MoocSession>;
@@ -34,15 +35,21 @@ const moocs = computed(() => {
         .sort((a, b) => a.label.localeCompare(b.label));
 });
 
-const searchValue = ref('');
-const selectedMoocs = ref<Set<string>>(new Set());
-const selectedStatus = ref<Set<string>>(new Set());
-const startDateFrom = ref<DateValue>();
-const startDateTo = ref<DateValue>();
-const endDateFrom = ref<DateValue>();
-const endDateTo = ref<DateValue>();
+const params = useUrlSearchParams('history');
+const search = computed({
+    get: () => params.search || '',
+    set: (value) => (params.search = value || undefined),
+});
 
-watch(searchValue, (value) => {
+const selectedMoocs = ref<Set<string>>(new Set(params.moocs ? params.moocs.split(',') : undefined));
+const selectedStatus = ref<Set<string>>(new Set(params.status ? params.status.split(',') : undefined));
+
+const startDateFrom = ref<DateValue | undefined>(params.startFrom ? parseDate(params.startFrom) : undefined);
+const startDateTo = ref<DateValue | undefined>(params.startTo ? parseDate(params.startTo) : undefined);
+const endDateFrom = ref<DateValue | undefined>(params.endFrom ? parseDate(params.endFrom) : undefined);
+const endDateTo = ref<DateValue | undefined>(params.endTo ? parseDate(params.endTo) : undefined);
+
+watch(search, (value) => {
     props.table.setGlobalFilter(value);
 });
 
@@ -50,6 +57,7 @@ watch(
     selectedMoocs,
     (value) => {
         props.table.getColumn('courseNumber')?.setFilterValue(value.size > 0 ? Array.from(value) : undefined);
+        params.moocs = value.size > 0 ? Array.from(value).join(',') : undefined;
     },
     { deep: true },
 );
@@ -58,6 +66,7 @@ watch(
     selectedStatus,
     (value) => {
         props.table.getColumn('status')?.setFilterValue(value.size > 0 ? Array.from(value) : undefined);
+        params.status = value.size > 0 ? Array.from(value).join(',') : undefined;
     },
     { deep: true },
 );
@@ -69,6 +78,8 @@ watch([startDateFrom, startDateTo], ([from, to]) => {
             to: to ? new Date(to.year, to.month - 1, to.day) : undefined,
         };
         props.table.getColumn('startDate')?.setFilterValue(filterValue);
+        params.startFrom = from ? new Date(from).toISOString().split('T')[0] : undefined;
+        params.startTo = to ? new Date(to).toISOString().split('T')[0] : undefined;
     } else {
         props.table.getColumn('startDate')?.setFilterValue(undefined);
     }
@@ -81,6 +92,8 @@ watch([endDateFrom, endDateTo], ([from, to]) => {
             to: to ? new Date(to.year, to.month - 1, to.day) : undefined,
         };
         props.table.getColumn('endDate')?.setFilterValue(filterValue);
+        params.endFrom = from ? new Date(from).toISOString().split('T')[0] : undefined;
+        params.endTo = to ? new Date(to).toISOString().split('T')[0] : undefined;
     } else {
         props.table.getColumn('endDate')?.setFilterValue(undefined);
     }
@@ -88,7 +101,7 @@ watch([endDateFrom, endDateTo], ([from, to]) => {
 
 const hasActiveFilters = computed(() => {
     return (
-        searchValue.value ||
+        search.value ||
         selectedMoocs.value.size > 0 ||
         selectedStatus.value.size > 0 ||
         startDateFrom.value ||
@@ -99,7 +112,7 @@ const hasActiveFilters = computed(() => {
 });
 
 function resetFilters() {
-    searchValue.value = '';
+    search.value = '';
     selectedMoocs.value.clear();
     selectedStatus.value.clear();
     startDateFrom.value = undefined;
@@ -108,12 +121,50 @@ function resetFilters() {
     endDateTo.value = undefined;
     props.table.resetColumnFilters();
 }
+
+onMounted(() => {
+    if (search.value) {
+        props.table.setGlobalFilter(search.value);
+    }
+
+    if (selectedMoocs.value.size > 0) {
+        props.table.getColumn('courseNumber')?.setFilterValue(Array.from(selectedMoocs.value));
+    }
+
+    if (selectedStatus.value.size > 0) {
+        props.table.getColumn('status')?.setFilterValue(Array.from(selectedStatus.value));
+    }
+
+    if (startDateFrom.value || startDateTo.value) {
+        const filterValue = {
+            from: startDateFrom.value
+                ? new Date(startDateFrom.value.year, startDateFrom.value.month - 1, startDateFrom.value.day)
+                : undefined,
+            to: startDateTo.value
+                ? new Date(startDateTo.value.year, startDateTo.value.month - 1, startDateTo.value.day)
+                : undefined,
+        };
+        props.table.getColumn('startDate')?.setFilterValue(filterValue);
+    }
+
+    if (endDateFrom.value || endDateTo.value) {
+        const filterValue = {
+            from: endDateFrom.value
+                ? new Date(endDateFrom.value.year, endDateFrom.value.month - 1, endDateFrom.value.day)
+                : undefined,
+            to: endDateTo.value
+                ? new Date(endDateTo.value.year, endDateTo.value.month - 1, endDateTo.value.day)
+                : undefined,
+        };
+        props.table.getColumn('endDate')?.setFilterValue(filterValue);
+    }
+});
 </script>
 
 <template>
     <div class="flex gap-2">
         <div class="relative w-full max-w-sm items-center">
-            <Input id="search" v-model="searchValue" placeholder="Chercher par nom" class="pl-8" />
+            <Input id="search" v-model="search" placeholder="Chercher par nom" class="pl-8" />
             <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
                 <Search class="size-5 text-muted-foreground" />
             </span>

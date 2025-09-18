@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { useMoocs } from '~/stores/moocs.store';
-
 definePageMeta({
     layout: 'dashboard',
 });
 
-const moocsStore = useMoocs();
 const user = useUser();
-const searchInput: Ref<HTMLInputElement | null> = ref(null);
 </script>
 
 <template>
