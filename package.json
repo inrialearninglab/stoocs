@@ -8,7 +8,9 @@
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
-        "start": "node .output/server/index.mjs"
+        "start": "node .output/server/index.mjs",
+        "db:generate": "prisma generate --schema='./shared/prisma/schema.prisma'",
+        "db:migrate": "prisma migrate deploy --schema='./shared/prisma/schema.prisma'"
     },
     "prisma": {
         "seed": "tsx prisma/seed/seed"

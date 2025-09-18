@@ -10,7 +10,7 @@ COPY . .
 
 RUN bun install
 
-RUN bunx prisma generate
+RUN bun run db:generate
 
 RUN bun run build
 

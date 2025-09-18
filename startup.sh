@@ -1,3 +1,3 @@
 #!/bin/bash
-bunx prisma migrate deploy
+bun run db:migrate
 bun run start
