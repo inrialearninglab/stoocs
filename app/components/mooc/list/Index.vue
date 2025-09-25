@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { columns } from './columns';
 import { useClipboard } from '@vueuse/core';
-import { Copy, CopyCheck } from 'lucide-vue-next';
+import { Copy, CopyCheck, Download } from 'lucide-vue-next';
 import { toast } from 'vue-sonner';
 
 const moocsStore = useMoocs();
@@ -20,6 +20,29 @@ const { copy, copied } = useClipboard();
 function copyUrl() {
     copy(window.location.href);
     toast.success('Link copied to clipboard');
+}
+
+function exportTableAsCSV(table) {
+    const firstRow = table.getFilteredRowModel().rows[0].original;
+    console.log('first row', firstRow);
+    const csvContent = 'data:text/csv;charset=utf-8,';
+    const headers =
+        "ID;Nom;Session;Nb inscrits;Date ouverture;Date fermeture;Pourcentage d'éligibles;Status;Mise à jour\n";
+    const rows = table
+        .getFilteredRowModel()
+        .rows.map(
+            (row) =>
+                `${row.original.courseNumber};${row.original.title};${row.original.sessionName};${row.original.totalEnrollments};${row.original.startDate};${row.original.endDate};${row.original.gradeReport ? row.original.gradeReport.totalEligible / row.original.gradeReport.totalUsers : undefined};${row.original.status};${row.original.updateDate}\n`,
+        )
+        .join('');
+    const csvData = headers + rows;
+    const encodedUri = encodeURI(csvContent + csvData);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'questions.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 </script>
 
@@ -58,6 +81,10 @@ function copyUrl() {
                     <TableCell></TableCell>
                 </TableRow>
             </TableFooter>
+        </template>
+
+        <template #actions="{ table }">
+            <Button @click="exportTableAsCSV(table)"> <Download class="mr-2 size-5" /> Exporter en CSV </Button>
         </template>
     </DataTable>
 </template>
