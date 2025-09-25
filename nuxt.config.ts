@@ -16,7 +16,6 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@nuxtjs/color-mode',
         'nuxt-security',
-        '@vue-email/nuxt',
     ],
 
     shadcn: {
