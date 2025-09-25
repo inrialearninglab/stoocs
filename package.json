@@ -10,7 +10,8 @@
         "postinstall": "nuxt prepare",
         "start": "node .output/server/index.mjs",
         "db:generate": "prisma generate --schema='./shared/prisma/schema.prisma'",
-        "db:migrate": "prisma migrate deploy --schema='./shared/prisma/schema.prisma'"
+        "db:migrate": "prisma migrate deploy --schema='./shared/prisma/schema.prisma'",
+        "db:studio": "prisma studio --schema='./shared/prisma/schema.prisma'"
     },
     "prisma": {
         "seed": "tsx prisma/seed/seed"
@@ -28,7 +29,9 @@
         "@unovis/ts": "^1.6.1",
         "@unovis/vue": "^1.6.1",
         "@vee-validate/zod": "^4.15.1",
-        "@vue-email/nuxt": "^0.8.19",
+        "@vitejs/plugin-vue": "^6.0.1",
+        "@vue-email/components": "^0.0.21",
+        "@vue-email/render": "^0.0.9",
         "@vueuse/core": "^11.3.0",
         "@vueuse/motion": "^2.2.6",
         "caniuse-lite": "^1.0.30001743",
@@ -58,7 +61,6 @@
         "typescript": "^5.9.2",
         "vee-validate": "^4.15.1",
         "vue": "^3.5.21",
-        "vue-email": "^0.8.11",
         "vue-router": "^4.5.1",
         "vue-sonner": "^1.3.2",
         "vue3-dropzone": "^2.2.1",
