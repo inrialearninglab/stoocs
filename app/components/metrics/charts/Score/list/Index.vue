@@ -63,28 +63,6 @@ function exportToCSV() {
                             </TableFooter>
                         </template>
                     </DataTable>
-                    <!-- <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Question</TableHead>
-                                <TableHead>Moyenne</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            <TableRow v-for="question of questions" :class="getQuestionClass(question['Moyenne'])">
-                                <TableCell>{{ question.name }}</TableCell>
-                                <TableCell>{{ question['Moyenne'] }} %</TableCell>
-                            </TableRow>
-                        </TableBody>
-                        <TableFooter>
-                            <TableCell>
-                                <Button variant="secondary" @click="exportToCSV">
-                                    <Download class="mr-2 size-5" /> Exporter en CSV
-                                </Button>
-                            </TableCell>
-                            <TableCell> </TableCell>
-                        </TableFooter>
-                    </Table> -->
                 </CardContent>
             </CollapsibleContent>
         </Collapsible>

@@ -20,14 +20,4 @@ export async function sendMail(html: string, email: string, subject: string) {
     } catch (error) {
         throw Error('mailer error');
     }
-
-    // try {
-    //     const template = await useCompiler('Invitation.vue', {
-    //         props: {
-    //             invitedByUsername: `${event.context.user.firstname} ${event.context.user.lastname}`,
-    //             invitedByEmail: event.context.user.email,
-    //             inviteLink: `${process.env.APP_URL}/auth/register/${tokenHash}`,
-    //         },
-    //     });
-    // }
 }

@@ -1,3 +1,4 @@
+import vue from '@vitejs/plugin-vue';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     devtools: {
@@ -55,6 +56,12 @@ export default defineNuxtConfig({
         },
         rateLimiter: {
             tokensPerInterval: 300,
+        },
+    },
+
+    nitro: {
+        rollupConfig: {
+            plugins: [vue()],
         },
     },
 
