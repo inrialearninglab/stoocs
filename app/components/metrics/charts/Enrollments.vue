@@ -91,6 +91,10 @@ const presets = [
         value: props.startDate!,
         label: 'Toute la session',
     },
+    {
+        value: '2024',
+        label: '2024',
+    },
 ];
 
 const chartId = 'enrollment-chart';

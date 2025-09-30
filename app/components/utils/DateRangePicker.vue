@@ -107,6 +107,11 @@ function getPresetValue(value: string) {
             return { start: props.maxDate.subtract({ months: 1 }), end: props.maxDate };
         case 'year':
             return { start: props.maxDate.subtract({ years: 1 }), end: props.maxDate };
+        case '2024':
+            return {
+                start: parseDate('2024-01-01'),
+                end: parseDate('2024-12-31'),
+            };
         default:
             return { start: parseDate(value), end: props.maxDate };
     }
