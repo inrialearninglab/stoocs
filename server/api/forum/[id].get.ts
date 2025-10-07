@@ -37,13 +37,16 @@ export default defineEventHandler(async (event) => {
             },
         });
 
+        const moderators = data.users.filter((user) => data.about.moderator_ids.includes(user.id));
+        const admins = data.users.filter((user) => data.about.admin_ids.includes(user.id));
+
         return {
             instance: forum.instanceName,
             title: data.about.title,
-            users: data.about.stats.user_count,
-            posts: data.about.stats.post_count,
-            topics: data.about.stats.topic_count,
-            moderators: data.about.moderators.map((moderator: DiscourseForumUserInfo) => {
+            users: data.about.stats.users_count,
+            posts: data.about.stats.posts_count,
+            topics: data.about.stats.topics_count,
+            moderators: moderators.map((moderator: DiscourseForumUserInfo) => {
                 return {
                     name: moderator.name,
                     username: moderator.username,
@@ -51,7 +54,7 @@ export default defineEventHandler(async (event) => {
                     title: moderator.title,
                 };
             }),
-            admins: data.about.admins.map((admin: DiscourseForumUserInfo) => {
+            admins: admins.map((admin: DiscourseForumUserInfo) => {
                 return {
                     name: admin.name,
                     username: admin.username,
