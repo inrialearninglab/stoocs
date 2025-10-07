@@ -47,12 +47,14 @@ const { data: discourseURL } = await useFetch<string>('/api/env/discourseUrl');
                     <template #title>Nombre de fils de discussion</template>
                 </MetricsNumberCard>
 
-                <MetricsNumberCard :value="sessionStore.forum.data.posts" noun="Messages" :icon="MessageSquare">
+                <!-- Posts count from the about page doesn't make sense -->
+                <!-- <MetricsNumberCard :value="sessionStore.forum.data.posts" noun="Messages" :icon="MessageSquare">
                     <template #title>Nombre de messages</template>
-                </MetricsNumberCard>
+                </MetricsNumberCard> -->
             </div>
 
-            <div class="flex gap-4 w-full justify-center flex-wrap">
+            <!-- Posts count from the about page doesn't make sense -->
+            <!-- <div class="flex gap-4 w-full justify-center flex-wrap">
                 <MetricsNumberCard
                     :value="Number((sessionStore.forum.data.posts / sessionStore.forum.data.users).toFixed(1))"
                     noun="Messages par utilisateur"
@@ -60,7 +62,7 @@ const { data: discourseURL } = await useFetch<string>('/api/env/discourseUrl');
                 >
                     <template #title>Moyenne du nombre de messages par utilisateur</template>
                 </MetricsNumberCard>
-            </div>
+            </div> -->
 
             <div class="space-y-2">
                 <h2>Modérateurs</h2>

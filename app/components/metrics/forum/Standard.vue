@@ -122,7 +122,6 @@ const presets = [
                             v-model="dates"
                             :presets="presets"
                             :max-date="parseDate(details[details.length - 1].date)"
-                            :min-date="parseDate(details[0].date)"
                         />
 
                         <ClientOnly>
@@ -167,7 +166,6 @@ const presets = [
                             v-model="dates"
                             :presets="presets"
                             :max-date="parseDate(details[details.length - 1].date)"
-                            :min-date="parseDate(details[0].date)"
                         />
 
                         <ClientOnly>
