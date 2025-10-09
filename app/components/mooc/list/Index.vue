@@ -19,7 +19,7 @@ function getUniqueMoocsCount(rows: any) {
 const { copy, copied } = useClipboard();
 function copyUrl() {
     copy(window.location.href);
-    toast.success('Link copied to clipboard');
+    toast.success('Lien copié dans le presse-papier');
 }
 
 function exportTableAsCSV(table) {
@@ -53,7 +53,7 @@ function exportTableAsCSV(table) {
                 <MoocFilter :table="table" />
 
                 <Button class="flex items-center gap-2" @click="copyUrl">
-                    <p>Copy link</p>
+                    <p>Copier le lien</p>
                     <Copy v-if="!copied" class="size-5" />
                     <CopyCheck v-else class="size-5" />
                 </Button>
