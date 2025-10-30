@@ -11,7 +11,7 @@ const tabs = [
 </script>
 
 <template>
-    <nav class="max-w-[14rem] w-full">
+    <nav class="max-w-56 w-full">
         <ul class="space-y-2">
             <li v-for="tab in tabs" :key="tab.to">
                 <NuxtLink

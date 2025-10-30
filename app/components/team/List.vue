@@ -26,14 +26,14 @@ const sortedUsers = computed(() => {
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead class="w-[6rem]">Avatar</TableHead>
+                    <TableHead class="w-24">Avatar</TableHead>
                     <TableHead>Nom</TableHead>
                     <TableHead>
                         <Button variant="ghost" @click="() => (sortBy = 'email')"
                             >Email <ArrowDownUp class="size-5 ml-2" />
                         </Button>
                     </TableHead>
-                    <TableHead class="w-[10rem]">
+                    <TableHead class="w-40">
                         <Button variant="ghost" @click="() => (sortBy = 'role')"
                             >Rôle<ArrowDownUp class="size-5 ml-2" />
                         </Button>

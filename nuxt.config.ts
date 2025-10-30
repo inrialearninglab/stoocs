@@ -1,4 +1,5 @@
 import vue from '@vitejs/plugin-vue';
+import tailwindcss from '@tailwindcss/vite';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     devtools: {
@@ -9,14 +10,11 @@ export default defineNuxtConfig({
         },
     },
 
-    modules: [
-        '@nuxtjs/tailwindcss',
-        'shadcn-nuxt',
-        '@nuxt/fonts',
-        '@pinia/nuxt',
-        '@nuxtjs/color-mode',
-        'nuxt-security',
-    ],
+    modules: ['shadcn-nuxt', '@nuxt/fonts', '@pinia/nuxt', '@nuxtjs/color-mode', 'nuxt-security'],
+
+    vite: {
+        plugins: [tailwindcss()],
+    },
 
     shadcn: {
         prefix: '',

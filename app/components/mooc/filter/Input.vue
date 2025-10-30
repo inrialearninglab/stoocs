@@ -66,7 +66,7 @@ function filterFunction(list: Option[], term: string): Option[] {
                             v-for="option of options"
                             :value="option"
                             @select="selectItem(option)"
-                            class="data-[highlighted]:bg-secondary data-[highlighted]:text-secondary-foreground"
+                            class="data-highlighted:bg-secondary data-highlighted:text-secondary-foreground"
                         >
                             <div
                                 :class="
@@ -93,7 +93,7 @@ function filterFunction(list: Option[], term: string): Option[] {
                         <CommandGroup>
                             <CommandItem
                                 :value="{ label: 'Clear filters' }"
-                                class="justify-center text-center data-[highlighted]:bg-secondary data-[highlighted]:text-secondary-foreground"
+                                class="justify-center text-center data-highlighted:bg-secondary data-highlighted:text-secondary-foreground"
                                 @select="selected.clear()"
                             >
                                 Retirer les filtres

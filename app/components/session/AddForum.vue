@@ -68,7 +68,7 @@ const onSubmit = form.handleSubmit(async (values) => {
                 <Button
                     :disabled="!form.meta.value.valid || form.isSubmitting.value"
                     type="submit"
-                    class="w-full !mt-5"
+                    class="w-full mt-5!"
                 >
                     <Loader2 v-if="form.isSubmitting.value" class="size-4 mr-2 animate-spin" />
                     Ajouter

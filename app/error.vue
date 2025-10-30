@@ -15,9 +15,9 @@ const errors: Record<number, string> = {
 <template>
     <div class="relative flex h-screen items-center">
         <div
-            class="absolute h-full w-full bg-[radial-gradient(theme(colors.border)_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)]"
+            class="absolute h-full w-full bg-[radial-gradient(var(--color-border)_1px,transparent_1px)] bg-size-[20px_20px] mask-[radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)]"
         />
-        <div class="container relative z-[1] flex flex-col items-center justify-center text-center">
+        <div class="container relative z-1 flex flex-col items-center justify-center text-center">
             <h1 class="text-6xl">{{ error?.statusCode }}</h1>
             <p class="text-lg mt-2">{{ error?.statusCode ? errors[error.statusCode] : '' }}</p>
 

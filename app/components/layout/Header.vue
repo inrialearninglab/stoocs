@@ -32,7 +32,7 @@ const routes = [
 
 <template>
     <header
-        class="border-b py-2 px-4 flex justify-between items-center sticky top-0 z-10 bg-background/70 backdrop-blur-lg h-[3.75rem]"
+        class="border-b py-2 px-4 flex justify-between items-center sticky top-0 z-10 bg-background/70 backdrop-blur-lg h-15"
     >
         <div class="flex gap-5 items-center">
             <NuxtLink to="/" class="flex gap-3 items-center">

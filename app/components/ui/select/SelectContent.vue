@@ -48,7 +48,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
                     cn(
                         'p-1',
                         position === 'popper' &&
-                            'h-[--radix-select-trigger-height] w-full min-w-[--radix-select-trigger-width]',
+                            'h-(--radix-select-trigger-height) w-full min-w-(--radix-select-trigger-width)',
                     )
                 "
             >

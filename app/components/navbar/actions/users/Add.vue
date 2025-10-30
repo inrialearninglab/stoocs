@@ -93,7 +93,7 @@ const open = ref(false);
                     </FormItem>
                 </FormField>
 
-                <Button type="submit" class="w-full !mt-5" :disabled="isSubmitting || !meta.valid">
+                <Button type="submit" class="w-full mt-5!" :disabled="isSubmitting || !meta.valid">
                     <Loader2 v-if="isSubmitting" class="animate-spin mr-2" />
                     Inviter
                 </Button>
