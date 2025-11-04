@@ -5,6 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { formatDate, getParsedDate } from '~/utils/date.utils';
 import { Camera, Crosshair } from 'lucide-vue-next';
 import { saveChartAsPNG } from '~/utils';
+import { VisFreeBrush } from '@unovis/vue';
+import type { FreeBrushSelection } from '@unovis/ts';
 
 const props = defineProps<{
     details?: {
@@ -112,8 +114,10 @@ const description = computed(
 
 const brush = ref(false);
 
-async function onBrushEnd(start: number, end: number) {
+async function handleBrushEnd(selection: FreeBrushSelection) {
     if (!brush.value) return;
+
+    const [start, end] = toRaw(selection) as [number, number];
 
     const startDate = dates.value.start.toDate(getLocalTimeZone());
 
@@ -165,7 +169,7 @@ async function onBrushEnd(start: number, end: number) {
                 <Toggle
                     variant="outline"
                     aria-label="Activer le pinceau de selection"
-                    v-model:pressed="brush"
+                    v-model="brush"
                     class="border-2 border-dashed"
                 >
                     <Crosshair class="mr-2" />
@@ -189,9 +193,11 @@ async function onBrushEnd(start: number, end: number) {
                         :show-x-tickline="true"
                         :id="chartId"
                         :brush="brush"
-                        @brush-end="onBrushEnd"
-                    />
+                    >
+                        <VisFreeBrush v-if="brush" mode="x" @brush-end="handleBrushEnd" />
+                    </LineChart>
                 </TabsContent>
+
                 <TabsContent value="total">
                     <AreaChart
                         :show-legend="false"
@@ -202,9 +208,9 @@ async function onBrushEnd(start: number, end: number) {
                         :categories="['Inscriptions']"
                         :show-x-tickline="true"
                         :id="chartId"
-                        :brush="brush"
-                        @brush-end="onBrushEnd"
-                    />
+                    >
+                        <VisFreeBrush v-if="brush" mode="x" @brush-end="handleBrushEnd" />
+                    </AreaChart>
                 </TabsContent>
             </Tabs>
         </MetricsCard>

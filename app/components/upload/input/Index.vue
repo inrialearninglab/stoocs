@@ -47,7 +47,10 @@ const isDragActive = rest.isDragActive;
 
 <template>
     <div class="flex flex-col gap-6">
-        <div v-bind="getRootProps()" class="dropzone">
+        <div
+            v-bind="getRootProps()"
+            class="w-full border-2 border-dashed p-5 rounded-lg cursor-pointer hover:bg-muted/25 transition h-52 flex items-center text-muted-foreground"
+        >
             <div class="flex flex-col gap-4 place-items-center w-full">
                 <input v-bind="getInputProps()" />
                 <div class="rounded-full border border-dashed p-4 w-fit">
@@ -80,9 +83,3 @@ const isDragActive = rest.isDragActive;
         </div>
     </div>
 </template>
-
-<style scoped>
-.dropzone {
-    @apply w-full border-2 border-dashed p-5 rounded-lg cursor-pointer hover:bg-muted/25 transition h-52 flex items-center text-muted-foreground;
-}
-</style>

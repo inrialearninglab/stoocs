@@ -1,14 +1,15 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import { type BulletLegendItemInterface, CurveType, type FreeBrushSelection } from '@unovis/ts';
-import { VisArea, VisAxis, VisFreeBrush, VisLine, VisXYContainer } from '@unovis/vue';
-import { Area, Axis, Line } from '@unovis/ts';
-import { type Component, computed, ref } from 'vue';
-import { useMounted } from '@vueuse/core';
+import type { BulletLegendItemInterface, FreeBrushSelection } from '@unovis/ts';
+import type { Component } from 'vue';
 import type { BaseChartProps } from '.';
-import { ChartCrosshair, ChartLegend, defaultColors } from '~/components/ui/chart';
-import { cn } from '~/lib/utils';
-import { scaleLinear } from 'd3-scale';
-import { useElementSize } from '@vueuse/core';
+import { Area, Axis, CurveType, Line } from '@unovis/ts';
+
+import { VisArea, VisAxis, VisLine, VisXYContainer, VisFreeBrush } from '@unovis/vue';
+import { useMounted } from '@vueuse/core';
+import { useId } from 'reka-ui';
+import { computed, ref } from 'vue';
+import { cn } from '@/lib/utils';
+import { ChartCrosshair, ChartLegend, defaultColors } from '@/components/ui/chart';
 
 const props = withDefaults(
     defineProps<
@@ -25,11 +26,7 @@ const props = withDefaults(
              * Controls the visibility of gradient.
              * @default true
              */
-            showGradiant?: boolean;
-
-            xLabel?: string;
-            yLabel?: string;
-            showXTickline?: boolean;
+            showGradient?: boolean;
             brush?: boolean;
         }
     >(),
@@ -42,8 +39,7 @@ const props = withDefaults(
         showTooltip: true,
         showLegend: true,
         showGridLine: true,
-        showGradiant: true,
-        showXTickline: false,
+        showGradient: true,
         brush: false,
     },
 );
@@ -55,6 +51,8 @@ const emits = defineEmits<{
 
 type KeyOfT = Extract<keyof T, string>;
 type Data = (typeof props.data)[number];
+
+const chartRef = useId();
 
 const index = computed(() => props.index as KeyOfT);
 const colors = computed(() => (props.colors?.length ? props.colors : defaultColors(props.categories.length)));
@@ -73,34 +71,14 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
     emits('legendItemClick', d, i);
 }
 
-const chartContainer: Ref<HTMLDivElement | null> = ref(null);
-const { width } = useElementSize(chartContainer);
-const tickCount = computed(() => {
-    if (!width.value) return 5;
-
-    return Math.max(2, Math.min(20, Math.floor(width.value / 120)));
-});
-
-const domainStart = 0;
-const domainEnd = computed(() => props.data.length - 1);
-const tickValues = computed(() => {
-    const xScale = scaleLinear().domain([domainStart, domainEnd.value]);
-    let vals = xScale.ticks(tickCount.value);
-
-    if (vals[0] !== domainStart) vals.unshift(domainStart);
-    if (vals[vals.length - 1] !== domainEnd.value) vals[vals.length - 1] = domainEnd.value;
-
-    return vals;
-});
-
-function onBrushEnd(selection: FreeBrushSelection) {
+function handleBrushEnd(selection: FreeBrushSelection) {
     const [start, end] = toRaw(selection) as [number, number];
     emits('brushEnd', start, end);
 }
 </script>
 
 <template>
-    <div ref="chartContainer" :class="cn('w-full h-[500px] flex flex-col items-end', $attrs.class ?? '')">
+    <div :class="cn('w-full h-[400px] flex flex-col items-end', $attrs.class ?? '')">
         <ChartLegend v-if="showLegend" v-model:items="legendItems" @legend-item-click="handleLegendItemClick" />
 
         <VisXYContainer :style="{ height: isMounted ? '100%' : 'auto' }" :margin="{ left: 20, right: 20 }" :data="data">
@@ -108,14 +86,14 @@ function onBrushEnd(selection: FreeBrushSelection) {
                 <defs>
                     <linearGradient
                         v-for="(color, i) in colors"
-                        :id="`color-${i}`"
+                        :id="`${chartRef}-color-${i}`"
                         :key="i"
                         x1="0"
                         y1="0"
                         x2="0"
                         y2="1"
                     >
-                        <template v-if="showGradiant">
+                        <template v-if="showGradient">
                             <stop offset="5%" :stop-color="color" stop-opacity="0.4" />
                             <stop offset="95%" :stop-color="color" stop-opacity="0" />
                         </template>
@@ -142,7 +120,7 @@ function onBrushEnd(selection: FreeBrushSelection) {
                     :curve-type="curveType"
                     :attributes="{
                         [Area.selectors.area]: {
-                            fill: `url(#color-${i})`,
+                            fill: `url(#${chartRef}-color-${i})`,
                         },
                     }"
                     :opacity="legendItems.find((item) => item.name === category)?.inactive ? filterOpacity : 1"
@@ -166,33 +144,25 @@ function onBrushEnd(selection: FreeBrushSelection) {
             <VisAxis
                 v-if="showXAxis"
                 type="x"
-                :label="xLabel"
-                label-color="hsl(var(--vis-text-color))"
                 :tick-format="xFormatter ?? ((v: number) => data[v]?.[index])"
                 :grid-line="false"
-                :tick-line="showXTickline"
-                :tick-values="tickValues"
+                :tick-line="false"
                 tick-text-color="hsl(var(--vis-text-color))"
             />
             <VisAxis
                 v-if="showYAxis"
                 type="y"
-                :label="yLabel"
-                :show-label="true"
-                label-color="hsl(var(--vis-text-color))"
                 :tick-line="false"
                 :tick-format="yFormatter"
                 :domain-line="false"
                 :grid-line="showGridLine"
                 :attributes="{
                     [Axis.selectors.grid]: {
-                        class: 'text-muted-foreground/60',
+                        class: 'text-muted',
                     },
                 }"
                 tick-text-color="hsl(var(--vis-text-color))"
             />
-
-            <VisFreeBrush v-if="brush" mode="x" @brush-end="onBrushEnd" />
 
             <slot />
         </VisXYContainer>

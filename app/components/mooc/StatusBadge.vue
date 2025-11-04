@@ -12,11 +12,11 @@ const statusMap = {
 function getClass(status: string) {
     switch (status) {
         case 'open':
-            return 'text-success-text bg-success-bg border-success-border';
+            return 'text-success bg-success/10 border-success/25';
         case 'closed':
-            return 'text-error-text bg-error-bg border-error-border';
+            return 'text-error bg-error/10 border-error/25';
         case 'archived':
-            return 'text-warning-text bg-warning-bg border-warning-border';
+            return 'text-warning bg-warning/10 border-warning/25';
         default:
             return '';
     }

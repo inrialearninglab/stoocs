@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
-import { cn } from '~/lib/utils';
 import { useVModel } from '@vueuse/core';
+import { cn } from '@/lib/utils';
 
 const props = defineProps<{
     class?: HTMLAttributes['class'];
@@ -24,7 +24,10 @@ const modelValue = useVModel(props, 'modelValue', emits, {
         v-model="modelValue"
         :class="
             cn(
-                'flex min-h-20 w-full rounded-md border bg-input px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+                'flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground outline-none',
+                'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
+                'disabled:cursor-not-allowed disabled:opacity-50',
+                'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
                 props.class,
             )
         "

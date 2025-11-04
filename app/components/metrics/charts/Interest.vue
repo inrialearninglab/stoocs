@@ -73,7 +73,7 @@ const description = "Pour chaque séquence, pourcentage d'apprenants actifs ayan
                 <Toggle
                     variant="outline"
                     aria-label="Afficher le nombre d'apprenants"
-                    v-model:pressed="displayLabels"
+                    v-model="displayLabels"
                     class="border-2 border-dashed"
                 >
                     <img src="/chart-legend.svg" class="h-10 mr-2" />
@@ -90,7 +90,8 @@ const description = "Pour chaque séquence, pourcentage d'apprenants actifs ayan
                 :categories="['Participation']"
                 :y-formatter="(value) => `${value}%`"
                 :custom-tooltip="TooltipPercentage"
-                :labels="labels"
+                :show-data-labels="displayLabels"
+                data-label-key="Utilisateurs"
                 :id="chartId"
                 :show-x-tickline="true"
             />

@@ -32,7 +32,7 @@ const routes = [
 
 <template>
     <header
-        class="border-b py-2 px-4 flex justify-between items-center sticky top-0 z-10 bg-background/70 backdrop-blur-lg h-[3.75rem]"
+        class="border-b py-2 px-4 flex justify-between items-center sticky top-0 z-10 bg-background/70 backdrop-blur-lg h-15"
     >
         <div class="flex gap-5 items-center">
             <NuxtLink to="/" class="flex gap-3 items-center">
@@ -43,7 +43,12 @@ const routes = [
 
         <div class="flex items-center">
             <Button v-for="item of routes" variant="ghost" as-child>
-                <NuxtLink :to="item.path" v-if="!item.restricted || user?.rolename === 'ILL'">
+                <NuxtLink
+                    :to="item.path"
+                    v-if="!item.restricted || user?.rolename === 'ILL'"
+                    class="relative"
+                    active-class="text-primary!"
+                >
                     {{ item.label }}
                     <div v-if="route.path === item.path" class="absolute -bottom-2.5 w-full">
                         <div class="h-0.5 bg-primary rounded-t-md" />
@@ -64,9 +69,3 @@ const routes = [
         </div>
     </header>
 </template>
-
-<style scoped lang="postcss">
-.router-link-active {
-    @apply text-primary;
-}
-</style>

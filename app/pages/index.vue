@@ -21,7 +21,7 @@ const isDark = computed(() => useColorMode().value == 'dark');
         <div class="flex justify-center text-blance">
             <h1 class="text-2xl font-bold text-center text-balance">
                 Les données des MOOCs,
-                <InspiraTextHighlight class="bg-gradient-to-r from-purple-300 to-orange-300 rounded-lg"
+                <InspiraTextHighlight class="bg-linear-to-r from-purple-300 to-orange-300 rounded-lg"
                     >réinventées</InspiraTextHighlight
                 >
                 pour le plaisir des yeux et des statistiques !

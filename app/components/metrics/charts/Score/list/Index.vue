@@ -41,7 +41,7 @@ function exportToCSV() {
                         <Button size="icon" variant="ghost" class="relative">
                             <ChevronDown
                                 class="transition-all absolute duration-200"
-                                :class="open ? 'rotate-180' : '-rotate-0'"
+                                :class="open ? 'rotate-180' : 'rotate-0'"
                             />
                         </Button>
                     </div>

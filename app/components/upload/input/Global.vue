@@ -24,8 +24,6 @@ const modelValue = useVModel(props, 'modelValue', emits, {
 });
 
 function onDrop(acceptFiles: any[], rejectReasons: FileRejectReason[]) {
-    console.log('acceptFiles', acceptFiles);
-    console.log('rejectReasons', rejectReasons);
     if (props.multiple) {
         if (props.maxFiles && modelValue.value.length + acceptFiles.length > props.maxFiles) return;
 
@@ -51,7 +49,10 @@ const isDragActive = rest.isDragActive;
 
 <template>
     <div class="flex flex-col gap-6">
-        <div v-bind="getRootProps()" class="dropzone">
+        <div
+            v-bind="getRootProps()"
+            class="w-full border-2 border-dashed p-5 rounded-lg cursor-pointer hover:bg-muted/25 transition h-52 flex items-center text-muted-foreground"
+        >
             <div class="flex flex-col gap-4 place-items-center w-full">
                 <input v-bind="getInputProps()" />
                 <div class="rounded-full border border-dashed p-4 w-fit">
@@ -61,6 +62,7 @@ const isDragActive = rest.isDragActive;
                 <p v-else>Glisser déposer le fichier ici, ou cliquer ici pour le selectionner</p>
             </div>
         </div>
+
         <div class="flex flex-col gap-4">
             <div v-for="(file, index) of modelValue" class="flex items-center">
                 <div class="flex flex-col flex-1">
@@ -88,9 +90,3 @@ const isDragActive = rest.isDragActive;
         </div>
     </div>
 </template>
-
-<style scoped lang="postcss">
-.dropzone {
-    @apply w-full border-2 border-dashed p-5 rounded-lg cursor-pointer hover:bg-muted/25 transition h-52 flex items-center text-muted-foreground;
-}
-</style>

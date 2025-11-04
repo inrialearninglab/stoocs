@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue"
+import { Loader2Icon } from "lucide-vue-next"
 import { cn } from "@/lib/utils"
 
 const props = defineProps<{
@@ -8,7 +9,9 @@ const props = defineProps<{
 </script>
 
 <template>
-  <p :class="cn('text-sm text-muted-foreground', props.class)">
-    <slot />
-  </p>
+  <Loader2Icon
+    role="status"
+    aria-label="Loading"
+    :class="cn('size-4 animate-spin', props.class)"
+  />
 </template>
