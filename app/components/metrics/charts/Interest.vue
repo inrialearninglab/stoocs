@@ -90,8 +90,7 @@ const description = "Pour chaque séquence, pourcentage d'apprenants actifs ayan
                 :categories="['Participation']"
                 :y-formatter="(value) => `${value}%`"
                 :custom-tooltip="TooltipPercentage"
-                :show-data-labels="displayLabels"
-                data-label-key="Utilisateurs"
+                :labels="labels"
                 :id="chartId"
                 :show-x-tickline="true"
             />

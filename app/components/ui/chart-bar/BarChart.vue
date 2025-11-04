@@ -8,6 +8,7 @@ import { useMounted } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import { cn } from '@/lib/utils';
 import { ChartCrosshair, ChartLegend, defaultColors } from '@/components/ui/chart';
+import type { Labels } from '#shared/types/graph.type';
 
 const props = withDefaults(
     defineProps<
@@ -28,8 +29,7 @@ const props = withDefaults(
             roundedCorners?: number;
             colors?: any;
             plotline?: number;
-            showDataLabels?: boolean;
-            dataLabelKey?: string;
+            labels?: Labels;
 
             xLabel?: string;
             yLabel?: string;
@@ -45,7 +45,6 @@ const props = withDefaults(
         showTooltip: true,
         showLegend: true,
         showGridLine: true,
-        showDataLabels: false,
     },
 );
 const emits = defineEmits<{
@@ -105,15 +104,12 @@ const selectorsBar = computed(() => (props.type === 'grouped' ? GroupedBar.selec
             />
 
             <VisXYLabels
-                v-if="showDataLabels && dataLabelKey"
-                :x="(d: Data, i: number) => i"
-                :y="
-                    (d: Data) => {
-                        const total = categories.reduce((sum, cat) => sum + (Number(d[cat]) || 0), 0);
-                        return total + 2;
-                    }
-                "
-                :label="(d: Data) => String(d[dataLabelKey] || '')"
+                v-if="labels"
+                :x="(d: Data) => labels[d.pos]?.pos"
+                :y="(d: Data) => labels[d.pos]?.value / 2"
+                :label="(d: Data) => labels[d.pos]?.label"
+                backgroundColor="hsl(var(--vis-primary-color))"
+                color="var(--primary-foreground)"
             />
 
             <VisAxis
