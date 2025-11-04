@@ -30,6 +30,9 @@ const props = withDefaults(
             plotline?: number;
             showDataLabels?: boolean;
             dataLabelKey?: string;
+
+            xLabel?: string;
+            yLabel?: string;
         }
     >(),
     {
@@ -116,6 +119,7 @@ const selectorsBar = computed(() => (props.type === 'grouped' ? GroupedBar.selec
             <VisAxis
                 v-if="showXAxis"
                 type="x"
+                :label="xLabel"
                 :tick-format="xFormatter ?? ((v: number) => data[v]?.[index])"
                 :grid-line="false"
                 :tick-line="false"
@@ -124,15 +128,11 @@ const selectorsBar = computed(() => (props.type === 'grouped' ? GroupedBar.selec
             <VisAxis
                 v-if="showYAxis"
                 type="y"
+                :label="yLabel"
                 :tick-line="false"
                 :tick-format="yFormatter"
                 :domain-line="false"
                 :grid-line="showGridLine"
-                :attributes="{
-                    [Axis.selectors.grid]: {
-                        class: 'text-muted',
-                    },
-                }"
                 tick-text-color="hsl(var(--vis-text-color))"
             />
 

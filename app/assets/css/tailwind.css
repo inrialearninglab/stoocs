@@ -43,6 +43,8 @@
     --vis-tooltip-backdrop-filter: none !important;
     --vis-tooltip-padding: none !important;
 
+    --vis-axis-grid-color: color-mix(in srgb, var(--muted-foreground) 30%, transparent) !important;
+
     --vis-primary-color: 216.04 98% 52%;
     --vis-secondary-color: 160 81% 40%;
     --vis-text-color: 240.1 4% 46%;

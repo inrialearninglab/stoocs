@@ -12,7 +12,7 @@ definePageMeta({
         <SessionReports ref="reports" />
 
         <template v-if="!reports?.dragging">
-            <Separator class="border-2" />
+            <Separator />
             <SessionForum />
         </template>
     </div>
