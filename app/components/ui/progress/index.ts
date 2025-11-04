@@ -1,1 +1,1 @@
-export { default as Progress } from '~/components/ui/progress/Progress.vue';
+export { default as Progress } from "./Progress.vue"

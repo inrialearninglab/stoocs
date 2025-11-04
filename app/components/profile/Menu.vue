@@ -43,7 +43,7 @@ async function handleLogout() {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem as-child class="cursor-pointer">
-                    <NuxtLink to="https://inrialearninglab.github.io/stoocs-docs/">
+                    <NuxtLink to="https://inrialearninglab.github.io/stoocs-docs/" external target="_blank">
                         <BookOpen class="size-4 mr-2" />
                         <span>Documentation</span>
                     </NuxtLink>
@@ -52,7 +52,7 @@ async function handleLogout() {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem @click="handleLogout" class="cursor-pointer">
+            <DropdownMenuItem @click="handleLogout" class="cursor-pointer" destructive>
                 <LogOut class="size-4 mr-2" />
                 <span>Déconnexion</span>
             </DropdownMenuItem>

@@ -66,10 +66,10 @@ export const columns: ColumnDef<Question>[] = [
 
 function getQuestionClass(score: number) {
     if (score > 60) {
-        return 'bg-success-bg text-success-text';
+        return 'bg-success/10 text-success hover:bg-success/20';
     } else if (score < 50) {
-        return 'bg-error-bg text-error-text';
+        return 'bg-error/10 text-error hover:bg-error/20';
     } else {
-        return 'bg-warning-bg text-warning-text';
+        return 'bg-warning/10 text-warning hover:bg-warning/20';
     }
 }

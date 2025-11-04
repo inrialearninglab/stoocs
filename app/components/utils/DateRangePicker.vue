@@ -125,6 +125,7 @@ const presets = [
 ];
 
 function onModalOpen(isOpen: boolean) {
+    console.log('onModalOpen', isOpen);
     if (isOpen) secondMonthPlaceholder.value = value.value.end;
 }
 </script>
@@ -186,7 +187,9 @@ function onModalOpen(isOpen: boolean) {
                 </SelectContent>
             </Select>
 
-            <RangeCalendarRoot
+            <RangeCalendar :number-of-months="2" v-model="value" />
+
+            <!-- <RangeCalendarRoot
                 v-slot="{ weekDays }"
                 v-model="value"
                 v-model:placeholder="placeholder"
@@ -360,7 +363,7 @@ function onModalOpen(isOpen: boolean) {
                         </RangeCalendarGrid>
                     </div>
                 </div>
-            </RangeCalendarRoot>
+            </RangeCalendarRoot> -->
         </PopoverContent>
     </Popover>
 </template>

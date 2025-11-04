@@ -2,7 +2,16 @@
 import { Users, Cog, List, BookOpen, ChartLine } from 'lucide-vue-next';
 import { BentoGrid, BentoGridItem } from '~/components/inspira/bento';
 
-const items = [
+type Item = {
+    title: string;
+    description: string;
+    href: string;
+    icon: any;
+    class: string;
+    target?: string;
+};
+
+const items: Item[] = [
     {
         title: 'Moocs',
         description: 'Voir la liste des moocs',
@@ -26,7 +35,7 @@ const items = [
     },
 ];
 
-const ILLItems = [
+const illItems: Item[] = [
     {
         title: 'Equipe',
         description: "Administrer les membres de l'équipe",
@@ -37,14 +46,15 @@ const ILLItems = [
     {
         title: 'Documentation',
         description: 'Consulter la documentation',
-        href: 'https://docs-stoocs.nathan-viaud.xyz/user/add',
+        href: 'https://inrialearninglab.github.io/stoocs-docs/',
+        target: '_blank',
         icon: BookOpen,
         class: 'md:col-span-1',
     },
 ];
 const user = useUser();
 
-if (user?.value?.rolename === 'ILL') items.push(...ILLItems);
+if (user?.value?.rolename === 'ILL') items.push(...illItems);
 </script>
 
 <template>
@@ -55,6 +65,7 @@ if (user?.value?.rolename === 'ILL') items.push(...ILLItems);
             class="z-10 justify-center text-center bg-card"
             :class="item.class"
             :href="item.href"
+            :target="item.target"
         >
             <template #title>
                 <h2>{{ item.title }}</h2>

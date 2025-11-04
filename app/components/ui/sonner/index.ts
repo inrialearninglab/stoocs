@@ -1,2 +1,1 @@
-// @ts-ignore
-export { default as Toaster } from '~/components/ui/sonner/Sonner.vue';
+export { default as Toaster } from "./Sonner.vue"

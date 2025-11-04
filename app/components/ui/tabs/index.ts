@@ -1,6 +1,4 @@
-// @ts-nocheck
-
-export { default as Tabs } from '~/components/ui/tabs/Tabs.vue';
-export { default as TabsTrigger } from '~/components/ui/tabs/TabsTrigger.vue';
-export { default as TabsList } from '~/components/ui/tabs/TabsList.vue';
-export { default as TabsContent } from '~/components/ui/tabs/TabsContent.vue';
+export { default as Tabs } from "./Tabs.vue"
+export { default as TabsContent } from "./TabsContent.vue"
+export { default as TabsList } from "./TabsList.vue"
+export { default as TabsTrigger } from "./TabsTrigger.vue"

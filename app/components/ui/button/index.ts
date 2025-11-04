@@ -1,37 +1,29 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import type { VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 
-// @ts-ignore
-export { default as Button } from '~/components/ui/button/Button.vue';
+export { default as Button } from './Button.vue';
 
 export const buttonVariants = cva(
-    'inline-flex items-center justify-center relative whitespace-nowrap rounded-md font-medium ring-offset-background transition focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border box-border',
+    'cursor-pointer inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
     {
         variants: {
             variant: {
-                default: [
-                    'bg-primary border-transparent text-primary-foreground shadow-custom-inset [--button-hover-overlay:var(--color-white)]/10',
-                    "after:content-[''] after:rounded-md after:transition after:absolute after:inset-0 after:bg-(--button-hover-overlay) after:opacity-0 hover:after:opacity-100",
-                    'dark:border-white/5',
-                ],
-                destructive: [
-                    'bg-destructive border-transparent text-destructive-foreground shadow-custom-inset [--button-hover-overlay:var(--color-white)]/10',
-                    "after:content-[''] after:rounded-md after:transition after:absolute after:inset-0 after:bg-(--button-hover-overlay) after:opacity-0 hover:after:opacity-100",
-                ],
-                outline: ['hover:bg-secondary/90'],
-                secondary: [
-                    'bg-secondary shadow-sm [--button-hover-overlay:var(--color-secondary-foreground)]/5',
-                    "after:content-[''] after:transition after:rounded-md after:absolute after:inset-0 after:bg-(--button-hover-overlay) after:opacity-0 hover:after:opacity-100",
-                    'dark:border-white/5 dark:shadow-custom-inset',
-                ],
-                ghost: 'hover:bg-secondary/90 hover:text-accent-foreground border-none',
-                link: 'text-primary underline-offset-4 hover:underline border-none',
+                default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
+                destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
+                outline:
+                    'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
+                secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+                ghost: 'hover:bg-accent hover:text-accent-foreground',
+                link: 'text-primary underline-offset-4 hover:underline',
             },
             size: {
-                default: 'h-10 px-4 py-2',
+                default: 'h-9 px-4 py-2',
                 xs: 'h-7 rounded px-2',
-                sm: 'h-9 rounded-md px-3',
-                lg: 'h-11 rounded-md px-8',
-                icon: 'h-10 w-10',
+                sm: 'h-8 rounded-md px-3 text-xs',
+                lg: 'h-10 rounded-md px-8',
+                icon: 'h-9 w-9',
+                'icon-sm': 'size-8',
+                'icon-lg': 'size-10',
             },
         },
         defaultVariants: {

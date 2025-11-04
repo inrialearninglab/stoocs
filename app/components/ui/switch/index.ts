@@ -1,2 +1,1 @@
-// @ts-ignore
-export { default as Switch } from '~/components/ui/switch/Switch.vue';
+export { default as Switch } from "./Switch.vue"

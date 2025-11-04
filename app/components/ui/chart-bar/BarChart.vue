@@ -1,13 +1,13 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
 import type { BulletLegendItemInterface } from '@unovis/ts';
-import { VisAxis, VisGroupedBar, VisStackedBar, VisXYContainer, VisXYLabels } from '@unovis/vue';
-import { Axis, GroupedBar, StackedBar } from '@unovis/ts';
-import { type Component, computed, ref } from 'vue';
-import { useMounted } from '@vueuse/core';
+import type { Component } from 'vue';
 import type { BaseChartProps } from '.';
-import { ChartCrosshair, ChartLegend, defaultColors } from '~/components/ui/chart';
-import { cn } from '~/lib/utils';
-import type { Labels } from '~/types/graph.type';
+import { Axis, GroupedBar, StackedBar } from '@unovis/ts';
+import { VisAxis, VisGroupedBar, VisStackedBar, VisXYContainer, VisPlotline, VisXYLabels } from '@unovis/vue';
+import { useMounted } from '@vueuse/core';
+import { computed, ref } from 'vue';
+import { cn } from '@/lib/utils';
+import { ChartCrosshair, ChartLegend, defaultColors } from '@/components/ui/chart';
 
 const props = withDefaults(
     defineProps<
@@ -26,15 +26,15 @@ const props = withDefaults(
              * @default 0
              */
             roundedCorners?: number;
-            color?: any;
-            percentage?: boolean;
-            labels?: Labels;
-            showXTickline?: boolean;
+            colors?: any;
+            plotline?: number;
+            showDataLabels?: boolean;
+            dataLabelKey?: string;
         }
     >(),
     {
         type: 'grouped',
-        margin: () => ({ top: 10, bottom: 0, left: 0, right: 0 }),
+        margin: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
         filterOpacity: 0.2,
         roundedCorners: 0,
         showXAxis: true,
@@ -42,7 +42,7 @@ const props = withDefaults(
         showTooltip: true,
         showLegend: true,
         showGridLine: true,
-        showXTickline: false,
+        showDataLabels: false,
     },
 );
 const emits = defineEmits<{
@@ -73,28 +73,22 @@ const selectorsBar = computed(() => (props.type === 'grouped' ? GroupedBar.selec
 </script>
 
 <template>
-    <div :class="cn('w-full h-[500px] flex flex-col items-end', $attrs.class ?? '')">
+    <div :class="cn('w-full h-[400px] flex flex-col items-end', $attrs.class ?? '')">
         <ChartLegend v-if="showLegend" v-model:items="legendItems" @legend-item-click="handleLegendItemClick" />
 
-        <VisXYContainer
-            :data="data"
-            :style="{ height: isMounted ? '100%' : 'auto' }"
-            :margin="margin"
-            :yDomain="[0, 100]"
-        >
+        <VisXYContainer :data="data" :style="{ height: isMounted ? '100%' : 'auto' }" :margin="margin">
             <ChartCrosshair
                 v-if="showTooltip"
                 :colors="colors"
                 :items="legendItems"
                 :custom-tooltip="customTooltip"
                 :index="index"
-                :percentage="percentage"
             />
 
             <VisBarComponent
                 :x="(d: Data, i: number) => i"
                 :y="categories.map((category) => (d: Data) => d[category])"
-                :color="color ?? colors"
+                :color="colors"
                 :rounded-corners="roundedCorners"
                 :bar-padding="0.05"
                 :attributes="{
@@ -108,12 +102,15 @@ const selectorsBar = computed(() => (props.type === 'grouped' ? GroupedBar.selec
             />
 
             <VisXYLabels
-                v-if="labels"
-                :x="(d: Data) => labels[d.pos]?.pos"
-                :y="(d: Data) => labels[d.pos]?.value / 2"
-                :label="(d: Data) => labels[d.pos]?.label"
-                backgroundColor="hsl(var(--primary))"
-                color="hsl(var(--primary-foreground))"
+                v-if="showDataLabels && dataLabelKey"
+                :x="(d: Data, i: number) => i"
+                :y="
+                    (d: Data) => {
+                        const total = categories.reduce((sum, cat) => sum + (Number(d[cat]) || 0), 0);
+                        return total + 2;
+                    }
+                "
+                :label="(d: Data) => String(d[dataLabelKey] || '')"
             />
 
             <VisAxis
@@ -121,7 +118,7 @@ const selectorsBar = computed(() => (props.type === 'grouped' ? GroupedBar.selec
                 type="x"
                 :tick-format="xFormatter ?? ((v: number) => data[v]?.[index])"
                 :grid-line="false"
-                :tick-line="showXTickline"
+                :tick-line="false"
                 tick-text-color="hsl(var(--vis-text-color))"
             />
             <VisAxis
@@ -133,11 +130,13 @@ const selectorsBar = computed(() => (props.type === 'grouped' ? GroupedBar.selec
                 :grid-line="showGridLine"
                 :attributes="{
                     [Axis.selectors.grid]: {
-                        class: 'text-muted-foreground/60',
+                        class: 'text-muted',
                     },
                 }"
                 tick-text-color="hsl(var(--vis-text-color))"
             />
+
+            <VisPlotline :value="plotline" :color="plotline ? 'red' : 'transparent'" />
 
             <slot />
         </VisXYContainer>

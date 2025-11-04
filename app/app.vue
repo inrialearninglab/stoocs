@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Toaster } from '~/components/ui/sonner';
+import 'vue-sonner/style.css';
 
 const colorMode = useColorMode();
 </script>
@@ -11,6 +12,8 @@ const colorMode = useColorMode();
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
-        <Toaster v-if="colorMode.value !== 'system'" rich-colors :theme="colorMode.value as 'light' | 'dark'" />
     </div>
+    <ClientOnly>
+        <Toaster rich-colors :theme="colorMode.value as 'light' | 'dark'" />
+    </ClientOnly>
 </template>

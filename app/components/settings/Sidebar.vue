@@ -17,6 +17,7 @@ const tabs = [
                 <NuxtLink
                     :to="tab.to"
                     class="flex gap-2 items-center hover:bg-primary rounded-md px-3 py-1.5 transition active:scale-[0.98]"
+                    active-class="bg-primary text-primary-foreground"
                 >
                     <component :is="tab.icon" class="size-4" />
                     {{ tab.label }}
@@ -25,9 +26,3 @@ const tabs = [
         </ul>
     </nav>
 </template>
-
-<style scoped lang="postcss">
-.router-link-active {
-    @apply bg-primary text-primary-foreground;
-}
-</style>

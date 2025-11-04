@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { saveChartAsPNG } from '~/utils';
 import { Camera } from 'lucide-vue-next';
+import { VisPlotline } from '@unovis/vue';
 
-defineProps<{
+const props = defineProps<{
     data: {
         threshold: string;
         Eligible: number;
@@ -57,7 +58,13 @@ const description: Ref<HTMLDivElement | null> = ref(null);
                 x-label="Seuil de note"
                 :categories="['Eligible']"
                 :id="chartId"
-            />
+            >
+                <VisPlotline
+                    :value="data.findIndex((item) => item.threshold === `${props.cutoffs * 100}%`)"
+                    axis="x"
+                    label-text="Seuil de réussite"
+                />
+            </AreaChart>
         </MetricsCard>
     </div>
 </template>

@@ -1,19 +1,12 @@
 <script setup lang="ts">
-import { SelectValue, type SelectValueProps } from 'radix-vue';
+import type { SelectValueProps } from "reka-ui"
+import { SelectValue } from "reka-ui"
 
-const props = defineProps<SelectValueProps>();
+const props = defineProps<SelectValueProps>()
 </script>
 
 <template>
-    <div class="select-value">
-        <SelectValue v-bind="props">
-            <slot />
-        </SelectValue>
-    </div>
+  <SelectValue v-bind="props">
+    <slot />
+  </SelectValue>
 </template>
-
-<style>
-.select-value .hide-class {
-    display: none;
-}
-</style>
