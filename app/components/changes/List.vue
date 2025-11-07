@@ -17,7 +17,7 @@ defineProps<{
             <div class="space-y-3">
                 <Card
                     v-for="deletion of courses.deletions"
-                    class="px-3 py-2 flex flex-col border-error-border bg-error-bg text-error-text"
+                    class="px-3 py-2 flex flex-col text-error bg-error/10 border-error/20"
                 >
                     <p class="flex">
                         <span class="font-bold">Numéro du MOOC :&nbsp</span>
@@ -34,7 +34,7 @@ defineProps<{
             <div class="space-y-3">
                 <Card
                     v-for="deletion of sessions.deletions"
-                    class="px-3 py-2 flex flex-col border-error-border bg-error-bg text-error-text"
+                    class="px-3 py-2 flex flex-col text-error bg-error/10 border-error/20"
                 >
                     <p class="flex">
                         <span class="font-bold">Numéro du MOOC :&nbsp</span>
@@ -59,7 +59,7 @@ defineProps<{
             <div class="space-y-3">
                 <Card
                     v-for="update of courses.updates"
-                    class="px-3 py-2 flex flex-col border-warning-border bg-warning-bg text-warning-text"
+                    class="px-3 py-2 flex flex-col warning bg-warning/10 border-warning/20"
                 >
                     <p class="flex mb-3">
                         <span class="font-bold">Numéro du MOOC :&nbsp</span>
@@ -85,7 +85,7 @@ defineProps<{
             <div class="space-y-3">
                 <Card
                     v-for="update of sessions.updates"
-                    class="px-3 py-2 flex flex-col border-warning-border bg-warning-bg text-warning-text"
+                    class="px-3 py-2 flex flex-col warning bg-warning/10 border-warning/20"
                 >
                     <p class="flex">
                         <span class="font-bold">Numéro du MOOC :&nbsp</span>
@@ -135,7 +135,7 @@ defineProps<{
             <div class="space-y-3">
                 <Card
                     v-for="insert of courses.insertions"
-                    class="px-3 py-2 flex flex-col border-success-border bg-success-bg text-success-text"
+                    class="px-3 py-2 flex flex-col text-success bg-success/10 border-success/20"
                 >
                     <p class="flex mb-3">
                         <span class="font-bold">Numéro du MOOC :&nbsp</span>
@@ -157,7 +157,7 @@ defineProps<{
             <div class="space-y-3">
                 <Card
                     v-for="insert of sessions.insertions"
-                    class="px-3 py-2 flex flex-col border-success-border bg-success-bg text-success-text"
+                    class="px-3 py-2 flex flex-col text-success bg-success/10 border-success/20"
                 >
                     <p class="flex">
                         <span class="font-bold">Numéro du MOOC :&nbsp</span>
