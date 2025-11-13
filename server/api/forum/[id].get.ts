@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const forum = await prisma.forum.findUnique({
-        where: { instanceName: moocSession.forumInstanceName },
+        where: { instanceName_forumUrl: { instanceName: moocSession.forumInstanceName, forumUrl: moocSession.forumUrl! } },
     });
 
     if (!forum) {
@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-        const data = await $fetch(`${process.env.DISCOURSE_URL!}/${forum.instanceName}/about.json`, {
+        const data = await $fetch(`${forum.forumUrl}/${forum.instanceName}/about.json`, {
             headers: {
                 'Api-Key': forum.apiKey,
                 'Api-Username': process.env.DISCOURSE_USER!,
@@ -42,6 +42,7 @@ export default defineEventHandler(async (event) => {
 
         return {
             instance: forum.instanceName,
+            forumUrl: forum.forumUrl,
             title: data.about.title,
             users: data.about.stats.users_count,
             posts: data.about.stats.posts_count,

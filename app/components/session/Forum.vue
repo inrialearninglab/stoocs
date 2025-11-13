@@ -11,7 +11,6 @@ onMounted(() => {
     }
 });
 
-const { data: discourseURL } = await useFetch<string>('/api/env/discourseUrl');
 </script>
 
 <template>
@@ -26,7 +25,7 @@ const { data: discourseURL } = await useFetch<string>('/api/env/discourseUrl');
         <div v-else class="flex flex-col gap-8">
             <div class="items-center flex flex-col gap-2">
                 <Button as-child variant="link">
-                    <NuxtLink :to="`${discourseURL}/${sessionStore.forum.data.instance}`" class="flex gap-3">
+                    <NuxtLink :to="`${sessionStore.forum.data.forumUrl}/${sessionStore.forum.data.instance}`" class="flex gap-3">
                         <h2 class="pb-0">Forum Discourse</h2>
                         <SquareArrowOutUpRight />
                     </NuxtLink>
@@ -69,7 +68,7 @@ const { data: discourseURL } = await useFetch<string>('/api/env/discourseUrl');
                 <div class="flex gap-5 flex-wrap">
                     <div v-for="moderator in sessionStore.forum.data.moderators" class="flex items-center gap-2">
                         <Avatar>
-                            <AvatarImage :src="discourseURL + moderator.avatar" />
+                            <AvatarImage :src="sessionStore.forum.data.forumUrl + moderator.avatar" />
                         </Avatar>
                         <div class="flex flex-col">
                             <span>{{ moderator.name || moderator.username }}</span>
@@ -87,7 +86,7 @@ const { data: discourseURL } = await useFetch<string>('/api/env/discourseUrl');
                 <div class="flex gap-5 flex-wrap">
                     <div v-for="admin in sessionStore.forum.data.admins" class="flex items-center gap-2">
                         <Avatar>
-                            <AvatarImage :src="discourseURL + admin.avatar" />
+                            <AvatarImage :src="sessionStore.forum.data.forumUrl + admin.avatar" />
                         </Avatar>
                         <div class="flex flex-col">
                             <span>{{ admin.name || admin.username }}</span>

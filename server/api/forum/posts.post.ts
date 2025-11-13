@@ -1,18 +1,20 @@
 import { z } from 'zod';
 import { prisma } from '#shared/prisma/db';
+import { th } from 'zod/v4/locales';
 
 const bodySchema = z.object({
     instanceName: z.string(),
+    forumUrl: z.url(),
     startDate: z.string(),
     endDate: z.string(),
 });
 
 export default defineEventHandler(async (event) => {
-    const { instanceName, startDate, endDate } = await readValidatedBody(event, bodySchema.parse);
+    const { instanceName, forumUrl, startDate, endDate } = await readValidatedBody(event, bodySchema.parse);
 
     try {
         const instance = await prisma.forum.findUnique({
-            where: { instanceName },
+            where: { instanceName_forumUrl: { instanceName, forumUrl } },
         });
 
         if (!instance) {
@@ -20,7 +22,7 @@ export default defineEventHandler(async (event) => {
         }
 
         const res = await $fetch(
-            `${process.env.DISCOURSE_URL}/${instanceName}/admin/reports/posts.json?chart_grouping=daily&end_date=${endDate}&mode=chart&start_date=${startDate}`,
+            `${instance.forumUrl}/${instanceName}/admin/reports/posts.json?chart_grouping=daily&end_date=${endDate}&mode=chart&start_date=${startDate}`,
             {
                 method: 'GET',
                 headers: {

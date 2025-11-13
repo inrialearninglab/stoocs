@@ -118,11 +118,11 @@ export const useSession = defineStore('session', {
             this.forum.loading = false;
         },
 
-        async linkForum(instanceName: string, apiKey: string) {
+        async linkForum(instanceName: string, forumUrl: string, apiKey: string) {
             if (!this.session?.data?.id) return;
 
             this.forum.loading = true;
-            const { data, error } = await linkForum(apiKey, this.session.data.id, instanceName);
+            const { data, error } = await linkForum(apiKey, this.session.data.id, instanceName, forumUrl);
 
             if (data && !error) {
                 this.forum.data = data;

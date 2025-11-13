@@ -75,11 +75,12 @@ export async function linkForum(
     apiKey: string,
     sessionId: string,
     instanceName: string,
+    forumUrl: string,
 ): Promise<{ data?: ForumInfo; error?: FetchError }> {
     try {
         await $fetch<ForumInfo>(`/api/forum/${sessionId}`, {
             method: 'POST',
-            body: { apiKey, instanceName },
+            body: { apiKey, instanceName, forumUrl },
         });
 
         return fetchForumInfo(sessionId);

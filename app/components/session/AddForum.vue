@@ -11,17 +11,21 @@ const sessionStore = useSession();
 const formSchema = toTypedSchema(
     z.object({
         instanceName: z.string({ message: requiredMessage }),
+        forumUrl: z.string({ message: requiredMessage }),
         apiKey: z.string({ message: requiredMessage }),
     }),
 );
 
 const form = useForm({
     validationSchema: formSchema,
+    initialValues: {
+        forumUrl: 'https://mooc-forums.inria.fr',
+    },
 });
 
 const open = ref(false);
 const onSubmit = form.handleSubmit(async (values) => {
-    await sessionStore.linkForum(values.instanceName, values.apiKey);
+    await sessionStore.linkForum(values.instanceName, values.forumUrl,values.apiKey);
     open.value = false;
 });
 </script>
@@ -47,6 +51,24 @@ const onSubmit = form.handleSubmit(async (values) => {
                         <FormLabel>Nom de l'instance</FormLabel>
                         <FormControl>
                             <Input type="text" placeholder="moocin" v-bind="componentField" />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+
+                <FormField v-slot="{ componentField }" name="forumUrl">
+                    <FormItem>
+                        <FormLabel>URL du forum</FormLabel>
+                        <FormControl>
+                            <Select v-bind="componentField">
+                                <SelectTrigger class="w-full">
+                                    <SelectValue placeholder="Sélectionner une URL de forum" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="https://mooc-forums.inria.fr">https://mooc-forums.inria.fr</SelectItem>
+                                    <SelectItem value="https://app-learninglab.inria.fr/forums">https://app-learninglab.inria.fr/forums</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </FormControl>
                         <FormMessage />
                     </FormItem>

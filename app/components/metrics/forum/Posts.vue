@@ -10,6 +10,7 @@ const { data: details, status } = await useFetch('/api/forum/posts', {
     method: 'POST',
     body: {
         instanceName: sessionStore?.forum?.data?.instance,
+        forumUrl: sessionStore?.forum?.data?.forumUrl,
         startDate: props.startDate,
         endDate: props.endDate,
     },

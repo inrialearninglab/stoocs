@@ -45,7 +45,8 @@ model MoocSession {
     mooc               Mooc          @relation(fields: [moocID], references: [id])
     moocID             String
     forumInstanceName  String?
-    forum              Forum?        @relation(fields: [forumInstanceName], references: [instanceName])
+    forumUrl           String?
+    forum              Forum?        @relation(fields: [forumInstanceName, forumUrl], references: [instanceName, forumUrl])
     url                String?
     createdAt          DateTime      @default(now())
     updatedAt          DateTime      @default(now()) @updatedAt
@@ -54,9 +55,12 @@ model MoocSession {
 }
 
 model Forum {
-    instanceName String        @unique
+    instanceName String
     apiKey       String
+    forumUrl     String        @default("https://mooc-forums.inria.fr")
     moocSessions MoocSession[]
+
+    @@unique([instanceName, forumUrl])
 }
 
 model GradeReport {
