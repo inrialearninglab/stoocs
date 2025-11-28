@@ -1,5 +1,5 @@
 import { toast } from 'vue-sonner';
-import { toPng } from 'html-to-image';
+import html2canvas from 'html2canvas-pro';
 
 export function saveChartAsPNG(
     id: string,
@@ -47,22 +47,26 @@ export function saveChartAsPNG(
 
     document.body.appendChild(graph);
 
-    toPng(graph)
-        .then((dataUrl) => {
-            const image = new Image();
-            image.src = dataUrl;
-            console.log(image);
+    html2canvas(graph, {
+        scale: 2,
+        backgroundColor: '#fff',
+        logging: true,
+        useCORS: true,
+    })
+        .then((canvas) => {
             const link = document.createElement('a');
-            link.href = dataUrl;
             link.download = `${id}.png`;
+            link.href = canvas.toDataURL('image/png');
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-
             document.body.removeChild(graph);
+
+            toast.success('Capture réussie');
         })
-        .catch((error) => {
-            console.error('error during screenshot');
-            toast.error("Erreur durant la capture d'écran");
+        .catch((error: any) => {
+            console.error('Error during screenshot:', error);
+            toast.error('Erreur durant la capture');
+            document.body.removeChild(graph);
         });
 }
