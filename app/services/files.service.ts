@@ -34,3 +34,17 @@ export async function postGradeReports(
         return { error: e as FetchError };
     }
 }
+
+export async function postSurveys(body: FormData, id: string) {
+    try {
+        console.log('posting surveys');
+        const data = await $fetch(`/api/surveys/${id}`, {
+            method: 'POST',
+            body,
+        });
+
+        return { data };
+    } catch (e) {
+        return { error: e as FetchError };
+    }
+}

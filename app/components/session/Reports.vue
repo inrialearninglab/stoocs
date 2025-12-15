@@ -44,9 +44,13 @@ function handleDragEnter(event: any) {
     }
 }
 
-const globalDialog: Ref<InstanceType<typeof UploadDialogGlobal> | null> = ref(null);
-const enrollmentsDialog: Ref<InstanceType<typeof UploadDialogEnrollments> | null> = ref(null);
-const gradeReportsDialog: Ref<InstanceType<typeof UploadDialogGradeReports> | null> = ref(null);
+const globalDialog = useTemplateRef('globalDialog');
+const enrollmentsDialog = useTemplateRef('enrollmentsDialog');
+const gradeReportsDialog = useTemplateRef('gradeReportsDialog');
+const surveysDialog = useTemplateRef('surveysDialog');
+// const globalDialog: Ref<InstanceType<typeof UploadDialogGlobal> | null> = ref(null);
+// const enrollmentsDialog: Ref<InstanceType<typeof UploadDialogEnrollments> | null> = ref(null);
+// const gradeReportsDialog: Ref<InstanceType<typeof UploadDialogGradeReports> | null> = ref(null);
 
 function onDrop(acceptFiles: File[], rejectReasons: FileRejectReason[]) {
     dragging.value = false;
@@ -101,6 +105,16 @@ function openGlobalDialog(files?: File[]) {
     if (files) {
         globalDialog.value.files = files;
         globalDialog.value.focusSubmit();
+    }
+}
+
+function openSurveyDialog(files?: File[]) {
+    if (!surveysDialog.value) return;
+
+    surveysDialog.value.open = true;
+    if (files) {
+        surveysDialog.value.files = files;
+        surveysDialog.value.focusSubmit();
     }
 }
 
@@ -205,9 +219,12 @@ defineExpose({
                     </p>
                 </div>
 
+                <Button @click="openSurveyDialog([])">Ajouter une enquête</Button>
+
                 <UploadDialogGlobal ref="globalDialog" />
                 <UploadDialogGradeReports ref="gradeReportsDialog" />
                 <UploadDialogEnrollments ref="enrollmentsDialog" />
+                <UploadDialogSurveys ref="surveysDialog" />
 
                 <SessionLayoutContent :enrollments-report="enrollmentsReport" :grade-report="gradeReport" />
             </template>

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ArrowLeft } from 'lucide-vue-next';
 
+definePageMeta({
+    layout: 'settings',
+});
+
 const usersStore = useUsers();
 async function updatePassword(password: string) {
     await usersStore.updatePassword(password);

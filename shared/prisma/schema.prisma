@@ -49,6 +49,7 @@ model MoocSession {
     url                String?
     createdAt          DateTime      @default(now())
     updatedAt          DateTime      @default(now()) @updatedAt
+    surveys            Survey[]
 
     @@unique([moocID, sessionName])
 }
@@ -71,6 +72,33 @@ model GradeReport {
     score         Json
     interest      Json
     threshold     Json
+}
+
+model Survey {
+    id String @id @default(cuid())
+
+    moocSession   MoocSession @relation(fields: [moocSessionId], references: [id])
+    moocSessionId String
+
+    responseId     String    @unique
+    submissionDate String?
+    lastPage       String?
+    startLanguage  String?
+    seedId         String?
+    launchDate     DateTime?
+    lastActionDate DateTime?
+    referrerUrl    String?
+    anonymizedId   String?
+    totalTime      Int?
+
+    responses Json
+    durations Json?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([moocSessionId])
+    @@index([anonymizedId])
 }
 
 model User {

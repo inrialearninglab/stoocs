@@ -199,66 +199,24 @@ async function readProblemGradeReportOptimized(filename: string, report: any) {
     return report;
 }
 
-async function readProblemGradeReport(filename: string, report: any) {
-    await new Promise((resolve, reject) => {
+export async function readSurveys(filename: string) {
+    const results: any[] = [];
+    let isHeader = true;
+
+    return new Promise((resolve, reject) => {
         createReadStream(filename)
-            .pipe(parse({ columns: true }))
+            .pipe(parse({ columns: true, bom: true }))
             .on('data', (data) => {
-                const id = Number(data['Student ID']);
-
-                delete data['Student ID'];
-                delete data['Username'];
-                delete data['Final Grade'];
-
-                const cols = Object.keys(data);
-
-                for (let i = 0; i < cols.length; i += 2) {
-                    const score = data[cols[i]];
-                    const possible = data[cols[i + 1]];
-                    const label = cols[i];
-
-                    // in the label i have to remove the parenthesis at the end
-                    const labelArray = label.split(' ');
-                    labelArray.pop();
-                    const labelWithoutParenthesis = labelArray.join(' ').trim();
-
-                    // create multiple problemGradeReportLine if score is an array
-                    if (Array.isArray(score)) {
-                        for (let i = 0; i < score.length; i++) {
-                            const problemGradeReportLine = {
-                                label: labelWithoutParenthesis + ' ' + (i + 1),
-                                score: getResultValue(score[i]),
-                                possible: getResultValue(possible[i]),
-                            };
-
-                            const reportLine = report.find((reportLine: any) => reportLine.id === id);
-                            if (reportLine) {
-                                reportLine.problemGradeReport.push(problemGradeReportLine);
-                            } else {
-                                console.log('Could not find report line with id', id);
-                            }
-                        }
-                    } else {
-                        const problemGradeReportLine = {
-                            label: labelWithoutParenthesis,
-                            score: getResultValue(score),
-                            possible: getResultValue(possible),
-                        };
-
-                        const reportLine = report.find((reportLine: any) => reportLine.id === id);
-                        if (reportLine) {
-                            reportLine.problemGradeReport.push(problemGradeReportLine);
-                        } else {
-                            console.log('Could not find report line with id', id);
-                        }
-                    }
+                if (isHeader) {
+                    console.log('data header', data);
+                    isHeader = false;
+                } else {
+                    console.log('data cell', data);
                 }
             })
-            .on('end', () => resolve(report))
+            .on('end', () => resolve(results))
             .on('error', (error) => reject(error));
     });
-
-    return report;
 }
 
 function getResultValue(value: string) {

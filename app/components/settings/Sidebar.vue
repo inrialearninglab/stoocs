@@ -5,7 +5,7 @@ const tabs = [
     {
         label: 'Profil',
         icon: UserPen,
-        to: 'profile',
+        to: '/settings/profile',
     },
 ];
 </script>

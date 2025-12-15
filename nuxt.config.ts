@@ -41,6 +41,11 @@ export default defineNuxtConfig({
                 },
             },
         },
+        '/api/surveys/*': {
+            security: {
+                xssValidator: false,
+            },
+        },
     },
 
     security: {
