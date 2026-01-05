@@ -9,9 +9,9 @@
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
         "start": "node .output/server/index.mjs",
-        "db:generate": "prisma generate --schema='./shared/prisma/schema.prisma'",
-        "db:migrate": "prisma migrate deploy --schema='./shared/prisma/schema.prisma'",
-        "db:studio": "prisma studio --schema='./shared/prisma/schema.prisma'"
+        "db:generate": "prisma generate",
+        "db:migrate": "prisma migrate deploy",
+        "db:studio": "prisma studio"
     },
     "prisma": {
         "seed": "tsx prisma/seed/seed"
@@ -21,7 +21,8 @@
         "@oslojs/crypto": "^1.0.1",
         "@oslojs/encoding": "^1.1.0",
         "@pinia/nuxt": "^0.5.5",
-        "@prisma/client": "^5.22.0",
+        "@prisma/adapter-pg": "^7.1.0",
+        "@prisma/client": "^7.1.0",
         "@tailwindcss/vite": "^4.1.16",
         "@tanstack/vue-table": "^8.21.3",
         "@types/multer": "^1.4.13",
@@ -50,7 +51,7 @@
         "papaparse": "^5.5.3",
         "pinia": "^2.3.1",
         "postcss": "^8.5.6",
-        "prisma": "^5.22.0",
+        "prisma": "7",
         "radix-vue": "^1.9.17",
         "reka-ui": "^2.6.0",
         "shadcn-nuxt": "latest",

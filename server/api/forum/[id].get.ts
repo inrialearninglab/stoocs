@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 import { DiscourseForumUserInfo } from '~/types';
 
 const routeSchema = z.object({

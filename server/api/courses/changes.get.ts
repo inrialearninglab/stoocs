@@ -1,4 +1,4 @@
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 import { coursesSchema } from '#shared/schema/courses.schema';
 
 function getUpdatedFields(existing: any, newData: any) {

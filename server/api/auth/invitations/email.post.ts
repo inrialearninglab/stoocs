@@ -1,4 +1,4 @@
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 import { z } from 'zod';
 import { isWithinExpirationDate } from 'oslo';
 

@@ -1,7 +1,7 @@
 import multer from 'multer';
 import { callNodeListener } from 'h3';
 import path from 'node:path';
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 import { z } from 'zod';
 
 let originalFilename = '';

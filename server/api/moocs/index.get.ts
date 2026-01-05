@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 
 export default defineEventHandler(async (event) => {
     let moocs = [];

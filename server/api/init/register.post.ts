@@ -1,5 +1,5 @@
 import { registerSchema } from '#shared/schema/users.schema';
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 import { Argon2id } from 'oslo/password';
 
 export default defineEventHandler(async (event) => {

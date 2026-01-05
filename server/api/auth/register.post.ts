@@ -1,5 +1,5 @@
 import { isWithinExpirationDate } from 'oslo';
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 import { Argon2id } from 'oslo/password';
 import { registerSchema } from '#shared/schema/users.schema';
 import { z } from 'zod';

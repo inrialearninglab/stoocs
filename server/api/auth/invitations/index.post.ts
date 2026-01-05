@@ -1,7 +1,7 @@
 import { createDate, TimeSpan } from 'oslo';
 import { sha256 } from 'oslo/crypto';
 import { encodeHex } from 'oslo/encoding';
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 import { z } from 'zod';
 import Invitation from '#shared/emails/Invitation.vue';
 import { render } from '@vue-email/render';

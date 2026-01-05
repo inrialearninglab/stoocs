@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 
 const bodySchema = z.object({
     instanceName: z.string(),

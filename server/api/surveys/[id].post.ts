@@ -1,12 +1,11 @@
 import multer from 'multer';
 import { callNodeListener } from 'h3';
 import path from 'node:path';
-import { prisma } from '~~/prisma/db';
 import { z } from 'zod';
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/reports');
+        cb(null, 'uploads/surveys');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -34,38 +33,20 @@ const routerSchema = z.object({
 
 export default defineEventHandler(async (event) => {
     const { id } = await getValidatedRouterParams(event, routerSchema.parse);
+    console.log('entering surveys');
 
     try {
         await callNodeListener(
             // @ts-expect-error: Nuxt 3
-            upload.fields([
-                { name: 'gradeReport', maxCount: 1 },
-                { name: 'problemGradeReport', maxCount: 1 },
-            ]),
+            upload.single('file'),
             event.node.req,
             event.node.res,
         );
 
-        // @ts-expect-error: Nuxt 3
-        const gradeReportFile = event.node.req.files.gradeReport[0].path;
-        // @ts-expect-error: Nuxt 3
-        const problemGradeReportFile = event.node.req.files.problemGradeReport[0].path;
+        const filename = path.join('uploads', 'surveys', event.node.req.file.filename);
 
-        const gradeReport = await readGradeReports(gradeReportFile, problemGradeReportFile);
-
-        return prisma.moocSession.update({
-            where: { id },
-            data: {
-                gradeReports: {
-                    create: [gradeReport],
-                },
-            },
-            select: {
-                id: true,
-                gradeReports: true,
-            },
-        });
+        const data = await readSurveys(filename);
     } catch (err) {
-        console.log(err);
+        console.log('error:', err);
     }
 });

@@ -1,4 +1,4 @@
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 import { Argon2id } from 'oslo/password';
 import { z } from 'zod';
 

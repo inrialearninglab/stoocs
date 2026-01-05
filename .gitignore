@@ -32,3 +32,5 @@ prisma/seed/gradeReports/*.csv
 prisma/seed/initialUser.ts
 prisma/scripts/dev.ts
 nginx/
+
+generated/

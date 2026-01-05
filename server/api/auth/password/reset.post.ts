@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { prisma } from '#shared/prisma/db';
+import { prisma } from '~~/prisma/db';
 import { Argon2id } from 'oslo/password';
 
 const routeSchema = z.object({
