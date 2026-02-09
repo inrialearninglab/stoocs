@@ -1,5 +1,3 @@
-import type { GradeReport, GradeReportData } from '~/types/gradeReport.type';
-
 export function getPassingThresholdData(gradeReport: GradeReportData) {
     const data = [];
 
@@ -56,7 +54,7 @@ export function getScoreData(gradeReport: GradeReportData): GradeReport['score']
         });
     }
 
-    return data.sort((a, b) => sortByName(a.name, b.name));
+    return data.sort((a, b) => sortByModuleName(a.name, b.name));
 }
 
 /**
@@ -143,4 +141,17 @@ export function calculateParticipationPercentage(gradeReport: GradeReportData, t
  */
 function sortByName(a: string, b: string): number {
     return a.trim().localeCompare(b.trim(), undefined, { numeric: true, sensitivity: 'base' });
+}
+
+/**
+ * @description - This question sorts the questions by the name of their module only
+ * @remark - Used because FUN cannot correctly sort their module, but can sort the questions inside (which we cannot do from the name)
+ * @param a
+ * @param b
+ * @returns
+ */
+function sortByModuleName(a: string, b: string): number {
+    const moduleNameA = a.split(':')[0];
+    const moduleNameB = b.split(':')[0];
+    return sortByName(moduleNameA, moduleNameB);
 }
