@@ -59,7 +59,7 @@ defineProps<{
             <div class="space-y-3">
                 <Card
                     v-for="update of courses.updates"
-                    class="px-3 py-2 flex flex-col warning bg-warning/10 border-warning/20"
+                    class="px-3 py-2 flex flex-col text-warning bg-warning/10 border-warning/20"
                 >
                     <p class="flex mb-3">
                         <span class="font-bold">Numéro du MOOC :&nbsp</span>
@@ -85,7 +85,7 @@ defineProps<{
             <div class="space-y-3">
                 <Card
                     v-for="update of sessions.updates"
-                    class="px-3 py-2 flex flex-col warning bg-warning/10 border-warning/20"
+                    class="px-3 py-2 flex flex-col text-warning bg-warning/5 border-warning/20"
                 >
                     <p class="flex">
                         <span class="font-bold">Numéro du MOOC :&nbsp</span>
