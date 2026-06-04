@@ -2,6 +2,8 @@ import type { ColumnDef } from '@tanstack/vue-table';
 import { Button } from '~/components/ui/button';
 import { getSortIcon } from '~/components/ui/data-table';
 
+import Actions from './Actions.vue';
+
 export interface Question {
     name: string;
     Moyenne: number;
@@ -60,6 +62,13 @@ export const columns: ColumnDef<Question>[] = [
             row.original._rowClass = getQuestionClass(average);
 
             return h('div', {}, `${average} %`);
+        },
+    },
+    {
+        accessorKey: 'actions',
+        header: 'Actions',
+        cell: ({ row }) => {
+            return h(Actions);
         },
     },
 ];
