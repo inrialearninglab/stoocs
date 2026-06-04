@@ -108,7 +108,7 @@ async function readGradeReport(filename: string): Promise<any> {
 
     await new Promise((resolve, reject) => {
         createReadStream(filename)
-            .pipe(parse({ columns: true }))
+            .pipe(parse({ columns: numberedColumns }))
             .on('data', (data) => {
                 const reportLine: ReadGradeReportLine = {
                     id: Number(data.id),
@@ -151,7 +151,7 @@ async function readProblemGradeReportOptimized(filename: string, report: any) {
 
     await new Promise((resolve, reject) => {
         createReadStream(filename)
-            .pipe(parse({ columns: true }))
+            .pipe(parse({ columns: numberedColumns }))
             .on('data', (data) => {
                 const id = Number(data['Student ID']);
 
@@ -197,6 +197,18 @@ async function readProblemGradeReportOptimized(filename: string, report: any) {
     });
 
     return report;
+}
+
+function numberedColumns(headers: string[]): string[] {
+    const seen = new Map<string, number>();
+
+    return headers.map((header) => {
+        const label = header.replace(/\s*\([^)]*\)\s*$/, '').trim();
+        const count = seen.get(label) ?? 0;
+        if (!header.includes('(Possible)')) seen.set(label, count + 1);
+
+        return count === 0 ? header : `${label} ${count}`;
+    });
 }
 
 async function readProblemGradeReport(filename: string, report: any) {
