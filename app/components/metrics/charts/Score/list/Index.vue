@@ -23,6 +23,9 @@ function exportToCSV() {
     link.click();
     document.body.removeChild(link);
 }
+
+const filter = ref('');
+const filteredQuestions = computed(() => props.questions.filter((question) => question.name.includes(filter.value)));
 </script>
 
 <template>
@@ -50,7 +53,11 @@ function exportToCSV() {
 
             <CollapsibleContent>
                 <CardContent class="p-0">
-                    <DataTable :columns="columns" :data="questions">
+                    <div class="p-2">
+                        <Input v-model="filter" placeholder="Filtrer les questions..." />
+                    </div>
+
+                    <DataTable :columns="columns" :data="filteredQuestions">
                         <template #footer>
                             <TableFooter>
                                 <TableCell>
